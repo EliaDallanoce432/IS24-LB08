@@ -1,4 +1,4 @@
 package com.progetto.codex.server.model;
 
-public class Server {
+public class ServerModel {
 }
