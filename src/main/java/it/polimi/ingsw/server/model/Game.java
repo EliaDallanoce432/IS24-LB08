@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.util.supportclasses.Resource;
+import it.polimi.ingsw.server.model.deck.GoldCardDeck;
+import it.polimi.ingsw.server.model.deck.ObjectiveCardDeck;
+import it.polimi.ingsw.server.model.deck.ResourceCardDeck;
+import it.polimi.ingsw.server.model.deck.StarterCardDeck;
 
 public class Game {
     public ObjectiveCardDeck objectiveCardDeck;
