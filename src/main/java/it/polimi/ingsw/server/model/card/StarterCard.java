@@ -10,4 +10,9 @@ public class StarterCard extends PlaceableCard {
     public StarterCard() {
 
     }
+
+    @Override
+    public int placementPoints() {
+        return 0;
+    }
 }

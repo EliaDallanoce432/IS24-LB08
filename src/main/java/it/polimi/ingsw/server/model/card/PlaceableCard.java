@@ -2,9 +2,8 @@ package it.polimi.ingsw.server.model.card;
 
 import it.polimi.ingsw.util.supportclasses.Resource;
 
-import java.util.ArrayList;
-
 public abstract class PlaceableCard extends Card {
+    protected int points;
     protected boolean facingUp;
     //protected ArrayList<Resource> requirements;
     protected int requiredFungiResourceAmount;
@@ -74,6 +73,14 @@ public abstract class PlaceableCard extends Card {
         return this.id;
     }
 
+    public int getPoints() {
+        return points;
+    }
 
+    /**
+     * method returns the points received by placing the card
+     * @return int
+     */
+    public abstract int placementPoints();
 
 }

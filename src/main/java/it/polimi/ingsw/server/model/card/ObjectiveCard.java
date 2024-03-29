@@ -7,6 +7,9 @@ public class ObjectiveCard extends Card {
     protected int points;
     protected ObjectiveCardContext context;
 
+    public ObjectiveCard() {
+
+    }
     public int getPoints() {
         return points;
     }

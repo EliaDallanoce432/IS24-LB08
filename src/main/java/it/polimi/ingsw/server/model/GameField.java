@@ -18,10 +18,12 @@ public class GameField {
     private int scrollCount;
     private int inkPotCount;
     private int featherCount;
+    /*
     private ArrayList<PlaceableCard> plantCards;
     private ArrayList<PlaceableCard> animalCards;
     private ArrayList<PlaceableCard> fungiCards;
     private ArrayList<PlaceableCard> insectCards;
+     */
 
     public GameField(Player player) {
         this.player = player;
@@ -38,10 +40,12 @@ public class GameField {
         inkPotCount = 0;
         scrollCount = 0;
         featherCount = 0;
+        /*
         animalCards = new ArrayList<PlaceableCard>();
         insectCards = new ArrayList<PlaceableCard>();
         fungiCards = new ArrayList<PlaceableCard>();
         plantCards = new ArrayList<PlaceableCard>();
+        */
     }
 
     public Player getPlayer() {
@@ -151,17 +155,15 @@ public class GameField {
         if (!this.followsPlacementRules(absoluteX,absoluteY)) throw new CannotPlaceCardException();
         if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
         cardsGrid[absoluteX][absoluteY] = card; //places card in the grid
-        updateNeighboursAndResources(card, absoluteX,absoluteY);
-
-
-
+        updateNeighboursAndResources(card, absoluteX,absoluteY); //updates the surrounding cards and resource state
+        player.setScore(player.getScore()+card.placementPoints()); //gets the points earned from placing the card
     }
 
     /**
-     *
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return
+     * checks the placing rules between the new card and the neighbour cards
+     * @param x x coordinate (absolute)
+     * @param y y coordinate (absolute)
+     * @return boolean
      */
     private boolean followsPlacementRules(int x, int y){
 
@@ -199,6 +201,11 @@ public class GameField {
 
     }
 
+    /**
+     * checks if the requirements for placing the card are matched
+     * @param placeableCard card to check the requirements
+     * @return  boolean
+     */
     private boolean followsPlacementRequirements (PlaceableCard placeableCard){
 
         if(!placeableCard.isFacingUp()) return true;
@@ -209,10 +216,15 @@ public class GameField {
 
     }
 
+    /**
+     * updates the state of the neighbour cards corners and resources visible on the gamefield after placing a card
+     * @param card placed card
+     * @param x x coordinate (absolute)
+     * @param y y coordinate (absolute)
+     */
     private void updateNeighboursAndResources(PlaceableCard card, int x, int y){
 
         PlaceableCard neighbourCard;
-
 
         neighbourCard = this.lookAtCoordinates(x+1,y+1);
         if( neighbourCard != null ) {
@@ -255,13 +267,12 @@ public class GameField {
         else{
             this.addResource(card.getCardKingdom());
         }
-
-
-
-
-
     }
 
+    /**
+     * adds the given resource to the total resource amount
+     * @param resource resource to add to the total visible amount
+     */
     private void addResource(Resource resource){
 
         switch (resource){
@@ -293,6 +304,10 @@ public class GameField {
 
     }
 
+    /**
+     * removes the given resource to the total resource amount
+     * @param resource resource to add to the total visible amount
+     */
     private void removeResource(Resource resource){
 
         switch (resource){
