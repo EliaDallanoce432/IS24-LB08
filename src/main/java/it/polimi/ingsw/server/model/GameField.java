@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.customexeptions.CannotPlaceCardException;
+import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
@@ -139,12 +140,16 @@ public class GameField {
      * places the card on the game field
      * @param card card that needs to be placed
      * @param x x coordinate on the grid
-     * @param y y coordinate on the field
+     * @param y y coordinate on the grid
      */
     public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
 
         if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
         if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
+        cardsGrid[x+GRIDOFFSET][y+GRIDOFFSET] = card; //places card in the grid
+        updateNeighboursAndResources(card, x, y);
+
 
 
     }
@@ -184,4 +189,124 @@ public class GameField {
         return hasValidNeighbours;
 
     }
+
+    private boolean followsPlacementRequirements (PlaceableCard placeableCard){
+
+        if(!placeableCard.isFacingUp()) return true;
+        return placeableCard.getRequiredAnimalResourceAmount() <= this.animalCount &&
+                placeableCard.getRequiredFungiResourceAmount() <= this.fungiCount &&
+                placeableCard.getRequiredInsectResourceAmount() <= this.insectCount &&
+                placeableCard.getRequiredPlantResourceAmount() <= this.plantCount;
+
+    }
+
+    private void updateNeighboursAndResources(PlaceableCard card, int x, int y){
+
+        PlaceableCard neighbourCard;
+
+
+        neighbourCard = this.lookAtCoordinates(x+1,y+1);
+        if( neighbourCard != null ) {
+            this.removeResource(neighbourCard.getBottomLeftCorner().getResource());
+            neighbourCard.getBottomLeftCorner().setOnTop(false);
+
+        }
+
+        neighbourCard = this.lookAtCoordinates(x+1,y-1);
+        if( neighbourCard != null ) {
+            this.removeResource(neighbourCard.getTopLeftCorner().getResource());
+            neighbourCard.getTopLeftCorner().setOnTop(false);
+
+        }
+
+        neighbourCard = this.lookAtCoordinates(x-1,y-1);
+        if( neighbourCard != null ) {
+            this.removeResource(neighbourCard.getTopRightCorner().getResource());
+            neighbourCard.getTopRightCorner().setOnTop(false);
+
+        }
+
+        neighbourCard = this.lookAtCoordinates(x-1,y+1);
+        if( neighbourCard != null ) {
+            this.removeResource(neighbourCard.getBottomRightCorner().getResource());
+            neighbourCard.getBottomRightCorner().setOnTop(false);
+
+        }
+
+        if(card.isFacingUp()){
+            this.addResource(card.getTopRightCorner().getResource());
+            this.addResource(card.getBottomRightCorner().getResource());
+            this.addResource(card.getBottomLeftCorner().getResource());
+            this.addResource(card.getTopLeftCorner().getResource());
+        }
+        else{
+            this.addResource(card.getCardKingdom());
+        }
+
+
+
+    }
+
+    private void addResource(Resource resource){
+
+        switch (resource){
+            case fungi -> {
+                fungiCount++;
+            }
+            case animal -> {
+                animalCount++;
+            }
+            case plant -> {
+                plantCount++;
+            }
+            case insect -> {
+                insectCount++;
+            }
+            case scroll -> {
+                scrollCount++;
+            }
+            case inkPot -> {
+                inkPotCount++;
+            }
+            case feather -> {
+                featherCount++;
+            }
+            default -> {
+                return;
+            }
+        }
+
+    }
+
+    private void removeResource(Resource resource){
+
+        switch (resource){
+            case fungi -> {
+                fungiCount--;
+            }
+            case animal -> {
+                animalCount--;
+            }
+            case plant -> {
+                plantCount--;
+            }
+            case insect -> {
+                insectCount--;
+            }
+            case scroll -> {
+                scrollCount--;
+            }
+            case inkPot -> {
+                inkPotCount--;
+            }
+            case feather -> {
+                featherCount--;
+            }
+            default -> {
+                return;
+            }
+        }
+
+    }
+
 }
