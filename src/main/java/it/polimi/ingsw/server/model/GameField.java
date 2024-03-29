@@ -128,32 +128,41 @@ public class GameField {
 
     /**
      * returns card at (x,y) coordinates or null
-      * @param x x coordinate on the grid
-     * @param y y coordinate on the grid
+      * @param x x coordinate on the grid (absolute)
+     * @param y y coordinate on the grid  (absolute)
      * @return PlaceableCard
      */
     public PlaceableCard lookAtCoordinates(int x, int y){
-        return cardsGrid[x+GRIDOFFSET][y+GRIDOFFSET];
+        return cardsGrid[x][y];
     }
 
     /**
      * places the card on the game field
      * @param card card that needs to be placed
-     * @param x x coordinate on the grid
-     * @param y y coordinate on the grid
+     * @param x x coordinate on the grid (relative)
+     * @param y y coordinate on the grid (relative)
      */
     public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
 
-        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
+        int absoluteX = x + GRIDOFFSET;
+        int absoluteY = y + GRIDOFFSET;
+
+        if (this.lookAtCoordinates(absoluteX,absoluteY)!=null) throw new CannotPlaceCardException();
+        if (!this.followsPlacementRules(absoluteX,absoluteY)) throw new CannotPlaceCardException();
         if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
-        cardsGrid[x+GRIDOFFSET][y+GRIDOFFSET] = card; //places card in the grid
-        updateNeighboursAndResources(card, x, y);
+        cardsGrid[absoluteX][absoluteY] = card; //places card in the grid
+        updateNeighboursAndResources(card, absoluteX,absoluteY);
 
 
 
     }
 
+    /**
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return
+     */
     private boolean followsPlacementRules(int x, int y){
 
         if ((x%2==0 && y%2==1) || (x%2==1 && y%2==0)) return false; //impossible to place in odd/even and even/odd coordinates
@@ -208,29 +217,33 @@ public class GameField {
         neighbourCard = this.lookAtCoordinates(x+1,y+1);
         if( neighbourCard != null ) {
             this.removeResource(neighbourCard.getBottomLeftCorner().getResource());
-            neighbourCard.getBottomLeftCorner().setOnTop(false);
-
+            neighbourCard.getBottomLeftCorner().setVisible(false);
+            neighbourCard.getBottomLeftCorner().setAttached(true);
+            card.getTopRightCorner().setAttached(true);
         }
 
         neighbourCard = this.lookAtCoordinates(x+1,y-1);
         if( neighbourCard != null ) {
             this.removeResource(neighbourCard.getTopLeftCorner().getResource());
-            neighbourCard.getTopLeftCorner().setOnTop(false);
-
+            neighbourCard.getTopLeftCorner().setVisible(false);
+            neighbourCard.getTopLeftCorner().setAttached(true);
+            card.getBottomRightCorner().setAttached(true);
         }
 
         neighbourCard = this.lookAtCoordinates(x-1,y-1);
         if( neighbourCard != null ) {
             this.removeResource(neighbourCard.getTopRightCorner().getResource());
-            neighbourCard.getTopRightCorner().setOnTop(false);
-
+            neighbourCard.getTopRightCorner().setVisible(false);
+            neighbourCard.getTopRightCorner().setAttached(true);
+            card.getBottomLeftCorner().setAttached(true);
         }
 
         neighbourCard = this.lookAtCoordinates(x-1,y+1);
         if( neighbourCard != null ) {
             this.removeResource(neighbourCard.getBottomRightCorner().getResource());
-            neighbourCard.getBottomRightCorner().setOnTop(false);
-
+            neighbourCard.getBottomRightCorner().setVisible(false);
+            neighbourCard.getBottomRightCorner().setAttached(true);
+            card.getTopLeftCorner().setAttached(true);
         }
 
         if(card.isFacingUp()){
@@ -242,6 +255,8 @@ public class GameField {
         else{
             this.addResource(card.getCardKingdom());
         }
+
+
 
 
 

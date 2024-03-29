@@ -1,19 +1,20 @@
 package it.polimi.ingsw.server.model.card;
 
-import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 public class Corner {
-    protected Resource resource;
-    protected boolean onTop;
-    protected boolean attachable;
-    protected PlaceableCard parentCard;
+    protected Resource resource; //resource present in the corner
+    protected boolean visible; //true if the corner is visible
+    protected boolean attached; //true if it's connected to another corner
+    protected boolean attachable; //corner not present on the card for connection of other cards on top of it
+    protected PlaceableCard parentCard; //card owning the corner
 
     public Corner(Resource resource, boolean attachable, PlaceableCard card) {
         this.resource = resource;
         this.attachable = attachable;
         this.parentCard = card;
-        onTop = true;
+        attached = false;
+        visible = true;
     }
 
     /**
@@ -27,18 +28,18 @@ public class Corner {
     /**
      * on default is true
      * attribute set on true if the corner is visible, false if the corner is covered
-     * @param onTop new value
+     * @param visible new value
      */
-    public void setOnTop(boolean onTop) {
-        this.onTop = onTop;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     /**
      * returns true is the corner is on top (visible), false otherwise
      * @return boolean
      */
-    public boolean isOnTop() {
-        return onTop;
+    public boolean isVisible() {
+        return visible;
     }
 
     /**
@@ -55,5 +56,13 @@ public class Corner {
      */
     public PlaceableCard getParentCard() {
         return parentCard;
+    }
+
+    public boolean isAttached() {
+        return attached;
+    }
+
+    public void setAttached(boolean attached) {
+        this.attached = attached;
     }
 }
