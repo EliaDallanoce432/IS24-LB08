@@ -6,6 +6,8 @@ public abstract class PlaceableCard extends Card {
     protected int points;
     protected boolean facingUp;
     //protected ArrayList<Resource> requirements;
+    protected int x;
+    protected  int y;
     protected int requiredFungiResourceAmount;
     protected int requiredInsectResourceAmount;
     protected int requiredAnimalResourceAmount;
@@ -20,6 +22,21 @@ public abstract class PlaceableCard extends Card {
     protected Corner backBottomLeftCorner;
     protected Corner backBottomRightCorner;
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public Corner getTopLeftCorner() {
         if (facingUp) return frontTopLeftCorner;

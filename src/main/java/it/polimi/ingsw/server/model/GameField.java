@@ -18,12 +18,11 @@ public class GameField {
     private int scrollCount;
     private int inkPotCount;
     private int featherCount;
-    /*
     private ArrayList<PlaceableCard> plantCards;
     private ArrayList<PlaceableCard> animalCards;
     private ArrayList<PlaceableCard> fungiCards;
     private ArrayList<PlaceableCard> insectCards;
-     */
+
 
     public GameField(Player player) {
         this.player = player;
@@ -40,12 +39,10 @@ public class GameField {
         inkPotCount = 0;
         scrollCount = 0;
         featherCount = 0;
-        /*
         animalCards = new ArrayList<PlaceableCard>();
         insectCards = new ArrayList<PlaceableCard>();
         fungiCards = new ArrayList<PlaceableCard>();
         plantCards = new ArrayList<PlaceableCard>();
-        */
     }
 
     public Player getPlayer() {
@@ -54,6 +51,22 @@ public class GameField {
 
     public int getFungiCount() {
         return fungiCount;
+    }
+
+    public ArrayList<PlaceableCard> getPlantCards() {
+        return plantCards;
+    }
+
+    public ArrayList<PlaceableCard> getAnimalCards() {
+        return animalCards;
+    }
+
+    public ArrayList<PlaceableCard> getFungiCards() {
+        return fungiCards;
+    }
+
+    public ArrayList<PlaceableCard> getInsectCards() {
+        return insectCards;
     }
 
     /**
@@ -122,6 +135,11 @@ public class GameField {
     public int getFeatherCount() {
         return featherCount;
     }
+
+    public PlaceableCard[][] getCardsGrid() {
+        return cardsGrid;
+    }
+
     /**
      * updates the total visible resource counter
      * @param resourceChange variation in the amount of the resource (positive or negative)
@@ -155,6 +173,8 @@ public class GameField {
         if (!this.followsPlacementRules(absoluteX,absoluteY)) throw new CannotPlaceCardException();
         if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
         cardsGrid[absoluteX][absoluteY] = card; //places card in the grid
+        card.setX(absoluteX);
+        card.setY(absoluteY);
         updateNeighboursAndResources(card, absoluteX,absoluteY); //updates the surrounding cards and resource state
         player.setScore(player.getScore()+card.placementPoints()); //gets the points earned from placing the card
     }
@@ -266,6 +286,21 @@ public class GameField {
         }
         else{
             this.addResource(card.getCardKingdom());
+        }
+        switch (card.getCardKingdom())
+        {
+            case fungi -> {
+                this.fungiCards.add(card);
+            }
+            case animal -> {
+                this.animalCards.add(card);
+            }
+            case plant -> {
+                this.plantCards.add(card);
+            }
+            case insect -> {
+                this.insectCards.add(card);
+            }
         }
     }
 
