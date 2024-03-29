@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.customexeptions.CannotPlaceCardException;
 
 import java.util.ArrayList;
@@ -148,7 +149,7 @@ public class GameField {
 
     }
 
-    public boolean followsPlacementRules(int x, int y){
+    private boolean followsPlacementRules(int x, int y){
 
         if ((x%2==0 && y%2==1) || (x%2==1 && y%2==0)) return false; //impossible to place in odd/even and even/odd coordinates
 

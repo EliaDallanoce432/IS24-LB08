@@ -1,20 +1,20 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.card;
 
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
-public abstract class PlaceableCard extends Card{
-    private boolean facingUp;
-    private ArrayList<Resource> requirements;
-    private Corner frontTopLeftCorner;
-    private Corner frontTopRightCorner;
-    private Corner frontBottomLeftCorner;
-    private Corner frontBottomRightCorner;
-    private Corner backTopLeftCorner;
-    private Corner backTopRightCorner;
-    private Corner backBottomLeftCorner;
-    private Corner backBottomRightCorner;
+public abstract class PlaceableCard extends Card {
+    protected boolean facingUp;
+    protected ArrayList<Resource> requirements;
+    protected Corner frontTopLeftCorner;
+    protected Corner frontTopRightCorner;
+    protected Corner frontBottomLeftCorner;
+    protected Corner frontBottomRightCorner;
+    protected Corner backTopLeftCorner;
+    protected Corner backTopRightCorner;
+    protected Corner backBottomLeftCorner;
+    protected Corner backBottomRightCorner;
 
     public Corner getTopLeftCorner() {
         if (facingUp) return frontTopLeftCorner;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Color;
 
 import java.util.ArrayList;

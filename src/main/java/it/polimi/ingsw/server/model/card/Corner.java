@@ -1,12 +1,13 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.card;
 
+import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 public class Corner {
-    private Resource resource;
-    private boolean onTop;
-    private boolean attachable;
-    private PlaceableCard parentCard;
+    protected Resource resource;
+    protected boolean onTop;
+    protected boolean attachable;
+    protected PlaceableCard parentCard;
 
     public Corner(Resource resource, boolean attachable, PlaceableCard card) {
         this.resource = resource;
