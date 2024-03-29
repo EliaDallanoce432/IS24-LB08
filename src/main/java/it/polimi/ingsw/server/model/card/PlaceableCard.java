@@ -6,7 +6,12 @@ import java.util.ArrayList;
 
 public abstract class PlaceableCard extends Card {
     protected boolean facingUp;
-    protected ArrayList<Resource> requirements;
+    //protected ArrayList<Resource> requirements;
+    protected int requiredFungiResourceAmount;
+    protected int requiredInsectResourceAmount;
+    protected int requiredAnimalResourceAmount;
+    protected int requiredPlantResourceAmount;
+
     protected Corner frontTopLeftCorner;
     protected Corner frontTopRightCorner;
     protected Corner frontBottomLeftCorner;
@@ -15,6 +20,7 @@ public abstract class PlaceableCard extends Card {
     protected Corner backTopRightCorner;
     protected Corner backBottomLeftCorner;
     protected Corner backBottomRightCorner;
+
 
     public Corner getTopLeftCorner() {
         if (facingUp) return frontTopLeftCorner;
@@ -33,6 +39,41 @@ public abstract class PlaceableCard extends Card {
 
     public Corner getBottomRightCorner() {
         if (facingUp) return frontBottomRightCorner;
-        else  return backBottomLeftCorner;
+        else  return backBottomRightCorner;
     }
+
+    public boolean isFacingUp() {
+        return facingUp;
+    }
+
+    public void setFacingUp(boolean facingUp) {
+        this.facingUp = facingUp;
+    }
+
+    public int getRequiredFungiResourceAmount() {
+        return requiredFungiResourceAmount;
+    }
+
+    public int getRequiredInsectResourceAmount() {
+        return requiredInsectResourceAmount;
+    }
+
+    public int getRequiredAnimalResourceAmount() {
+        return requiredAnimalResourceAmount;
+    }
+
+    public int getRequiredPlantResourceAmount() {
+        return requiredPlantResourceAmount;
+    }
+
+    public Resource getCardKingdom(){
+        return this.cardKingdom;
+    }
+
+    public int getCardID(){
+        return this.id;
+    }
+
+
+
 }

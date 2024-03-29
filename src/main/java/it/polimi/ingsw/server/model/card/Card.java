@@ -4,5 +4,5 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 public abstract class Card {
     protected int id;
-    protected Resource cardType; //animal, plant, fungi or insect
+    protected Resource cardKingdom; //animal, plant, fungi or insect
 }

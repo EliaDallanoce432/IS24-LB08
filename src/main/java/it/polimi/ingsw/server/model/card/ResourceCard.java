@@ -8,4 +8,6 @@ public class ResourceCard extends PlaceableCard {
     public ResourceCard() {
 
     }
+
+
 }
