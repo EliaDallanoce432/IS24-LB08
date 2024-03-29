@@ -1,10 +1,14 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.util.customexeptions.CannotPlaceCardException;
+
 import java.util.ArrayList;
 
 public class GameField {
     private PlaceableCard[][] cardsGrid;
     private Player player;
+
+    final private int GRIDOFFSET = 40;
     private int fungiCount;
     private int animalCount;
     private int plantCount;
@@ -120,6 +124,15 @@ public class GameField {
         this.featherCount = this.featherCount+resourceChange;
     }
 
+    /**
+     * returns card at (x,y) coordinates or null
+      * @param x x coordinate on the grid
+     * @param y y coordinate on the grid
+     * @return PlaceableCard
+     */
+    public PlaceableCard lookAtCoordinates(int x, int y){
+        return cardsGrid[x+GRIDOFFSET][y+GRIDOFFSET];
+    }
 
     /**
      * places the card on the game field
@@ -127,7 +140,47 @@ public class GameField {
      * @param x x coordinate on the grid
      * @param y y coordinate on the field
      */
-    public void place(PlaceableCard card, int x, int y) {
+    public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
+
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
+
+
+    }
+
+    public boolean followsPlacementRules(int x, int y){
+
+        if ((x%2==0 && y%2==1) || (x%2==1 && y%2==0)) return false; //impossible to place in odd/even and even/odd coordinates
+
+        PlaceableCard neighbourCard;
+        boolean hasValidNeighbours = false;
+
+
+        neighbourCard = this.lookAtCoordinates(x+1,y+1);
+        if( neighbourCard != null ) {
+            if(!neighbourCard.getBottomLeftCorner().isAttachable()) return false;
+            else hasValidNeighbours = true;
+        }
+
+        neighbourCard = this.lookAtCoordinates(x+1,y-1);
+        if( neighbourCard != null ) {
+            if(!neighbourCard.getTopLeftCorner().isAttachable()) return false;
+            else hasValidNeighbours = true;
+        }
+
+        neighbourCard = this.lookAtCoordinates(x-1,y-1);
+        if( neighbourCard != null ) {
+            if(!neighbourCard.getTopRightCorner().isAttachable()) return false;
+            else hasValidNeighbours = true;
+        }
+
+        neighbourCard = this.lookAtCoordinates(x-1,y+1);
+        if( neighbourCard != null ) {
+            if(!neighbourCard.getBottomRightCorner().isAttachable()) return false;
+            else hasValidNeighbours = true;
+        }
+
+        return hasValidNeighbours;
 
     }
 }

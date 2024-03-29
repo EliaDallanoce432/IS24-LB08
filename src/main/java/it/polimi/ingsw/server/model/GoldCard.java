@@ -5,7 +5,7 @@ import it.polimi.ingsw.util.supportclasses.*;
 import java.util.ArrayList;
 
 public class GoldCard extends PlaceableCard{
-    private ArrayList<Resource> requirements;
+
     private GoldCardContext context;
 
     public GoldCard(){
