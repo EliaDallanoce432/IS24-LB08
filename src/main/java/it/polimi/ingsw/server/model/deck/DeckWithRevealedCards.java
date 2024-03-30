@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model.deck;
 
-import it.polimi.ingsw.util.customexeptions.EmptyDeckException;
-
 public abstract class DeckWithRevealedCards extends Deck{
     protected int leftRevealedCard;
     protected int rightRevealedCard;

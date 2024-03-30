@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.deck;
 
-import it.polimi.ingsw.server.model.deck.Deck;
-import it.polimi.ingsw.util.customexeptions.EmptyDeckException;
+import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
 import java.util.Collections;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.deck;
 
-import it.polimi.ingsw.util.customexeptions.EmptyDeckException;
+import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
 public abstract class Deck {

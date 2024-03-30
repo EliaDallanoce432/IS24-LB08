@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.PlaceableCard;
-import it.polimi.ingsw.util.customexeptions.CannotPlaceCardException;
+import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
@@ -176,7 +176,7 @@ public class GameField {
         card.setX(absoluteX);
         card.setY(absoluteY);
         updateNeighboursAndResources(card, absoluteX,absoluteY); //updates the surrounding cards and resource state
-        player.setScore(player.getScore()+card.placementPoints()); //gets the points earned from placing the card
+        if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints()); //gets the points earned from placing the card
     }
 
     /**

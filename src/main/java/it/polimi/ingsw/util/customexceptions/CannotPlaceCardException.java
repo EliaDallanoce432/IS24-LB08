@@ -1,4 +1,4 @@
-package it.polimi.ingsw.util.customexeptions;
+package it.polimi.ingsw.util.customexceptions;
 
 public class CannotPlaceCardException extends Exception {
 
