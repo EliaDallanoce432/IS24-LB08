@@ -90,6 +90,58 @@ public abstract class PlaceableCard extends Card {
         return this.id;
     }
 
+    public void setRequiredFungiResourceAmount(int requiredFungiResourceAmount) {
+        this.requiredFungiResourceAmount = requiredFungiResourceAmount;
+    }
+
+    public void setRequiredInsectResourceAmount(int requiredInsectResourceAmount) {
+        this.requiredInsectResourceAmount = requiredInsectResourceAmount;
+    }
+
+    public void setRequiredAnimalResourceAmount(int requiredAnimalResourceAmount) {
+        this.requiredAnimalResourceAmount = requiredAnimalResourceAmount;
+    }
+
+    public void setRequiredPlantResourceAmount(int requiredPlantResourceAmount) {
+        this.requiredPlantResourceAmount = requiredPlantResourceAmount;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setFrontTopLeftCorner(Corner frontTopLeftCorner) {
+        this.frontTopLeftCorner = frontTopLeftCorner;
+    }
+
+    public void setFrontTopRightCorner(Corner frontTopRightCorner) {
+        this.frontTopRightCorner = frontTopRightCorner;
+    }
+
+    public void setFrontBottomLeftCorner(Corner frontBottomLeftCorner) {
+        this.frontBottomLeftCorner = frontBottomLeftCorner;
+    }
+
+    public void setFrontBottomRightCorner(Corner frontBottomRightCorner) {
+        this.frontBottomRightCorner = frontBottomRightCorner;
+    }
+
+    public void setBackTopLeftCorner(Corner backTopLeftCorner) {
+        this.backTopLeftCorner = backTopLeftCorner;
+    }
+
+    public void setBackTopRightCorner(Corner backTopRightCorner) {
+        this.backTopRightCorner = backTopRightCorner;
+    }
+
+    public void setBackBottomLeftCorner(Corner backBottomLeftCorner) {
+        this.backBottomLeftCorner = backBottomLeftCorner;
+    }
+
+    public void setBackBottomRightCorner(Corner backBottomRightCorner) {
+        this.backBottomRightCorner = backBottomRightCorner;
+    }
+
     public int getPoints() {
         return points;
     }

@@ -3,14 +3,13 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Resource;
+import static it.polimi.ingsw.util.supportclasses.Constants.GRID_OFFSET;
 
 import java.util.ArrayList;
 
 public class GameField {
     private PlaceableCard[][] cardsGrid;
     private Player player;
-
-    final private int GRIDOFFSET = 40;
     private int fungiCount;
     private int animalCount;
     private int plantCount;
@@ -166,8 +165,8 @@ public class GameField {
      */
     public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
 
-        int absoluteX = x + GRIDOFFSET;
-        int absoluteY = y + GRIDOFFSET;
+        int absoluteX = x + GRID_OFFSET;
+        int absoluteY = y + GRID_OFFSET;
 
         if (this.lookAtCoordinates(absoluteX,absoluteY)!=null) throw new CannotPlaceCardException();
         if (!this.followsPlacementRules(absoluteX,absoluteY)) throw new CannotPlaceCardException();

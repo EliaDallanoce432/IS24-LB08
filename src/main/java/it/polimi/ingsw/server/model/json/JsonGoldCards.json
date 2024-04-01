@@ -1,0 +1,121 @@
+{
+  "data": [
+    {
+      "Id": 41,
+      "KingdomCard": "fungi",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 2
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": null
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": null
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": null
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      }
+    },
+    {
+      "Id": 42,
+      "KingdomCard": "fungi",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 2
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 43,
+      "KingdomCard": "fungi",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 2
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    }
+  ]
+}

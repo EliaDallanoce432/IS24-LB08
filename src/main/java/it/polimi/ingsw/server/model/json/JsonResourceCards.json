@@ -1,0 +1,67 @@
+{
+  "data": [
+    {
+      "Id": 1,
+      "Kingdom": "fungi",
+      "Points": 0,
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 2,
+      "Kingdom": "fungi",
+      "Points": 0,
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 3,
+      "Kingdom": "fungi",
+      "Points": 0,
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "fungi"
+      }
+    }
+  ]
+}
