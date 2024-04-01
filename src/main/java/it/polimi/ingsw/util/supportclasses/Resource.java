@@ -1,7 +1,7 @@
 package it.polimi.ingsw.util.supportclasses;
 
 public enum Resource {
-    fungi, animal, plant, insect, scroll, inkPot, feather, none
+    fungi, animal, plant, insect, scroll, inkPot, feather, none;
 
     public static Resource StringToResource(String str)
     {

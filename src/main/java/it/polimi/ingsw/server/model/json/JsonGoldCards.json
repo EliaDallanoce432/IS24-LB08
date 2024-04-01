@@ -22,6 +22,7 @@
           "Num": 0
         }
       ],
+      "Strategy" : "feather",
       "TopLeftCorner": {
         "Exist": false,
         "Resource": null
@@ -61,6 +62,7 @@
           "Num": 1
         }
       ],
+      "Strategy" : "inkpot",
       "TopLeftCorner": {
         "Exist": true,
         "Resource": "none"
@@ -100,6 +102,7 @@
           "Num": 0
         }
       ],
+      "Strategy" : "scroll",
       "TopLeftCorner": {
         "Exist": true,
         "Resource": "scroll"

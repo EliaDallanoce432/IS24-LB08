@@ -1,0 +1,76 @@
+{
+  "data": [
+    {
+      "Id": 81,
+      "ResourceBack": ["insect","none", "none"],
+      "FrontTopLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontTopRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontBottomLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontBottomRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "BackTopLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "BackTopRightCorner": {
+        "Exist": 1,
+        "Resource": "plant"
+      },
+      "BackBottomLeftCorner": {
+        "Exist": 1,
+        "Resource": "insect"
+      },
+      "BackBottomRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 82,
+      "ResourceBack": "fungi",
+      "FrontTopLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontTopRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontBottomLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "FrontBottomRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "BackTopLeftCorner": {
+        "Exist": 1,
+        "Resource": "animal"
+      },
+      "BackTopRightCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "BackBottomLeftCorner": {
+        "Exist": 1,
+        "Resource": "none"
+      },
+      "BackBottomRightCorner": {
+        "Exist": 1,
+        "Resource": "fungi"
+      }
+    }
+  ]
+}

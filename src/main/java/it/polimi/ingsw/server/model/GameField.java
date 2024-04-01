@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.PlaceableCard;
+import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import static it.polimi.ingsw.util.supportclasses.Constants.GRID_OFFSET;
@@ -154,7 +155,27 @@ public class GameField {
      * @return PlaceableCard
      */
     public PlaceableCard lookAtCoordinates(int x, int y){
+        if(x<0 || x>81 || y<0 || y>81) return null;
         return cardsGrid[x][y];
+    }
+
+    /**
+     * places the starter card on the game field
+     * @param card starter card that needs to be placed
+     */
+    public void place(StarterCard card) {
+        cardsGrid[GRID_OFFSET][GRID_OFFSET] = card; //places card in the grid
+        card.setX(GRID_OFFSET);
+        card.setY(GRID_OFFSET);
+        addResource(card.getTopRightCorner().getResource());
+        addResource(card.getTopLeftCorner().getResource());
+        addResource(card.getBottomRightCorner().getResource());
+        addResource(card.getBottomLeftCorner().getResource());
+        if(!card.isFacingUp()) {
+            for (Resource res : card.getBackCentralResources()) {
+                addResource(res);
+            }
+        }
     }
 
     /**
