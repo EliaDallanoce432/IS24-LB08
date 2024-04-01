@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.card;
 
+import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
@@ -20,7 +21,7 @@ public class ResourceCard extends PlaceableCard {
         this.y=0;
     }
 
-    public int placementPoints() {
+    public int placementPoints(GameField gameField) {
         return this.getPoints();
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.card;
 
+import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 public abstract class PlaceableCard extends Card {
@@ -150,6 +151,6 @@ public abstract class PlaceableCard extends Card {
      * method returns the points received by placing the card
      * @return int
      */
-    public abstract int placementPoints();
+    public abstract int placementPoints(GameField gameField);
 
 }

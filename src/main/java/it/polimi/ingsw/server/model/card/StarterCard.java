@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.card;
 
+import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.supportclasses.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class StarterCard extends PlaceableCard {
     }
 
     @Override
-    public int placementPoints() {
+    public int placementPoints(GameField gameField) {
         return 0;
     }
 
@@ -23,4 +24,5 @@ public class StarterCard extends PlaceableCard {
     public ArrayList<Resource> getBackCentralResources() {
         return backCentralResources;
     }
+
 }

@@ -196,7 +196,7 @@ public class GameField {
         card.setX(absoluteX);
         card.setY(absoluteY);
         updateNeighboursAndResources(card, absoluteX,absoluteY); //updates the surrounding cards and resource state
-        if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints()); //gets the points earned from placing the card
+        if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints(this)); //gets the points earned from placing the card
     }
 
     /**

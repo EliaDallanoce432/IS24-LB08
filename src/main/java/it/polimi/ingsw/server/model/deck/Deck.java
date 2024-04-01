@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.deck;
 
+import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
@@ -8,8 +9,9 @@ public abstract class Deck {
 
     /**
      * returns a card from the deck
+     *
      * @return Card
      */
-    public abstract int directDraw() throws EmptyDeckException;
+    public abstract Card directDraw() throws EmptyDeckException;
 
 }
