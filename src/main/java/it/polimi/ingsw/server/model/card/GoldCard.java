@@ -9,26 +9,21 @@ import javafx.scene.Parent;
 public class GoldCard extends PlaceableCard {
 
     protected GoldCardContext context;
-    protected GameField parentGameField;
 
-    public GoldCard(int id, GameField parentGameField){
+
+    public GoldCard(int id){
         JsonCardsReader.readerGoldCard(id,this);
         this.backTopLeftCorner=new Corner(Resource.none, true,this);
         this.backTopRightCorner=new Corner(Resource.none, true,this);
         this.backBottomLeftCorner=new Corner(Resource.none, true,this);
         this.backBottomRightCorner=new Corner(Resource.none, true,this);
-        this.parentGameField = parentGameField;
         this.facingUp=true;
         this.x=0;
         this.y=0;
     }
 
-    public int placementPoints() {
-        return context.executePointsCalculation(this.getPoints(),this.getParentGameField(),this);
-    }
-
-    public GameField getParentGameField() {
-        return parentGameField;
+    public int placementPoints(GameField gameField) {
+        return context.executePointsCalculation(this.getPoints(),gameField,this);
     }
 
     public void setContext(GoldCardContext context) {

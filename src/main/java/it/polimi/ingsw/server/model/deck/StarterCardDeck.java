@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.deck;
 
+import it.polimi.ingsw.server.model.card.Card;
+import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
 import java.util.Collections;
@@ -14,15 +16,16 @@ public class StarterCardDeck extends Deck {
 
     /**
      * returns a card from the deck
+     *
      * @return Card
      */
-    public int directDraw() throws EmptyDeckException {
-        int card;
+    public Card directDraw() throws EmptyDeckException {
+        int cardId;
         if(cards.isEmpty()) {
             throw new EmptyDeckException();
         }
-        card = cards.getFirst();
+        cardId = cards.getFirst();
         cards.removeFirst();
-        return card;
+        return new StarterCard(cardId);
     }
 }
