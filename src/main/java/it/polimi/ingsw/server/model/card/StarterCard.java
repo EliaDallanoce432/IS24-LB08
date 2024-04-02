@@ -9,7 +9,7 @@ public class StarterCard extends PlaceableCard {
     protected ArrayList<Resource> backCentralResources;
 
     public StarterCard(int id) {
-        JsonCardsReader.readerStarterCard(id,this);
+        JsonCardsReader.loadStarterCard(id,this);
     }
 
     @Override

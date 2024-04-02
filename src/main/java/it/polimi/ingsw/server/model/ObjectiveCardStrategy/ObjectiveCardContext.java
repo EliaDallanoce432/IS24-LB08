@@ -1,10 +1,9 @@
 package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
-import it.polimi.ingsw.server.model.GoldCardStrategy.ConditionStrategy;
 
 public class ObjectiveCardContext {
-    private ObjectiveStrategy strategy;
+    private final ObjectiveStrategy strategy;
 
     public ObjectiveCardContext(ObjectiveStrategy strategy) {
         this.strategy = strategy;

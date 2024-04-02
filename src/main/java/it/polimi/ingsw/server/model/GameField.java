@@ -39,10 +39,10 @@ public class GameField {
         inkPotCount = 0;
         scrollCount = 0;
         featherCount = 0;
-        animalCards = new ArrayList<PlaceableCard>();
-        insectCards = new ArrayList<PlaceableCard>();
-        fungiCards = new ArrayList<PlaceableCard>();
-        plantCards = new ArrayList<PlaceableCard>();
+        animalCards = new ArrayList<>();
+        insectCards = new ArrayList<>();
+        fungiCards = new ArrayList<>();
+        plantCards = new ArrayList<>();
     }
 
     public Player getPlayer() {
@@ -69,67 +69,24 @@ public class GameField {
         return insectCards;
     }
 
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void updateFungiCount(int resourceChange) {
-        this.fungiCount = this.fungiCount+resourceChange;
-    }
-
     public int getAnimalCount() {
         return animalCount;
-    }
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setAnimalCount(int resourceChange) {
-        this.animalCount = this.animalCount+resourceChange;
     }
 
     public int getPlantCount() {
         return plantCount;
     }
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setPlantCount(int resourceChange) {
-        this.plantCount = this.plantCount+resourceChange;
-    }
 
     public int getInsectCount() {
         return insectCount;
-    }
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setInsectCount(int resourceChange) {
-        this.insectCount = this.insectCount+resourceChange;
     }
 
     public int getScrollCount() {
         return scrollCount;
     }
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setScrollCount(int resourceChange) {
-        this.scrollCount = this.scrollCount+resourceChange;
-    }
 
     public int getInkPotCount() {
         return inkPotCount;
-    }
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setInkPotCount(int resourceChange) {
-        this.inkPotCount = this.inkPotCount+resourceChange;
     }
 
     public int getFeatherCount() {
@@ -138,14 +95,6 @@ public class GameField {
 
     public PlaceableCard[][] getCardsGrid() {
         return cardsGrid;
-    }
-
-    /**
-     * updates the total visible resource counter
-     * @param resourceChange variation in the amount of the resource (positive or negative)
-     */
-    public void setFeatherCount(int resourceChange) {
-        this.featherCount = this.featherCount+resourceChange;
     }
 
     /**
@@ -309,18 +258,10 @@ public class GameField {
         }
         switch (card.getCardKingdom())
         {
-            case fungi -> {
-                this.fungiCards.add(card);
-            }
-            case animal -> {
-                this.animalCards.add(card);
-            }
-            case plant -> {
-                this.plantCards.add(card);
-            }
-            case insect -> {
-                this.insectCards.add(card);
-            }
+            case fungi -> this.fungiCards.add(card);
+            case animal -> this.animalCards.add(card);
+            case plant -> this.plantCards.add(card);
+            case insect -> this.insectCards.add(card);
         }
     }
 
@@ -331,30 +272,14 @@ public class GameField {
     private void addResource(Resource resource){
 
         switch (resource){
-            case fungi -> {
-                fungiCount++;
-            }
-            case animal -> {
-                animalCount++;
-            }
-            case plant -> {
-                plantCount++;
-            }
-            case insect -> {
-                insectCount++;
-            }
-            case scroll -> {
-                scrollCount++;
-            }
-            case inkPot -> {
-                inkPotCount++;
-            }
-            case feather -> {
-                featherCount++;
-            }
-            default -> {
-                return;
-            }
+            case fungi -> fungiCount++;
+            case animal -> animalCount++;
+            case plant -> plantCount++;
+            case insect -> insectCount++;
+            case scroll -> scrollCount++;
+            case inkPot -> inkPotCount++;
+            case feather -> featherCount++;
+            default -> {}
         }
 
     }
@@ -366,30 +291,14 @@ public class GameField {
     private void removeResource(Resource resource){
 
         switch (resource){
-            case fungi -> {
-                fungiCount--;
-            }
-            case animal -> {
-                animalCount--;
-            }
-            case plant -> {
-                plantCount--;
-            }
-            case insect -> {
-                insectCount--;
-            }
-            case scroll -> {
-                scrollCount--;
-            }
-            case inkPot -> {
-                inkPotCount--;
-            }
-            case feather -> {
-                featherCount--;
-            }
-            default -> {
-                return;
-            }
+            case fungi -> fungiCount--;
+            case animal -> animalCount--;
+            case plant -> plantCount--;
+            case insect -> insectCount--;
+            case scroll -> scrollCount--;
+            case inkPot -> inkPotCount--;
+            case feather -> featherCount--;
+            default -> {}
         }
 
     }

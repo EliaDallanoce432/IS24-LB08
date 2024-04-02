@@ -18,18 +18,23 @@ import org.json.simple.parser.ParseException;
 
 public class JsonCardsReader {
 
-    public static Resource getCornerResource(JSONObject item, String corn) {
+    private static Resource getCornerResource(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
         String resource = corner.get("Resource").toString();
         return Resource.StringToResource(resource);
     }
 
-    public static boolean getCornerAttachable(JSONObject item, String corn) {
+    private static boolean getCornerAttachable(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
         return (Boolean) corner.get("Exist");
     }
 
-    public static void readerResourceCard(int id, ResourceCard resc) {
+    /**
+     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * @param id unique id that identifies the card
+     * @param resourceCard  reference to the card itself
+     */
+    public static void loadResourceCard(int id, ResourceCard resourceCard) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("it/polimi/ingsw/server/json/JsonResourceCards.json")) {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -39,13 +44,13 @@ public class JsonCardsReader {
             for (Object obj : dataArray) {
                 JSONObject item = (JSONObject) obj;
                 if (id == ((Long) item.get("Id")).intValue()) {
-                    resc.setId(id);
-                    resc.setPoints(((Long) item.get("Points")).intValue());
-                    resc.setCardKingdom(Resource.StringToResource(item.get("Kingdom").toString()));
-                    resc.setFrontTopLeftCorner(new Corner(getCornerResource(item, "TopLeftCorner"), getCornerAttachable(item, "TopLeftCorner"), resc));
-                    resc.setFrontTopRightCorner(new Corner(getCornerResource(item, "TopRightCorner"), getCornerAttachable(item, "TopRightCorner"), resc));
-                    resc.setFrontBottomLeftCorner(new Corner(getCornerResource(item, "BottomLeftCorner"), getCornerAttachable(item, "BottomLeftCorner"), resc));
-                    resc.setFrontBottomRightCorner(new Corner(getCornerResource(item, "BottomRightCorner"), getCornerAttachable(item, "BottomRightCorner"), resc));
+                    resourceCard.setId(id);
+                    resourceCard.setPoints(((Long) item.get("Points")).intValue());
+                    resourceCard.setCardKingdom(Resource.StringToResource(item.get("Kingdom").toString()));
+                    resourceCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, "TopLeftCorner"), getCornerAttachable(item, "TopLeftCorner"), resourceCard));
+                    resourceCard.setFrontTopRightCorner(new Corner(getCornerResource(item, "TopRightCorner"), getCornerAttachable(item, "TopRightCorner"), resourceCard));
+                    resourceCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, "BottomLeftCorner"), getCornerAttachable(item, "BottomLeftCorner"), resourceCard));
+                    resourceCard.setFrontBottomRightCorner(new Corner(getCornerResource(item, "BottomRightCorner"), getCornerAttachable(item, "BottomRightCorner"), resourceCard));
                     break;
                 }
             }
@@ -55,8 +60,12 @@ public class JsonCardsReader {
         }
     }
 
-
-    public static void readerGoldCard(int id, GoldCard goldCard) {
+    /**
+     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * @param id unique id that identifies the card
+     * @param goldCard  reference to the card itself
+     */
+    public static void loadGoldCard(int id, GoldCard goldCard) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("it/polimi/ingsw/server/json/JsonGoldCards.json")) {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -100,7 +109,12 @@ public class JsonCardsReader {
         }
     }
 
-    public static void readerStarterCard(int id, StarterCard starterCard) {
+    /**
+     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * @param id unique id that identifies the card
+     * @param starterCard  reference to the card itself
+     */
+    public static void loadStarterCard(int id, StarterCard starterCard) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("it/polimi/ingsw/server/json/JsonStarterCards.json")) {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
@@ -111,12 +125,12 @@ public class JsonCardsReader {
                 JSONObject item = (JSONObject) obj;
                 if (id == ((Long) item.get("Id")).intValue()) {
                     starterCard.setId(id);
-                    List<Resource> backResources = new ArrayList<Resource>();
+                    List<Resource> backResources = new ArrayList<>();
                     JSONArray resource = (JSONArray) item.get("ResourceBack");
                     for(int i=0; i<3; i++) {
                         backResources.add(Resource.StringToResource(resource.get(i).toString()));
                     }
-                    starterCard.setBackCentralResources(new ArrayList<Resource>(backResources));
+                    starterCard.setBackCentralResources(new ArrayList<>(backResources));
                     starterCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, "FrontTopLeftCorner"), getCornerAttachable(item, "FrontTopLeftCorner"), starterCard));
                     starterCard.setFrontTopRightCorner(new Corner(getCornerResource(item, "FrontTopRightCorner"), getCornerAttachable(item, "FrontTopRightCorner"), starterCard));
                     starterCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, "FrontBottomLeftCorner"), getCornerAttachable(item, "FrontBottomLeftCorner"), starterCard));

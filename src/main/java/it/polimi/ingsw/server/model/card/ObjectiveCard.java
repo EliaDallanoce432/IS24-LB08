@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model.card;
 
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.ObjectiveCardStrategy.*;
-import it.polimi.ingsw.server.model.card.Card;
 
 public class ObjectiveCard extends Card {
     protected int points;
@@ -85,7 +84,7 @@ public class ObjectiveCard extends Card {
      * @param gameField gamefield on which the objective has to be checked
      * @return int
      */
-    public int earnedPoints(GameField gameField) {
+    public int getEarnedPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField);
     }
 

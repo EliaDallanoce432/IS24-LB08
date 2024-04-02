@@ -4,13 +4,12 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.GoldCardStrategy.GoldCardContext;
 import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.supportclasses.Resource;
-import javafx.scene.Parent;
 
 public class GoldCard extends PlaceableCard {
     protected GoldCardContext context;
 
     public GoldCard(int id){
-        JsonCardsReader.readerGoldCard(id,this);
+        JsonCardsReader.loadGoldCard(id,this);
         this.backTopLeftCorner=new Corner(Resource.none, true,this);
         this.backTopRightCorner=new Corner(Resource.none, true,this);
         this.backBottomLeftCorner=new Corner(Resource.none, true,this);

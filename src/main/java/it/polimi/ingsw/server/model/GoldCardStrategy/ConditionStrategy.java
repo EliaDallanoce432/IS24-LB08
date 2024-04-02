@@ -7,9 +7,9 @@ public interface ConditionStrategy {
     /**
      * method performs the calculation of the points received by placing the gold card
      * @param pointsOnTheCard points given by the card
-     * @param gamefield gamefield that is being analysed
+     * @param gamefield game field that is being analysed
      * @param goldcard  the gold card itself (needed in GoldCardCoveredCornerStrategy)
      * @return the points given by the card
      */
-    public int calculatePoints(int pointsOnTheCard, GameField gamefield, GoldCard goldcard);
+    int calculatePoints(int pointsOnTheCard, GameField gamefield, GoldCard goldcard);
 }

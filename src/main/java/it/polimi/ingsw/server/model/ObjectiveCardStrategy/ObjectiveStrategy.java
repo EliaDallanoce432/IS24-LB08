@@ -9,6 +9,6 @@ public interface ObjectiveStrategy {
      * @param gamefield gamefield on which the objective has to be checked
      * @return int
      */
-    public int calculatePoints(int pointsOnTheCard, GameField gamefield);
+    int calculatePoints(int pointsOnTheCard, GameField gamefield);
 
 }

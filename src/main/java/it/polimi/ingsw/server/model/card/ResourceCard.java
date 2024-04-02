@@ -7,7 +7,7 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 public class ResourceCard extends PlaceableCard {
 
     public ResourceCard(int id) {
-        JsonCardsReader.readerResourceCard(id, this);
+        JsonCardsReader.loadResourceCard(id, this);
         this.backTopLeftCorner=new Corner(Resource.none, true,this);
         this.backTopRightCorner=new Corner(Resource.none, true,this);
         this.backBottomLeftCorner=new Corner(Resource.none, true,this);

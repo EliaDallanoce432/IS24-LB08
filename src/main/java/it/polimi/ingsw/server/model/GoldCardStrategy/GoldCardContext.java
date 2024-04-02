@@ -3,7 +3,7 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.GoldCard;
 
 public class GoldCardContext {
-    private ConditionStrategy strategy;
+    private final ConditionStrategy strategy;
 
     public GoldCardContext(ConditionStrategy strategy) {
         this.strategy = strategy;

@@ -7,9 +7,9 @@ import it.polimi.ingsw.util.supportclasses.Color;
 import java.util.ArrayList;
 
 public class Player {
-    private String username;
-    private Color token;
-    private GameField gameField;
+    private final String username;
+    private final Color token;
+    private final GameField gameField;
     private int score;
     private ArrayList<PlaceableCard> hand;
     private ObjectiveCard secretObjective;
@@ -19,7 +19,7 @@ public class Player {
         this.token = token;
         this.gameField = gameField;
         this.score = 0;
-        this.hand = new ArrayList<PlaceableCard>();
+        this.hand = new ArrayList<>();
         this.secretObjective = null;
     }
 

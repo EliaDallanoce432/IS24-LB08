@@ -5,12 +5,11 @@ import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ObjectiveCardJPatternFFP implements ObjectiveStrategy{
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         int num_jpattern=0;
-        ArrayList<PlaceableCard> visitedCard= new ArrayList<PlaceableCard>();
+        ArrayList<PlaceableCard> visitedCard= new ArrayList<>();
         for (PlaceableCard c : gamefield.getPlantCards())
         {
             int x=c.getX();

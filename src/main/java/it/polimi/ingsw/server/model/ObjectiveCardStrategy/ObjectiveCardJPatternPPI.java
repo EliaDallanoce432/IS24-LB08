@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ObjectiveCardJPatternPPI implements ObjectiveStrategy{
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         int num_jpattern=0;
-        ArrayList<PlaceableCard> visitedCard= new ArrayList<PlaceableCard>();
+        ArrayList<PlaceableCard> visitedCard= new ArrayList<>();
         for (PlaceableCard c : gamefield.getInsectCards())
         {
             int x=c.getX();
