@@ -12,14 +12,4 @@ public abstract class Card {
     public void setId(int id) {
         this.id = id;
     }
-
-    public Resource getCardKingdom() {
-        return cardKingdom;
-    }
-
-    public void setCardKingdom(Resource cardKingdom) {
-        this.cardKingdom = cardKingdom;
-    }
-
-    protected Resource cardKingdom; //animal, plant, fungi or insect
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 public abstract class PlaceableCard extends Card {
     protected int points;
+    protected Resource cardKingdom; //animal, plant, fungi or insect
     protected boolean facingUp;
     //protected ArrayList<Resource> requirements;
     protected int x;
@@ -22,6 +23,14 @@ public abstract class PlaceableCard extends Card {
     protected Corner backTopRightCorner;
     protected Corner backBottomLeftCorner;
     protected Corner backBottomRightCorner;
+
+    public Resource getCardKingdom() {
+        return cardKingdom;
+    }
+
+    public void setCardKingdom(Resource cardKingdom) {
+        this.cardKingdom = cardKingdom;
+    }
 
     public int getX() {
         return x;
@@ -81,14 +90,6 @@ public abstract class PlaceableCard extends Card {
 
     public int getRequiredPlantResourceAmount() {
         return requiredPlantResourceAmount;
-    }
-
-    public Resource getCardKingdom(){
-        return this.cardKingdom;
-    }
-
-    public int getCardID(){
-        return this.id;
     }
 
     public void setRequiredFungiResourceAmount(int requiredFungiResourceAmount) {

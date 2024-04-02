@@ -7,9 +7,7 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 import javafx.scene.Parent;
 
 public class GoldCard extends PlaceableCard {
-
     protected GoldCardContext context;
-
 
     public GoldCard(int id){
         JsonCardsReader.readerGoldCard(id,this);
