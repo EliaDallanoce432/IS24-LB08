@@ -6,7 +6,7 @@ public class Corner {
     protected Resource resource; //resource present in the corner
     protected boolean visible; //true if the corner is visible
     protected boolean attached; //true if it's connected to another corner
-    protected boolean attachable; //corner not present on the card for connection of other cards on top of it
+    protected boolean attachable; //true if corner is present on the card for connection of other cards on top of it
     protected PlaceableCard parentCard; //card owning the corner
 
     public Corner(Resource resource, boolean attachable, PlaceableCard card) {
@@ -22,7 +22,8 @@ public class Corner {
      * @return Resource
      */
     public Resource getResource() {
-        return resource;
+        if(this.isAttachable()) return resource;
+        else return Resource.none;
     }
 
     /**

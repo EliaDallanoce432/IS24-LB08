@@ -25,15 +25,15 @@
       "Strategy" : "feather",
       "TopLeftCorner": {
         "Exist": false,
-        "Resource": null
+        "Resource": "none"
       },
       "TopRightCorner": {
         "Exist": true,
-        "Resource": null
+        "Resource": "none"
       },
       "BottomLeftCorner": {
         "Exist": true,
-        "Resource": null
+        "Resource": "none"
       },
       "BottomRightCorner": {
         "Exist": true,
@@ -72,7 +72,7 @@
         "Resource": "inkpot"
       },
       "BottomLeftCorner": {
-        "Exist": true,
+        "Exist": false,
         "Resource": "none"
       },
       "BottomRightCorner": {
@@ -113,6 +113,1486 @@
       },
       "BottomLeftCorner": {
         "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 44,
+      "KingdomCard": "fungi",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 45,
+      "KingdomCard": "fungi",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 46,
+      "KingdomCard": "fungi",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 47,
+      "KingdomCard": "fungi",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 48,
+      "KingdomCard": "fungi",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 49,
+      "KingdomCard": "fungi",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 3
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 50,
+      "KingdomCard": "fungi",
+      "Points": 5,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 5
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 51,
+      "KingdomCard": "plant",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 2
+        }
+      ],
+      "Strategy" : "feather",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 52,
+      "KingdomCard": "plant",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 2
+        }
+      ],
+      "Strategy" : "scroll",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 53,
+      "KingdomCard": "plant",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 2
+        }
+      ],
+      "Strategy" : "inkpot",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 54,
+      "KingdomCard": "plant",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 55,
+      "KingdomCard": "plant",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 56,
+      "KingdomCard": "plant",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 57,
+      "KingdomCard": "plant",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 58,
+      "KingdomCard": "plant",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 59,
+      "KingdomCard": "plant",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 3
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 60,
+      "KingdomCard": "plant",
+      "Points": 5,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 5
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 61,
+      "KingdomCard": "animal",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 2
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "inkpot",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 62,
+      "KingdomCard": "animal",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 2
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "Strategy" : "scroll",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      }
+    },
+    {
+      "Id": 63,
+      "KingdomCard": "animal",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 2
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "feather",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 64,
+      "KingdomCard": "animal",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 1
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 65,
+      "KingdomCard": "animal",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 66,
+      "KingdomCard": "animal",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 67,
+      "KingdomCard": "animal",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 68,
+      "KingdomCard": "animal",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 69,
+      "KingdomCard": "animal",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 3
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      }
+    },
+    {
+      "Id": 70,
+      "KingdomCard": "animal",
+      "Points": 5,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 5
+        },
+        {
+          "Resource": "insect",
+          "Num": 0
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 71,
+      "KingdomCard": "insect",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 2
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "Strategy" : "feather",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 72,
+      "KingdomCard": "insect",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 2
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "scroll",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 73,
+      "KingdomCard": "insect",
+      "Points": 1,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 2
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "inkpot",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      }
+    },
+    {
+      "Id": 74,
+      "KingdomCard": "insect",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 1
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 75,
+      "KingdomCard": "insect",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 1
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 76,
+      "KingdomCard": "insect",
+      "Points": 2,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 1
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "coveredcorner",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 77,
+      "KingdomCard": "insect",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "inkpot"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 78,
+      "KingdomCard": "insect",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "scroll"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 79,
+      "KingdomCard": "insect",
+      "Points": 3,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 3
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": false,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": true,
+        "Resource": "feather"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      }
+    },
+    {
+      "Id": 80,
+      "KingdomCard": "insect",
+      "Points": 5,
+      "Requirements": [
+        {
+          "Resource": "fungi",
+          "Num": 0
+        },
+        {
+          "Resource": "animal",
+          "Num": 0
+        },
+        {
+          "Resource": "insect",
+          "Num": 5
+        },
+        {
+          "Resource": "plant",
+          "Num": 0
+        }
+      ],
+      "Strategy" : "noaction",
+      "TopLeftCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "TopRightCorner": {
+        "Exist": true,
+        "Resource": "none"
+      },
+      "BottomLeftCorner": {
+        "Exist": false,
         "Resource": "none"
       },
       "BottomRightCorner": {

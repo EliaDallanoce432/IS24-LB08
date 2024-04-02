@@ -73,36 +73,22 @@ public class JsonCardsReader {
                     goldCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, "BottomLeftCorner"), getCornerAttachable(item, "BottomLeftCorner"), goldCard));
                     goldCard.setFrontBottomRightCorner(new Corner(getCornerResource(item, "BottomRightCorner"), getCornerAttachable(item, "BottomRightCorner"), goldCard));
                     String strategy = item.get("Strategy").toString();
-                    if(strategy.equals("coveredcorner")) {
-                        goldCard.setContext(new GoldCardContext(new GoldCardCoveredCornerStrategy()));
-                    } else if (strategy.equals("noaction")) {
-                        goldCard.setContext(new GoldCardContext(new GoldCardNoActionStrategy()));
-                    } else if (strategy.equals("feather")) {
-                        goldCard.setContext(new GoldCardContext(new GoldCardFeatherStrategy()));
-                    } else if (strategy.equals("scroll")) {
-                        goldCard.setContext(new GoldCardContext(new GoldCardScrollStrategy()));
-                    } else if (strategy.equals("inkpot")) {
-                        goldCard.setContext(new GoldCardContext(new GoldCardInkPotStrategy()));
+                    switch (strategy) {
+                        case "coveredcorner" -> goldCard.setContext(new GoldCardContext(new GoldCardCoveredCornerStrategy()));
+                        case "noaction" -> goldCard.setContext(new GoldCardContext(new GoldCardNoActionStrategy()));
+                        case "feather" -> goldCard.setContext(new GoldCardContext(new GoldCardFeatherStrategy()));
+                        case "scroll" -> goldCard.setContext(new GoldCardContext(new GoldCardScrollStrategy()));
+                        case "inkpot" -> goldCard.setContext(new GoldCardContext(new GoldCardInkPotStrategy()));
                     }
                     for (int i = 0; i < 4; i++) {
                         JSONObject currentRequirement = (JSONObject) requirements.get(i);
                         String resource = currentRequirement.get("Resource").toString();
                         switch (Resource.StringToResource(resource)) {
-                            case fungi -> {
-                                goldCard.setRequiredFungiResourceAmount(((Long) currentRequirement.get("Num")).intValue());
-                            }
-                            case animal -> {
-                                goldCard.setRequiredAnimalResourceAmount(((Long) currentRequirement.get("Num")).intValue());
-                            }
-                            case plant -> {
-                                goldCard.setRequiredPlantResourceAmount(((Long) currentRequirement.get("Num")).intValue());
-                            }
-                            case insect -> {
-                                goldCard.setRequiredInsectResourceAmount(((Long) currentRequirement.get("Num")).intValue());
-                            }
-                            case none -> {
-                                return;
-                            }
+                            case fungi -> goldCard.setRequiredFungiResourceAmount(((Long) currentRequirement.get("Num")).intValue());
+                            case animal -> goldCard.setRequiredAnimalResourceAmount(((Long) currentRequirement.get("Num")).intValue());
+                            case plant -> goldCard.setRequiredPlantResourceAmount(((Long) currentRequirement.get("Num")).intValue());
+                            case insect -> goldCard.setRequiredInsectResourceAmount(((Long) currentRequirement.get("Num")).intValue());
+                            case none -> {}
                         }
                     }
                     break;
