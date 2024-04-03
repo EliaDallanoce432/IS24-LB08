@@ -4,35 +4,35 @@
       "Id": 81,
       "ResourceBack": ["insect","none", "none"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "BackBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "BackBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       }
     },
@@ -40,35 +40,35 @@
       "Id": 82,
       "ResourceBack": ["fungi","none", "none"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       }
     },
@@ -76,35 +76,35 @@
       "Id": 83,
       "ResourceBack": ["plant","fungi", "none"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       }
     },
@@ -112,35 +112,35 @@
       "Id": 84,
       "ResourceBack": ["insect","animal", "none"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       }
     },
@@ -148,35 +148,35 @@
       "Id": 85,
       "ResourceBack": ["insect","animal", "plant"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomLeftCorner": {
-        "Exist": 0,
+        "Exist": false,
         "Resource": "none"
       },
       "BackBottomRightCorner": {
-        "Exist": 0,
+        "Exist": false,
         "Resource": "none"
       }
     },
@@ -184,35 +184,35 @@
       "Id": 86,
       "ResourceBack": ["plant","animal", "fungi"],
       "FrontTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "fungi"
       },
       "FrontTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "animal"
       },
       "FrontBottomLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "plant"
       },
       "FrontBottomRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "insect"
       },
       "BackTopLeftCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackTopRightCorner": {
-        "Exist": 1,
+        "Exist": true,
         "Resource": "none"
       },
       "BackBottomLeftCorner": {
-        "Exist": 0,
+        "Exist": false,
         "Resource": "none"
       },
       "BackBottomRightCorner": {
-        "Exist": 0,
+        "Exist": false,
         "Resource": "none"
       }
     }
