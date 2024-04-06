@@ -4,15 +4,17 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+import java.util.HashMap;
+
 public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy{
-    public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
-        PlaceableCard[][] grid = gamefield.getCardsGrid();
-        int n= grid.length;
+    public int calculatePoints(int pointsOnTheCard,GameField gamefield) {
+        HashMap<String, PlaceableCard> grid = gamefield.getCardsGrid();
+        int n= grid.size();
         int tot_triads=0;
         int cont=0;
         for (int d = 0; d < 2*n-1; d++) {
             for (int x = Math.max(0, d-n+1); x < Math.min(n, d+1); x++) {
-                if(grid[x][d-x].getCardKingdom()== Resource.animal)
+                if(gamefield.lookAtCoordinates(x, d-x).getCardKingdom()== Resource.animal)
                     cont++;
                 else
                     cont=0;

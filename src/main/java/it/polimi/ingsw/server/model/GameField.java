@@ -168,34 +168,22 @@ public class GameField {
         return (x%2==0 && y%2==1) || (x%2==1 && y%2==0);
     }
 
+    private boolean isValidCorner(PlaceableCard neighbourCard, int[] offset) {
+        switch (offset[0]) {
+            case 1: return neighbourCard.getBottomLeftCorner().isAttachable() || neighbourCard.getTopLeftCorner().isAttachable();
+            case -1: return neighbourCard.getTopRightCorner().isAttachable() || neighbourCard.getBottomRightCorner().isAttachable();
+            default: return false;
+        }
+    }
     private boolean hasValidNeighbours(int x, int y){
-        PlaceableCard neighbourCard;
-        boolean hasValidNeighbours = false;
-
-        neighbourCard = this.lookAtCoordinates(x+1,y+1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getBottomLeftCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
+        int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+        for (int[] offset : offsets) {
+            PlaceableCard neighbourCard = lookAtCoordinates(x + offset[0], y + offset[1]);
+            if (neighbourCard != null && !isValidCorner(neighbourCard, offset)) {
+                return false;
+            }
         }
-
-        neighbourCard = this.lookAtCoordinates(x+1,y-1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getTopLeftCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-
-        neighbourCard = this.lookAtCoordinates(x-1,y-1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getTopRightCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-
-        neighbourCard = this.lookAtCoordinates(x-1,y+1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getBottomRightCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-        return hasValidNeighbours;
+        return true;
     }
 
     /**

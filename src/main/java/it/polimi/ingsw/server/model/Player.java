@@ -58,8 +58,6 @@ public class Player {
      * adds the drawn card to the player's hand
      * @param card card to be added
      */
-
-
     public void addToHand(PlaceableCard card) {
 
         hand.add(card);
@@ -70,7 +68,6 @@ public class Player {
      * takes the card from the player's hand
      * @param card card to be taken
      */
-
     public PlaceableCard removeFromHand(PlaceableCard card) {
 
         return hand.remove(hand.indexOf(card));
