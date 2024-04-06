@@ -4,12 +4,12 @@ import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Resource;
-import static it.polimi.ingsw.util.supportclasses.Constants.GRID_OFFSET;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameField {
-    private PlaceableCard[][] cardsGrid;
+    private HashMap<String, PlaceableCard> cardsGrid;
     private Player player;
     private int fungiCount;
     private int animalCount;
@@ -26,19 +26,7 @@ public class GameField {
 
     public GameField(Player player) {
         this.player = player;
-        cardsGrid = new PlaceableCard[81][81];
-        for(int i=0; i<81; i++) {
-            for(int j=0; j<81; j++) {
-                cardsGrid[i][j] = null;
-            }
-        }
-        animalCount = 0;
-        plantCount = 0;
-        insectCount = 0;
-        fungiCount = 0;
-        inkPotCount = 0;
-        scrollCount = 0;
-        featherCount = 0;
+        cardsGrid = new HashMap<>();
         animalCards = new ArrayList<>();
         insectCards = new ArrayList<>();
         fungiCards = new ArrayList<>();
@@ -93,19 +81,39 @@ public class GameField {
         return featherCount;
     }
 
-    public PlaceableCard[][] getCardsGrid() {
+    public HashMap<String, PlaceableCard> getCardsGrid() {
         return cardsGrid;
     }
 
     /**
      * returns card at (x,y) coordinates or null
-      * @param x x coordinate on the grid (absolute)
-     * @param y y coordinate on the grid  (absolute)
+      * @param x x coordinate on the grid
+     * @param y y coordinate on the grid
      * @return PlaceableCard
      */
     public PlaceableCard lookAtCoordinates(int x, int y){
-        if(x<0 || x>81 || y<0 || y>81) return null;
-        return cardsGrid[x][y];
+        if(x<-40 || y<-40 || x>40 || y>40) return null;
+        else return cardsGrid.get(coordinatesToString(x,y));
+    }
+
+    /**
+     * places a card to the specified coordinates
+     * @param card card to place
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+    public void placeCardAtCoordinates(PlaceableCard card, int x, int y){
+        cardsGrid.put(coordinatesToString(x,y),card);
+    }
+
+    /**
+     * converts coordinates to string
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return String
+     */
+    private String coordinatesToString(int x, int y){
+        return x + "," + y;
     }
 
     /**
@@ -113,9 +121,9 @@ public class GameField {
      * @param card starter card that needs to be placed
      */
     public void place(StarterCard card) {
-        cardsGrid[GRID_OFFSET][GRID_OFFSET] = card; //places card in the grid
-        card.setX(GRID_OFFSET);
-        card.setY(GRID_OFFSET);
+        cardsGrid.put(coordinatesToString(0,0),card); //places card in the grid
+        card.setX(0);
+        card.setY(0);
         addResource(card.getTopRightCorner().getResource());
         addResource(card.getTopLeftCorner().getResource());
         addResource(card.getBottomRightCorner().getResource());
@@ -130,37 +138,39 @@ public class GameField {
     /**
      * places the card on the game field
      * @param card card that needs to be placed
-     * @param x x coordinate on the grid (relative)
-     * @param y y coordinate on the grid (relative)
+     * @param x x coordinate on the grid
+     * @param y y coordinate on the grid
      */
     public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
-
-        int absoluteX = x + GRID_OFFSET;
-        int absoluteY = y + GRID_OFFSET;
-
-        if (this.lookAtCoordinates(absoluteX,absoluteY)!=null) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRules(absoluteX,absoluteY)) throw new CannotPlaceCardException();
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
         if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
-        cardsGrid[absoluteX][absoluteY] = card; //places card in the grid
-        card.setX(absoluteX);
-        card.setY(absoluteY);
-        updateNeighboursAndResources(card, absoluteX,absoluteY); //updates the surrounding cards and resource state
+        cardsGrid.put(coordinatesToString(x,y),card);
+        card.setX(x);
+        card.setY(y);
+        updateNeighboursAndResources(card, x,y); //updates the surrounding cards and resource state
         if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints(this)); //gets the points earned from placing the card
     }
 
     /**
      * checks the placing rules between the new card and the neighbour cards
-     * @param x x coordinate (absolute)
-     * @param y y coordinate (absolute)
+     * @param x x coordinate
+     * @param y y coordinate
      * @return boolean
      */
     private boolean followsPlacementRules(int x, int y){
 
-        if ((x%2==0 && y%2==1) || (x%2==1 && y%2==0)) return false; //impossible to place in odd/even and even/odd coordinates
+        return isInValidCoordinates(x, y) && hasValidNeighbours(x,y);
 
+    }
+
+    private boolean isInValidCoordinates(int x, int y) {
+        return (x%2==0 && y%2==1) || (x%2==1 && y%2==0);
+    }
+
+    private boolean hasValidNeighbours(int x, int y){
         PlaceableCard neighbourCard;
         boolean hasValidNeighbours = false;
-
 
         neighbourCard = this.lookAtCoordinates(x+1,y+1);
         if( neighbourCard != null ) {
@@ -185,9 +195,7 @@ public class GameField {
             if(!neighbourCard.getBottomRightCorner().isAttachable()) return false;
             else hasValidNeighbours = true;
         }
-
         return hasValidNeighbours;
-
     }
 
     /**
@@ -208,8 +216,8 @@ public class GameField {
     /**
      * updates the state of the neighbour cards corners and resources visible on the gamefield after placing a card
      * @param card placed card
-     * @param x x coordinate (absolute)
-     * @param y y coordinate (absolute)
+     * @param x x coordinate
+     * @param y y coordinate
      */
     private void updateNeighboursAndResources(PlaceableCard card, int x, int y){
 
