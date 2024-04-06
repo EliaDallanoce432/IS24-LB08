@@ -130,8 +130,7 @@ public class JsonCardsReader {
             for (Object obj : dataArray) {
                 JSONObject item = (JSONObject) obj;
                 if (id == ((Long) item.get("Id")).intValue()) {
-                    starterCard.setId(id);
-                    loadStarterCardResourcesAndCorners(starterCard,item);
+                    loadStarterCardResourcesAndCorners(starterCard, item, id);
                     break;
                 }
             }
@@ -141,12 +140,13 @@ public class JsonCardsReader {
         }
     }
 
-    private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item){
+    private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
         List<Resource> backResources = new ArrayList<>();
         JSONArray resource = (JSONArray) item.get("ResourceBack");
         for(int i=0; i<3; i++) {
             backResources.add(Resource.StringToResource(resource.get(i).toString()));
         }
+        starterCard.setId(id);
         starterCard.setBackCentralResources(new ArrayList<>(backResources));
         starterCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, "FrontTopLeftCorner"), getCornerAttachable(item, "FrontTopLeftCorner"), starterCard));
         starterCard.setFrontTopRightCorner(new Corner(getCornerResource(item, "FrontTopRightCorner"), getCornerAttachable(item, "FrontTopRightCorner"), starterCard));
