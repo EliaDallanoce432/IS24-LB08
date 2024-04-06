@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.deck;
 
 import it.polimi.ingsw.server.model.card.Card;
+import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
 public abstract class DeckWithRevealedCards extends Deck{
     protected Card leftRevealedCard;
@@ -10,11 +11,29 @@ public abstract class DeckWithRevealedCards extends Deck{
      * returns the left revealed card on the table
      * @return Card
      */
-    public abstract Card getLeftRevealedCard();
+    public Card getLeftRevealedCard() {
+        Card selectedCard;
+        selectedCard = leftRevealedCard;
+        try {
+            leftRevealedCard = this.directDraw();
+        } catch (EmptyDeckException e) {
+            return null; //no cards left
+        }
+        return selectedCard;
+    }
 
     /**
      * returns the right revealed card on the table
      * @return Card
      */
-    public abstract Card getRightRevealedCard() ;
+    public Card getRightRevealedCard() {
+        Card selectedCard;
+        selectedCard = rightRevealedCard;
+        try {
+            rightRevealedCard = this.directDraw();
+        } catch (EmptyDeckException e) {
+            return null; //no cards left
+        }
+        return selectedCard;
+    }
 }

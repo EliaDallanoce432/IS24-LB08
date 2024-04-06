@@ -5,13 +5,21 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
 public abstract class Deck {
-    protected ArrayList<Integer> cards;
+    protected ArrayList<Card> cards;
 
     /**
      * returns a card from the deck
      *
      * @return Card
      */
-    public abstract Card directDraw() throws EmptyDeckException;
+    public Card directDraw() throws EmptyDeckException {
+        Card drawnCard;
+        if(cards.isEmpty()) {
+            throw new EmptyDeckException();
+        }
+        drawnCard = cards.getFirst();
+        cards.removeFirst();
+        return drawnCard;
+    };
 
 }
