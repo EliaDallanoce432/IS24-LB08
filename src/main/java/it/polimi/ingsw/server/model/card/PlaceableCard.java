@@ -9,7 +9,7 @@ public abstract class PlaceableCard extends Card {
     protected boolean facingUp;
     //protected ArrayList<Resource> requirements;
     protected int x;
-    protected  int y;
+    protected int y;
     protected int requiredFungiResourceAmount;
     protected int requiredInsectResourceAmount;
     protected int requiredAnimalResourceAmount;
@@ -153,5 +153,29 @@ public abstract class PlaceableCard extends Card {
      * @return int
      */
     public abstract int placementPoints(GameField gameField);
+
+    @Override
+    public boolean equals(Object obj) {
+        PlaceableCard card = (PlaceableCard) obj;
+
+        if(this.id!=card.id) return false;
+        else if (this.cardKingdom != card.cardKingdom) return false;
+        else if (this.facingUp != card.facingUp) return false;
+        else if (this.x != card.x) return false;
+        else if (this.y != card.y) return false;
+        else if (this.requiredAnimalResourceAmount != card.requiredAnimalResourceAmount) return false;
+        else if (this.requiredFungiResourceAmount != card.requiredFungiResourceAmount) return false;
+        else if (this.requiredInsectResourceAmount != card.requiredInsectResourceAmount) return false;
+        else if (this.requiredPlantResourceAmount != card.requiredPlantResourceAmount) return false;
+        else if (!this.backTopLeftCorner.equals(card.backTopLeftCorner)) return false;
+        else if (!this.backTopRightCorner.equals(card.backTopRightCorner)) return false;
+        else if (!this.backBottomLeftCorner.equals(card.backBottomLeftCorner)) return false;
+        else if (!this.backBottomRightCorner.equals(card.backBottomRightCorner)) return false;
+        else if (!this.frontTopLeftCorner.equals(card.frontTopLeftCorner)) return false;
+        else if (!this.frontTopRightCorner.equals(card.frontTopRightCorner)) return false;
+        else if (!this.frontBottomLeftCorner.equals(card.frontBottomLeftCorner)) return false;
+        else if (!this.frontBottomRightCorner.equals(card.frontBottomRightCorner)) return false;
+        return true;
+    }
 
 }

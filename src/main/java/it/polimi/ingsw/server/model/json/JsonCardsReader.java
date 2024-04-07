@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.json;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,12 @@ public class JsonCardsReader {
      * @param resourceCard  reference to the card itself
      */
     public static void loadResourceCard(int id, ResourceCard resourceCard) throws CannotOpenJSONException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("JsonResourceCards.json");
+        InputStreamReader isr = new InputStreamReader(is);
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("JsonResourceCards.json")) {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
 
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
 
@@ -61,9 +66,12 @@ public class JsonCardsReader {
      * @param goldCard  reference to the card itself
      */
     public static void loadGoldCard(int id, GoldCard goldCard) throws CannotOpenJSONException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("JsonGoldCards.json");
+        InputStreamReader isr = new InputStreamReader(is);
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("JsonGoldCards.json")) {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
             for (Object obj : dataArray) {
                 JSONObject item = (JSONObject) obj;
@@ -89,6 +97,11 @@ public class JsonCardsReader {
         placeableCard.setFrontTopRightCorner(new Corner(getCornerResource(item, "TopRightCorner"), getCornerAttachable(item, "TopRightCorner"), placeableCard));
         placeableCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, "BottomLeftCorner"), getCornerAttachable(item, "BottomLeftCorner"), placeableCard));
         placeableCard.setFrontBottomRightCorner(new Corner(getCornerResource(item, "BottomRightCorner"), getCornerAttachable(item, "BottomRightCorner"), placeableCard));
+        placeableCard.setBackTopLeftCorner(new Corner(Resource.none, true,placeableCard));
+        placeableCard.setBackBottomLeftCorner(new Corner(Resource.none, true,placeableCard));
+        placeableCard.setBackTopRightCorner(new Corner(Resource.none, true,placeableCard));
+        placeableCard.setBackBottomRightCorner(new Corner(Resource.none, true,placeableCard));
+        placeableCard.setFacingUp(true);
 
     }
 
@@ -124,9 +137,12 @@ public class JsonCardsReader {
      * @param starterCard  reference to the card itself
      */
     public static void loadStarterCard(int id, StarterCard starterCard) throws CannotOpenJSONException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("JsonStarterCards.json");
+        InputStreamReader isr = new InputStreamReader(is);
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("JsonStarterCards.json")) {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
 
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
 

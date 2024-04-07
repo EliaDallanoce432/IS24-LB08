@@ -9,19 +9,20 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 public class GoldCard extends PlaceableCard {
     protected GoldCardContext context;
 
+    public GoldCard() {}
     public GoldCard(int id){
         try {
             JsonCardsReader.loadGoldCard(id,this);
         } catch (CannotOpenJSONException e) {
             throw new RuntimeException(e);
         }
-        this.backTopLeftCorner=new Corner(Resource.none, true,this);
-        this.backTopRightCorner=new Corner(Resource.none, true,this);
-        this.backBottomLeftCorner=new Corner(Resource.none, true,this);
-        this.backBottomRightCorner=new Corner(Resource.none, true,this);
-        this.facingUp=true;
-        this.x=0;
-        this.y=0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        GoldCard other = (GoldCard) obj;
+        if(!this.context.equals(other.context))return false;
+        return super.equals(obj);
     }
 
     public int placementPoints(GameField gameField) {
