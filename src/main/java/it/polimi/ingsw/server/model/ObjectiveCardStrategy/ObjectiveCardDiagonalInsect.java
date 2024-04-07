@@ -4,14 +4,16 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+import java.util.HashMap;
+
 public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
 
-    public int findInsectTriad(PlaceableCard[][] grid, int x, int y)
-    {
+    public int findInsectTriad(HashMap<String,PlaceableCard> grid, int x, int y)
+    {/*
         int cont=0;
         int num_triad=0;
         for (int row = x-1, column=y-1 ; row>=0 && column >=0; --row, --column) {
-            if(grid[x][y].getCardKingdom()==Resource.insect)
+            if(gamefield.lookAtCoordinates(x, d-x).getCardKingdom()==Resource.insect)
                 cont++;
             else
                 cont=0;
@@ -21,9 +23,10 @@ public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
             }
         }
         return num_triad;
-    }
+    */
+    return 0;}
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
-
+    /*
         int tot_triads=0;
         int n=gamefield.getCardsGrid().length;
         int j=n-1;
@@ -36,5 +39,6 @@ public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
         }
         return pointsOnTheCard*tot_triads;
 
-    }
+    */
+    return 0;}
 }

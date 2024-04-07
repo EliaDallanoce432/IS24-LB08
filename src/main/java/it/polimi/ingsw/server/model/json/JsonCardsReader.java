@@ -47,7 +47,10 @@ public class JsonCardsReader {
                 }
             }
 
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
+            throw new CannotOpenJSONException("couldn't load Json file");
+        }
+        catch (ParseException e){
             throw new CannotOpenJSONException("couldn't load resource card"+id);
         }
     }

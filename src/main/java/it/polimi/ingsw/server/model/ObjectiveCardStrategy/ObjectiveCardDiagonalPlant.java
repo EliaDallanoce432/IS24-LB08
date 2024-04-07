@@ -4,9 +4,11 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+import java.util.HashMap;
+
 public class ObjectiveCardDiagonalPlant implements ObjectiveStrategy{
-    public int findPlantTriad(PlaceableCard[][] grid, int x, int y)
-    {
+    public int findPlantTriad(HashMap<String,PlaceableCard> grid, int x, int y)
+    {/*
         int cont=0;
         int num_triad=0;
         for (int row = x-1, column=y-1 ; row>=0 && column >=0; --row, --column) {
@@ -19,10 +21,11 @@ public class ObjectiveCardDiagonalPlant implements ObjectiveStrategy{
                 cont = 0;
             }
         }
-        return num_triad;
+        return num_triad;*/
+        return 0;
     }
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
-
+    /*
         int tot_triads=0;
         int n=gamefield.getCardsGrid().length;
         int j=n-1;
@@ -33,7 +36,8 @@ public class ObjectiveCardDiagonalPlant implements ObjectiveStrategy{
         for (j = n-2; j>=0; --j) {
             tot_triads+=findPlantTriad(gamefield.getCardsGrid(), i, j);
         }
-        return pointsOnTheCard*tot_triads;
+        return pointsOnTheCard*tot_triads;*/
+        return 0;
 
     }
 }
