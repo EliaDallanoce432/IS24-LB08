@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.GoldCardStrategy.GoldCardContext;
 import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
+import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 public class GoldCard extends PlaceableCard {
@@ -15,6 +16,10 @@ public class GoldCard extends PlaceableCard {
             JsonCardsReader.loadGoldCard(id,this);
         } catch (CannotOpenJSONException e) {
             throw new RuntimeException(e);
+        }
+        catch (InvalidIdException e)
+        {
+            System.err.println(e.getMessage());
         }
     }
 

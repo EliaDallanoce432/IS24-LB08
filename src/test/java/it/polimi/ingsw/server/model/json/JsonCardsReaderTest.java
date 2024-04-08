@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
+import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -41,9 +42,17 @@ class JsonCardsReaderTest {
         } catch (CannotOpenJSONException e) {
             throw new RuntimeException(e);
         }
-        assertTrue(referenceResourceCard.equals(testcard));
+        catch (InvalidIdException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        assertEquals(referenceResourceCard, testcard);
     }
-
+    @Test
+    void ValidResourceCardId() {
+        ResourceCard referenceResourceCard = new ResourceCard();
+        assertThrows(InvalidIdException.class, ()-> JsonCardsReader.loadResourceCard(52, referenceResourceCard));
+    }
     @Test
     void loadGoldCard() {
         GoldCard referenceGoldCard = new GoldCard();
@@ -70,9 +79,18 @@ class JsonCardsReaderTest {
         } catch (CannotOpenJSONException e) {
             throw new RuntimeException(e);
         }
-        assertTrue(referenceGoldCard.equals(testCard));
+        catch (InvalidIdException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        assertEquals(referenceGoldCard, testCard);
     }
 
+    @Test
+    void ValidGoldCardId() {
+        GoldCard referenceGoldCard = new GoldCard();
+        assertThrows(InvalidIdException.class, ()-> JsonCardsReader.loadGoldCard(33, referenceGoldCard));
+    }
     @Test
     void loadStarterCard() {
         StarterCard referenceStarterCard = new StarterCard();
@@ -97,8 +115,15 @@ class JsonCardsReaderTest {
         } catch (CannotOpenJSONException e) {
             throw new RuntimeException(e);
         }
-        assertTrue(referenceStarterCard.equals(testCard));
-
-        
+        catch (InvalidIdException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        assertEquals(referenceStarterCard, testCard);
+    }
+    @Test
+    void ValidStarterCardId() {
+        StarterCard referenceStarterCard = new StarterCard();
+        assertThrows(InvalidIdException.class, ()-> JsonCardsReader.loadStarterCard(66, referenceStarterCard));
     }
 }
