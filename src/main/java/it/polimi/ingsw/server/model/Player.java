@@ -2,9 +2,12 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
+import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Color;
 
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
 
 public class Player {
     private final String username;
@@ -52,9 +55,10 @@ public class Player {
      * adds the drawn card to the player's hand
      * @param card card to be added
      */
-    public void addToHand(PlaceableCard card) {
+    public void addToHand(PlaceableCard card) throws FullHandException {
 
-        hand.add(card);
+        if (this.hand.size() >= MAX_HAND_SIZE) throw new FullHandException();
+        else hand.add(card);
 
     }
 
@@ -62,9 +66,9 @@ public class Player {
      * takes the card from the player's hand
      * @param card card to be taken
      */
-    public PlaceableCard removeFromHand(PlaceableCard card) {
+    public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {
 
-        return hand.remove(hand.indexOf(card));
-
+        if(!hand.remove(card)) throw new CardNotInHandException();
+        else return card;
     }
 }
