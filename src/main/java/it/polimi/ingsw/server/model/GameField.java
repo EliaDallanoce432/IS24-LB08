@@ -102,7 +102,7 @@ public class GameField {
      * @param x x coordinate
      * @param y y coordinate
      */
-    public void placeCardAtCoordinates(PlaceableCard card, int x, int y){
+    private void placeCardAtCoordinates(PlaceableCard card, int x, int y){
         cardsGrid.put(coordinatesToString(x,y),card);
     }
 
@@ -142,9 +142,9 @@ public class GameField {
      * @param y y coordinate on the grid
      */
     public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
-        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("could not place card "+card.getId()+" (card already placed at "+coordinatesToString(x,y)+")");
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement rules at"+coordinatesToString(x, y)+ ")");
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement requirements)");
         cardsGrid.put(coordinatesToString(x,y),card);
         card.setX(x);
         card.setY(y);
@@ -165,7 +165,7 @@ public class GameField {
     }
 
     private boolean isInValidCoordinates(int x, int y) {
-        return (x%2==0 && y%2==1) || (x%2==1 && y%2==0);
+        return (Math.abs(x)%2==0 && Math.abs(y)%2==0) || (Math.abs(x)%2==1 && Math.abs(y)%2==1);
     }
 
     private boolean isValidCorner(PlaceableCard neighbourCard, int[] offset) {

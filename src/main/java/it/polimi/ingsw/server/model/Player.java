@@ -9,15 +9,13 @@ import java.util.ArrayList;
 public class Player {
     private final String username;
     private final Color token;
-    private final GameField gameField;
     private int score;
     private ArrayList<PlaceableCard> hand;
     private ObjectiveCard secretObjective;
 
-    public Player(String username, Color token, GameField gameField) {
+    public Player(String username, Color token) {
         this.username = username;
         this.token = token;
-        this.gameField = gameField;
         this.score = 0;
         this.hand = new ArrayList<>();
         this.secretObjective = null;
@@ -29,10 +27,6 @@ public class Player {
 
     public Color getToken() {
         return token;
-    }
-
-    public GameField getGameField() {
-        return gameField;
     }
 
     public int getScore() {

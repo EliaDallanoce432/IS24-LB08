@@ -4,41 +4,41 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
-
-    public int findInsectTriad(HashMap<String,PlaceableCard> grid, int x, int y)
-    {/*
-        int cont=0;
-        int num_triad=0;
-        for (int row = x-1, column=y-1 ; row>=0 && column >=0; --row, --column) {
-            if(gamefield.lookAtCoordinates(x, d-x).getCardKingdom()==Resource.insect)
-                cont++;
-            else
-                cont=0;
-            if(cont==3) {
-                num_triad++;
-                cont = 0;
+    private int diagonalInsectTriplets(GameField gameField, ArrayList<PlaceableCard> insectCards) {
+        int triplets = 0;
+        ArrayList<PlaceableCard> visited = new ArrayList<>();
+        for (PlaceableCard card : insectCards) {
+            if(visited.contains(card)) continue;
+            //moves from the current card to the top of the diagonal
+            PlaceableCard nextCard = card; //next card in the diagonal pattern going upwards
+            PlaceableCard currentCard = null;
+            while(nextCard != null) {
+                if(nextCard.getCardKingdom() == Resource.insect) {
+                    currentCard = nextCard;
+                    nextCard = gameField.lookAtCoordinates(nextCard.getX()-1, nextCard.getY()+1);
+                }
+            }
+            //counts the triplets in the diagonal
+            int counter = 0; //keeps track of consecutive cards in the pattern to detect triplets
+            while(currentCard != null && currentCard.getCardKingdom() == Resource.insect) {
+                if(counter < 2) {
+                    visited.add(currentCard);
+                    counter++;
+                    currentCard = gameField.lookAtCoordinates(currentCard.getX() + 1, currentCard.getY() - 1);
+                }
+                else {
+                    counter = 0;
+                    triplets ++;
+                }
             }
         }
-        return num_triad;
-    */
-    return 0;}
-    public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
-    /*
-        int tot_triads=0;
-        int n=gamefield.getCardsGrid().length;
-        int j=n-1;
-        for (int i = 0; i < n; ++i) {
-            tot_triads+=findInsectTriad(gamefield.getCardsGrid(), i, j);
-        }
-        int i=n-1;
-        for (j = n-2; j>=0; --j) {
-            tot_triads+=findInsectTriad(gamefield.getCardsGrid(), i, j);
-        }
-        return pointsOnTheCard*tot_triads;
+        return triplets;
+    }
 
-    */
-    return 0;}
+    public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
+        return pointsOnTheCard* diagonalInsectTriplets(gamefield, gamefield.getInsectCards());
+    }
 }
