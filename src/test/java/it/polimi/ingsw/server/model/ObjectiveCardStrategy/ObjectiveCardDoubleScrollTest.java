@@ -18,9 +18,9 @@ class ObjectiveCardDoubleScrollTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(100);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(26),1,-1);
-            gameField.place(new ResourceCard(26),2,-2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(26), true, 1,-1);
+            gameField.place(new ResourceCard(26), true, 2,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -32,10 +32,10 @@ class ObjectiveCardDoubleScrollTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(100);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(26),1,-1);
-            gameField.place(new ResourceCard(26),2,-2);
-            gameField.place(new ResourceCard(26),3,-1);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(26), true, 1,-1);
+            gameField.place(new ResourceCard(26), true, 2,-2);
+            gameField.place(new ResourceCard(26), true, 3,-1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -47,12 +47,12 @@ class ObjectiveCardDoubleScrollTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(100);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(26),1,-1);
-            gameField.place(new ResourceCard(26),2,-2);
-            gameField.place(new ResourceCard(26),3,-1);
-            gameField.place(new ResourceCard(26),4,0);
-            gameField.place(new ResourceCard(26),5,1);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(26), true, 1,-1);
+            gameField.place(new ResourceCard(26), true, 2,-2);
+            gameField.place(new ResourceCard(26), true, 3,-1);
+            gameField.place(new ResourceCard(26), true, 4,0);
+            gameField.place(new ResourceCard(26), true, 5,1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -63,11 +63,11 @@ class ObjectiveCardDoubleScrollTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(100);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(26),1,-1);
-            gameField.place(new ResourceCard(26),2,-2);
-            gameField.place(new ResourceCard(26),3,-1);
-            gameField.place(new ResourceCard(26),4,0);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(26), true, 1,-1);
+            gameField.place(new ResourceCard(26), true, 2,-2);
+            gameField.place(new ResourceCard(26), true, 3,-1);
+            gameField.place(new ResourceCard(26), true, 4,0);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

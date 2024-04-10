@@ -176,6 +176,7 @@ public class JsonCardsReader {
             backResources.add(Resource.StringToResource(resource.get(i).toString()));
         }
         starterCard.setId(id);
+        starterCard.setFacingUp(true);
         starterCard.setBackCentralResources(new ArrayList<>(backResources));
         starterCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, "FrontTopLeftCorner"), getCornerAttachable(item, "FrontTopLeftCorner"), starterCard));
         starterCard.setFrontTopRightCorner(new Corner(getCornerResource(item, "FrontTopRightCorner"), getCornerAttachable(item, "FrontTopRightCorner"), starterCard));

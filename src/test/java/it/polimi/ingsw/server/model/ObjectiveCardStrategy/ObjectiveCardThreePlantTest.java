@@ -17,10 +17,10 @@ class ObjectiveCardThreePlantTest {
     void calculatePointsCase1() {
         GameField gamefield = new GameField(new Player("player", Color.black));
         ObjectiveCard testedcard = new ObjectiveCard(96);
-        gamefield.place(new StarterCard(85));
+        gamefield.place(new StarterCard(85), true);
         try {
-            gamefield.place(new ResourceCard(36),1,1);
-            gamefield.place(new ResourceCard(12),-1,-1);
+            gamefield.place(new ResourceCard(36), true, 1,1);
+            gamefield.place(new ResourceCard(12), true, -1,-1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -32,10 +32,10 @@ class ObjectiveCardThreePlantTest {
     void calculatePointsCase2() {
         GameField gamefield = new GameField(new Player("player", Color.black));
         ObjectiveCard testedcard = new ObjectiveCard(96);
-        gamefield.place(new StarterCard(85));
+        gamefield.place(new StarterCard(85), true);
         try {
-            gamefield.place(new ResourceCard(36),1,1);
-            gamefield.place(new ResourceCard(12),1,-1);
+            gamefield.place(new ResourceCard(36), true, 1,1);
+            gamefield.place(new ResourceCard(12), true, 1,-1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -47,12 +47,12 @@ class ObjectiveCardThreePlantTest {
     void calculatePointsCase3() {
         GameField gamefield = new GameField(new Player("player", Color.black));
         ObjectiveCard testedcard = new ObjectiveCard(96);
-        gamefield.place(new StarterCard(85));
+        gamefield.place(new StarterCard(85), true);
         try {
-            gamefield.place(new ResourceCard(36),1,1);
-            gamefield.place(new ResourceCard(12),1,-1);
-            gamefield.place(new ResourceCard(13),2,-2);
-            gamefield.place(new ResourceCard(14),3,-3);
+            gamefield.place(new ResourceCard(36), true, 1,1);
+            gamefield.place(new ResourceCard(12), true, 1,-1);
+            gamefield.place(new ResourceCard(13), true, 2,-2);
+            gamefield.place(new ResourceCard(14), true, 3,-3);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

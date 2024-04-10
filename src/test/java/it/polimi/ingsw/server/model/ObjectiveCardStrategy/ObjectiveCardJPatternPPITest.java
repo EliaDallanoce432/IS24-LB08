@@ -19,10 +19,10 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(92);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),1,1);
-            gameField.place(new ResourceCard(20),1,-1);
-            gameField.place(new ResourceCard(32),0,-2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, 1,1);
+            gameField.place(new ResourceCard(20), true, 1,-1);
+            gameField.place(new ResourceCard(32), true, 0,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -35,10 +35,10 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(92);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),-1,-1);
-            gameField.place(new ResourceCard(20),-1,1);
-            gameField.place(new ResourceCard(32),-2,-2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, -1,-1);
+            gameField.place(new ResourceCard(20), true, -1,1);
+            gameField.place(new ResourceCard(32), true, -2,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -51,10 +51,10 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(94);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),1,1);
-            gameField.place(new ResourceCard(20),1,-1);
-            gameField.place(new ResourceCard(1),0,-2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, 1,1);
+            gameField.place(new ResourceCard(20), true, 1,-1);
+            gameField.place(new ResourceCard(1), true, 0,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -67,12 +67,12 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(92);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),1,1);
-            gameField.place(new ResourceCard(20),1,-1);
-            gameField.place(new ResourceCard(32),0,-2);
-            gameField.place(new ResourceCard(17),1,-3);
-            gameField.place(new ResourceCard(36),0,-4);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, 1,1);
+            gameField.place(new ResourceCard(20), true, 1,-1);
+            gameField.place(new ResourceCard(32), true, 0,-2);
+            gameField.place(new ResourceCard(17), true, 1,-3);
+            gameField.place(new ResourceCard(36), true, 0,-4);
 
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -86,14 +86,14 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(92);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),1,1);
-            gameField.place(new ResourceCard(20),1,-1);
-            gameField.place(new ResourceCard(32),0,-2);
-            gameField.place(new ResourceCard(17),1,-3);
-            gameField.place(new ResourceCard(36),0,-4);
-            gameField.place(new ResourceCard(15),1,-5);
-            gameField.place(new ResourceCard(32),0,-6);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, 1,1);
+            gameField.place(new ResourceCard(20), true, 1,-1);
+            gameField.place(new ResourceCard(32), true, 0,-2);
+            gameField.place(new ResourceCard(17), true, 1,-3);
+            gameField.place(new ResourceCard(36), true, 0,-4);
+            gameField.place(new ResourceCard(15), true, 1,-5);
+            gameField.place(new ResourceCard(32), true, 0,-6);
 
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -107,13 +107,13 @@ class ObjectiveCardJPatternPPITest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(92);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(19),1,1);
-            gameField.place(new ResourceCard(20),1,-1);
-            gameField.place(new ResourceCard(32),0,-2);
-            gameField.place(new ResourceCard(18),2,0);
-            gameField.place(new ResourceCard(17),2,-2);
-            gameField.place(new ResourceCard(33),1,-3);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(19), true, 1,1);
+            gameField.place(new ResourceCard(20), true, 1,-1);
+            gameField.place(new ResourceCard(32), true, 0,-2);
+            gameField.place(new ResourceCard(18), true, 2,0);
+            gameField.place(new ResourceCard(17), true, 2,-2);
+            gameField.place(new ResourceCard(33), true, 1,-3);
 
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);

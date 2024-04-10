@@ -17,10 +17,10 @@ class ObjectiveCardDiagonalFungiTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(87);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(4),1,1);
-            gameField.place(new ResourceCard(4),2,2);
-            gameField.place(new ResourceCard(4),3,3);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(4), true, 1,1);
+            gameField.place(new ResourceCard(4), true, 2,2);
+            gameField.place(new ResourceCard(4), true, 3,3);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -32,11 +32,11 @@ class ObjectiveCardDiagonalFungiTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(87);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(4),1,1);
-            gameField.place(new ResourceCard(4),2,2);
-            gameField.place(new ResourceCard(4),3,3);
-            gameField.place(new ResourceCard(4),4,4);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(4), true, 1,1);
+            gameField.place(new ResourceCard(4), true, 2,2);
+            gameField.place(new ResourceCard(4), true, 3,3);
+            gameField.place(new ResourceCard(4), true, 4,4);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -48,9 +48,9 @@ class ObjectiveCardDiagonalFungiTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(87);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(4),1,1);
-            gameField.place(new ResourceCard(4),2,2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(4), true, 1,1);
+            gameField.place(new ResourceCard(4), true, 2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -62,13 +62,13 @@ class ObjectiveCardDiagonalFungiTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(87);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(4),1,1);
-            gameField.place(new ResourceCard(4),2,2);
-            gameField.place(new ResourceCard(4),3,3);
-            gameField.place(new ResourceCard(4),2,4);
-            gameField.place(new ResourceCard(4),3,5);
-            gameField.place(new ResourceCard(4),4,6);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(4), true, 1,1);
+            gameField.place(new ResourceCard(4), true, 2,2);
+            gameField.place(new ResourceCard(4), true, 3,3);
+            gameField.place(new ResourceCard(4), true, 2,4);
+            gameField.place(new ResourceCard(4), true, 3,5);
+            gameField.place(new ResourceCard(4), true, 4,6);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

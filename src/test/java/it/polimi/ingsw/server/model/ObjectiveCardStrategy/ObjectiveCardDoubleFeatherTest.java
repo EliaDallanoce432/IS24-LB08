@@ -18,9 +18,9 @@ class ObjectiveCardDoubleFeatherTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(102);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(15),-1,1);
-            gameField.place(new ResourceCard(15),-2,0);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(15), true, -1,1);
+            gameField.place(new ResourceCard(15), true, -2,0);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -32,10 +32,10 @@ class ObjectiveCardDoubleFeatherTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(102);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(15),-1,1);
-            gameField.place(new ResourceCard(15),-2,0);
-            gameField.place(new ResourceCard(15),-2,2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(15), true, -1,1);
+            gameField.place(new ResourceCard(15), true, -2,0);
+            gameField.place(new ResourceCard(15), true, -2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -47,12 +47,12 @@ class ObjectiveCardDoubleFeatherTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(102);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(15),-1,1);
-            gameField.place(new ResourceCard(15),-2,0);
-            gameField.place(new ResourceCard(15),-2,2);
-            gameField.place(new ResourceCard(15),1,-1);
-            gameField.place(new ResourceCard(15),2,-2);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(15), true, -1,1);
+            gameField.place(new ResourceCard(15), true, -2,0);
+            gameField.place(new ResourceCard(15), true, -2,2);
+            gameField.place(new ResourceCard(15), true, 1,-1);
+            gameField.place(new ResourceCard(15), true, 2,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -63,11 +63,11 @@ class ObjectiveCardDoubleFeatherTest {
         GameField gameField = new GameField(new Player("test", Color.red));
         ObjectiveCard objectiveCard = new ObjectiveCard(102);
         try {
-            gameField.place(new StarterCard(81));
-            gameField.place(new ResourceCard(15),-1,1);
-            gameField.place(new ResourceCard(15),-2,0);
-            gameField.place(new ResourceCard(15),-2,2);
-            gameField.place(new ResourceCard(15),1,-1);
+            gameField.place(new StarterCard(81), true);
+            gameField.place(new ResourceCard(15), true, -1,1);
+            gameField.place(new ResourceCard(15), true, -2,0);
+            gameField.place(new ResourceCard(15), true, -2,2);
+            gameField.place(new ResourceCard(15), true, 1,-1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
