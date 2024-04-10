@@ -181,13 +181,15 @@ public class GameField {
     }
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+        int validNeighbourCount = 0;
         for (int[] offset : offsets) {
             PlaceableCard neighbourCard = lookAtCoordinates(x + offset[0], y + offset[1]);
-            if (neighbourCard != null && !hasValidCorner(neighbourCard, offset)) {
-                return false;
+            if (neighbourCard != null) {
+                if (!hasValidCorner(neighbourCard, offset)) return false;
+                else validNeighbourCount++;
             }
         }
-        return true;
+        return validNeighbourCount>0;
     }
 
     /**
