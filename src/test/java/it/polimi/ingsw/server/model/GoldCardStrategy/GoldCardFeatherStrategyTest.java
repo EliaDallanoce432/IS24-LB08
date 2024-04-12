@@ -68,4 +68,41 @@ class GoldCardFeatherStrategyTest {
 
         assertEquals(1,gamefield.getPlayer().getScore());
     }
+
+
+    @Test
+    void calculatePointsCase4() {
+        //starter card girata, carta gold piazzabile e unica feather della goldcard
+        GameField gamefield = new GameField(new Player("player", Color.black));
+        gamefield.place(new StarterCard(85), false);
+        try {
+            gamefield.place(new ResourceCard(23), true, 1,1);
+            gamefield.place(new ResourceCard(12), true, -1,1);
+            gamefield.place(new GoldCard(51),true,2,0);
+
+        } catch (CannotPlaceCardException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(1,gamefield.getPlayer().getScore());
+    }
+
+
+    @Test
+    void calculatePointsCase5() {
+        //starter card girata, carta gold piazzabile, 2 gold piazzate e 5 punti attesi
+        GameField gamefield = new GameField(new Player("player", Color.black));
+        gamefield.place(new StarterCard(85), false);
+        try {
+            gamefield.place(new ResourceCard(23), true, 1,1);
+            gamefield.place(new ResourceCard(12), true, -1,1);
+            gamefield.place(new ResourceCard(4), true, -2,2);
+            gamefield.place(new ResourceCard(3), true, -3,1);
+            gamefield.place(new GoldCard(48),true,-1,3);
+            gamefield.place(new GoldCard(51),true,2,0);
+
+        } catch (CannotPlaceCardException e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(5,gamefield.getPlayer().getScore());
+    }
 }
