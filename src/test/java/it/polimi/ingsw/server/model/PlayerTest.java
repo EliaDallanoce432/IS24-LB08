@@ -24,7 +24,7 @@ class PlayerTest {
         ResourceCard testCard = new ResourceCard(3);
         testPlayer.addToHand(testCard);
 
-        assertTrue(referenceCard.equals(testPlayer.removeFromHand(testCard)));
+        assertEquals(referenceCard, testPlayer.removeFromHand(testCard));
 
     }
 
@@ -53,7 +53,7 @@ class PlayerTest {
         ResourceCard referenceCard = new ResourceCard(2);
         ResourceCard testCard = new ResourceCard(2);
 
-        assertTrue(referenceCard.equals(referencePlayer.removeFromHand(testCard)));
+        assertEquals(referenceCard, referencePlayer.removeFromHand(testCard));
 
 
     }

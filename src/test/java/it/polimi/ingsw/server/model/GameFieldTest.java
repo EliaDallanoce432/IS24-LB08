@@ -47,24 +47,30 @@ class GameFieldTest {
     }
 
     @Test
-    void placeMultipleCardsFungiResource() throws CannotPlaceCardException {
+    void placeMultipleCardsFungiResource() {
         GameField gamefield = new GameField(new Player("player", Color.black));
         gamefield.place(new StarterCard(82), true);
-        gamefield.place(new ResourceCard(1),true,1,1);
-        gamefield.place(new ResourceCard(3),true,2,2);
+        try {
+            gamefield.place(new ResourceCard(1),true,1,1);
+            gamefield.place(new ResourceCard(3),true,2,2);
+        } catch (CannotPlaceCardException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(5, gamefield.getFungiCount());
     }
 
     @Test
-    void placeGoldCardWithEnoughResources() throws CannotPlaceCardException {
+    void placeGoldCardWithEnoughResources() {
         GameField gamefield = new GameField(new Player("player", Color.black));
         gamefield.place(new StarterCard(82), true);
-        gamefield.place(new ResourceCard(1),true,1,1);
-        gamefield.place(new ResourceCard(3),true,2,2);
+        try {
+            gamefield.place(new ResourceCard(1),true,1,1);
+            gamefield.place(new ResourceCard(3),true,2,2);
+        } catch (CannotPlaceCardException e) {
+            throw new RuntimeException(e);
+        }
         assertAll(()->gamefield.place(new GoldCard(49),true,-1,1));
     }
-
-
 
     @Test
     void placeCheckExceptionOccupiedSpot() {
@@ -93,6 +99,4 @@ class GameFieldTest {
         gamefield.place(new StarterCard(82), true);
         assertThrows(CannotPlaceCardException.class, () -> gamefield.place(new GoldCard(72),true,1,1));
     }
-
-    //TODO more testing for the place method both for starter cards and generic placeable cards
 }
