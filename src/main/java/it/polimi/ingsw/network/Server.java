@@ -8,12 +8,17 @@ import java.util.concurrent.Executors;
 
 public class Server{
     private final int port;
-    ServerNetworkManager serverNetworkManager;
-    public Server(int port, ServerNetworkManager serverNetworkManager) {
+    Lobby lobby;
+    ExecutorService executor = Executors.newCachedThreadPool();
+
+    public Server(int port) {
         this.port = port;
-        this.serverNetworkManager = new ServerNetworkManager();
+        this.lobby = new Lobby();
+        executor.execute(this.lobby);
+
     }
 
+    //TODO ccontrollare la gestione dell'uscita
     public void StartServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
@@ -27,7 +32,7 @@ public class Server{
             try {
                 Socket socket = serverSocket.accept();
                 ClientHandler client = new ClientHandler(socket);
-                serverNetworkManager.addClient(client);
+                lobby.enterLobby(client);
                 executor.submit(client);
 
             } catch (IOException e) {
