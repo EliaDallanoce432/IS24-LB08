@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameField;
 
 public class ObjectiveCardThreePlant implements ObjectiveStrategy {
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
-        //manca il collegamento a gamefield
-        return pointsOnTheCard * gamefield.getPlantCount()/3;
+
+        return pointsOnTheCard * (gamefield.getPlantCount()/3);
     }
 }

@@ -81,10 +81,6 @@ public class GameField {
         return featherCount;
     }
 
-    public HashMap<String, PlaceableCard> getCardsGrid() {
-        return cardsGrid;
-    }
-
     /**
      * returns card at (x,y) coordinates or null
       * @param x x coordinate on the grid
@@ -102,7 +98,7 @@ public class GameField {
      * @param x x coordinate
      * @param y y coordinate
      */
-    public void placeCardAtCoordinates(PlaceableCard card, int x, int y){
+    private void placeCardAtCoordinates(PlaceableCard card, int x, int y){
         cardsGrid.put(coordinatesToString(x,y),card);
     }
 
@@ -118,10 +114,13 @@ public class GameField {
 
     /**
      * places the starter card on the game field
-     * @param card starter card that needs to be placed
+     *
+     * @param card     starter card that needs to be placed
+     * @param facingUp optional value that chooses the side of the card that will be shown
      */
-    public void place(StarterCard card) {
-        cardsGrid.put(coordinatesToString(0,0),card); //places card in the grid
+    public void place(StarterCard card, boolean facingUp) {
+        card.setFacingUp(facingUp);
+        this.placeCardAtCoordinates(card,0,0); //places card in the grid
         card.setX(0);
         card.setY(0);
         addResource(card.getTopRightCorner().getResource());
@@ -137,15 +136,18 @@ public class GameField {
 
     /**
      * places the card on the game field
-     * @param card card that needs to be placed
-     * @param x x coordinate on the grid
-     * @param y y coordinate on the grid
+     *
+     * @param card     card that needs to be placed
+     * @param facingUp optional value that chooses the side of the card that will be shown
+     * @param x        x coordinate on the grid
+     * @param y        y coordinate on the grid
      */
-    public void place(PlaceableCard card, int x, int y) throws CannotPlaceCardException {
-        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException();
-        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException();
-        cardsGrid.put(coordinatesToString(x,y),card);
+    public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        card.setFacingUp(facingUp);
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("could not place card "+card.getId()+" (card already placed at "+coordinatesToString(x,y)+")");
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement rules at "+coordinatesToString(x, y)+ ")");
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement requirements)");
+        this.placeCardAtCoordinates(card,x,y);
         card.setX(x);
         card.setY(y);
         updateNeighboursAndResources(card, x,y); //updates the surrounding cards and resource state
@@ -165,37 +167,29 @@ public class GameField {
     }
 
     private boolean isInValidCoordinates(int x, int y) {
-        return (x%2==0 && y%2==1) || (x%2==1 && y%2==0);
+        return (Math.abs(x)%2==0 && Math.abs(y)%2==0) || (Math.abs(x)%2==1 && Math.abs(y)%2==1);
     }
 
+    private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
+        return switch (offset[0]) {
+            case 1 ->
+                    neighbourCard.getBottomLeftCorner().isAttachable() || neighbourCard.getTopLeftCorner().isAttachable();
+            case -1 ->
+                    neighbourCard.getTopRightCorner().isAttachable() || neighbourCard.getBottomRightCorner().isAttachable();
+            default -> false;
+        };
+    }
     private boolean hasValidNeighbours(int x, int y){
-        PlaceableCard neighbourCard;
-        boolean hasValidNeighbours = false;
-
-        neighbourCard = this.lookAtCoordinates(x+1,y+1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getBottomLeftCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
+        int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+        int validNeighbourCount = 0;
+        for (int[] offset : offsets) {
+            PlaceableCard neighbourCard = lookAtCoordinates(x + offset[0], y + offset[1]);
+            if (neighbourCard != null) {
+                if (!hasValidCorner(neighbourCard, offset)) return false;
+                else validNeighbourCount++;
+            }
         }
-
-        neighbourCard = this.lookAtCoordinates(x+1,y-1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getTopLeftCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-
-        neighbourCard = this.lookAtCoordinates(x-1,y-1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getTopRightCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-
-        neighbourCard = this.lookAtCoordinates(x-1,y+1);
-        if( neighbourCard != null ) {
-            if(!neighbourCard.getBottomRightCorner().isAttachable()) return false;
-            else hasValidNeighbours = true;
-        }
-        return hasValidNeighbours;
+        return validNeighbourCount>0;
     }
 
     /**

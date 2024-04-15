@@ -2,7 +2,7 @@
   "data": [
     {
       "Id": 41,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 1,
       "Requirements": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "Id": 42,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 1,
       "Requirements": [
         {
@@ -82,7 +82,7 @@
     },
     {
       "Id": 43,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 1,
       "Requirements": [
         {
@@ -122,7 +122,7 @@
     },
     {
       "Id": 44,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 2,
       "Requirements": [
         {
@@ -162,7 +162,7 @@
     },
     {
       "Id": 45,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 2,
       "Requirements": [
         {
@@ -202,7 +202,7 @@
     },
     {
       "Id": 46,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 2,
       "Requirements": [
         {
@@ -242,7 +242,7 @@
     },
     {
       "Id": 47,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 3,
       "Requirements": [
         {
@@ -282,7 +282,7 @@
     },
     {
       "Id": 48,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 3,
       "Requirements": [
         {
@@ -322,7 +322,7 @@
     },
     {
       "Id": 49,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 3,
       "Requirements": [
         {
@@ -362,7 +362,7 @@
     },
     {
       "Id": 50,
-      "KingdomCard": "fungi",
+      "Kingdom": "fungi",
       "Points": 5,
       "Requirements": [
         {
@@ -402,7 +402,7 @@
     },
     {
       "Id": 51,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 1,
       "Requirements": [
         {
@@ -442,7 +442,7 @@
     },
     {
       "Id": 52,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 1,
       "Requirements": [
         {
@@ -482,7 +482,7 @@
     },
     {
       "Id": 53,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 1,
       "Requirements": [
         {
@@ -522,7 +522,7 @@
     },
     {
       "Id": 54,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 2,
       "Requirements": [
         {
@@ -562,7 +562,7 @@
     },
     {
       "Id": 55,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 2,
       "Requirements": [
         {
@@ -602,7 +602,7 @@
     },
     {
       "Id": 56,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 2,
       "Requirements": [
         {
@@ -642,7 +642,7 @@
     },
     {
       "Id": 57,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 3,
       "Requirements": [
         {
@@ -682,7 +682,7 @@
     },
     {
       "Id": 58,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 3,
       "Requirements": [
         {
@@ -722,7 +722,7 @@
     },
     {
       "Id": 59,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 3,
       "Requirements": [
         {
@@ -762,7 +762,7 @@
     },
     {
       "Id": 60,
-      "KingdomCard": "plant",
+      "Kingdom": "plant",
       "Points": 5,
       "Requirements": [
         {
@@ -802,7 +802,7 @@
     },
     {
       "Id": 61,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 1,
       "Requirements": [
         {
@@ -842,7 +842,7 @@
     },
     {
       "Id": 62,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 1,
       "Requirements": [
         {
@@ -882,7 +882,7 @@
     },
     {
       "Id": 63,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 1,
       "Requirements": [
         {
@@ -922,7 +922,7 @@
     },
     {
       "Id": 64,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 2,
       "Requirements": [
         {
@@ -962,7 +962,7 @@
     },
     {
       "Id": 65,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 2,
       "Requirements": [
         {
@@ -1002,7 +1002,7 @@
     },
     {
       "Id": 66,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 2,
       "Requirements": [
         {
@@ -1042,7 +1042,7 @@
     },
     {
       "Id": 67,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 3,
       "Requirements": [
         {
@@ -1082,7 +1082,7 @@
     },
     {
       "Id": 68,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 3,
       "Requirements": [
         {
@@ -1122,7 +1122,7 @@
     },
     {
       "Id": 69,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 3,
       "Requirements": [
         {
@@ -1162,7 +1162,7 @@
     },
     {
       "Id": 70,
-      "KingdomCard": "animal",
+      "Kingdom": "animal",
       "Points": 5,
       "Requirements": [
         {
@@ -1202,7 +1202,7 @@
     },
     {
       "Id": 71,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 1,
       "Requirements": [
         {
@@ -1242,7 +1242,7 @@
     },
     {
       "Id": 72,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 1,
       "Requirements": [
         {
@@ -1282,7 +1282,7 @@
     },
     {
       "Id": 73,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 1,
       "Requirements": [
         {
@@ -1322,7 +1322,7 @@
     },
     {
       "Id": 74,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 2,
       "Requirements": [
         {
@@ -1362,7 +1362,7 @@
     },
     {
       "Id": 75,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 2,
       "Requirements": [
         {
@@ -1402,7 +1402,7 @@
     },
     {
       "Id": 76,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 2,
       "Requirements": [
         {
@@ -1442,7 +1442,7 @@
     },
     {
       "Id": 77,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 3,
       "Requirements": [
         {
@@ -1482,7 +1482,7 @@
     },
     {
       "Id": 78,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 3,
       "Requirements": [
         {
@@ -1522,7 +1522,7 @@
     },
     {
       "Id": 79,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 3,
       "Requirements": [
         {
@@ -1562,7 +1562,7 @@
     },
     {
       "Id": 80,
-      "KingdomCard": "insect",
+      "Kingdom": "insect",
       "Points": 5,
       "Requirements": [
         {

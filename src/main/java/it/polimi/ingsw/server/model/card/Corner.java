@@ -17,6 +17,17 @@ public class Corner {
         visible = true;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Corner other = (Corner) obj;
+        if(this == null && other == null) return true;
+        if (this.resource != other.resource) return false;
+        if (this.attached != other.attached) return false;
+        if (this.attachable != other.attachable) return false;
+        if (this.visible != other.visible) return false;
+        return true;
+    }
+
     /**
      * returns the resource value on the corner
      * @return Resource

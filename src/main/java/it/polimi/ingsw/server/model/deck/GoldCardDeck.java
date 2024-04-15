@@ -3,10 +3,12 @@ package it.polimi.ingsw.server.model.deck;
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class GoldCardDeck extends DeckWithRevealedCards {
     public GoldCardDeck(){
+        cards = new ArrayList<>();
         for (int i=41; i<81; i++) {
             cards.add(new GoldCard(i));
         }

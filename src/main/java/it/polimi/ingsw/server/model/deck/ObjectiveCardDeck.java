@@ -3,10 +3,12 @@ package it.polimi.ingsw.server.model.deck;
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class ObjectiveCardDeck extends DeckWithRevealedCards {
     public ObjectiveCardDeck() {
+        cards = new ArrayList<>();
         for (int i = 87; i < 103; i++) {
             cards.add(new ObjectiveCard(i));
         }
