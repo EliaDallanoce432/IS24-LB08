@@ -31,7 +31,7 @@ public class Server{
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                ClientHandler client = new ClientHandler(socket);
+                ClientHandler client = new ClientHandler(socket,lobby);
                 lobby.enterLobby(client);
                 executor.submit(client);
 

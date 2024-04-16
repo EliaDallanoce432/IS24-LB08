@@ -1,17 +1,15 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.util.supportclasses.Observer;
-
 import java.io.IOException;
 import java.net.InetAddress;
 
-public class Pinger implements Runnable, Observer {
-    private ClientHandler client;
-    private InetAddress clientIp;
+public class Pinger implements Runnable{
+    private final NetworkInterface application;
+    private final InetAddress applicationInetAddress;
 
-    public Pinger (ClientHandler client) {
-        this.client = client;
-        this.clientIp = client.getSocket().getInetAddress();
+    public Pinger (NetworkInterface applicationInetAddress) {
+        this.application = applicationInetAddress;
+        this.applicationInetAddress = applicationInetAddress.getSocket().getInetAddress();
     }
 
     @Override
@@ -19,24 +17,37 @@ public class Pinger implements Runnable, Observer {
         boolean connected = true;
         while (connected) {
             try {
-                if(!clientIp.isReachable(5000)) {
-                    connected = false;
-                    continue;
+                if(!applicationInetAddress.isReachable(1000)) {
+                    connected = isAlive(applicationInetAddress);
                 }
                 Thread.sleep(5000);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            } catch (IOException | InterruptedException ignored) {
             }
         }
-        //TODO mettere il messaggio corretto o parametro da destinarsi
-        update("lost connection");
-        Thread.currentThread().interrupt();
+
+        application.notifyConnectionLoss();
     }
 
-    @Override
-    public void update(String message) {
-        client.closeConnection();
+    /*
+    method tries to ping 3 times with a 5 seconds timeout for each try
+    if the application doesn't respond for 3 times in a row it returns false
+    if the application responds even once it returns true
+     */
+    private boolean isAlive(InetAddress applicationInetAddress) {
+        boolean isAlive = true;
+        for(int i=0; i<3; i++) {
+            try {
+                if(!applicationInetAddress.isReachable(5000)) {
+                    isAlive = false;
+                }
+                else {
+                    isAlive = true;
+                    break;
+                }
+                Thread.sleep(1000);
+            } catch (IOException | InterruptedException ignored) {
+            }
+        }
+        return isAlive;
     }
 }
