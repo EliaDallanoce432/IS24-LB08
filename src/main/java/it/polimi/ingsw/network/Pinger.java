@@ -28,10 +28,10 @@ public class Pinger implements Runnable{
         application.notifyConnectionLoss();
     }
 
-    /*
-    method tries to ping 3 times with a 5 seconds timeout for each try
-    if the application doesn't respond for 3 times in a row it returns false
-    if the application responds even once it returns true
+    /**
+     * method tries to ping 3 times with a 5 seconds timeout for each try
+     * if the application doesn't respond for 3 times in a row it returns false
+     * if the application responds even once it returns true
      */
     private boolean isAlive(InetAddress applicationInetAddress) {
         boolean isAlive = true;

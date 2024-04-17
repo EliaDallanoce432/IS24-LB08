@@ -8,21 +8,35 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class GameController implements Runnable, ClientObserver {
+    private String gameName;
+    private int numberOfPlayers;
     private ArrayList<ClientHandler> players;
     private Lobby lobby;
 
     public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
         this.players = new ArrayList<>();
+        this.numberOfPlayers = numberOfPlayers;
         this.lobby = lobby;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     public synchronized void enterGame(ClientHandler player) {
         players.add(player);
+        player.setGame(this);
+        player.setInGame(true);
     }
 
     public synchronized void leaveGame(ClientHandler player) {
         players.remove(player);
         player.setGame(null);
+        player.setInGame(false);
         lobby.enterLobby(player);
     }
 
@@ -43,7 +57,7 @@ public class GameController implements Runnable, ClientObserver {
 
     @Override
     public void notifyServerOfIncomingMessage(ClientHandler clientWithTheMessage) {
-        JSONObject jsonMessage = clientWithTheMessage.getReceivedMessage();
+        JSONObject jsonMessage = clientWithTheMessage.getReceivedRequest();
         //TODO chiamare il pareser e agire di conseguenza
     }
 }

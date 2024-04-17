@@ -17,14 +17,16 @@ public class ClientHandler implements Runnable, NetworkInterface{
 
     private GameController game;
     private Lobby lobby;
+    private boolean isInGame;
 
     private BufferedReader in;
     private PrintWriter out;
-    private JSONObject receivedMessage;
+    private JSONObject receivedRequest;
 
     public ClientHandler(Socket socket, Lobby lobby) {
+        this.isInGame = false;
         this.lobby = lobby;
-        receivedMessage = null;
+        receivedRequest = null;
         this.socket = socket;
         this.pingerThread = new Thread(new Pinger(this));
         pingerThread.start();
@@ -34,8 +36,8 @@ public class ClientHandler implements Runnable, NetworkInterface{
         } catch (IOException ignored) {}
     }
 
-    public JSONObject getReceivedMessage() {
-        return receivedMessage;
+    public JSONObject getReceivedRequest() {
+        return receivedRequest;
     }
 
     public GameController getGame() {
@@ -46,12 +48,24 @@ public class ClientHandler implements Runnable, NetworkInterface{
         this.game = game;
     }
 
+    public boolean isInGame() {
+        return isInGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        isInGame = inGame;
+    }
+
     @Override
     public void run() {
         while(true) {
             receiveMessage();
-            if(receivedMessage != null) {
-                game.notifyServerOfIncomingMessage(this);
+            if(receivedRequest != null) {
+                if(isInGame) {
+                    game.notifyServerOfIncomingMessage(this);
+                } else {
+                    lobby.notifyServerOfIncomingMessage(this);
+                }
             }
         }
     }
@@ -67,14 +81,20 @@ public class ClientHandler implements Runnable, NetworkInterface{
         out.flush();
     }
 
+    /**
+     * method receives a string from the standard input, if the string is not null it converts it in a json object and puts it in the attribute receivedRequest
+     */
     private void receiveMessage() {
         try {
             String receivedString = in.readLine();
-            JSONParser parser = new JSONParser();
-            receivedMessage = (JSONObject) parser.parse(receivedString);
+            if(receivedString != null) {
+                JSONParser parser = new JSONParser();
+                receivedRequest = (JSONObject) parser.parse(receivedString);
+            } else {
+                receivedRequest = null;
+            }
         } catch (IOException | ParseException ignored) {
         }
-
         //TODO decidere cosa fare con le eccezioni
 
     }
@@ -87,13 +107,15 @@ public class ClientHandler implements Runnable, NetworkInterface{
         this.username = username;
     }
 
-
-
     /**
      * method informs lobby or game that the connection was lost to ensure a safe disconnection
      */
     private void connectionLossProcedure() {
-
+        JSONObject message = new JSONObject();
+        message.put("command", "connectionLost");
+        receivedRequest = message;
+        game.notifyServerOfIncomingMessage(this);
+        lobby.notifyServerOfIncomingMessage(this);
     }
 
     /**
