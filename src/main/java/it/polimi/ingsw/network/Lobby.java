@@ -68,9 +68,12 @@ public class Lobby implements Runnable,ClientObserver{
      * @param numberOfPlayers number of players that will join
      * @param gameName name to identify the game
      */
-    public void setupNewGame(int numberOfPlayers, String gameName) {
+    public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) {
         GameController newGameController = new GameController(this,numberOfPlayers,gameName);
         availableGames.put(gameName,newGameController);
+        newGameController.enterGame(client);
+        Thread thread = new Thread(newGameController);
+        thread.start();
     }
 
     /**

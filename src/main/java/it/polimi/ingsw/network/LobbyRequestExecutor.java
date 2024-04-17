@@ -21,6 +21,7 @@ public class LobbyRequestExecutor {
             case "join" -> joinGame(lobby,message,clientHandler);
             case "leave" -> leaveLobby(lobby,clientHandler);
             case "connectionLost" -> leaveLobby(lobby,clientHandler);
+            default -> clientHandler.sendMessage(ResponseGenerator.generateResponse("unexpectedCommand"));
         }
     }
 
@@ -47,8 +48,7 @@ public class LobbyRequestExecutor {
         JSONObject numberOfPLayers = (JSONObject) parametersArray.getFirst();
         JSONObject gameName = (JSONObject) parametersArray.getLast();
 
-        //TODO controllare se il passaggio del parametro numberOfPlayers è corretto
-        lobby.setupNewGame(((Integer) numberOfPLayers.get("numberOfPlayers")),gameName.get("gameName").toString());
+        lobby.setupNewGame(((Long) numberOfPLayers.get("numberOfPlayers")).intValue(),gameName.get("gameName").toString(),clientHandler);
         clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
     }
 
