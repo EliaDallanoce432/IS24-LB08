@@ -13,4 +13,6 @@ public class ViewConstants {
 
     public static final double X_SNAP_INCREMENT = 0.75*CARD_WIDTH;
     public static final double Y_SNAP_INCREMENT = 0.6*CARD_HEIGHT;
+
+    public static final double Y_GOLD_DECK = 200 ;
 }

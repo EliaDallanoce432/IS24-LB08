@@ -20,13 +20,13 @@ public class ClientView extends Application {
         Image backgroundImage = new Image(getClass().getResourceAsStream("/view/wood_background2.jpg"));
         ImageView backgroundImageView = new ImageView(backgroundImage);
 
-        backgroundImageView.setFitWidth(1500);
-        backgroundImageView.setFitHeight(1000);
+        backgroundImageView.setFitWidth(1600);
+        backgroundImageView.setFitHeight(900);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(backgroundImageView, root);
 
-        Scene scene = new Scene(stackPane, 1500 , 1000);
+        Scene scene = new Scene(stackPane, 1600 , 900);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();
