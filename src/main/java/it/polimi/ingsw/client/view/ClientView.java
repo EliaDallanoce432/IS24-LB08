@@ -27,6 +27,7 @@ public class ClientView extends Application {
         stackPane.getChildren().addAll(backgroundImageView, root);
 
         Scene scene = new Scene(stackPane, 1600 , 900);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();

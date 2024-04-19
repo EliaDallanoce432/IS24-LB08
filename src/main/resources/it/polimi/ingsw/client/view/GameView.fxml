@@ -18,7 +18,7 @@
                   <Font name="Calibri" size="22.0" />
                </font>
             </Label>
-            <Button layoutX="37.0" layoutY="745.0" mnemonicParsing="false" onAction="#openDrawWindow" text="Draw" />
+            <Button layoutX="37.0" layoutY="745.0" mnemonicParsing="false" onAction="#loadDecks" text="Draw" />
             <Button layoutX="37.0" layoutY="850.0" mnemonicParsing="false" onAction="#flipCardsInHand" text="Flip Cards" />
             <Pane layoutX="1021.0" layoutY="32.0" prefHeight="221.0" prefWidth="548.0" style="-fx-border-color: black;">
                <children>

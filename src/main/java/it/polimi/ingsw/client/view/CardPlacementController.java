@@ -4,6 +4,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -19,6 +20,10 @@ public class CardPlacementController {
 
     private ArrayList<VirtualCard> cardsInHand;
     private ArrayList<VirtualCard> cardsOnBoard;
+
+    private VirtualCard[] cardsOnTopOfDecks;
+
+    private Label alertLabel;
     private Pane handPane;
     private Pane boardPane;
     private Pane decksPane;
@@ -34,10 +39,10 @@ public class CardPlacementController {
     private double offsetX;
     private double offsetY;
 
-    public CardPlacementController(Pane handPane, ScrollPane scrollPane,
+    public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane,
                                    Pane decksPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
 
-        this.handPane = handPane;
+        this.alertLabel = alertLabel;
         this.handPane = handPane;
         this.decksPane = decksPane;
         this.commonObjectivesPane = commonObjectivesPane;
@@ -45,6 +50,7 @@ public class CardPlacementController {
 
         cardsInHand = new ArrayList<>();
         cardsOnBoard = new ArrayList<>();
+        cardsOnTopOfDecks = new VirtualCard[6];
         boardPane = new Pane();
         boardPane.setStyle("-fx-background-color: #17914c; -fx-border-color: black; -fx-border-width: 2px;");
         boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
@@ -83,8 +89,11 @@ public class CardPlacementController {
 
         for(VirtualCard v: cardsInHand){
 
+            //v.setFacingUp(true);
+
             Rectangle cardNode = v.getCard();
             cardNode.setLayoutX(currentX);
+            cardNode.setLayoutY(0);
 
             makeDraggableAndDroppable(cardNode);
 
@@ -155,6 +164,8 @@ public class CardPlacementController {
                 boardPane.getChildren().add(card);
                 handPane.getChildren().remove(card);
 
+                updateLabel("Placed Card In (" + absoluteToRelativeX(snapX) + "," + absoluteToRelativeY(snapY) + ")");
+
                 makeUndraggable(card);
             }
 
@@ -207,82 +218,83 @@ public class CardPlacementController {
 
     public void loadDecks(int[] resourceTopDeck, int[] goldTopDeck ){
 
+        updateLabel("Draw a Card");
+
         for (int i = 0; i < 3; i++) {
-
-            VirtualCard virtualCard = new VirtualCard(resourceTopDeck[i], i!=0);
-            Rectangle cardNode = virtualCard.getCard();
-
-            Button button = new Button("Button " + (i + 1));
 
             double xLayout = 10 + i * 150;
             double yLayout = 20;
 
-            cardNode.setLayoutX(xLayout);
-            cardNode.setLayoutY(yLayout);
 
-            button.setLayoutX(xLayout);
-            button.setLayoutY(yLayout+CARD_HEIGHT+20);
 
-            int finalI = i; // For use in lambda expression
-            button.setOnAction(event -> {
-                // Call a method corresponding to the button
-                handleButtonClick(finalI);
-            });
-            decksPane.getChildren().addAll( virtualCard.getCard() , button);
+            if(resourceTopDeck[i] != 0) {
+
+                VirtualCard virtualCard = new VirtualCard(resourceTopDeck[i], i != 0);
+                cardsOnTopOfDecks[i] = virtualCard;
+                Rectangle cardNode = virtualCard.getCard();
+
+                cardNode.setLayoutX(xLayout);
+                cardNode.setLayoutY(yLayout);
+
+                Button button = getCustomButton("Draw", xLayout, yLayout);
+
+                int finalI = i;
+                button.setOnAction(event -> {
+                    handleButtonClick(finalI);
+                });
+                decksPane.getChildren().addAll(virtualCard.getCard(), button);
+            }
         }
 
         for (int i = 0; i < 3; i++) {
 
-            VirtualCard virtualCard = new VirtualCard(goldTopDeck[i], i!=0);
-            Rectangle cardNode = virtualCard.getCard();
-
-            Button button = new Button("Button " + (i + 1));
-
-
             double xLayout = 10 + i * 150;
             double yLayout = 20 + 2 * CARD_HEIGHT;
 
-            cardNode.setLayoutX(xLayout);
-            cardNode.setLayoutY(yLayout);
+            if(resourceTopDeck[i]!= 0 ) {
 
-            button.setLayoutX(xLayout);
-            button.setLayoutY(yLayout+CARD_HEIGHT+20);
+                VirtualCard virtualCard = new VirtualCard(goldTopDeck[i], i != 0);
+                cardsOnTopOfDecks[i + 3] = virtualCard;
+                Rectangle cardNode = virtualCard.getCard();
 
 
-            int finalI = i+3; // For use in lambda expression
-            button.setOnAction(event -> {
-                // Call a method corresponding to the button
-                handleButtonClick(finalI);
-            });
-            decksPane.getChildren().addAll( virtualCard.getCard() , button);
+                cardNode.setLayoutX(xLayout);
+                cardNode.setLayoutY(yLayout);
+
+                Button button = getCustomButton("Draw", xLayout, yLayout);
+
+
+                int finalI = i + 3;
+                button.setOnAction(event -> {
+                    handleButtonClick(finalI);
+                });
+                decksPane.getChildren().addAll(virtualCard.getCard(), button);
+            }
         }
 
     }
 
     private void handleButtonClick(int buttonIndex) {
-        // Implement the logic for each button click
-        switch (buttonIndex) {
-            case 0:
-                System.out.println("Button 1 clicked");
-                break;
-            case 1:
-                System.out.println("Button 2 clicked");
-                break;
-            case 2:
-                System.out.println("Button 3 clicked");
-                break;
-            case 3:
-                System.out.println("Button 4 clicked");
-                break;
-            case 4:
-                System.out.println("Button 5 clicked");
-                break;
-            case 5:
-                System.out.println("Button 6 clicked");
-                break;
-            default:
-                System.out.println("Invalid button index");
-        }
+
+        unshowCards();
+        addCardToHand(cardsOnTopOfDecks[buttonIndex]);
+        decksPane.getChildren().clear();
+        showCards();
+    }
+
+    public void updateLabel(String newText) {
+        alertLabel.setText(newText);
+    }
+
+    private Button getCustomButton(String text, double xLayout, double yLayout){
+        Button button = new Button(text);
+
+        button.setLayoutX(xLayout);
+        button.setPrefWidth(CARD_WIDTH);
+        button.setLayoutY(yLayout + CARD_HEIGHT + 20);
+
+        return button;
+
     }
 
 

@@ -44,6 +44,10 @@ public class VirtualCard {
 
     }
 
+    public void setFacingUp(boolean facingUp) {
+        isFacingUp = facingUp;
+    }
+
     public Rectangle getCard() {
 
         if (isFacingUp) return cardFront;

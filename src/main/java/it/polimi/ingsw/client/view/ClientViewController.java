@@ -1,20 +1,15 @@
 package it.polimi.ingsw.client.view;
 
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
-
-import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
-import static java.lang.Math.abs;
 import static java.lang.Math.random;
 
 public class ClientViewController {
@@ -40,11 +35,11 @@ public class ClientViewController {
     @FXML
     private void initialize() {
 
-        cardPlacementController = new CardPlacementController(handPane,scrollPane,decksPane,commonObjectivesPane,secretObjectivePane);
+        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
+                commonObjectivesPane,secretObjectivePane); //clientHandler to be added
         cardPlacementController.initializeBoard(81);
         cardPlacementController.loadCommonObjectives(87,97);
         cardPlacementController.loadSecretObjective(102);
-        cardPlacementController.loadDecks(new int[]{1, 10, 22}, new int[]{41, 51, 62});
 
     }
 
@@ -66,9 +61,8 @@ public class ClientViewController {
     }
 
     @FXML
-    private void openDrawWindow() throws IOException {
-
-
+    private void loadDecks() throws IOException {
+        cardPlacementController.loadDecks(new int[]{1, 10, 22}, new int[]{41, 51, 62});
 
     }
     @FXML
@@ -83,9 +77,7 @@ public class ClientViewController {
         cardPlacementController.showCards();
     }
 
-    public void updateLabel(String newText) {
-        alertLabel.setText(newText);
-    }
+
 
 
 }
