@@ -7,9 +7,9 @@ public class Pinger implements Runnable{
     private final NetworkInterface application;
     private final InetAddress applicationInetAddress;
 
-    public Pinger (NetworkInterface applicationInetAddress) {
-        this.application = applicationInetAddress;
-        this.applicationInetAddress = applicationInetAddress.getSocket().getInetAddress();
+    public Pinger (NetworkInterface networkInterface) {
+        this.application = networkInterface;
+        this.applicationInetAddress = networkInterface.getSocket().getInetAddress();
     }
 
     @Override

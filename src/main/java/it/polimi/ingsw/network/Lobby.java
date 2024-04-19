@@ -35,6 +35,7 @@ public class Lobby implements Runnable,ClientObserver{
      */
     public void enterLobby(ClientHandler client) {
         connectedClients.add(client);
+        System.out.println("client connected successfully to the lobby");
     }
 
     /**
@@ -45,6 +46,7 @@ public class Lobby implements Runnable,ClientObserver{
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
         client.closeConnection();
+        System.out.println("client " + client.getUsername() + " left the lobby");
     }
 
     /**
@@ -54,6 +56,9 @@ public class Lobby implements Runnable,ClientObserver{
      * @throws AlreadyTakenUsernameException exception gets thrown when trying to choose an already taken username
      */
     public void setUsername(String username, ClientHandler client) throws AlreadyTakenUsernameException {
+        if (client.getUsername() != null) {
+            takenUsernames.remove(client.getUsername()); //the client had already a registered username, so now it's going to be changed
+        }
         if (!takenUsernames.contains(username)) {
             takenUsernames.add(username);
             client.setUsername(username);

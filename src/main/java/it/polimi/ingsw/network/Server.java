@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server{
+public class Server implements Runnable {
     private final int port;
     Lobby lobby;
     ExecutorService executor = Executors.newCachedThreadPool();
@@ -18,8 +18,10 @@ public class Server{
 
     }
 
-    //TODO ccontrollare la gestione dell'uscita
-    public void StartServer() {
+    public void run() {}
+
+    //TODO controllare la gestione dell'uscita
+    public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
         try {
@@ -28,13 +30,13 @@ public class Server{
             System.err.println(e.getMessage());
             return;
         }
+        System.out.println("Server listening on port " + port);
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
                 ClientHandler client = new ClientHandler(socket,lobby);
                 lobby.enterLobby(client);
                 executor.submit(client);
-
             } catch (IOException e) {
                 break;
             }

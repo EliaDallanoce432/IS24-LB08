@@ -58,14 +58,12 @@ public class ClientHandler implements Runnable, NetworkInterface{
 
     @Override
     public void run() {
-        while(true) {
-            receiveMessage();
-            if(receivedRequest != null) {
-                if(isInGame) {
-                    game.notifyServerOfIncomingMessage(this);
-                } else {
-                    lobby.notifyServerOfIncomingMessage(this);
-                }
+        receiveMessage();
+        if(receivedRequest != null) {
+            if(isInGame) {
+                game.notifyServerOfIncomingMessage(this);
+            } else {
+                lobby.notifyServerOfIncomingMessage(this);
             }
         }
     }
