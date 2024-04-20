@@ -30,6 +30,7 @@ public class LobbyRequestExecutor {
             lobby.setUsername(message.get("parameters").toString(),clientHandler);
         } catch (AlreadyTakenUsernameException e) {
              clientHandler.sendMessage(ResponseGenerator.generateResponse("usernameAlreadyTaken"));
+             return;
         }
         clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
     }
@@ -57,6 +58,7 @@ public class LobbyRequestExecutor {
             lobby.joinGame(clientHandler,message.get("gameName").toString());
         } catch (NonExistentGameException e) {
             clientHandler.sendMessage(ResponseGenerator.generateResponse("nonexistentGame"));
+            return;
         }
         clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
     }

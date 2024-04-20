@@ -95,6 +95,7 @@ public class Lobby implements Runnable,ClientObserver{
 
     @Override
     public void notifyServerOfIncomingMessage(ClientHandler clientWithTheMessage) {
+        System.out.println("incoming message");
         LobbyRequestExecutor.execute(this,clientWithTheMessage.getReceivedRequest(),clientWithTheMessage);
     }
 }

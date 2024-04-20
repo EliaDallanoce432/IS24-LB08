@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,6 +19,9 @@ public class ClientSocket implements Runnable, NetworkInterface {
 
     JSONObject receivedMessage;
 
+    private ClientController clientController;
+    Thread thread;
+
     public ClientSocket(String serverAddress, int port) {
         try {
             socket = new Socket(serverAddress,port);
@@ -27,6 +31,10 @@ public class ClientSocket implements Runnable, NetworkInterface {
             throw new RuntimeException(e);
         }
         pinger = new Pinger(this);
+        clientController = new ClientController(this);
+        thread = new Thread(clientController);
+        thread.start();
+
     }
 
     @Override
@@ -39,6 +47,7 @@ public class ClientSocket implements Runnable, NetworkInterface {
         out.println(message.toJSONString());
         out.flush();
         receiveMessage();
+        System.out.println(receivedMessage.toJSONString());
         //TODO gestire la risposta che torna indietro
     }
 
@@ -64,9 +73,11 @@ public class ClientSocket implements Runnable, NetworkInterface {
     @Override
     public void run() {
         //catches messages sent spontaneously from the server to give updates on data in the game
-        receiveMessage();
-        if(receivedMessage != null) {
-            System.out.println("server replied: " + receivedMessage.get("response"));
+        while (true) {
+//            receiveMessage();
+//            if(receivedMessage != null) {
+//                System.out.println("server replied: " + receivedMessage.get("response"));
+//            }
         }
     }
 }
