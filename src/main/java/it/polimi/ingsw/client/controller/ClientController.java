@@ -19,8 +19,6 @@ public class ClientController implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
-
             Scanner scanner = new Scanner(System.in);
             String username = scanner.nextLine();
             try {
@@ -29,18 +27,11 @@ public class ClientController implements Runnable {
                 throw new RuntimeException(e);
             }
 
+            clientSocket.sendMessage(MessageGenerator.generateSetUsernameMessage(username));
 
-            JSONObject jsonObject = new JSONObject();
-
-            jsonObject.put("command", "setUsername");
-            JSONArray parameters = new JSONArray();
-            parameters.add(username);
-            jsonObject.put("parameters", parameters);
-
-
-            clientSocket.sendMessage(jsonObject);
-
-
-        }
+            clientSocket.sendMessage(MessageGenerator.generateGetAvailableGamesMessage());
+            String gamename = scanner.nextLine();
+            clientSocket.sendMessage(MessageGenerator.generateSetUpGameMessage(gamename,2));
+           // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
     }
 }

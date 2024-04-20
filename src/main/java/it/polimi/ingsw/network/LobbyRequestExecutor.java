@@ -27,7 +27,7 @@ public class LobbyRequestExecutor {
 
     private static void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
-            lobby.setUsername(message.get("parameters").toString(),clientHandler);
+            lobby.setUsername(message.get("username").toString(),clientHandler);
         } catch (AlreadyTakenUsernameException e) {
              clientHandler.sendMessage(ResponseGenerator.generateResponse("usernameAlreadyTaken"));
              return;
@@ -44,12 +44,7 @@ public class LobbyRequestExecutor {
     }
 
     private static void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
-        JSONObject parameters = new JSONObject();
-        JSONArray parametersArray = (JSONArray) parameters.get("parameters");
-        JSONObject numberOfPLayers = (JSONObject) parametersArray.getFirst();
-        JSONObject gameName = (JSONObject) parametersArray.getLast();
-
-        lobby.setupNewGame(((Long) numberOfPLayers.get("numberOfPlayers")).intValue(),gameName.get("gameName").toString(),clientHandler);
+        lobby.setupNewGame(Integer.parseInt(message.get("numOfPlayers").toString()),message.get("gameName").toString(),clientHandler);
         clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
     }
 

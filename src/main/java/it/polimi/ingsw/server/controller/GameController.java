@@ -17,6 +17,7 @@ public class GameController implements Runnable, ClientObserver {
         this.players = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayers;
         this.lobby = lobby;
+        System.out.println(gameName + " is ready");
     }
 
     public String getGameName() {
