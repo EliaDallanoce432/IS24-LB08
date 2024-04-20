@@ -29,6 +29,7 @@ public class CardPlacementController {
     private Pane decksPane;
     private HBox commonObjectivesPane;
     private HBox secretObjectivePane;
+    private ScrollPane scrollPane;
     private int starterCardId;
 
 
@@ -42,6 +43,7 @@ public class CardPlacementController {
     public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane,
                                    Pane decksPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
 
+        this.scrollPane = scrollPane;
         this.alertLabel = alertLabel;
         this.handPane = handPane;
         this.decksPane = decksPane;
@@ -88,7 +90,6 @@ public class CardPlacementController {
         double currentX = SPACING;
 
         for(VirtualCard v: cardsInHand){
-
             //v.setFacingUp(true);
 
             Rectangle cardNode = v.getCard();
@@ -135,6 +136,7 @@ public class CardPlacementController {
             offsetY = card.getLayoutY();
         });
 
+
         card.setOnMouseDragged(event -> {
             double deltaX = event.getSceneX() - mouseX;
             double deltaY = event.getSceneY() - mouseY;
@@ -147,26 +149,39 @@ public class CardPlacementController {
 
             Bounds cardBounds = card.localToScene(card.getBoundsInLocal());
 
-            Point2D cardPositionInTargetPane = boardPane.sceneToLocal(cardBounds.getMinX(),cardBounds.getMinY());
+            Bounds scrollPaneBounds = scrollPane.getLayoutBounds();
 
-            double snapX = roundToNearest(cardPositionInTargetPane.getX(), X_SNAP_INCREMENT);
-            double snapY = roundToNearest(cardPositionInTargetPane.getY(), Y_SNAP_INCREMENT);
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
 
-            if (!canBePlacedHere(snapX,snapY)) {
-                card.setLayoutX(0);
-                card.setLayoutY(0);
+            if (!scrollPaneBounds.contains(mouseX, mouseY)){
+                card.setLayoutX(offsetX);
+                card.setLayoutY(offsetY);
+                updateLabel("Out of bounds");
             }
-            else{
 
-                card.setLayoutX(snapX);
-                card.setLayoutY(snapY);
-                removeCardFromHand(card);
-                boardPane.getChildren().add(card);
-                handPane.getChildren().remove(card);
+            else {
 
-                updateLabel("Placed Card In (" + absoluteToRelativeX(snapX) + "," + absoluteToRelativeY(snapY) + ")");
+                Point2D cardPositionInTargetPane = boardPane.sceneToLocal(cardBounds.getMinX(), cardBounds.getMinY());
 
-                makeUndraggable(card);
+                double snapX = roundToNearest(cardPositionInTargetPane.getX(), X_SNAP_INCREMENT);
+                double snapY = roundToNearest(cardPositionInTargetPane.getY(), Y_SNAP_INCREMENT);
+
+                if (!canBePlacedHere(snapX, snapY)) {
+                    card.setLayoutX(offsetX);
+                    card.setLayoutY(offsetY);
+                } else {
+
+                    card.setLayoutX(snapX);
+                    card.setLayoutY(snapY);
+                    removeCardFromHand(card);
+                    boardPane.getChildren().add(card);
+                    handPane.getChildren().remove(card);
+
+                    updateLabel("Placed Card In (" + absoluteToRelativeX(snapX) + "," + absoluteToRelativeY(snapY) + ")");
+
+                    makeUndraggable(card);
+                }
             }
 
 
@@ -240,7 +255,7 @@ public class CardPlacementController {
 
                 int finalI = i;
                 button.setOnAction(event -> {
-                    handleButtonClick(finalI);
+                    handleDrawButtonClick(finalI);
                 });
                 decksPane.getChildren().addAll(virtualCard.getCard(), button);
             }
@@ -266,7 +281,7 @@ public class CardPlacementController {
 
                 int finalI = i + 3;
                 button.setOnAction(event -> {
-                    handleButtonClick(finalI);
+                    handleDrawButtonClick(finalI);
                 });
                 decksPane.getChildren().addAll(virtualCard.getCard(), button);
             }
@@ -274,7 +289,7 @@ public class CardPlacementController {
 
     }
 
-    private void handleButtonClick(int buttonIndex) {
+    private void handleDrawButtonClick(int buttonIndex) {
 
         unshowCards();
         addCardToHand(cardsOnTopOfDecks[buttonIndex]);

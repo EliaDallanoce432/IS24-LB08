@@ -36,7 +36,7 @@ public class ClientViewController {
     private void initialize() {
 
         cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
-                commonObjectivesPane,secretObjectivePane); //clientHandler to be added
+                commonObjectivesPane,secretObjectivePane);
         cardPlacementController.initializeBoard(81);
         cardPlacementController.loadCommonObjectives(87,97);
         cardPlacementController.loadSecretObjective(102);
