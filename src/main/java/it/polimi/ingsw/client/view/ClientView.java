@@ -9,26 +9,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class ClientView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
-        Parent root = loader.load();
+        SceneLoader sceneLoader = new SceneLoader();
 
-        Image backgroundImage = new Image(getClass().getResourceAsStream("/view/wood_background2.jpg"));
-        ImageView backgroundImageView = new ImageView(backgroundImage);
-
-        backgroundImageView.setFitWidth(1600);
-        backgroundImageView.setFitHeight(900);
-
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(backgroundImageView, root);
-
-        Scene scene = new Scene(stackPane, 1600 , 900);
-
-        primaryStage.setScene(scene);
+        primaryStage.setScene(sceneLoader.loadWelcomeScene());
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();
 
@@ -38,4 +28,8 @@ public class ClientView extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
+
+
 }

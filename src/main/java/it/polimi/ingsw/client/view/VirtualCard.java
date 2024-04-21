@@ -54,6 +54,10 @@ public class VirtualCard {
         else return cardBack;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void flip(){
         isFacingUp = !isFacingUp;
     }

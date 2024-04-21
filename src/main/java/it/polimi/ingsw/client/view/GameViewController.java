@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 
+import it.polimi.ingsw.client.model.ClientModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 import static java.lang.Math.random;
 
-public class ClientViewController {
+public class GameViewController {
 
     @FXML
     private Pane handPane;
@@ -29,15 +30,18 @@ public class ClientViewController {
     @FXML
     private HBox secretObjectivePane;
 
-
+    private ClientModel clientModel;
     private CardPlacementController cardPlacementController;
 
     @FXML
     private void initialize() {
 
-        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
+        clientModel = new ClientModel("test");
+        clientModel.setStarterCardId(81);
+
+        cardPlacementController = new CardPlacementController(alertLabel,clientModel.getCardsInHand(),handPane,scrollPane,decksPane,
                 commonObjectivesPane,secretObjectivePane);
-        cardPlacementController.initializeBoard(81);
+        cardPlacementController.initializeBoard(clientModel.getStarterCardId());
         cardPlacementController.loadCommonObjectives(87,97);
         cardPlacementController.loadSecretObjective(102);
 
@@ -48,10 +52,10 @@ public class ClientViewController {
 
         for(int i=0; i<3 ; i++) {
             int randomId = (int) (39*random()+1);
-            cardPlacementController.addCardToHand(new VirtualCard(randomId, true));
+            clientModel.addCardToHand(new VirtualCard(randomId, true));
 
         }
-        cardPlacementController.showCards();
+        cardPlacementController.showCards(clientModel.getCardsInHand());
     }
 
     @FXML
@@ -62,7 +66,7 @@ public class ClientViewController {
 
     @FXML
     private void loadDecks() throws IOException {
-        cardPlacementController.loadDecks(new int[]{1, 10, 22}, new int[]{41, 51, 62});
+        cardPlacementController.loadDecks(clientModel.getDecks());
 
     }
     @FXML
@@ -70,11 +74,11 @@ public class ClientViewController {
 
         cardPlacementController.unshowCards();
 
-        for(VirtualCard card : cardPlacementController.getCardsInHand()) {
+        for(VirtualCard card : clientModel.getCardsInHand()) {
             card.flip();
         }
 
-        cardPlacementController.showCards();
+        cardPlacementController.showCards(clientModel.getCardsInHand());
     }
 
 
