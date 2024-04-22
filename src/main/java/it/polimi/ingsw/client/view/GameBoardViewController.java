@@ -3,17 +3,19 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.model.ClientModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 import static java.lang.Math.random;
 
-public class GameViewController {
+public class GameBoardViewController {
 
     @FXML
     private Pane handPane;
@@ -29,12 +31,18 @@ public class GameViewController {
     private HBox commonObjectivesPane;
     @FXML
     private HBox secretObjectivePane;
+    @FXML
+    private Button leaveGameButton;
 
     private ClientModel clientModel;
     private CardPlacementController cardPlacementController;
 
+    private SceneLoader sceneLoader;
+
     @FXML
     private void initialize() {
+
+        sceneLoader = new SceneLoader();
 
         clientModel = new ClientModel("test");
         clientModel.setStarterCardId(81);
@@ -79,6 +87,17 @@ public class GameViewController {
         }
 
         cardPlacementController.showCards(clientModel.getCardsInHand());
+    }
+
+    @FXML
+    private void leaveGame() throws IOException {
+
+        System.out.println("leaving game");
+
+        Stage stage = (Stage) leaveGameButton.getScene().getWindow();
+
+        stage.setScene(sceneLoader.loadWelcomeScene());
+        stage.show();
     }
 
 

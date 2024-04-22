@@ -50,7 +50,7 @@ public class CreateGameViewController {
     }
 
     @FXML
-    private void okPressed(){
+    private void okPressed() throws IOException {
         String gameName = gameNameField.getText();
         int numberOfPlayers = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
 
@@ -62,9 +62,14 @@ public class CreateGameViewController {
         }
         else{
 
-            System.out.println("gameName: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
+            System.out.println("created game: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
 
-            //TODO cambio scena
+            System.out.println("joining game: " + gameName);
+
+            Stage stage = (Stage) backButton.getScene().getWindow();
+
+            stage.setScene(sceneLoader.loadWaitForPlayersScene());
+            stage.show();
 
         }
 

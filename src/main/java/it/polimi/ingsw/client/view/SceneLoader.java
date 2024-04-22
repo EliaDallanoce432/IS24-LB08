@@ -3,11 +3,9 @@ package it.polimi.ingsw.client.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -21,8 +19,8 @@ public class SceneLoader {
         return backgroundImageView;
     }
 
-    public Scene loadGameScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
+    public Scene loadGameBoardScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameBoardView.fxml"));
         Parent root = loader.load();
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
@@ -39,6 +37,22 @@ public class SceneLoader {
 
     public Scene loadCreateGameScene() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateGameView.fxml"));
+        Parent root = loader.load();
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        return new Scene(stackPane, 600 , 400);
+    }
+
+    public Scene loadJoinGameScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("JoinGameView.fxml"));
+        Parent root = loader.load();
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        return new Scene(stackPane, 600 , 400);
+    }
+
+    public Scene loadWaitForPlayersScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("WaitForPlayersView.fxml"));
         Parent root = loader.load();
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
