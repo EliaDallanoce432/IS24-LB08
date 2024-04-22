@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.client.view.CreateGameView"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.CreateGameViewController">
+    <children>
+        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="okButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#okPressed" text="OK" />
+                <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+            <TextField fx:id="gameNameField" layoutX="34.0" layoutY="72.0" prefHeight="53.0" prefWidth="285.0" />
+            <ChoiceBox fx:id="numberOfPlayersChoiceBox" layoutX="34.0" layoutY="209.0" prefWidth="150.0" />
+            <Label layoutX="34.0" layoutY="38.0" prefHeight="25.0" prefWidth="218.0" text="Game Name" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="181.0" text="Number of Players:" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="alertLabel" layoutX="327.0" layoutY="72.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

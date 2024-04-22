@@ -37,5 +37,13 @@ public class SceneLoader {
         return new Scene(stackPane, 600 , 400);
     }
 
+    public Scene loadCreateGameScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateGameView.fxml"));
+        Parent root = loader.load();
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        return new Scene(stackPane, 600 , 400);
+    }
+
 
 }

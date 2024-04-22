@@ -34,6 +34,10 @@ public class WelcomeViewController {
 
     @FXML
     private void createGame() throws IOException {
+        Stage stage = (Stage) createGameButton.getScene().getWindow();
+
+        stage.setScene(sceneLoader.loadCreateGameScene());
+        stage.show();
 
     }
 
