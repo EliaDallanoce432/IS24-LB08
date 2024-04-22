@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import java.net.Socket;
 
-public interface NetworkInterface extends NetworkObserver {
+public interface NetworkInterface{
     /**
      * method returns the socket used by the Network interface
      * @return Socket

@@ -8,15 +8,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, NetworkInterface{
+public class ClientHandler implements Runnable, NetworkInterface, ConnectionObserver{
     private final Socket socket;
+    private final ConnectionChecker connectionChecker;
     private String username;
-    private final Thread pingerThread;
 
     private GameController game;
-    private Lobby lobby;
+    private final Lobby lobby;
     private boolean isInGame;
 
     private BufferedReader in;
@@ -28,12 +29,11 @@ public class ClientHandler implements Runnable, NetworkInterface{
         this.lobby = lobby;
         receivedRequest = null;
         this.socket = socket;
-        this.pingerThread = new Thread(new Pinger(this));
-        pingerThread.start();
         try {
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.out = new PrintWriter(socket.getOutputStream());
+            this.out = new PrintWriter(socket.getOutputStream(),true);
         } catch (IOException ignored) {}
+        this.connectionChecker = new ConnectionChecker(this);
     }
 
     public JSONObject getReceivedRequest() {
@@ -77,9 +77,8 @@ public class ClientHandler implements Runnable, NetworkInterface{
     }
 
     @Override
-    public synchronized void sendMessage(JSONObject jsonMessage) {
+    public void sendMessage(JSONObject jsonMessage) {
         out.println(jsonMessage);
-        out.flush();
     }
 
     /**
@@ -111,19 +110,23 @@ public class ClientHandler implements Runnable, NetworkInterface{
     /**
      * method informs lobby or game that the connection was lost to ensure a safe disconnection
      */
-    private void connectionLossProcedure() {
+    private synchronized void connectionLossProcedure() {
         JSONObject message = new JSONObject();
         message.put("command", "connectionLost");
         receivedRequest = message;
-        game.notifyServerOfIncomingMessage(this);
+        if(isInGame) {
+            game.notifyServerOfIncomingMessage(this);
+        }
         lobby.notifyServerOfIncomingMessage(this);
     }
 
-    /**
-     * method terminates the pinger, closes the socket connection and terminates the thread current execution
-     */
-    public synchronized void closeConnection() {
-        pingerThread.interrupt();
+    @Override
+    public void connectionLossNotification() {
+        connectionChecker.shutdown();
+        System.out.println("lost connection with the client " + getUsername());
+        connectionLossProcedure();
+        //TODO clean up per chiudere il client
+
         try {
             socket.close();
         } catch (IOException e) {
@@ -133,8 +136,17 @@ public class ClientHandler implements Runnable, NetworkInterface{
     }
 
     @Override
-    public synchronized void notifyConnectionLoss() {
-        connectionLossProcedure();
-        closeConnection();
+    public int exchangePongerPorts(int localPongerPort) {
+        out.println(localPongerPort);
+        try {
+            return Integer.parseInt(in.readLine()); //remote ponger port returned by the server
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public InetAddress getRemotePongerAddress() {
+        return socket.getInetAddress();
     }
 }

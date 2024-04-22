@@ -1,53 +1,91 @@
 package it.polimi.ingsw.network;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class Pinger implements Runnable{
-    private final NetworkInterface application;
-    private final InetAddress applicationInetAddress;
+    private final Socket linkedPonger;
+    private final ConnectionObserver observer;
 
-    public Pinger (NetworkInterface networkInterface) {
-        this.application = networkInterface;
-        this.applicationInetAddress = networkInterface.getSocket().getInetAddress();
-    }
+    private final PrintWriter printWriter;
+    private final Scanner scanner;
+    private boolean isAlive;
 
-    @Override
-    public void run() {
-        boolean connected = true;
-        while (connected) {
-            try {
-                if(!applicationInetAddress.isReachable(1000)) {
-                    connected = isAlive(applicationInetAddress);
-                }
-                Thread.sleep(5000);
-            } catch (IOException | InterruptedException ignored) {
-            }
+    public Pinger(ConnectionObserver observer, InetAddress address, int port) {
+        try {
+            linkedPonger = new Socket(address,port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.observer = observer;
+
+
+        try {
+            scanner = new Scanner(linkedPonger.getInputStream());
+            printWriter = new PrintWriter(linkedPonger.getOutputStream(), true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        application.notifyConnectionLoss();
+        isAlive = true;
+    }
+
+    public void run() {
+        pinging();
     }
 
     /**
-     * method tries to ping 3 times with a 5 seconds timeout for each try
-     * if the application doesn't respond for 3 times in a row it returns false
-     * if the application responds even once it returns true
+     * executes the pinging procedure and notifies the ConnectionObserver if there's a connection loss
      */
-    private boolean isAlive(InetAddress applicationInetAddress) {
-        boolean isAlive = true;
-        for(int i=0; i<3; i++) {
-            try {
-                if(!applicationInetAddress.isReachable(5000)) {
-                    isAlive = false;
+    private void pinging() {
+        while (isAlive) {
+            sendPing();
+            if (!scanner.hasNextLine() || !scanner.nextLine().equals("PONG")) {
+                if(!testingConnectionLiveness()) {
+                    observer.connectionLossNotification();
                 }
-                else {
-                    isAlive = true;
-                    break;
-                }
-                Thread.sleep(1000);
-            } catch (IOException | InterruptedException ignored) {
             }
         }
-        return isAlive;
+    }
+
+    /**
+     * sends a ping message and makes the thread wait 5 seconds
+     */
+    private void sendPing() {
+        printWriter.println("PING");
+        System.out.println("pinging");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * checks if the connection is actually dead or the previous ping had some issue
+     * @return boolean
+     */
+    private boolean testingConnectionLiveness() {
+        for(int i=0; i<2; i++) {
+            sendPing();
+            if (scanner.hasNextLine() && scanner.nextLine().equals("PONG")) {return true;}
+        }
+        isAlive = false;
+        return false;
+    }
+
+    /**
+     * closes connection and interrupts thread execution
+     */
+    public void shutdown() {
+        try {
+            linkedPonger.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Thread.currentThread().interrupt();
     }
 }

@@ -27,11 +27,11 @@ public class ClientController implements Runnable {
                 throw new RuntimeException(e);
             }
 
-            clientSocket.sendMessage(MessageGenerator.generateSetUsernameMessage(username));
+            clientSocket.send(MessageGenerator.generateSetUsernameMessage(username));
 
-            clientSocket.sendMessage(MessageGenerator.generateGetAvailableGamesMessage());
+            clientSocket.send(MessageGenerator.generateGetAvailableGamesMessage());
             String gamename = scanner.nextLine();
-            clientSocket.sendMessage(MessageGenerator.generateSetUpGameMessage(gamename,2));
+            clientSocket.send(MessageGenerator.generateSetUpGameMessage(gamename,2));
            // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
     }
 }

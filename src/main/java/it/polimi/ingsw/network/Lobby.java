@@ -45,7 +45,6 @@ public class Lobby implements Runnable,ClientObserver{
     public void leaveLobby(ClientHandler client) {
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
-        client.closeConnection();
         System.out.println("client " + client.getUsername() + " left the lobby");
     }
 
