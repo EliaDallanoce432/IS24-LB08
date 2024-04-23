@@ -21,7 +21,7 @@ public class LobbyRequestExecutor {
             case "join" -> joinGame(lobby,message,clientHandler);
             case "leave" -> leaveLobby(lobby,clientHandler);
             case "connectionLost" -> leaveLobby(lobby,clientHandler);
-            default -> clientHandler.sendMessage(ResponseGenerator.generateResponse("unexpectedCommand"));
+            default -> clientHandler.reply(ResponseGenerator.generateResponse("unexpectedCommand"));
         }
     }
 
@@ -29,10 +29,10 @@ public class LobbyRequestExecutor {
         try {
             lobby.setUsername(message.get("username").toString(),clientHandler);
         } catch (AlreadyTakenUsernameException e) {
-             clientHandler.sendMessage(ResponseGenerator.generateResponse("usernameAlreadyTaken"));
+             clientHandler.reply(ResponseGenerator.generateResponse("usernameAlreadyTaken"));
              return;
         }
-        clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
+        clientHandler.reply(ResponseGenerator.generateResponse("ok"));
     }
 
     private static void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
@@ -40,27 +40,27 @@ public class LobbyRequestExecutor {
         games.addAll(lobby.getAvailableGames().keySet());
         JSONObject response = new JSONObject();
         response.put("games", games);
-        clientHandler.sendMessage(response);
+        clientHandler.reply(response);
     }
 
     private static void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         lobby.setupNewGame(Integer.parseInt(message.get("numOfPlayers").toString()),message.get("gameName").toString(),clientHandler);
-        clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
+        clientHandler.reply(ResponseGenerator.generateResponse("ok"));
     }
 
     private static void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
             lobby.joinGame(clientHandler,message.get("gameName").toString());
         } catch (NonExistentGameException e) {
-            clientHandler.sendMessage(ResponseGenerator.generateResponse("nonexistentGame"));
+            clientHandler.reply(ResponseGenerator.generateResponse("nonexistentGame"));
             return;
         }
-        clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
+        clientHandler.reply(ResponseGenerator.generateResponse("ok"));
     }
 
     private static void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
         lobby.leaveLobby(clientHandler);
-        clientHandler.sendMessage(ResponseGenerator.generateResponse("ok"));
+        clientHandler.reply(ResponseGenerator.generateResponse("ok"));
     }
 
 }

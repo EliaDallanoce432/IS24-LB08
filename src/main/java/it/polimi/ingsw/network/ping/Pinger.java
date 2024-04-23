@@ -1,4 +1,7 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.ping;
+
+import it.polimi.ingsw.network.ConnectionObserver;
+import it.polimi.ingsw.network.sockets.SocketInfoInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,7 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Pinger implements Runnable{
+public class Pinger implements Runnable, SocketInfoInterface {
     private final Socket linkedPonger;
     private final ConnectionObserver observer;
 
@@ -87,5 +90,15 @@ public class Pinger implements Runnable{
             throw new RuntimeException(e);
         }
         Thread.currentThread().interrupt();
+    }
+
+    @Override
+    public InetAddress getSocketAddress() {
+        return linkedPonger.getInetAddress();
+    }
+
+    @Override
+    public int getSocketPort() {
+        return linkedPonger.getPort();
     }
 }

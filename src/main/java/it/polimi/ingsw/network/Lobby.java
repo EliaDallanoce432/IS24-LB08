@@ -7,22 +7,23 @@ import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Lobby implements Runnable,ClientObserver{
+public class Lobby implements Runnable, ServerNetworkObserverInterface {
 
     private ArrayList<ClientHandler> connectedClients;
     private HashMap<String, GameController> availableGames;
     private ArrayList<String> takenUsernames;
+    private boolean running;
 
     @Override
     public void run() {
-
-
+        while (running) {}
     }
 
     public Lobby() {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
+        running = true;
     }
 
     public HashMap<String, GameController> getAvailableGames() {
@@ -93,8 +94,18 @@ public class Lobby implements Runnable,ClientObserver{
     }
 
     @Override
-    public void notifyServerOfIncomingMessage(ClientHandler clientWithTheMessage) {
+    public void notifyIncomingMessage(ClientHandler clientHandler) {
         System.out.println("incoming message");
-        LobbyRequestExecutor.execute(this,clientWithTheMessage.getReceivedRequest(),clientWithTheMessage);
+        LobbyRequestExecutor.execute(this,clientHandler.getReceivedRequest(),clientHandler);
+    }
+
+    @Override
+    public void notifyConnectionLoss(ClientHandler clientHandler) {
+
+    }
+
+    public void shutdown() {
+        //TODO comunicare a tutti i client ancora connessi che il server sta chiudendo
+        running = false;
     }
 }

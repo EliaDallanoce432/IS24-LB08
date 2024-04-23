@@ -1,12 +1,15 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.ping;
+
+import it.polimi.ingsw.network.sockets.SocketInfoInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Ponger implements Runnable {
+public class Ponger implements Runnable, SocketInfoInterface {
     private ServerSocket acceptSocket;
     private Socket linkedPinger;
 
@@ -61,5 +64,15 @@ public class Ponger implements Runnable {
             throw new RuntimeException(e);
         }
         Thread.currentThread().interrupt();
+    }
+
+    @Override
+    public InetAddress getSocketAddress() {
+        return linkedPinger.getInetAddress();
+    }
+
+    @Override
+    public int getSocketPort() {
+        return linkedPinger.getPort();
     }
 }

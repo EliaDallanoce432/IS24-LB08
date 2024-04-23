@@ -1,18 +1,17 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.network.ClientSocket;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import it.polimi.ingsw.network.ClientConnectionManager;
+import it.polimi.ingsw.network.ClientNetworkObserverInterface;
 
 import java.util.Scanner;
 
-public class ClientController implements Runnable {
+public class ClientController implements Runnable, ClientNetworkObserverInterface {
 
-    ClientSocket clientSocket;
+    ClientConnectionManager clientConnectionManager;
 
-    public ClientController(ClientSocket clientSocket) {
+    public ClientController(ClientConnectionManager clientConnectionManager) {
 
-        this.clientSocket = clientSocket;
+        this.clientConnectionManager = clientConnectionManager;
 
     }
 
@@ -27,11 +26,22 @@ public class ClientController implements Runnable {
                 throw new RuntimeException(e);
             }
 
-            clientSocket.send(MessageGenerator.generateSetUsernameMessage(username));
+            clientConnectionManager.send(MessageGenerator.generateSetUsernameMessage(username));
 
-            clientSocket.send(MessageGenerator.generateGetAvailableGamesMessage());
+            clientConnectionManager.send(MessageGenerator.generateGetAvailableGamesMessage());
             String gamename = scanner.nextLine();
-            clientSocket.send(MessageGenerator.generateSetUpGameMessage(gamename,2));
+            clientConnectionManager.send(MessageGenerator.generateSetUpGameMessage(gamename,2));
            // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
+    }
+
+
+    @Override
+    public void notifyIncomingMessage() {
+
+    }
+
+    @Override
+    public void notifyConnectionLoss() {
+
     }
 }

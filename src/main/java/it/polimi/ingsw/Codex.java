@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.network.ClientSocket;
+import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.Server;
 
 public class Codex {
@@ -15,7 +15,7 @@ public class Codex {
         }
         else {
             if(args[0].equals("client") && args.length == 3) {
-                thread = new Thread(new ClientSocket(args[1],Integer.parseInt(args[2])));
+                thread = new Thread(new ClientConnectionManager(args[1],Integer.parseInt(args[2])));
                 thread.start();
             }
             else if(args[0].equals("server") && args.length == 2) {

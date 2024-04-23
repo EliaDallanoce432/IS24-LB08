@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.network.ClientObserver;
 import it.polimi.ingsw.network.Lobby;
+import it.polimi.ingsw.network.ServerNetworkObserverInterface;
 import it.polimi.ingsw.server.model.Game;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
-public class GameController implements Runnable, ClientObserver {
+public class GameController implements Runnable, ServerNetworkObserverInterface {
     private String gameName;
     private int numberOfExpectedPlayers;
     private ArrayList<ClientHandler> players;
@@ -56,10 +56,14 @@ public class GameController implements Runnable, ClientObserver {
 
     }
 
+    @Override
+    public void notifyIncomingMessage(ClientHandler clientHandler) {
+        JSONObject jsonMessage = clientHandler.getReceivedRequest();
+        //TODO chiamare il pareser e agire di conseguenza
+    }
 
     @Override
-    public void notifyServerOfIncomingMessage(ClientHandler clientWithTheMessage) {
-        JSONObject jsonMessage = clientWithTheMessage.getReceivedRequest();
-        //TODO chiamare il pareser e agire di conseguenza
+    public void notifyConnectionLoss(ClientHandler clientHandler) {
+
     }
 }
