@@ -11,11 +11,9 @@ public class Game {
     public GoldCardDeck goldCardDeck;
     public StarterCardDeck starterCardDeck;
     public Player[] players;
-    public GameField[] gameFields;
 
     public Game(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
-        gameFields = new GameField[numberOfPlayers];
         objectiveCardDeck = new ObjectiveCardDeck();
         resourceCardDeck = new ResourceCardDeck();
         goldCardDeck = new GoldCardDeck();

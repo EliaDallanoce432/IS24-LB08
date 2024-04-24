@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
+import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Color;
 
@@ -13,6 +14,7 @@ public class Player {
     private final String username;
     private final Color token;
     private int score;
+    private GameField gamefield;
     private ArrayList<PlaceableCard> hand;
     private ObjectiveCard secretObjective;
 
@@ -20,12 +22,17 @@ public class Player {
         this.username = username;
         this.token = token;
         this.score = 0;
+        this.gamefield = new GameField(this);
         this.hand = new ArrayList<>();
         this.secretObjective = null;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public GameField getGamefield() {
+        return gamefield;
     }
 
     public Color getToken() {
@@ -70,5 +77,13 @@ public class Player {
 
         if(!hand.remove(card)) throw new CardNotInHandException();
         else return card;
+    }
+
+    public void place(StarterCard card, boolean facingUp){
+        gamefield.place(card, facingUp);
+    }
+
+    public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        gamefield.place(card,facingUp,x,y);
     }
 }
