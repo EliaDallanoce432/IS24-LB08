@@ -57,9 +57,16 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         System.out.println("clienthandler output socket ready");
 
         this.lobby = lobby;
-        this.connectionChecker = new ConnectionChecker(this);
+        this.connectionChecker = new ConnectionChecker(this, setUpSocket);
         System.out.println("pinger and ponger created");
         this.jsonParser = new JSONParser();
+        try {
+            setUpSocket.close();
+            scanner.close();
+            printWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public JSONObject getReceivedRequest() {

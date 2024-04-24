@@ -89,7 +89,7 @@ public class Pinger implements Runnable, SocketInfoInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Thread.currentThread().interrupt();
+        isAlive = false;
     }
 
     @Override

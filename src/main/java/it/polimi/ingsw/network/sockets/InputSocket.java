@@ -3,7 +3,10 @@ package it.polimi.ingsw.network.sockets;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -28,16 +31,6 @@ public class InputSocket implements Runnable, SocketInterface {
         parser = new JSONParser();
         this.socketObserver = socketObserver;
         running = true;
-//        this.socketObserver = socketObserver;
-//        try {
-//            socket = new Socket(address,port);
-//            in = new Scanner(socket.getInputStream());
-//            out = new PrintWriter(socket.getOutputStream(), true);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        parser = new JSONParser();
-//        running = true;
     }
 
     @Override
@@ -79,21 +72,23 @@ public class InputSocket implements Runnable, SocketInterface {
             socket = acceptSocket.accept();
             acceptSocket.close();
             acceptSocket = null;
-            in = new Scanner(socket.getInputStream());
+            in = new Scanner((socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(),true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         while (running) {
-            //if(in.hasNextLine()) {
-                try {
+            try {
+                if (in.hasNextLine()) {
                     String message = receiveMessage();
-                    socketObserver.notifyIncomingMessageFromSocket((JSONObject) parser.parse(message));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                    if(message != null) {
+                        socketObserver.notifyIncomingMessageFromSocket((JSONObject) parser.parse(message));
+                    }
                 }
-           // }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

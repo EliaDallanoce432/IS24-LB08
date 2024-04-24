@@ -1,8 +1,10 @@
 package it.polimi.ingsw.network;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,10 +32,16 @@ public class Server implements Runnable {
             System.err.println(e.getMessage());
             return;
         }
-        System.out.println("Server listening on port " + port);
+        try {
+            System.out.println("Server ready at: " + InetAddress.getLocalHost() + ":" + serverSocket.getLocalPort());
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+                System.out.println("server address: " + socket.getInetAddress());
+                System.out.println("client address: " + socket.getRemoteSocketAddress());
                 ClientHandler client = new ClientHandler(socket,lobby);
                 lobby.enterLobby(client);
                 executor.submit(client);

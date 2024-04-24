@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class Ponger implements Runnable, SocketInfoInterface {
     private ServerSocket acceptSocket;
     private Socket linkedPinger;
+    boolean running;
 
     public Ponger() {
         try {
@@ -19,6 +20,7 @@ public class Ponger implements Runnable, SocketInfoInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        running = true;
     }
 
     public int getPort() {
@@ -46,7 +48,7 @@ public class Ponger implements Runnable, SocketInfoInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        while (true) {
+        while (running) {
             if (scanner.hasNextLine() && scanner.nextLine().equals("PING")) {
                 System.out.println("ponging");
                 printWriter.println("PONG");
@@ -63,7 +65,7 @@ public class Ponger implements Runnable, SocketInfoInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Thread.currentThread().interrupt();
+        running = false;
     }
 
     @Override

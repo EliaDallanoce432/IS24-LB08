@@ -6,6 +6,8 @@ import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Lobby implements Runnable, ServerNetworkObserverInterface {
 
@@ -13,6 +15,7 @@ public class Lobby implements Runnable, ServerNetworkObserverInterface {
     private HashMap<String, GameController> availableGames;
     private ArrayList<String> takenUsernames;
     private boolean running;
+    private ExecutorService executorService;
 
     @Override
     public void run() {
@@ -23,6 +26,7 @@ public class Lobby implements Runnable, ServerNetworkObserverInterface {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
+        executorService = Executors.newCachedThreadPool();
         running = true;
     }
 
@@ -101,7 +105,8 @@ public class Lobby implements Runnable, ServerNetworkObserverInterface {
 
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
-
+        System.out.println("client" + clientHandler.getUsername() + " lost connection");
+        leaveLobby(clientHandler);
     }
 
     public void shutdown() {

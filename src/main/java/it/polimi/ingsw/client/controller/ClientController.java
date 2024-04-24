@@ -18,20 +18,21 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     @Override
     public void run() {
 
-            Scanner scanner = new Scanner(System.in);
-            String username = scanner.nextLine();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        Scanner scanner = new Scanner(System.in);
+        String username = scanner.nextLine();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(clientConnectionManager.send(MessageGenerator.generateSetUsernameMessage(username)));
 
-            clientConnectionManager.send(MessageGenerator.generateSetUsernameMessage(username));
+        System.out.println(clientConnectionManager.send(MessageGenerator.generateGetAvailableGamesMessage()));
 
-            clientConnectionManager.send(MessageGenerator.generateGetAvailableGamesMessage());
-            String gamename = scanner.nextLine();
-            clientConnectionManager.send(MessageGenerator.generateSetUpGameMessage(gamename,2));
-           // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
+        String gamename = scanner.nextLine();
+        System.out.println(clientConnectionManager.send(MessageGenerator.generateSetUpGameMessage(gamename,2)));
+
+       // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
     }
 
 

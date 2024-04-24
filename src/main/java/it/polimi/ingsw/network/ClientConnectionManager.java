@@ -25,6 +25,7 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     private JSONObject receivedMessage;
     private final JSONParser jsonParser;
     private final ClientController clientController;
+    private final Thread clientControllerThread;
     private boolean running;
 
 
@@ -56,11 +57,21 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
         outputSocketThread.start();
         System.out.println("output socket created");
 
-        this.connectionChecker = new ConnectionChecker(this);
+        this.connectionChecker = new ConnectionChecker(this,setUpSocket);
         System.out.println("pinger and ponger created");
-        clientController = new ClientController(this);
         jsonParser = new JSONParser();
 
+        try {
+            setUpSocket.close();
+            scanner.close();
+            printWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.clientController = new ClientController(this);
+        this.clientControllerThread = new Thread(clientController);
+        clientControllerThread.start();
         running = true;
     }
 
