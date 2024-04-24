@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.WelcomeViewController">
+   <children>
+      <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="createGameButton" layoutX="189.0" layoutY="188.0" mnemonicParsing="false" onAction="#createGame" text="Create Game" />
+            <Button fx:id="joinGameButton" layoutX="326.0" layoutY="188.0" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
+            <Button fx:id="exitButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button fx:id="setUsernameButton" layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#setUsername" text="Set Username" />
+            <Pane fx:id="setUsernamePane" layoutX="171.0" layoutY="249.0" prefHeight="137.0" prefWidth="259.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
