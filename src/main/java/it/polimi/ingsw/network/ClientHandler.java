@@ -29,6 +29,7 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     private GameController game;
     private final Lobby lobby;
     private boolean isInGame;
+    private boolean isReady;
 
     public ClientHandler(Socket setUpSocket, Lobby lobby) {
         Scanner scanner;
@@ -96,6 +97,15 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     public void setInGame(boolean inGame) {
         isInGame = inGame;
     }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
 
     public Lobby getLobby() {
         return lobby;
