@@ -43,6 +43,9 @@ public class Player {
         return score;
     }
 
+    public ArrayList<PlaceableCard> getHand() {
+        return hand;
+    }
     public void setScore(int newScore) {
         this.score = newScore;
     }

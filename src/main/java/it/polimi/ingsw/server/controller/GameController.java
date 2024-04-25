@@ -53,42 +53,54 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         player.setInGame(false);
         lobby.enterLobby(player);
     }
-    public void place(ClientHandler player, PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
-            game.players[clients.indexOf(player)].place(card, facingUp, x, y);
+    public synchronized void  place(ClientHandler player, int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        PlaceableCard cardInHand = null;
+        for (int i = 0; i < 3; i++) {
+            if(game.players[clients.indexOf(player)].getHand().get(i).getId()==placeableCardId)
+                cardInHand=game.players[clients.indexOf(player)].getHand().get(i);
+        }
+        game.players[clients.indexOf(player)].place(cardInHand, facingUp, x, y);
     }
-    public void place(ClientHandler player, StarterCard card, boolean facingUp) { game.players[clients.indexOf(player)].place(card, facingUp);}
-    public void directDrawResourceCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+    public synchronized void place(ClientHandler player, int starterCardId, boolean facingUp) {
+        StarterCard starterCard= null;
+        for (StarterCard drawnStarterCard : drawnStarterCards) {
+            if (drawnStarterCard.getId() == starterCardId)
+                starterCard = drawnStarterCard;
+        }
+        game.players[clients.indexOf(player)].place(starterCard, facingUp);
+    }
+    public synchronized void directDrawResourceCard(ClientHandler player) throws EmptyDeckException, FullHandException {
         ResourceCard cardTemp = (ResourceCard)game.resourceCardDeck.directDraw();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void directDrawGoldCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+    public synchronized void directDrawGoldCard(ClientHandler player) throws EmptyDeckException, FullHandException {
         GoldCard cardTemp = (GoldCard)game.goldCardDeck.directDraw();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void drawLeftRevealedResourceCard(ClientHandler player) throws FullHandException {
+    public synchronized void drawLeftRevealedResourceCard(ClientHandler player) throws FullHandException {
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getLeftRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void drawRightRevealedResourceCard(ClientHandler player) throws FullHandException {
+    public synchronized void drawRightRevealedResourceCard(ClientHandler player) throws FullHandException {
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getRightRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void drawLeftRevealedGoldCard(ClientHandler player) throws FullHandException {
+    public synchronized void drawLeftRevealedGoldCard(ClientHandler player) throws FullHandException {
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.getLeftRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void drawRightRevealedGoldCard(ClientHandler player) throws FullHandException {
+    public synchronized void drawRightRevealedGoldCard(ClientHandler player) throws FullHandException {
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.getRightRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
     }
-    public void chooseStarterCardOrientations(ClientHandler player, int starterCardId, boolean facingUp) {
+    public synchronized void chooseStarterCardOrientations(ClientHandler player, int starterCardId, boolean facingUp) {
         for (StarterCard card : drawnStarterCards) {
              if (card.getId() == starterCardId) {
                  game.players[clients.indexOf(player)].place(drawnStarterCards.remove(starterCardId),facingUp);
              }
         }
     }
-    public void chooseSecretObjectiveCard(ClientHandler player, int objectiveCardId) {
+    public synchronized void chooseSecretObjectiveCard(ClientHandler player, int objectiveCardId) {
         for (ObjectiveCard card : drawnObjectiveCards) {
             if (card.getId() == objectiveCardId) {
                 game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(objectiveCardId));
@@ -147,7 +159,19 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             //wait for every player to choose starter card orientation
         }
     }
-    public  void ready(ClientHandler clientHandler) { clientHandler.setReady(true);}
+    public void ready(ClientHandler clientHandler) { clientHandler.setReady(true);}
+
+    /**
+     * check if one player reached 20 point, at the end on the round
+     * @return boolean
+     */
+    public boolean checkWinner() {
+        for (int i = 0; i < clients.size(); i++) {
+            if(game.players[i].getScore()>=20)
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public void notifyIncomingMessage(ClientHandler clientHandler) {
