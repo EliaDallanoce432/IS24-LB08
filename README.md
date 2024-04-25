@@ -6,5 +6,11 @@ Marcello Massari marcello.massari@mail.polimi.it <br>
 | Funzionalità | Descrizione |
 |---|---|
 |UML| In progress|
-|ServerModel| In progress|
+|ServerModel| Almost completed|
+|ServerController| In progress|
+|Network| In progress|
 |ClientModel| To do|
+|ClientController| To Do|
+|ClientViewGui| In progress|
+
+

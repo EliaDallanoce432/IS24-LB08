@@ -7,72 +7,82 @@ import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Color;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectiveCardDiagonalPlantTest {
 
+    private Player player;
+    @BeforeEach
+    void setup() {
+        player = new Player("aaa",Color.black);
+    }
+    @AfterEach
+    void teardown() {player = null;}
+
     @Test
     void calculatePointsSimpleCase() {
-        GameField gameField = new GameField(new Player("test", Color.red));
+
         ObjectiveCard objectiveCard = new ObjectiveCard(88);
         try {
-            gameField.place(new StarterCard(81), true);
-            gameField.place(new ResourceCard(18), true, -1,1);
-            gameField.place(new ResourceCard(18), true, -2,2);
-            gameField.place(new ResourceCard(18), true, -3,3);
+            player.place(new StarterCard(81), true);
+            player.place(new ResourceCard(18), true, -1,1);
+            player.place(new ResourceCard(18), true, -2,2);
+            player.place(new ResourceCard(18), true, -3,3);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(2,objectiveCard.getEarnedPoints(gameField));
+        assertEquals(2,objectiveCard.getEarnedPoints(player.getGamefield()));
     }
 
     @Test
     void calculatePointsDiagonalWith4CardsCase() {
-        GameField gameField = new GameField(new Player("test", Color.red));
+
         ObjectiveCard objectiveCard = new ObjectiveCard(88);
         try {
-            gameField.place(new StarterCard(81), true);
-            gameField.place(new ResourceCard(18), true, -1,1);
-            gameField.place(new ResourceCard(18), true, -2,2);
-            gameField.place(new ResourceCard(18), true, -3,3);
-            gameField.place(new ResourceCard(18), true, -4,4);
+            player.place(new StarterCard(81), true);
+            player.place(new ResourceCard(18), true, -1,1);
+            player.place(new ResourceCard(18), true, -2,2);
+            player.place(new ResourceCard(18), true, -3,3);
+            player.place(new ResourceCard(18), true, -4,4);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(2,objectiveCard.getEarnedPoints(gameField));
+        assertEquals(2,objectiveCard.getEarnedPoints(player.getGamefield()));
     }
 
     @Test
     void calculatePointsNoTripletsCase() {
-        GameField gameField = new GameField(new Player("test", Color.red));
+
         ObjectiveCard objectiveCard = new ObjectiveCard(88);
         try {
-            gameField.place(new StarterCard(81), true);
-            gameField.place(new ResourceCard(18), true, -1,1);
-            gameField.place(new ResourceCard(18), true, -2,2);
+            player.place(new StarterCard(81), true);
+            player.place(new ResourceCard(18), true, -1,1);
+            player.place(new ResourceCard(18), true, -2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(0,objectiveCard.getEarnedPoints(gameField));
+        assertEquals(0,objectiveCard.getEarnedPoints(player.getGamefield()));
     }
 
     @Test
     void calculatePointsDoubleTripletCase() {
-        GameField gameField = new GameField(new Player("test", Color.red));
+
         ObjectiveCard objectiveCard = new ObjectiveCard(88);
         try {
-            gameField.place(new StarterCard(81), true);
-            gameField.place(new ResourceCard(18), true, -1,1);
-            gameField.place(new ResourceCard(18), true, -2,2);
-            gameField.place(new ResourceCard(18), true, -3,3);
-            gameField.place(new ResourceCard(18), true, -2,4);
-            gameField.place(new ResourceCard(18), true, -3,5);
-            gameField.place(new ResourceCard(18), true, -4,6);
+            player.place(new StarterCard(81), true);
+            player.place(new ResourceCard(18), true, -1,1);
+            player.place(new ResourceCard(18), true, -2,2);
+            player.place(new ResourceCard(18), true, -3,3);
+            player.place(new ResourceCard(18), true, -2,4);
+            player.place(new ResourceCard(18), true, -3,5);
+            player.place(new ResourceCard(18), true, -4,6);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(4,objectiveCard.getEarnedPoints(gameField));
+        assertEquals(4,objectiveCard.getEarnedPoints(player.getGamefield()));
     }
 }
