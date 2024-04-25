@@ -18,12 +18,10 @@ import static java.lang.Math.abs;
 
 public class CardPlacementController {
 
-    private ArrayList<VirtualCard> cardsInHand;
-    private ArrayList<VirtualCard> cardsOnBoard;
 
-    private VirtualCard[] cardsOnTopOfDecks;
 
     private Label alertLabel;
+    private ArrayList<VirtualCard> handArray;
     private Pane handPane;
     private Pane boardPane;
     private Pane decksPane;
@@ -40,19 +38,18 @@ public class CardPlacementController {
     private double offsetX;
     private double offsetY;
 
-    public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane,
+    public CardPlacementController(Label alertLabel, ArrayList<VirtualCard> handArray, Pane handPane, ScrollPane scrollPane,
                                    Pane decksPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
 
         this.scrollPane = scrollPane;
+        this.handArray = handArray;
         this.alertLabel = alertLabel;
         this.handPane = handPane;
         this.decksPane = decksPane;
         this.commonObjectivesPane = commonObjectivesPane;
         this.secretObjectivePane = secretObjectivePane;
 
-        cardsInHand = new ArrayList<>();
-        cardsOnBoard = new ArrayList<>();
-        cardsOnTopOfDecks = new VirtualCard[6];
+
         boardPane = new Pane();
         boardPane.setStyle("-fx-background-color: #17914c; -fx-border-color: black; -fx-border-width: 2px;");
         boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
@@ -63,29 +60,15 @@ public class CardPlacementController {
     }
 
 
-    public ArrayList<VirtualCard> getCardsInHand() {
-        return cardsInHand;
-    }
 
-    public void addCardToHand(VirtualCard card) {
 
-        if (cardsInHand.size() >= HAND_SIZE) {
-            System.out.println("full hand");
-        }
-        else {
-            cardsInHand.add(card);
-        }
-    }
 
-    public void removeCardFromHand(Node card) {
-        cardsInHand.removeIf(vc -> vc.getCard().equals(card));
-    }
 
     public void unshowCards(){
         handPane.getChildren().clear();
     }
 
-    public void showCards() {
+    public void showCards(ArrayList<VirtualCard> cardsInHand) {
 
         double currentX = SPACING;
 
@@ -174,7 +157,7 @@ public class CardPlacementController {
 
                     card.setLayoutX(snapX);
                     card.setLayoutY(snapY);
-                    removeCardFromHand(card);
+                    handArray.removeIf(vc -> vc.getCard().equals(card));
                     boardPane.getChildren().add(card);
                     handPane.getChildren().remove(card);
 
@@ -231,7 +214,7 @@ public class CardPlacementController {
 
     }
 
-    public void loadDecks(int[] resourceTopDeck, int[] goldTopDeck ){
+    public void loadDecks(VirtualCard[] decks){
 
         updateLabel("Draw a Card");
 
@@ -242,10 +225,10 @@ public class CardPlacementController {
 
 
 
-            if(resourceTopDeck[i] != 0) {
+            if(decks[i].getId() != 0) {
 
-                VirtualCard virtualCard = new VirtualCard(resourceTopDeck[i], i != 0);
-                cardsOnTopOfDecks[i] = virtualCard;
+                VirtualCard virtualCard = new VirtualCard(decks[i].getId(), i != 0);
+                //cardsOnTopOfDecks[i] = virtualCard;
                 Rectangle cardNode = virtualCard.getCard();
 
                 cardNode.setLayoutX(xLayout);
@@ -261,15 +244,15 @@ public class CardPlacementController {
             }
         }
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 3; i < 5; i++) {
 
             double xLayout = 10 + i * 150;
             double yLayout = 20 + 2 * CARD_HEIGHT;
 
-            if(resourceTopDeck[i]!= 0 ) {
+            if(decks[i].getId() != 0) {
 
-                VirtualCard virtualCard = new VirtualCard(goldTopDeck[i], i != 0);
-                cardsOnTopOfDecks[i + 3] = virtualCard;
+                VirtualCard virtualCard = new VirtualCard(decks[i].getId(), i != 0);
+                //cardsOnTopOfDecks[i + 3] = virtualCard;
                 Rectangle cardNode = virtualCard.getCard();
 
 
@@ -279,7 +262,7 @@ public class CardPlacementController {
                 Button button = getCustomButton("Draw", xLayout, yLayout);
 
 
-                int finalI = i + 3;
+                int finalI = i ;
                 button.setOnAction(event -> {
                     handleDrawButtonClick(finalI);
                 });
@@ -292,9 +275,9 @@ public class CardPlacementController {
     private void handleDrawButtonClick(int buttonIndex) {
 
         unshowCards();
-        addCardToHand(cardsOnTopOfDecks[buttonIndex]);
+        //addCardToHand(cardsOnTopOfDecks[buttonIndex]);
         decksPane.getChildren().clear();
-        showCards();
+        showCards(handArray);
     }
 
     public void updateLabel(String newText) {

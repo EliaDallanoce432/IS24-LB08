@@ -5,24 +5,35 @@ import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Color;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameFieldTest {
+    private Player player;
+    @BeforeEach
+    void setup() {
+        player = new Player("aaa",Color.black);
+    }
 
+    @AfterEach
+    void teardown() {
+        player= null;
+    }
     @Test
     void lookAtCoordinates() {
-        GameField gamefield = new GameField(new Player("player", Color.black));
+
         StarterCard card = new StarterCard(82);
-        gamefield.place(card, true);
-        assertEquals(card,gamefield.lookAtCoordinates(0,0));
+        player.place(card, true);
+        assertEquals(card,player.getGamefield().lookAtCoordinates(0,0));
     }
 
     @Test
     void lookAtCoordinatesEmptyPosition() {
-        GameField gamefield = new GameField(new Player("player", Color.black));
-        assertNull(gamefield.lookAtCoordinates(0,0));
+
+        assertNull(player.getGamefield().lookAtCoordinates(0,0));
     }
 
     @Test
