@@ -50,7 +50,7 @@ public class Ponger implements Runnable, SocketInfoInterface {
         }
         while (running) {
             if (scanner.hasNextLine() && scanner.nextLine().equals("PING")) {
-                System.out.println("ponging");
+                //System.out.println("ponging");
                 printWriter.println("PONG");
             }
         }

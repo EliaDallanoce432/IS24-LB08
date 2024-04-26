@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class JoinGameViewController {
+public class JoinGameViewController extends ViewController {
 
 
 
@@ -25,14 +25,11 @@ public class JoinGameViewController {
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
 
-    private SceneLoader sceneLoader;
-
     @FXML
     public void initialize() {
 
-        sceneLoader = new SceneLoader();
-
-        availableGamesChoiceBox.getItems().addAll("carlo" , "piero");
+        //String[] games = clientController.sendGetAvailableGamesMessage();
+        //if (games!= null) availableGamesChoiceBox.getItems().addAll(games);
         availableGamesChoiceBox.setOnAction(event -> {
             selectedGame = availableGamesChoiceBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected game: " + selectedGame);
@@ -43,7 +40,7 @@ public class JoinGameViewController {
     private void goBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadWelcomeScene());
+        stage.setScene(SceneLoader.loadWelcomeScene());
         stage.show();
     }
 
@@ -59,7 +56,7 @@ public class JoinGameViewController {
 
             Stage stage = (Stage) backButton.getScene().getWindow();
 
-            stage.setScene(sceneLoader.loadWaitForPlayersScene());
+            stage.setScene(SceneLoader.loadWaitForPlayersScene());
             stage.show();
 
         }
