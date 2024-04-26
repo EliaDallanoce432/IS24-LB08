@@ -68,11 +68,16 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     public String[] sendGetAvailableGamesMessage(){
         JSONObject response = clientConnectionManager.send(MessageGenerator.generateGetAvailableGamesMessage());
         JSONArray jsonArray = (JSONArray) response.get("games");
-        String[] games = new String[jsonArray.size()];
-        for (int i = 0; i < jsonArray.size(); i++) {
-            games[i] = (String) jsonArray.get(i);
+
+        if (!jsonArray.isEmpty()) {
+            String[] games = new String[jsonArray.size()];
+            for (int i = 0; i < jsonArray.size(); i++) {
+                games[i] = (String) jsonArray.get(i);
+            }
+            return games;
         }
-        return games;
+        else return null;
+
     }
 
     public boolean sendSetUpGameMessage(String gamename, int numOfPlayers) {

@@ -22,14 +22,16 @@ public class JoinGameViewController extends ViewController {
     private Button okButton;
 
     @FXML
+    private Button refreshButton;
+
+    @FXML
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
 
     @FXML
     public void initialize() {
 
-        //String[] games = clientController.sendGetAvailableGamesMessage();
-        //if (games!= null) availableGamesChoiceBox.getItems().addAll(games);
+
         availableGamesChoiceBox.setOnAction(event -> {
             selectedGame = availableGamesChoiceBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected game: " + selectedGame);
@@ -61,6 +63,13 @@ public class JoinGameViewController extends ViewController {
 
         }
 
+
+    }
+
+    @FXML
+    private void refreshPressed() throws IOException {
+        String[] games = clientController.sendGetAvailableGamesMessage();
+        if (games!= null) availableGamesChoiceBox.getItems().addAll(games);
 
     }
 }
