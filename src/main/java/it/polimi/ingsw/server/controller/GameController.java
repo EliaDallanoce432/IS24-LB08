@@ -151,7 +151,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 cardtemp2=((ObjectiveCard) game.objectiveCardDeck.directDraw());
                 drawnObjectiveCards.add(cardtemp1);
                 drawnObjectiveCards.add(cardtemp2);
-                clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
+
+                JSONObject response = clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
+
             } catch (EmptyDeckException ignored) {}
         }
         while(drawnObjectiveCards.size()>numberOfExpectedPlayers)
