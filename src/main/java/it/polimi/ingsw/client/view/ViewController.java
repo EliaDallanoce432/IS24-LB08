@@ -13,5 +13,9 @@ public abstract class ViewController {
         System.out.println(message);
     }
 
+    public void loadDecks(){
+        System.out.println("can't load deck here");
+    }
+
 
 }

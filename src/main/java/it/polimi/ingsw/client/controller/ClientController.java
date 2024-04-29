@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.ClientModel;
+import it.polimi.ingsw.client.view.ViewController;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserverInterface;
 import javafx.application.Application;
@@ -12,9 +13,9 @@ import java.util.Scanner;
 
 public class ClientController implements Runnable, ClientNetworkObserverInterface {
 
-    ClientConnectionManager clientConnectionManager;
-    ClientModel clientModel;
-    ClientView clientView;
+    private ClientConnectionManager clientConnectionManager;
+    private ClientModel clientModel;
+    private ViewController viewController;
 
     public ClientController (ClientConnectionManager clientConnectionManager)  {
 
@@ -30,6 +31,10 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     public void run() {
         startClient();
 
+    }
+
+    public void setViewController(ViewController viewController) {
+        this.viewController = viewController;
     }
 
     public void startClient() {

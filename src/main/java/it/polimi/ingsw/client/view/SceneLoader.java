@@ -15,10 +15,6 @@ public class SceneLoader {
 
     private static ClientController clientController;
 
-    public SceneLoader(ClientController clientController) {
-        SceneLoader.clientController = clientController;
-    }
-
 
     public static void setClientController(ClientController clientController) {
         SceneLoader.clientController = clientController;
@@ -37,6 +33,7 @@ public class SceneLoader {
         Parent root = loader.load();
         GameBoardViewController gameBoardViewController = loader.getController();
         gameBoardViewController.setClientController(clientController);
+        clientController.setViewController(gameBoardViewController);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 1600 , 900);
@@ -47,6 +44,7 @@ public class SceneLoader {
         Parent root = loader.load();
         WelcomeViewController welcomeViewController = loader.getController();
         welcomeViewController.setClientController(clientController);
+        clientController.setViewController(welcomeViewController);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 600 , 400);
@@ -57,6 +55,7 @@ public class SceneLoader {
         Parent root = loader.load();
         CreateGameViewController createGameViewController = loader.getController();
         createGameViewController.setClientController(clientController);
+        clientController.setViewController(createGameViewController);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 600 , 400);
@@ -67,6 +66,7 @@ public class SceneLoader {
         Parent root = loader.load();
         JoinGameViewController joinGameViewController = loader.getController();
         joinGameViewController.setClientController(clientController);
+        clientController.setViewController(joinGameViewController);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 600 , 400);
@@ -77,6 +77,7 @@ public class SceneLoader {
         Parent root = loader.load();
         WaitForPlayersViewController waitForPlayersViewController = loader.getController();
         waitForPlayersViewController.setClientController(clientController);
+        clientController.setViewController(waitForPlayersViewController);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 600 , 400);

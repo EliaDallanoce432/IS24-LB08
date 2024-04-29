@@ -69,9 +69,8 @@ public class GameBoardViewController extends ViewController {
     }
 
     @FXML
-    private void loadDecks() throws IOException {
+    public void loadDecks() {
         cardPlacementController.loadDecks(clientModel.getDecks());
-
     }
     @FXML
     private void flipCardsInHand() {
