@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.VirtualCard;
+import it.polimi.ingsw.util.supportclasses.Color;
 
 import java.util.ArrayList;
 
@@ -9,8 +10,14 @@ import static it.polimi.ingsw.util.supportclasses.ViewConstants.HAND_SIZE;
 public class ClientModel {
 
     private String username;
+    private Color color;
     private ArrayList<VirtualCard> cardsInHand = new ArrayList<>();
-    private VirtualCard[] decks = new VirtualCard[6];
+    private int resourceDeckTopCardId;
+    private int resourceDeckLeftCardId;
+    private int resourceDeckRightCardId;
+    private int goldDeckTopCardId;
+    private int goldDeckLeftCardId;
+    private int goldDeckRightCardId;
     private int starterCardId;
 
     public ClientModel(String username) {
@@ -29,16 +36,12 @@ public class ClientModel {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public ArrayList<VirtualCard> getCardsInHand() {
         return cardsInHand;
-    }
-
-    public VirtualCard[] getDecks() {
-        return decks;
-    }
-
-    public void setDecks(VirtualCard[] decks) {
-        this.decks = decks;
     }
 
     public void addCardToHand(VirtualCard card) {

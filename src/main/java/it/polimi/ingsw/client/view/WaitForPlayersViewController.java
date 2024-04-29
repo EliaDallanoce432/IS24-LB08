@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WaitForPlayersViewController {
+public class WaitForPlayersViewController extends ViewController {
 
     @FXML
     private Button backButton;
@@ -23,15 +23,8 @@ public class WaitForPlayersViewController {
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
 
-    private SceneLoader sceneLoader;
-
     @FXML
     public void initialize() {
-
-        sceneLoader = new SceneLoader();
-
-
-
 
     }
 
@@ -39,7 +32,7 @@ public class WaitForPlayersViewController {
     private void goBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadJoinGameScene());
+        stage.setScene(SceneLoader.loadWelcomeScene());
         stage.show();
     }
 
@@ -50,7 +43,7 @@ public class WaitForPlayersViewController {
 
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadGameBoardScene());
+        stage.setScene(SceneLoader.loadGameBoardScene());
         stage.show();
 
 
