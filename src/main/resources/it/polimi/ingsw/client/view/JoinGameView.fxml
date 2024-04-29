@@ -10,13 +10,14 @@
             <children>
                 <Button fx:id="okButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#okPressed" text="OK" />
                 <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-                <ChoiceBox fx:id="availableGamesChoiceBox" layoutX="25.0" layoutY="99.0" prefWidth="522.0" />
+                <ChoiceBox fx:id="availableGamesChoiceBox" layoutX="25.0" layoutY="99.0" prefHeight="25.0" prefWidth="483.0" />
                 <Label layoutX="29.0" layoutY="44.0" text="Available Games:" textFill="WHITE">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
                     <Label fx:id="alertLabel" layoutX="196.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+            <Button fx:id="refreshButton" layoutX="520.0" layoutY="99.0" mnemonicParsing="false" onAction="#refreshPressed" text="Refresh" />
             </children>
         </Pane>
     </children>

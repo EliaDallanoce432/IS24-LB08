@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class CreateGameViewController {
+public class CreateGameViewController extends ViewController {
 
     @FXML
     private TextField gameNameField;
@@ -23,12 +23,9 @@ public class CreateGameViewController {
     @FXML
     private ChoiceBox<String> numberOfPlayersChoiceBox;
 
-    private SceneLoader sceneLoader;
 
     @FXML
     public void initialize() {
-
-        sceneLoader = new SceneLoader();
 
 
         gameNameField.setPromptText("Game Name Here");
@@ -45,7 +42,7 @@ public class CreateGameViewController {
     private void goBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadWelcomeScene());
+        stage.setScene(SceneLoader.loadWelcomeScene());
         stage.show();
     }
 
@@ -54,7 +51,7 @@ public class CreateGameViewController {
         String gameName = gameNameField.getText();
         int numberOfPlayers = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
 
-        if ( gameName.contains(" ") || gameName.equals("\n")) {
+        if ( gameName.startsWith(" ") || gameName.equals("\n") || gameName.endsWith(" ") ) {
             alertLabel.setText("Invalid Game Name (no spaces allowed!)");
         }
         else if (gameName.isEmpty()) {
@@ -62,14 +59,19 @@ public class CreateGameViewController {
         }
         else{
 
-            System.out.println("created game: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
+            if (!clientController.sendSetUpGameMessage(gameName, numberOfPlayers)) showMessage("ERROR");
 
-            System.out.println("joining game: " + gameName);
+            else {
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
+                System.out.println("created game: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
 
-            stage.setScene(sceneLoader.loadWaitForPlayersScene());
-            stage.show();
+                System.out.println("joining game: " + gameName);
+
+                Stage stage = (Stage) backButton.getScene().getWindow();
+
+                stage.setScene(SceneLoader.loadWaitForPlayersScene());
+                stage.show();
+            }
 
         }
 

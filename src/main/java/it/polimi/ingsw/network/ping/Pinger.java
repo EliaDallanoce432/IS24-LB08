@@ -59,7 +59,7 @@ public class Pinger implements Runnable, SocketInfoInterface {
      */
     private void sendPing() {
         printWriter.println("PING");
-        System.out.println("pinging");
+        //System.out.println("pinging");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {

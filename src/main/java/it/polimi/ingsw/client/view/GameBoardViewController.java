@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static java.lang.Math.random;
 
-public class GameBoardViewController {
+public class GameBoardViewController extends ViewController {
 
     @FXML
     private Pane handPane;
@@ -37,12 +37,8 @@ public class GameBoardViewController {
     private ClientModel clientModel;
     private CardPlacementController cardPlacementController;
 
-    private SceneLoader sceneLoader;
-
     @FXML
     private void initialize() {
-
-        sceneLoader = new SceneLoader();
 
         clientModel = new ClientModel("test");
         clientModel.setStarterCardId(81);
@@ -73,9 +69,8 @@ public class GameBoardViewController {
     }
 
     @FXML
-    private void loadDecks() throws IOException {
+    public void loadDecks() {
         cardPlacementController.loadDecks(clientModel.getDecks());
-
     }
     @FXML
     private void flipCardsInHand() {
@@ -96,7 +91,7 @@ public class GameBoardViewController {
 
         Stage stage = (Stage) leaveGameButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadWelcomeScene());
+        stage.setScene(SceneLoader.loadWelcomeScene());
         stage.show();
     }
 
