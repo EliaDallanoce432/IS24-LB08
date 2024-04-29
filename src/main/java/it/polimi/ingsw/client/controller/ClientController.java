@@ -25,12 +25,12 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(clientConnectionManager.send(MessageGenerator.generateSetUsernameMessage(username)));
+        System.out.println(clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username)));
 
-        System.out.println(clientConnectionManager.send(MessageGenerator.generateGetAvailableGamesMessage()));
+        System.out.println(clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage()));
 
         String gamename = scanner.nextLine();
-        System.out.println(clientConnectionManager.send(MessageGenerator.generateSetUpGameMessage(gamename,2)));
+        System.out.println(clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,2)));
 
        // clientSocket.sendMessage(MessageGenerator.generateLeaveLobbyMessage());
     }
