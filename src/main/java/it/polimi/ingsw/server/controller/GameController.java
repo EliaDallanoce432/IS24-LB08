@@ -71,6 +71,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                     System.out.println(player.getUsername() + " is ready");
                     countReadyPlayers++;
                 }
+                else {
+                    System.out.println(player.getUsername() + " is not ready");
+                }
             }
         }
     }
@@ -170,8 +173,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
 
     @Override
     public void notifyIncomingMessage(ClientHandler clientHandler) {
-        JSONObject jsonMessage = clientHandler.getReceivedRequest();
-        //TODO chiamare il pareser e agire di conseguenza
+        try {
+            GameControllerRequestExecutor.execute(this,clientHandler.getReceivedRequest(),clientHandler);
+        } catch (EmptyDeckException | CannotPlaceCardException | FullHandException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

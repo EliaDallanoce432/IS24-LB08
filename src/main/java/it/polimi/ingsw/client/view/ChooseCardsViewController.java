@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WaitForPlayersViewController extends ViewController {
+public class ChooseCardsViewController extends ViewController {
 
     @FXML
     private Button backButton;
@@ -37,16 +37,14 @@ public class WaitForPlayersViewController extends ViewController {
     }
 
     @FXML
-    private void readyPressed() throws IOException {
+    private void confirmPressed() throws IOException {
 
-        System.out.println("Ready");
 
         if (!clientController.sendReadyMessage()) showMessage("Someting went wrong");
         else showMessage("ok");
 
-//        Stage stage = (Stage) backButton.getScene().getWindow();
-//        stage.setScene(SceneLoader.loadGameBoardScene());
-//        stage.show();
+
+        //TODO choose selection (send message)
 
 
     }

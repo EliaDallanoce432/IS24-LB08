@@ -4,18 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.WaitForPlayersViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.ChooseCardsViewController">
     <children>
         <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="readyButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#readyPressed" text="Ready" />
-                <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-                <Label layoutX="29.0" layoutY="44.0" text="Waiting For Players...." textFill="WHITE">
+                <Button fx:id="confirmButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#confirmPressed" text="Ready" />
+                <Label layoutX="29.0" layoutY="28.0" prefHeight="64.0" prefWidth="227.0" textFill="WHITE">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
                 <Label fx:id="alertLabel" layoutX="329.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+            <HBox layoutX="29.0" layoutY="100.0" prefHeight="183.0" prefWidth="509.0" />
             </children>
         </Pane>
     </children>

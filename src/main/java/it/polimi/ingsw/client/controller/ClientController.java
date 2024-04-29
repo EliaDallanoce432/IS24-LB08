@@ -101,8 +101,10 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
         else return false;
     }
 
-    public void sendReadyMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
+    public boolean sendReadyMessage() {
+        System.out.println("sending message...");
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
+        return response.get("response").equals("ok");
     }
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
