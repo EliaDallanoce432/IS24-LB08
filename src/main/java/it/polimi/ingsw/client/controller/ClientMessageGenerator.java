@@ -43,9 +43,10 @@ public class ClientMessageGenerator {
         return message;
     }
 
-    public static JSONObject generateChosenStarterCardOrientationMessage(boolean facingUp) {
+    public static JSONObject generateChosenStarterCardOrientationMessage(int cardId,boolean facingUp) {
         JSONObject message = new JSONObject();
         message.put("command","starterCard");
+        message.put("starterCardId",cardId);
         message.put("facingUp",facingUp);
         return message;
     }
@@ -53,16 +54,17 @@ public class ClientMessageGenerator {
     public static JSONObject generateChosenSecretObjectiveMessage(int id) {
         JSONObject message = new JSONObject();
         message.put("command","objectiveCard");
-        message.put("id",id);
+        message.put("objectiveCardId",id);
         return message;
     }
 
-    public static JSONObject generatePlaceMessage(int cardId, int x, int y) {
+    public static JSONObject generatePlaceMessage(int cardId, int x, int y, boolean facingUp) {
         JSONObject message = new JSONObject();
         message.put("command","place");
-        message.put("cardId",cardId);
+        message.put("placeableCardId",cardId);
         message.put("x",x);
         message.put("y",y);
+        message.put("facingUp",facingUp);
         return message;
     }
 
