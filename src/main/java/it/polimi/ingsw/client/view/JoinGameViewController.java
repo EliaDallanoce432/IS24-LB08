@@ -54,12 +54,17 @@ public class JoinGameViewController extends ViewController {
         }
         else {
 
-            System.out.println("joined game: " + selectedGame);
+            if(!clientController.sendJoinGameMessage(selectedGame)){
+                alertLabel.setText("Something went wrong");
+            }
+            else {
+                System.out.println("joined game: " + selectedGame);
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
+                Stage stage = (Stage) backButton.getScene().getWindow();
 
-            stage.setScene(SceneLoader.loadWaitForPlayersScene());
-            stage.show();
+                stage.setScene(SceneLoader.loadWaitForPlayersScene());
+                stage.show();
+            }
 
         }
 

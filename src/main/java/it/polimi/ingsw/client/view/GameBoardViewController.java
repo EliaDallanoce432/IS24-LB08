@@ -70,8 +70,9 @@ public class GameBoardViewController extends ViewController {
 
     @FXML
     public void loadDecks() {
-        cardPlacementController.loadDecks(clientModel.getDecks());
+        //cardPlacementController.loadDecks(clientModel.getDecks());
     }
+
     @FXML
     private void flipCardsInHand() {
 

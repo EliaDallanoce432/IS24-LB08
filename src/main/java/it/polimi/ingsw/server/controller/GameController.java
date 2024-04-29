@@ -41,87 +41,36 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         return numberOfExpectedPlayers;
     }
 
-    public synchronized void enterGame(ClientHandler player) {
-        clients.add(player);
-        player.setGame(this);
-        player.setInGame(true);
-    }
 
-    public synchronized void leaveGame(ClientHandler player) {
-        clients.remove(player);
-        player.setGame(null);
-        player.setInGame(false);
-        lobby.enterLobby(player);
-    }
-    public synchronized void  place(ClientHandler player, int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
-        PlaceableCard cardInHand = null;
-        for (int i = 0; i < 3; i++) {
-            if(game.players[clients.indexOf(player)].getHand().get(i).getId()==placeableCardId)
-                cardInHand=game.players[clients.indexOf(player)].getHand().get(i);
-        }
-        game.players[clients.indexOf(player)].place(cardInHand, facingUp, x, y);
-    }
-    public synchronized void place(ClientHandler player, int starterCardId, boolean facingUp) {
-        StarterCard starterCard= null;
-        for (StarterCard drawnStarterCard : drawnStarterCards) {
-            if (drawnStarterCard.getId() == starterCardId)
-                starterCard = drawnStarterCard;
-        }
-        game.players[clients.indexOf(player)].place(starterCard, facingUp);
-    }
-    public synchronized void directDrawResourceCard(ClientHandler player) throws EmptyDeckException, FullHandException {
-        ResourceCard cardTemp = (ResourceCard)game.resourceCardDeck.directDraw();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void directDrawGoldCard(ClientHandler player) throws EmptyDeckException, FullHandException {
-        GoldCard cardTemp = (GoldCard)game.goldCardDeck.directDraw();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void drawLeftRevealedResourceCard(ClientHandler player) throws FullHandException {
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getLeftRevealedCard();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void drawRightRevealedResourceCard(ClientHandler player) throws FullHandException {
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getRightRevealedCard();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void drawLeftRevealedGoldCard(ClientHandler player) throws FullHandException {
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getLeftRevealedCard();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void drawRightRevealedGoldCard(ClientHandler player) throws FullHandException {
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getRightRevealedCard();
-        game.players[clients.indexOf(player)].addToHand(cardTemp);
-    }
-    public synchronized void chooseStarterCardOrientations(ClientHandler player, int starterCardId, boolean facingUp) {
-        for (StarterCard card : drawnStarterCards) {
-             if (card.getId() == starterCardId) {
-                 game.players[clients.indexOf(player)].place(drawnStarterCards.remove(starterCardId),facingUp);
-             }
-        }
-    }
-    public synchronized void chooseSecretObjectiveCard(ClientHandler player, int objectiveCardId) {
-        for (ObjectiveCard card : drawnObjectiveCards) {
-            if (card.getId() == objectiveCardId) {
-                game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(objectiveCardId));
-            }
-        }
-    }
     public void run() {
         waitForEveryoneToJoinAndBeReady();
+        System.out.println("All players are ready!");
         gamePreparation();
         startGame();
     }
+
     private void waitForEveryoneToJoinAndBeReady() {
         int countReadyPlayers = 0;
-        while (clients.size() < numberOfExpectedPlayers && countReadyPlayers<numberOfExpectedPlayers) {
+        while (clients.size() <= numberOfExpectedPlayers && countReadyPlayers<numberOfExpectedPlayers) {
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(clients.size()==numberOfExpectedPlayers) {
+                System.out.println("Waiting for players to be ready");
+            }
             if(clients.isEmpty())
             {//TODO chiudi partita
             }
             countReadyPlayers = 0;
             for (ClientHandler player : clients) {
-                if (player.isReady())
+                if (player.isReady()) {
+                    System.out.println(player.getUsername() + " is ready");
                     countReadyPlayers++;
+                }
             }
         }
     }
@@ -228,5 +177,72 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
 
+    }
+
+    public synchronized void enterGame(ClientHandler player) {
+        clients.add(player);
+        player.setGame(this);
+        player.setInGame(true);
+    }
+
+    public synchronized void leaveGame(ClientHandler player) {
+        clients.remove(player);
+        player.setGame(null);
+        player.setInGame(false);
+        lobby.enterLobby(player);
+    }
+    public synchronized void  place(ClientHandler player, int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        PlaceableCard cardInHand = null;
+        for (int i = 0; i < 3; i++) {
+            if(game.players[clients.indexOf(player)].getHand().get(i).getId()==placeableCardId)
+                cardInHand=game.players[clients.indexOf(player)].getHand().get(i);
+        }
+        game.players[clients.indexOf(player)].place(cardInHand, facingUp, x, y);
+    }
+    public synchronized void place(ClientHandler player, int starterCardId, boolean facingUp) {
+        StarterCard starterCard= null;
+        for (StarterCard drawnStarterCard : drawnStarterCards) {
+            if (drawnStarterCard.getId() == starterCardId)
+                starterCard = drawnStarterCard;
+        }
+        game.players[clients.indexOf(player)].place(starterCard, facingUp);
+    }
+    public synchronized void directDrawResourceCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+        ResourceCard cardTemp = (ResourceCard)game.resourceCardDeck.directDraw();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void directDrawGoldCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+        GoldCard cardTemp = (GoldCard)game.goldCardDeck.directDraw();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void drawLeftRevealedResourceCard(ClientHandler player) throws FullHandException {
+        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getLeftRevealedCard();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void drawRightRevealedResourceCard(ClientHandler player) throws FullHandException {
+        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getRightRevealedCard();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void drawLeftRevealedGoldCard(ClientHandler player) throws FullHandException {
+        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getLeftRevealedCard();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void drawRightRevealedGoldCard(ClientHandler player) throws FullHandException {
+        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getRightRevealedCard();
+        game.players[clients.indexOf(player)].addToHand(cardTemp);
+    }
+    public synchronized void chooseStarterCardOrientations(ClientHandler player, int starterCardId, boolean facingUp) {
+        for (StarterCard card : drawnStarterCards) {
+            if (card.getId() == starterCardId) {
+                game.players[clients.indexOf(player)].place(drawnStarterCards.remove(starterCardId),facingUp);
+            }
+        }
+    }
+    public synchronized void chooseSecretObjectiveCard(ClientHandler player, int objectiveCardId) {
+        for (ObjectiveCard card : drawnObjectiveCards) {
+            if (card.getId() == objectiveCardId) {
+                game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(objectiveCardId));
+            }
+        }
     }
 }

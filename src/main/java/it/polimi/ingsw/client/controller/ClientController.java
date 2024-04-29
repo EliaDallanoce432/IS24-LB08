@@ -85,6 +85,14 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     }
 
+    public boolean sendJoinGameMessage(String gameName){
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));
+        if(response.get("response").equals("ok")) {
+            return true;
+        }
+        else return false;
+    }
+
     public boolean sendSetUpGameMessage(String gamename, int numOfPlayers) {
         JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,numOfPlayers));
         if(response.get("response").equals("ok")) {

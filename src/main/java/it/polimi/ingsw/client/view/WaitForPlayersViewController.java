@@ -41,10 +41,11 @@ public class WaitForPlayersViewController extends ViewController {
 
         System.out.println("Ready");
 
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        clientController.sendReadyMessage();
 
-        stage.setScene(SceneLoader.loadGameBoardScene());
-        stage.show();
+//        Stage stage = (Stage) backButton.getScene().getWindow();
+//        stage.setScene(SceneLoader.loadGameBoardScene());
+//        stage.show();
 
 
     }

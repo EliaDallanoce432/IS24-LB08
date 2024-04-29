@@ -33,6 +33,7 @@ public class CreateGameViewController extends ViewController {
         numberOfPlayersChoiceBox.getItems().addAll("2", "3", "4");
         numberOfPlayersChoiceBox.setValue("2");
         numberOfPlayersChoiceBox.setOnAction(event -> {
+            numberOfPlayersChoiceBox.getSelectionModel().select(null);
             int selectedItem = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
             System.out.println("Selected item: " + selectedItem);
         });
@@ -57,6 +58,10 @@ public class CreateGameViewController extends ViewController {
         else if (gameName.isEmpty()) {
             alertLabel.setText("Game Name cannot be empty!");
         }
+        else if (numberOfPlayers < 2) {
+            alertLabel.setText("Number of Players must be greater than 2");
+        }
+
         else{
 
             if (!clientController.sendSetUpGameMessage(gameName, numberOfPlayers)) showMessage("ERROR");
