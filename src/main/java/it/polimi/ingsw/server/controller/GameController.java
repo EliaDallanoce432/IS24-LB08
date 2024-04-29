@@ -110,6 +110,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
     public void run() {
         waitForEveryoneToJoinAndBeReady();
         gamePreparation();
+        startGame();
     }
     private void waitForEveryoneToJoinAndBeReady() {
         int countReadyPlayers = 0;
@@ -173,6 +174,29 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 return true;
         }
         return false;
+    }
+
+    /**
+     * communicates to players the game is about to start and sends their cards
+     */
+    public void startGame () {
+        for (int i=0; i < numberOfExpectedPlayers; i++) {
+            clients.get(i).send(ServerMessageGenerator.generateStartGameMessage());
+            clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
+            //clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage());
+        }
+    }
+
+    /**
+     * sends the updated scores to every player
+     */
+    public void sendUpDatedScores () {
+        ArrayList <Integer> scores = new ArrayList<>();
+        for (int i=0; i < numberOfExpectedPlayers; i++) {
+            scores.add(game.players[i].getScore()); }
+
+        for (int i=0; i < numberOfExpectedPlayers; i++) {
+            clients.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(scores));}
     }
 
     @Override

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
@@ -48,6 +49,32 @@ public class ServerMessageGenerator {
         }
         message.put("resourceCards", resourceCardsArray);
         message.put("goldCards", goldCardsArray);
+        return message;
+    }
+
+    public static JSONObject generateStartGameMessage () {
+        JSONObject message = new JSONObject();
+        message.put("message","start");
+        return message;
+    }
+
+    public static JSONObject generateUpdatedScoreMessage (ArrayList<Integer> updatedScores) {
+        JSONObject message = new JSONObject();
+        JSONArray scoreArray = new JSONArray();
+        message.put("message","updated score");
+        scoreArray.addAll(updatedScores);
+        message.put("score", scoreArray);
+        return message;
+    }
+
+    public static JSONObject generateUpdatedResourcesMessage (int[] resources) {
+        JSONObject message = new JSONObject();
+        JSONArray updatedResources = new JSONArray();
+        message.put("message", "updated resources");
+        for(int i : resources) {
+            updatedResources.add(i);
+        }
+        message.put("resources", updatedResources);
         return message;
     }
 }

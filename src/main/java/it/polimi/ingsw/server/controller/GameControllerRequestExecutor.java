@@ -21,7 +21,7 @@ public class GameControllerRequestExecutor {
             case "drawRightResourceCard" -> drawRightRevealedResourceCard(gamecontroller, player);
             case "drawLeftGoldCard" -> drawLeftRevealedGoldCard(gamecontroller, player);
             case "drawRightGoldCard" -> drawRightRevealedGoldCard(gamecontroller, player);
-            case "placeStarterCard" -> placeStarterCard(gamecontroller,player, message);
+            //case "placeStarterCard" -> placeStarterCard(gamecontroller,player, message);
             case "place" -> place(gamecontroller, player, message);
             case "leave" -> leave(gamecontroller, player);
             default -> player.reply(ResponseGenerator.generateResponse("unexpectedCommand"));
@@ -84,12 +84,12 @@ public class GameControllerRequestExecutor {
             //TODO gestione place
         }
     }
-    public static void placeStarterCard(GameController game, ClientHandler player, JSONObject message) {
+    /* public static void placeStarterCard(GameController game, ClientHandler player, JSONObject message) {
             int starterCardId = Integer.parseInt(message.get("starterCardId").toString());
             boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
             game.place(player, starterCardId, facingUp);
             player.reply(ResponseGenerator.generateResponse("ok"));
-    }
+    }*/
     public static void leave(GameController game, ClientHandler player)
     {
         game.leaveGame(player);
