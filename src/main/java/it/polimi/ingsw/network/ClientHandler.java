@@ -30,6 +30,10 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     private final Lobby lobby;
     private boolean isInGame;
     private boolean isReady;
+    private boolean canPlace;
+    private boolean canDraw;
+    private boolean MyTurn;
+
 
     public ClientHandler(Socket setUpSocket, Lobby lobby) {
         Scanner scanner;
@@ -74,6 +78,29 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         return receivedRequest;
     }
 
+    public boolean CanPlace() {
+        return canPlace;
+    }
+
+    public void setCanPlace(boolean canPlace) {
+        this.canPlace = canPlace;
+    }
+
+    public boolean CanDraw() {
+        return canDraw;
+    }
+
+    public void setCanDraw(boolean canDraw) {
+        this.canDraw = canDraw;
+    }
+
+    public boolean isMyTurn() {
+        return MyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        MyTurn = myTurn;
+    }
     public String getUsername() {
         return username;
     }

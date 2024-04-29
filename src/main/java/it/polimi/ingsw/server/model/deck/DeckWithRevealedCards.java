@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.deck;
 import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
+import java.util.ArrayList;
+
 public abstract class DeckWithRevealedCards extends Deck{
     protected Card leftRevealedCard;
     protected Card rightRevealedCard;
@@ -35,5 +37,17 @@ public abstract class DeckWithRevealedCards extends Deck{
             return null; //no cards left
         }
         return selectedCard;
+    }
+
+    /**
+     * returns the ids of the drawable cards
+     * @return cardsId
+     */
+    public ArrayList<Integer> getDrawableCardsId() {
+        ArrayList<Integer> cardsId= new ArrayList<>();
+        cardsId.add(cards.getFirst().getId()) ;
+        cardsId.add(leftRevealedCard.getId()) ;
+        cardsId.add(rightRevealedCard.getId()) ;
+        return cardsId;
     }
 }

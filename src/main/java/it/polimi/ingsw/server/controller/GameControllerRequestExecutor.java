@@ -30,58 +30,62 @@ public class GameControllerRequestExecutor {
     public static void ready(GameController game, ClientHandler player)
     {
         game.ready(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void chooseStarterCardOrientation(GameController game,JSONObject message, ClientHandler player)
     {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
         game.chooseStarterCardOrientations(player,starterCardId, facingUp);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void chooseSecretObjectiveCard(GameController game,JSONObject message, ClientHandler player)
     {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
         game.chooseSecretObjectiveCard(player, objectiveCardId);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void directDrawResourceCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
         game.directDrawResourceCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void directDrawGoldCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
         game.directDrawGoldCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void drawLeftRevealedResourceCard(GameController game,ClientHandler player) throws FullHandException {
         game.drawLeftRevealedResourceCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void drawRightRevealedResourceCard(GameController game,ClientHandler player) throws FullHandException {
         game.drawRightRevealedResourceCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void drawLeftRevealedGoldCard(GameController game,ClientHandler player) throws FullHandException {
         game.drawLeftRevealedGoldCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void drawRightRevealedGoldCard(GameController game,ClientHandler player) throws FullHandException {
         game.drawRightRevealedGoldCard(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void place(GameController game, ClientHandler player, JSONObject message) throws CannotPlaceCardException {
-        try {
-            int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
-            int x = Integer.parseInt(message.get("x").toString());
-            int y = Integer.parseInt(message.get("y").toString());
-            boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
-            game.place(player, placeableCardId, facingUp, x, y);
-            player.reply(ResponseGenerator.generateResponse("ok"));
-        }
-        catch (CannotPlaceCardException e)
-        {
-            //player.reply(ServerMessageGenerator);
-            //TODO gestione place
+
+        if(!player.isMyTurn()) player.reply(ResponseGenerator.generateNotYourTurnResponse());
+        else if(!player.CanPlace()) player.reply(ResponseGenerator.alreadyPlacedResponse());
+        else {
+            try {
+                int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
+                int x = Integer.parseInt(message.get("x").toString());
+                int y = Integer.parseInt(message.get("y").toString());
+                boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
+                game.place(player, placeableCardId, facingUp, x, y);
+                player.reply(ResponseGenerator.generateOkResponse());
+            }
+            catch (CannotPlaceCardException e)
+            {
+                player.reply(ResponseGenerator.notValidPlacementResponse());
+            }
         }
     }
     /* public static void placeStarterCard(GameController game, ClientHandler player, JSONObject message) {
@@ -93,7 +97,7 @@ public class GameControllerRequestExecutor {
     public static void leave(GameController game, ClientHandler player)
     {
         game.leaveGame(player);
-        player.reply(ResponseGenerator.generateResponse("ok"));
+        player.reply(ResponseGenerator.generateOkResponse());
     }
 
 

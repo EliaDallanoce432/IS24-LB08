@@ -161,6 +161,19 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         {
             //wait for every player to choose starter card orientation
         }
+
+        for (int i = 0; i< clients.size(); i++) {
+            try {
+                game.players[i].addToHand((PlaceableCard) game.resourceCardDeck.directDraw());
+                game.players[i].addToHand((PlaceableCard) game.resourceCardDeck.directDraw());
+                game.players[i].addToHand((PlaceableCard) game.goldCardDeck.directDraw());
+            } catch (FullHandException e) {
+                throw new RuntimeException(e);
+            } catch (EmptyDeckException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
     public void ready(ClientHandler clientHandler) { clientHandler.setReady(true);}
 
@@ -183,8 +196,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         for (int i=0; i < numberOfExpectedPlayers; i++) {
             clients.get(i).send(ServerMessageGenerator.generateStartGameMessage());
             clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
-            //clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage());
+            clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(),game.goldCardDeck.getDrawableCardsId()));
+            this.sendUpDatedScores();
         }
+
+        //while ()
     }
 
     /**
@@ -195,8 +211,12 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         for (int i=0; i < numberOfExpectedPlayers; i++) {
             scores.add(game.players[i].getScore()); }
 
+        ArrayList <String> names = new ArrayList<>();
         for (int i=0; i < numberOfExpectedPlayers; i++) {
-            clients.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(scores));}
+            names.add(game.players[i].getUsername()); }
+
+        for (int i=0; i < numberOfExpectedPlayers; i++) {
+            clients.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores));}
     }
 
     @Override

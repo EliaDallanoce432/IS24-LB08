@@ -36,19 +36,16 @@ public class ServerMessageGenerator {
         message.put("hand",handArray);
         return message;
     }
-    public static JSONObject generateDrawableCardsMessage (ArrayList<PlaceableCard> resourceCards, ArrayList<PlaceableCard> goldCards){
+    public static JSONObject generateDrawableCardsMessage (ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards){
         JSONObject message = new JSONObject();
-        JSONArray resourceCardsArray = new JSONArray();
-        JSONArray goldCardsArray = new JSONArray();
+
         message.put("message","drawableCards");
-        for(PlaceableCard card : resourceCards){
-            resourceCardsArray.add(String.valueOf(card.getId()));
-        }
-        for(PlaceableCard card : goldCards){
-            goldCardsArray.add(String.valueOf(card.getId()));
-        }
-        message.put("resourceCards", resourceCardsArray);
-        message.put("goldCards", goldCardsArray);
+        message.put("topDeckResourceCard", resourceCards.getFirst());
+        message.put("leftResourceCard", resourceCards.get(1));
+        message.put("rightResourceCard", resourceCards.getLast());
+        message.put("topDeckGoldCard", goldCards.getFirst());
+        message.put("leftGoldCard", goldCards.get(1));
+        message.put("rightGoldCard", goldCards.getLast());
         return message;
     }
 
@@ -58,11 +55,16 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject generateUpdatedScoreMessage (ArrayList<Integer> updatedScores) {
+    public static JSONObject generateUpdatedScoreMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
         JSONObject message = new JSONObject();
         JSONArray scoreArray = new JSONArray();
         message.put("message","updated score");
-        scoreArray.addAll(updatedScores);
+        for (int i=0; i < names.size(); i++) {
+            JSONObject personalScore = new JSONObject();
+            personalScore.put("username", names.get(i));
+            personalScore.put("score", updatedScores.get(i));
+            scoreArray.add(personalScore);
+        }
         message.put("score", scoreArray);
         return message;
     }
