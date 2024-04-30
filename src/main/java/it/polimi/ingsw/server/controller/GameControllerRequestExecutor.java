@@ -46,8 +46,11 @@ public class GameControllerRequestExecutor {
         player.reply(ResponseGenerator.generateOkResponse());
     }
     public static void directDrawResourceCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
-        game.directDrawResourceCard(player);
-        player.reply(ResponseGenerator.generateOkResponse());
+        if (!player.CanDraw()) player.reply(ResponseGenerator.alreadyDrawnResponse());
+        else {
+            game.directDrawResourceCard(player);
+            player.reply(ResponseGenerator.generateOkResponse());
+        }
     }
     public static void directDrawGoldCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
         game.directDrawGoldCard(player);

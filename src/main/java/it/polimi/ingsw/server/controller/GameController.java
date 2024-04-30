@@ -24,6 +24,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
     private Game game;
     ArrayList<StarterCard> drawnStarterCards;
     ArrayList<ObjectiveCard> drawnObjectiveCards;
+    private int turn;
     public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
         this.clients = new ArrayList<>();
         this.numberOfExpectedPlayers = numberOfPlayers;
@@ -119,9 +120,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 game.players[i].addToHand((PlaceableCard) game.resourceCardDeck.directDraw());
                 game.players[i].addToHand((PlaceableCard) game.resourceCardDeck.directDraw());
                 game.players[i].addToHand((PlaceableCard) game.goldCardDeck.directDraw());
-            } catch (FullHandException e) {
-                throw new RuntimeException(e);
-            } catch (EmptyDeckException e) {
+            } catch (FullHandException | EmptyDeckException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -152,7 +151,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             this.sendUpDatedScores();
         }
 
-        //while ()
     }
 
     /**
@@ -250,5 +248,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(objectiveCardId));
             }
         }
+    }
+
+    public void passTurn () {
+        turn = (turn + 1) % clients.size();
     }
 }

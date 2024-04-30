@@ -39,4 +39,10 @@ public class ResponseGenerator {
         return response;
     }
 
+    public static JSONObject alreadyDrawnResponse () {
+        JSONObject response = new JSONObject();
+        response.put("response", "Already drawn");
+        return response;
+    }
+
 }
