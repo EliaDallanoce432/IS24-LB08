@@ -140,6 +140,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         return false;
     }
 
+
+
+
     /**
      * communicates to players the game is about to start and sends their cards
      */
@@ -150,7 +153,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(),game.goldCardDeck.getDrawableCardsId()));
             this.sendUpDatedScores();
         }
-
+        for (ClientHandler player : clients)
+            player.clearTurnState();
     }
 
     /**

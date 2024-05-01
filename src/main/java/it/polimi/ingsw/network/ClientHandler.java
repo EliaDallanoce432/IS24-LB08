@@ -30,8 +30,8 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     private final Lobby lobby;
     private boolean isInGame;
     private boolean isReady;
-    private boolean canPlace;
-    private boolean canDraw;
+    private boolean alreadyPlace;
+    private boolean alreadyDraw;
     private boolean MyTurn;
 
 
@@ -79,19 +79,19 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     }
 
     public boolean CanPlace() {
-        return canPlace;
+        return alreadyPlace;
     }
 
-    public void setCanPlace(boolean canPlace) {
-        this.canPlace = canPlace;
+    public void setAlreadyPlace(boolean alreadyPlace) {
+        this.alreadyPlace = alreadyPlace;
     }
 
     public boolean CanDraw() {
-        return canDraw;
+        return alreadyDraw;
     }
 
-    public void setCanDraw(boolean canDraw) {
-        this.canDraw = canDraw;
+    public void setAlreadyDraw(boolean alreadyDraw) {
+        this.alreadyDraw = alreadyDraw;
     }
 
     public boolean isMyTurn() {
@@ -136,6 +136,13 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
 
     public Lobby getLobby() {
         return lobby;
+    }
+
+    public void clearTurnState()
+    {
+            alreadyPlace=false;
+            alreadyDraw=false;
+
     }
 
     @Override
@@ -199,4 +206,6 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         inputSocketThread.interrupt();
         running = false;
     }
+
+
 }

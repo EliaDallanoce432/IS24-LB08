@@ -9,7 +9,6 @@ public abstract class Deck {
 
     /**
      * returns a card from the deck
-     *
      * @return Card
      */
     public Card directDraw() throws EmptyDeckException {
