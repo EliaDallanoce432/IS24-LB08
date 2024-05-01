@@ -14,8 +14,8 @@ public class Player {
     private final String username;
     private final Color token;
     private int score;
-    private GameField gamefield;
-    private ArrayList<PlaceableCard> hand;
+    private final GameField gamefield;
+    private final ArrayList<PlaceableCard> hand;
     private ObjectiveCard secretObjective;
 
     public Player(String username, Color token) {

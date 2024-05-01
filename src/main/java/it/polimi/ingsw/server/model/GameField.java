@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameField {
-    private HashMap<String, PlaceableCard> cardsGrid;
-    private Player player;
+    private final HashMap<String, PlaceableCard> cardsGrid;
+    private final Player player;
     private int fungiCount;
     private int animalCount;
     private int plantCount;
@@ -18,11 +18,10 @@ public class GameField {
     private int scrollCount;
     private int inkPotCount;
     private int featherCount;
-    private ArrayList<PlaceableCard> plantCards;
-    private ArrayList<PlaceableCard> animalCards;
-    private ArrayList<PlaceableCard> fungiCards;
-    private ArrayList<PlaceableCard> insectCards;
-
+    private final ArrayList<PlaceableCard> plantCards;
+    private final ArrayList<PlaceableCard> animalCards;
+    private final ArrayList<PlaceableCard> fungiCards;
+    private final ArrayList<PlaceableCard> insectCards;
 
     public GameField(Player player) {
         this.player = player;

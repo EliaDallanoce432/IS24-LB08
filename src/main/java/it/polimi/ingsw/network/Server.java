@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Server implements Runnable {
     private final int port;
@@ -19,7 +20,6 @@ public class Server implements Runnable {
         this.port = port;
         this.lobby = new Lobby();
         executor.execute(this.lobby);
-
     }
 
     public void run() {}
@@ -30,16 +30,13 @@ public class Server implements Runnable {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
+            System.out.println("Server ready at: " + serverSocket.getLocalSocketAddress());
         } catch (IOException e) {
             System.err.println(e.getMessage());
             return;
         }
-        try {
-            System.out.println("Server ready at: " + InetAddress.getLocalHost() + ":" + serverSocket.getLocalPort());
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-        while (true) {
+
+        while (!executor.isShutdown()) {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("server address: " + socket.getInetAddress());
@@ -54,10 +51,17 @@ public class Server implements Runnable {
 
         executor.shutdown();
         try {
-            serverSocket.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return;
+            if (!executor.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
+                System.err.println("Some clients might not have finished gracefully.");
+            }
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted while waiting for client to finish: " + e.getMessage());
+        } finally {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                System.err.println("Error closing server socket: " + e.getMessage());
+            }
         }
     }
 }

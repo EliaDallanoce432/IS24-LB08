@@ -20,7 +20,6 @@ public class Corner {
     @Override
     public boolean equals(Object obj) {
         Corner other = (Corner) obj;
-        if(this == null && other == null) return true;
         if (this.resource != other.resource) return false;
         if (this.attached != other.attached) return false;
         if (this.attachable != other.attachable) return false;

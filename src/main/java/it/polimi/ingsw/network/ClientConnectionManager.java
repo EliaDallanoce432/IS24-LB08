@@ -29,11 +29,10 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     private final Thread clientControllerThread;
     private boolean running;
 
-
     public ClientConnectionManager(String serverAddress, int port) throws ServerUnreachableException {
-        Socket setUpSocket = null;
         Scanner scanner;
         PrintWriter printWriter;
+        Socket setUpSocket;
         try {
             setUpSocket = new Socket(serverAddress, port);
         } catch (IOException e) {
