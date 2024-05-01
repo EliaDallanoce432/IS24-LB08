@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.sockets.InputSocket;
 import it.polimi.ingsw.network.sockets.OutputSocket;
 import it.polimi.ingsw.network.sockets.SocketObserverInterface;
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.lobby.Lobby;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,8 +31,7 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     private final Lobby lobby;
     private boolean isInGame;
     private boolean isReady;
-    private boolean alreadyPlace;
-    private boolean alreadyDraw;
+    private boolean alreadyPlaced;
     private boolean MyTurn;
 
 
@@ -78,20 +78,12 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         return receivedRequest;
     }
 
-    public boolean CanPlace() {
-        return alreadyPlace;
+    public boolean hasAlreadyPlaced() {
+        return alreadyPlaced;
     }
 
-    public void setAlreadyPlace(boolean alreadyPlace) {
-        this.alreadyPlace = alreadyPlace;
-    }
-
-    public boolean CanDraw() {
-        return alreadyDraw;
-    }
-
-    public void setAlreadyDraw(boolean alreadyDraw) {
-        this.alreadyDraw = alreadyDraw;
+    public void setAlreadyPlaced(boolean alreadyPlaced) {
+        this.alreadyPlaced = alreadyPlaced;
     }
 
     public boolean isMyTurn() {
@@ -140,8 +132,7 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
 
     public void clearTurnState()
     {
-            alreadyPlace=false;
-            alreadyDraw=false;
+            alreadyPlaced =false;
 
     }
 
@@ -156,7 +147,7 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         if(isInGame) {
             game.notifyConnectionLoss(this);
         }
-        lobby.notifyConnectionLoss(this);
+        else {lobby.notifyConnectionLoss(this);}
         shutdown();
     }
 
@@ -198,7 +189,6 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     }
 
     public void shutdown() {
-        //TODO controller shutdown
         connectionChecker.shutdown();
         outputSocket.shutdown();
         inputSocket.shutdown();

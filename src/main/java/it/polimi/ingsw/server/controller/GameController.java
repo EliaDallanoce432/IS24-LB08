@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.network.Lobby;
+import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.network.ServerNetworkObserverInterface;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -184,7 +184,14 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
 
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
-
+        Object lock = new Object();
+        synchronized (lock) {
+            leaveGame(clientHandler);
+            lobby.notifyConnectionLoss(clientHandler);
+            broadcast(ServerMessageGenerator.closingGameMessage());
+        }
+        while (!clients.isEmpty()) {} //waits for everyone to leave back to the lobby
+        Thread.currentThread().interrupt();
     }
 
     public synchronized void enterGame(ClientHandler player) {
@@ -200,44 +207,62 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         lobby.enterLobby(player);
     }
     public synchronized void  place(ClientHandler player, int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        //TODO controllare se è il turno del giocatore, se non lo è lanciare l'eccezione
         PlaceableCard cardInHand = null;
         for (int i = 0; i < 3; i++) {
-            if(game.players[clients.indexOf(player)].getHand().get(i).getId()==placeableCardId)
+            if(game.players[clients.indexOf(player)].getHand().get(i).getId()==placeableCardId) {
                 cardInHand=game.players[clients.indexOf(player)].getHand().get(i);
+                break;
+            }
         }
         game.players[clients.indexOf(player)].place(cardInHand, facingUp, x, y);
+        player.setAlreadyPlaced(true);
     }
     public synchronized void place(ClientHandler player, int starterCardId, boolean facingUp) {
         StarterCard starterCard= null;
         for (StarterCard drawnStarterCard : drawnStarterCards) {
-            if (drawnStarterCard.getId() == starterCardId)
+            if (drawnStarterCard.getId() == starterCardId) {
                 starterCard = drawnStarterCard;
+                break;
+            }
         }
         game.players[clients.indexOf(player)].place(starterCard, facingUp);
     }
     public synchronized void directDrawResourceCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         ResourceCard cardTemp = (ResourceCard)game.resourceCardDeck.directDraw();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void directDrawGoldCard(ClientHandler player) throws EmptyDeckException, FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         GoldCard cardTemp = (GoldCard)game.goldCardDeck.directDraw();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void drawLeftRevealedResourceCard(ClientHandler player) throws FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getLeftRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void drawRightRevealedResourceCard(ClientHandler player) throws FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getRightRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void drawLeftRevealedGoldCard(ClientHandler player) throws FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.getLeftRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void drawRightRevealedGoldCard(ClientHandler player) throws FullHandException {
+        //TODO spostare i controlli del turno e se ha già pescato qui anzichè nel GameControllerRequestExecutor
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.getRightRevealedCard();
         game.players[clients.indexOf(player)].addToHand(cardTemp);
+        passTurn(player);
     }
     public synchronized void chooseStarterCardOrientations(ClientHandler player, int starterCardId, boolean facingUp) {
         for (StarterCard card : drawnStarterCards) {
@@ -254,7 +279,21 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         }
     }
 
-    public void passTurn () {
+    private void passTurn (ClientHandler player) {
         turn = (turn + 1) % clients.size();
+        player.clearTurnState();
     }
+
+    private void broadcast(JSONObject message) {
+        for (ClientHandler player : clients) {
+            player.send(message);
+        }
+    }
+
+//    private void broadcast(JSONObject message, ClientHandler  disconnectedPlayer) {
+//        for (ClientHandler player : clients) {
+//            if(player == disconnectedPlayer) continue;
+//            player.send(message);
+//        }
+//    }
 }

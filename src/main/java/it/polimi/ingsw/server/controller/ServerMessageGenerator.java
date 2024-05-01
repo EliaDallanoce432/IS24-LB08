@@ -79,4 +79,14 @@ public class ServerMessageGenerator {
         message.put("resources", updatedResources);
         return message;
     }
+
+    /**
+     * message sent when a client looses connection to inform the other clients that the game is getting cancelled
+     * @return message
+     */
+    public static JSONObject closingGameMessage () {
+        JSONObject message = new JSONObject();
+        message.put("message","closingGame");
+        return message;
+    }
 }

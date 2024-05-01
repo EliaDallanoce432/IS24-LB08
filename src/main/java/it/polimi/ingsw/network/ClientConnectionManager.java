@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.ping.ConnectionChecker;
 import it.polimi.ingsw.network.sockets.InputSocket;
 import it.polimi.ingsw.network.sockets.OutputSocket;
 import it.polimi.ingsw.network.sockets.SocketObserverInterface;
+import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,12 +30,17 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     private boolean running;
 
 
-    public ClientConnectionManager(String serverAddress, int port) {
-        Socket setUpSocket;
+    public ClientConnectionManager(String serverAddress, int port) throws ServerUnreachableException {
+        Socket setUpSocket = null;
         Scanner scanner;
         PrintWriter printWriter;
         try {
             setUpSocket = new Socket(serverAddress, port);
+        } catch (IOException e) {
+            System.out.println("Could not connect to server at: " + serverAddress + ":" + port);
+            throw new ServerUnreachableException();
+        }
+        try {
             scanner = new Scanner(setUpSocket.getInputStream());
             printWriter = new PrintWriter(setUpSocket.getOutputStream(), true);
         } catch (IOException e) {

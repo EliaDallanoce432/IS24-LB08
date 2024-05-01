@@ -55,7 +55,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     @Override
     public void notifyConnectionLoss() {
-
+        //TODO mostrare la schermata di chisura dovuta al server che non risponde
     }
 
     public boolean sendSetUsernameMessage(String username) {

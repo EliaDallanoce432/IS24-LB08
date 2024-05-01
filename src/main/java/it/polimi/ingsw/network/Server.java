@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.server.lobby.Lobby;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;

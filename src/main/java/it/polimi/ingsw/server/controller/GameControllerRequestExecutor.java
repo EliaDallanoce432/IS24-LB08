@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.network.ResponseGenerator;
-import it.polimi.ingsw.server.model.card.PlaceableCard;
+import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import it.polimi.ingsw.util.customexceptions.FullHandException;
@@ -24,109 +23,109 @@ public class GameControllerRequestExecutor {
             //case "placeStarterCard" -> placeStarterCard(gamecontroller,player, message);
             case "place" -> place(gamecontroller, player, message);
             case "leave" -> leave(gamecontroller, player);
-            default -> player.reply(ResponseGenerator.generateResponse("unexpectedCommand"));
+            default -> player.reply(ResponseGenerator.response("unexpectedCommand"));
         }
     }
 
     public static void ready(GameController game, ClientHandler player)
     {
         game.ready(player);
-        player.reply(ResponseGenerator.generateOkResponse());
+        player.reply(ResponseGenerator.OKResponse());
     }
     public static void chooseStarterCardOrientation(GameController game,JSONObject message, ClientHandler player)
     {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
         game.chooseStarterCardOrientations(player,starterCardId, facingUp);
-        player.reply(ResponseGenerator.generateOkResponse());
+        player.reply(ResponseGenerator.OKResponse());
     }
     public static void chooseSecretObjectiveCard(GameController game,JSONObject message, ClientHandler player)
     {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
         game.chooseSecretObjectiveCard(player, objectiveCardId);
-        player.reply(ResponseGenerator.generateOkResponse());
+        player.reply(ResponseGenerator.OKResponse());
     }
-    public static void directDrawResourceCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+    public static void directDrawResourceCard(GameController game,ClientHandler player) {
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.directDrawResourceCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (EmptyDeckException e) {
                 player.reply(ResponseGenerator.emptyDeckResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
-    public static void directDrawGoldCard(GameController game,ClientHandler player) throws EmptyDeckException, FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+    public static void directDrawGoldCard(GameController game,ClientHandler player) {
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.directDrawGoldCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (EmptyDeckException e) {
                 player.reply(ResponseGenerator.emptyDeckResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
     public static void drawLeftRevealedResourceCard(GameController game,ClientHandler player) throws FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawLeftRevealedResourceCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
     public static void drawRightRevealedResourceCard(GameController game,ClientHandler player) throws FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawRightRevealedResourceCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
     public static void drawLeftRevealedGoldCard(GameController game,ClientHandler player) throws FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawLeftRevealedGoldCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
     public static void drawRightRevealedGoldCard(GameController game,ClientHandler player) throws FullHandException {
-        if (!player.CanDraw())
-            player.reply(ResponseGenerator.alreadyDrawnResponse());
+        if (!player.hasAlreadyPlaced())
+            player.reply(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawRightRevealedGoldCard(player);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.fullHandResponse());
             }
         }
     }
     public static void place(GameController game, ClientHandler player, JSONObject message) {
 
         if(!player.isMyTurn())
-            player.reply(ResponseGenerator.generateNotYourTurnResponse());
-        else if(!player.CanPlace()) player.reply(ResponseGenerator.alreadyPlacedResponse());
+            player.reply(ResponseGenerator.notYourTurnResponse());
+        else if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
         else {
             try {
                 int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
@@ -134,7 +133,7 @@ public class GameControllerRequestExecutor {
                 int y = Integer.parseInt(message.get("y").toString());
                 boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
                 game.place(player, placeableCardId, facingUp, x, y);
-                player.reply(ResponseGenerator.generateOkResponse());
+                player.reply(ResponseGenerator.OKResponse());
             }
             catch (CannotPlaceCardException e)
             {
@@ -151,7 +150,7 @@ public class GameControllerRequestExecutor {
     public static void leave(GameController game, ClientHandler player)
     {
         game.leaveGame(player);
-        player.reply(ResponseGenerator.generateOkResponse());
+        player.reply(ResponseGenerator.OKResponse());
     }
 
 
