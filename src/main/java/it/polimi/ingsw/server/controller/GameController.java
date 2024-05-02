@@ -32,6 +32,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         this.numberOfExpectedPlayers = numberOfPlayers;
         this.lobby = lobby;
         this.drawnStarterCards = new ArrayList<>();
+        this.drawnObjectiveCards = new ArrayList<>();
         this.game = new Game(numberOfPlayers);
         System.out.println(gameName + " is ready");
     }
@@ -113,9 +114,13 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 } catch (EmptyDeckException ignored) {
                 }
             }
-            while (!drawnStarterCards.isEmpty()) {
+            System.out.println("aspetto che tutti scelgano una carta starter...");
+            System.out.println(drawnStarterCards);
+            while (drawnStarterCards.size()>0) {
+                System.out.println(drawnStarterCards);
                 //wait for every player to choose starter card orientation
             }
+            System.out.println("tutti i giocatori hanno scelto una starter card");
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
                 try {
                     ObjectiveCard cardtemp1 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
@@ -128,8 +133,10 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 }
             }
             while (drawnObjectiveCards.size() > numberOfExpectedPlayers) {
+                System.out.println(drawnObjectiveCards);
                 //wait for every player to choose starter card orientation
             }
+            System.out.println("tutti i giocatori hanno scelto una objective card");
 
             for (int i = 0; i < clients.size(); i++) {
                 try {
@@ -287,18 +294,25 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             game.players[clients.indexOf(player)].addToHand(cardTemp);
             passTurn(player);
         }
-        public synchronized void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp)
+        public void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp)
         {
             for (StarterCard card : drawnStarterCards) {
                 if (card.getId() == starterCardId) {
-                    game.players[clients.indexOf(player)].place(drawnStarterCards.remove(starterCardId), facingUp);
+                    game.players[clients.indexOf(player)].place(drawnStarterCards.remove(drawnStarterCards.indexOf(card)), facingUp);
+                    System.out.println("il player " + player.getUsername() + "ha scelto facingup = " + facingUp);
+                    System.out.println(drawnStarterCards);
+                    System.out.println("is empty: " + drawnStarterCards.isEmpty() + "size: " + drawnStarterCards.size());
+                    return;
                 }
             }
         }
         public synchronized void chooseSecretObjectiveCard (ClientHandler player,int objectiveCardId){
             for (ObjectiveCard card : drawnObjectiveCards) {
                 if (card.getId() == objectiveCardId) {
-                    game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(objectiveCardId));
+                    game.players[clients.indexOf(player)].setSecretObjective(drawnObjectiveCards.remove(drawnObjectiveCards.indexOf(card)));
+                    System.out.println("il player " + player.getUsername() + "ha scelto la objective card " + objectiveCardId);
+                    System.out.println(drawnObjectiveCards);
+                    return;
                 }
             }
         }

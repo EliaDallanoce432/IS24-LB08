@@ -15,9 +15,19 @@ public class SceneLoader {
 
     private static ClientController clientController;
 
+    private static Stage currentStage;
+
 
     public static void setClientController(ClientController clientController) {
         SceneLoader.clientController = clientController;
+    }
+
+    public static void setCurrentStage(Stage currentStage) {
+        SceneLoader.currentStage = currentStage;
+    }
+
+    public static Stage getCurrentStage() {
+        return currentStage;
     }
 
     private static ImageView loadBackground(String path){
@@ -82,6 +92,32 @@ public class SceneLoader {
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 600 , 400);
     }
+
+    public static Scene loadChooseStarterCardScene(int id) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneLoader.class.getResource("ChooseCardsView.fxml"));
+        Parent root = loader.load();
+        ChooseCardsViewController chooseCardsViewController = loader.getController();
+        chooseCardsViewController.setClientController(clientController);
+        clientController.setViewController(chooseCardsViewController);
+        chooseCardsViewController.showStarterCard(id);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        return new Scene(stackPane, 600 , 400);
+    }
+
+    public static Scene loadChooseObjectiveCardScene(int id1, int id2) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneLoader.class.getResource("ChooseCardsView.fxml"));
+        Parent root = loader.load();
+        ChooseCardsViewController chooseCardsViewController = loader.getController();
+        chooseCardsViewController.setClientController(clientController);
+        clientController.setViewController(chooseCardsViewController);
+        chooseCardsViewController.showObjectiveCards(id1, id2);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        return new Scene(stackPane, 600 , 400);
+    }
+
+
 
 
 

@@ -19,6 +19,16 @@ public class ClientModel {
     private int goldDeckLeftCardId;
     private int goldDeckRightCardId;
     private int starterCardId;
+    private boolean starterCardFacingUp;
+    private int secretObjectiveId;
+
+    public int getSecretObjectiveId() {
+        return secretObjectiveId;
+    }
+
+    public void setSecretObjectiveId(int secretObjectiveId) {
+        this.secretObjectiveId = secretObjectiveId;
+    }
 
     public ClientModel(String username) {
         this.username = username;
@@ -42,6 +52,14 @@ public class ClientModel {
 
     public ArrayList<VirtualCard> getCardsInHand() {
         return cardsInHand;
+    }
+
+    public boolean isStarterCardFacingUp() {
+        return starterCardFacingUp;
+    }
+
+    public void setStarterCardFacingUp(boolean starterCardFacingUp) {
+        this.starterCardFacingUp = starterCardFacingUp;
     }
 
     public void addCardToHand(VirtualCard card) {

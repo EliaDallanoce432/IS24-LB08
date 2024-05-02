@@ -16,6 +16,7 @@ public class ClientView extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         SceneLoader.setClientController(clientController);
+        SceneLoader.setCurrentStage(primaryStage);
 
         primaryStage.setScene(SceneLoader.loadWelcomeScene());
         primaryStage.setTitle("Codex - Game Demo");
@@ -23,9 +24,7 @@ public class ClientView extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
+
 
 
 

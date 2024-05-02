@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.controller.ClientControllerRequestExecutor;
 import it.polimi.ingsw.network.ping.ConnectionChecker;
 import it.polimi.ingsw.network.sockets.InputSocket;
 import it.polimi.ingsw.network.sockets.OutputSocket;
@@ -106,7 +107,7 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {
         receivedMessage = message;
-        //TODO notifica il controller
+        ClientControllerRequestExecutor.execute(clientController,message,this);
     }
 
     @Override

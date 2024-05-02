@@ -37,6 +37,10 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
         this.viewController = viewController;
     }
 
+    public ViewController getViewController() {
+        return viewController;
+    }
+
     public void startClient() {
         // Create an instance of ClientView
         ClientView.clientController = this;
@@ -56,6 +60,14 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     @Override
     public void notifyConnectionLoss() {
         //TODO mostrare la schermata di chisura dovuta al server che non risponde
+    }
+
+    public void loadStarterCards(int starterCardId) {
+        viewController.loadStarterCard(starterCardId);
+    }
+
+    public void loadObjectiveCards(int id1, int id2){
+        viewController.loadObjectiveCards(id1,id2);
     }
 
     public boolean sendSetUsernameMessage(String username) {
@@ -109,10 +121,13 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp));
+        clientModel.setStarterCardId(cardId);
+        clientModel.setStarterCardFacingUp(facingUp);
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId));
+        clientModel.setSecretObjectiveId(cardId);
     }
     
     public boolean sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {
