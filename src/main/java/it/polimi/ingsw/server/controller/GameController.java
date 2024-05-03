@@ -186,6 +186,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         public void startGame () {
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
                 clients.get(i).send(ServerMessageGenerator.generateStartGameMessage());
+                //TODO togliere i commenti
 //                clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
 //                clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(), game.goldCardDeck.getDrawableCardsId()));
                 this.sendUpDatedScores();

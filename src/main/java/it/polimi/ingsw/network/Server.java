@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +32,7 @@ public class Server implements Runnable {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("Server ready at: " + serverSocket.getLocalSocketAddress());
+            System.out.println("Server ready at: " + InetAddress.getLocalHost());
         } catch (IOException e) {
             System.err.println(e.getMessage());
             return;

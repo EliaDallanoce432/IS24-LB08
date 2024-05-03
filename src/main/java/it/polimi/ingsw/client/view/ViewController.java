@@ -7,8 +7,6 @@ import java.io.IOException;
 
 public abstract class ViewController {
 
-
-
     protected ClientController clientController;
 
     public void setClientController(ClientController clientController) {

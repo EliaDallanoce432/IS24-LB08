@@ -33,9 +33,6 @@ public class ChooseCardsViewController extends ViewController {
         else showMessage("ok");
 
 
-        //TODO choose selection (send message)
-
-
     }
 
     public void showStarterCard(int id) {
