@@ -33,7 +33,7 @@ public class Server implements Runnable {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("Server ready at: " + serverSocket.getLocalSocketAddress());
+            //System.out.println("Server ready at: " + serverSocket.getInetAddress().getHostAddress());
         } catch (IOException e) {
             System.err.println(e.getMessage());
             return;
