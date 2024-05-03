@@ -86,13 +86,13 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         this.alreadyPlaced = alreadyPlaced;
     }
 
-    public boolean isMyTurn() {
+    /*public boolean isMyTurn() {
         return MyTurn;
     }
 
     public void setMyTurn(boolean myTurn) {
         MyTurn = myTurn;
-    }
+    }*/
     public String getUsername() {
         return username;
     }
@@ -132,7 +132,7 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
 
     public void clearTurnState()
     {
-            alreadyPlaced =false;
+        alreadyPlaced = false;
 
     }
 

@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.util.ResponseGenerator;
-import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
-import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
-import it.polimi.ingsw.util.customexceptions.FullHandException;
+import it.polimi.ingsw.util.customexceptions.*;
 import org.json.simple.JSONObject;
 
 public class GameControllerRequestExecutor {
@@ -57,6 +55,11 @@ public class GameControllerRequestExecutor {
             } catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
             }
+             catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
+             } catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
+            }
         }
     }
     public static void directDrawGoldCard(GameController game,ClientHandler player) {
@@ -66,10 +69,18 @@ public class GameControllerRequestExecutor {
             try {
                 game.directDrawGoldCard(player);
                 player.reply(ResponseGenerator.OKResponse());
-            } catch (EmptyDeckException e) {
+            }
+            catch (EmptyDeckException e) {
                 player.reply(ResponseGenerator.emptyDeckResponse());
-            } catch (FullHandException e) {
+            }
+            catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
+            }
+            catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
+            }
+            catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
@@ -80,8 +91,15 @@ public class GameControllerRequestExecutor {
             try {
                 game.drawLeftRevealedResourceCard(player);
                 player.reply(ResponseGenerator.OKResponse());
-            } catch (FullHandException e) {
+            }
+            catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
+            }
+            catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
+                }
+            catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
@@ -94,6 +112,10 @@ public class GameControllerRequestExecutor {
                 player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
+            } catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
+            } catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
@@ -106,6 +128,10 @@ public class GameControllerRequestExecutor {
                 player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
+            } catch (NotYourTurnException e) {
+                player.reply((ResponseGenerator.notYourTurnResponse()));
+            } catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
@@ -118,14 +144,16 @@ public class GameControllerRequestExecutor {
                 player.reply(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
                 player.reply(ResponseGenerator.fullHandResponse());
+            } catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
+            } catch (CannotDrawException e) {
+                player.reply(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public static void place(GameController game, ClientHandler player, JSONObject message) {
 
-        if(!player.isMyTurn())
-            player.reply(ResponseGenerator.notYourTurnResponse());
-        else if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
+            if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
         else {
             try {
                 int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
@@ -138,6 +166,9 @@ public class GameControllerRequestExecutor {
             catch (CannotPlaceCardException e)
             {
                 player.reply(ResponseGenerator.notValidPlacementResponse());
+            }
+            catch (NotYourTurnException e) {
+                player.reply(ResponseGenerator.notYourTurnResponse());
             }
         }
     }
