@@ -106,10 +106,7 @@ public class WelcomeViewController extends ViewController {
 
     @FXML
     private void exit() throws IOException {
-
-        Stage stage = (Stage) joinGameButton.getScene().getWindow();
-        stage.close();
-
+        clientController.getClientConnectionManager().shutdown();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.Codex;
 import it.polimi.ingsw.server.lobby.Lobby;
 
 import java.io.IOException;
@@ -12,11 +13,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Server implements Runnable {
+    private Codex codexMain;
     private final int port;
     Lobby lobby;
     ExecutorService executor = Executors.newCachedThreadPool();
 
-    public Server(int port) {
+    public Server(int port, Codex codexMain) {
+        this.codexMain = codexMain;
         this.port = port;
         this.lobby = new Lobby();
         executor.execute(this.lobby);

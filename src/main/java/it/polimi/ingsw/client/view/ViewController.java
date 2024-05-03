@@ -48,5 +48,8 @@ public abstract class ViewController {
         });
     }
 
+    public void closeGUI() {
+        Platform.runLater(()->{SceneLoader.getCurrentStage().close();});
+    }
 
 }

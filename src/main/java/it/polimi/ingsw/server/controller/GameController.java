@@ -213,7 +213,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             Object lock = new Object();
             synchronized (lock) {
                 leaveGame(clientHandler);
-                lobby.notifyConnectionLoss(clientHandler);
+            }
+            lobby.notifyConnectionLoss(clientHandler);
+            synchronized (lock) {
                 broadcast(ServerMessageGenerator.closingGameMessage());
             }
             while (!clients.isEmpty()) {

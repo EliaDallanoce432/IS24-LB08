@@ -23,6 +23,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
         this.clientConnectionManager = clientConnectionManager;
         int randomNumber = (int) (Math.random() * 100);
         clientModel = new ClientModel("Guest-"+randomNumber);
+        clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(clientModel.getUsername()));
         running = true;
     }
 
@@ -30,7 +31,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     @Override
     public void run() {
         startClient();
-        while (running);
+        while (running) {};
     }
 
     public void setViewController(ViewController viewController) {
@@ -39,6 +40,10 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     public ViewController getViewController() {
         return viewController;
+    }
+
+    public ClientConnectionManager getClientConnectionManager() {
+        return clientConnectionManager;
     }
 
     public void startClient() {
@@ -59,7 +64,9 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     @Override
     public void notifyConnectionLoss() {
-        //TODO mostrare la schermata di chisura dovuta al server che non risponde
+        //TODO in realtà deve mostrare la schermata di chisura dovuta al server che non risponde
+        System.out.println("Connection lost");
+        clientConnectionManager.shutdown();
     }
 
     public void loadStarterCards(int starterCardId) {
@@ -167,7 +174,6 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public void shutdown() {
-        //TODO gestire la chiusura
         running = false;
     }
 }

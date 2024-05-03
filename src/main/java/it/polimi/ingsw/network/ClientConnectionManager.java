@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.Codex;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.controller.ClientControllerRequestExecutor;
 import it.polimi.ingsw.network.ping.ConnectionChecker;
@@ -18,6 +19,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientConnectionManager implements Runnable, NetworkInterface, SocketObserverInterface, ConnectionObserver{
+    private Codex codexMain;
     private final InputSocket inputSocket;
     private final OutputSocket outputSocket;
     private final ConnectionChecker connectionChecker;
@@ -30,7 +32,8 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     private final Thread clientControllerThread;
     private boolean running;
 
-    public ClientConnectionManager(String serverAddress, int port) throws ServerUnreachableException {
+    public ClientConnectionManager(String serverAddress, int port, Codex codexMain) throws ServerUnreachableException {
+        this.codexMain = codexMain;
         Scanner scanner;
         PrintWriter printWriter;
         Socket setUpSocket;
@@ -117,8 +120,7 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
 
     @Override
     public void connectionLossNotification() {
-        //TODO notifica il controller
-        shutdown();
+        clientController.notifyConnectionLoss();
     }
 
     @Override
@@ -134,11 +136,9 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
 
     public void shutdown() {
         //TODO controller shutdown
+        clientController.getViewController().closeGUI();
+        clientController.shutdown();
         connectionChecker.shutdown();
-        outputSocket.shutdown();
-        inputSocket.shutdown();
-        outputSocketThread.interrupt();
-        inputSocketThread.interrupt();
-        running = false;
+        codexMain.shutdown();
     }
 }
