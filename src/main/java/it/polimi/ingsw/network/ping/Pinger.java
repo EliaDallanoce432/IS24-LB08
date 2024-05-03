@@ -45,7 +45,7 @@ public class Pinger implements Runnable, SocketInfoInterface {
      */
     private void pinging() {
         while (isAlive) {
-            sendPing();
+            if(!sendPing()) continue;
             if (!scanner.hasNextLine() || !scanner.nextLine().equals("PONG")) {
                 if(!testingConnectionLiveness()) {
                     observer.connectionLossNotification();
@@ -57,14 +57,15 @@ public class Pinger implements Runnable, SocketInfoInterface {
     /**
      * sends a ping message and makes the thread wait 5 seconds
      */
-    private void sendPing() {
+    private boolean sendPing() {
         printWriter.println("PING");
         //System.out.println("pinging");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 
     /**
