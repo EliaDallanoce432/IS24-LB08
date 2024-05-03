@@ -38,12 +38,13 @@ public class SceneLoader {
         return backgroundImageView;
     }
 
-    public static Scene loadGameBoardScene() throws IOException {
+    public static Scene loadGameBoardScene(int starterCardId, int commonObjective1Id, int commonObjective2Id, int secretObjectiveId) throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneLoader.class.getResource("GameBoardView.fxml"));
         Parent root = loader.load();
         GameBoardViewController gameBoardViewController = loader.getController();
         gameBoardViewController.setClientController(clientController);
         clientController.setViewController(gameBoardViewController);
+        gameBoardViewController.loadInitialBoardState(starterCardId,commonObjective1Id,commonObjective2Id,secretObjectiveId);
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
         return new Scene(stackPane, 1600 , 900);

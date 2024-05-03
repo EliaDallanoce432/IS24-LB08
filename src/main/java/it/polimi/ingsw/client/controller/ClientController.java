@@ -54,6 +54,8 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     @Override
     public void notifyIncomingMessage() {
+        ClientControllerRequestExecutor.execute(this,clientConnectionManager.getReceivedMessage(),clientConnectionManager);
+
 
     }
 
@@ -68,6 +70,14 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     public void loadObjectiveCards(int id1, int id2){
         viewController.loadObjectiveCards(id1,id2);
+    }
+
+    public void loadGameBoard(){
+
+        viewController.loadGameBoard(clientModel.getStarterCardId(),100,101,clientModel.getSecretObjectiveId());
+
+
+
     }
 
     public boolean sendSetUsernameMessage(String username) {

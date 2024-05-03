@@ -117,7 +117,12 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             System.out.println("aspetto che tutti scelgano una carta starter...");
             System.out.println(drawnStarterCards);
             while (drawnStarterCards.size()>0) {
-                System.out.println(drawnStarterCards);
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                //System.out.println(drawnStarterCards);
                 //wait for every player to choose starter card orientation
             }
             System.out.println("tutti i giocatori hanno scelto una starter card");
@@ -127,13 +132,20 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                     ObjectiveCard cardtemp2 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
                     drawnObjectiveCards.add(cardtemp1);
                     drawnObjectiveCards.add(cardtemp2);
-                    JSONObject response = clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
+                    System.out.println("sending ids: " + cardtemp1.getId() + " - " + cardtemp2.getId() + "to: " + clients.get(i).getUsername());
+                    clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
 
                 } catch (EmptyDeckException ignored) {
                 }
             }
             while (drawnObjectiveCards.size() > numberOfExpectedPlayers) {
-                System.out.println(drawnObjectiveCards);
+
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                //System.out.println(drawnObjectiveCards);
                 //wait for every player to choose starter card orientation
             }
             System.out.println("tutti i giocatori hanno scelto una objective card");
@@ -147,6 +159,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                     throw new RuntimeException(e);
                 }
             }
+
+
         }
 
         public void ready (ClientHandler clientHandler){
@@ -172,8 +186,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         public void startGame () {
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
                 clients.get(i).send(ServerMessageGenerator.generateStartGameMessage());
-                clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
-                clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(), game.goldCardDeck.getDrawableCardsId()));
+//                clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
+//                clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(), game.goldCardDeck.getDrawableCardsId()));
                 this.sendUpDatedScores();
             }
             for (ClientHandler player : clients)
