@@ -8,6 +8,7 @@ public class ObjectiveCard extends Card {
     protected ObjectiveCardContext context;
 
     public ObjectiveCard(int id) {
+        this.setId(id);
         switch (id) {
             case 87 -> {
                 points = 2;

@@ -1,12 +1,7 @@
 package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.network.ClientConnectionManager;
-import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.ResponseGenerator;
-import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
-import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
-import it.polimi.ingsw.util.customexceptions.FullHandException;
 import org.json.simple.JSONObject;
 
 public class ClientControllerRequestExecutor {
@@ -15,6 +10,8 @@ public class ClientControllerRequestExecutor {
         switch (message.get("message").toString()) {
             case "drawnStarterCards" -> loadStarterCards(clientController,message,clientConnectionManager);
             case "drawnObjectiveCards" -> loadObjectiveCards(clientController,message,clientConnectionManager);
+            case "start" ->  loadGameBoard(clientController,clientConnectionManager);
+            case "updateHand" -> updateCardsInHand(clientController,message,clientConnectionManager);
             default -> clientConnectionManager.reply(ResponseGenerator.response("Invalid command"));
         }
     }
@@ -27,5 +24,15 @@ public class ClientControllerRequestExecutor {
     private static void loadObjectiveCards (ClientController clientController, JSONObject message, ClientConnectionManager clientConnectionManager) {
         clientController.loadObjectiveCards(Integer.parseInt(message.get("objectiveCard1").toString()), Integer.parseInt(message.get("objectiveCard2").toString()));
         clientConnectionManager.reply(ResponseGenerator.OKResponse());
+    }
+
+    private static void loadGameBoard(ClientController clientController, ClientConnectionManager clientConnectionManager){
+        clientController.loadGameBoard();
+        clientConnectionManager.reply(ResponseGenerator.OKResponse());
+    }
+
+    private static void updateCardsInHand(ClientController clientController, JSONObject message, ClientConnectionManager clientConnectionManager){
+
+
     }
 }

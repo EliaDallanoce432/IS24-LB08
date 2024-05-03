@@ -21,7 +21,6 @@ public class CardPlacementController {
 
 
     private Label alertLabel;
-    private ArrayList<VirtualCard> handArray;
     private Pane handPane;
     private Pane boardPane;
     private Pane decksPane;
@@ -38,11 +37,10 @@ public class CardPlacementController {
     private double offsetX;
     private double offsetY;
 
-    public CardPlacementController(Label alertLabel, ArrayList<VirtualCard> handArray, Pane handPane, ScrollPane scrollPane,
+    public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane,
                                    Pane decksPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
 
         this.scrollPane = scrollPane;
-        this.handArray = handArray;
         this.alertLabel = alertLabel;
         this.handPane = handPane;
         this.decksPane = decksPane;
@@ -157,7 +155,6 @@ public class CardPlacementController {
 
                     card.setLayoutX(snapX);
                     card.setLayoutY(snapY);
-                    handArray.removeIf(vc -> vc.getCard().equals(card));
                     boardPane.getChildren().add(card);
                     handPane.getChildren().remove(card);
 
@@ -277,7 +274,7 @@ public class CardPlacementController {
         unshowCards();
         //addCardToHand(cardsOnTopOfDecks[buttonIndex]);
         decksPane.getChildren().clear();
-        showCards(handArray);
+        //TODO send draw message
     }
 
     public void updateLabel(String newText) {

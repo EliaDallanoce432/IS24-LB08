@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view;
 
 
-import it.polimi.ingsw.client.model.ClientModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,8 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-import static java.lang.Math.random;
 
 public class GameBoardViewController extends ViewController {
 
@@ -34,32 +31,28 @@ public class GameBoardViewController extends ViewController {
     @FXML
     private Button leaveGameButton;
 
-    private ClientModel clientModel;
+
     private CardPlacementController cardPlacementController;
 
     @FXML
     private void initialize() {
 
-        clientModel = new ClientModel("test");
-        clientModel.setStarterCardId(81);
 
-        cardPlacementController = new CardPlacementController(alertLabel,clientModel.getCardsInHand(),handPane,scrollPane,decksPane,
+        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
                 commonObjectivesPane,secretObjectivePane);
-        cardPlacementController.initializeBoard(clientModel.getStarterCardId());
-        cardPlacementController.loadCommonObjectives(87,97);
-        cardPlacementController.loadSecretObjective(102);
+
 
     }
 
     @FXML
     private void drawHand() {
 
-        for(int i=0; i<3 ; i++) {
-            int randomId = (int) (39*random()+1);
-            clientModel.addCardToHand(new VirtualCard(randomId, true));
-
-        }
-        cardPlacementController.showCards(clientModel.getCardsInHand());
+//        for(int i=0; i<3 ; i++) {
+//            int randomId = (int) (39*random()+1);
+//            clientModel.addCardToHand(new VirtualCard(randomId, true));
+//
+//        }
+//        cardPlacementController.showCards(clientModel.getCardsInHand());
     }
 
     @FXML
@@ -78,11 +71,11 @@ public class GameBoardViewController extends ViewController {
 
         cardPlacementController.unshowCards();
 
-        for(VirtualCard card : clientModel.getCardsInHand()) {
-            card.flip();
-        }
-
-        cardPlacementController.showCards(clientModel.getCardsInHand());
+//        for(VirtualCard card : clientModel.getCardsInHand()) {
+//            card.flip();
+//        }
+//
+//        cardPlacementController.showCards(clientModel.getCardsInHand());
     }
 
     @FXML
@@ -94,6 +87,12 @@ public class GameBoardViewController extends ViewController {
 
         stage.setScene(SceneLoader.loadWelcomeScene());
         stage.show();
+    }
+
+    public void loadInitialBoardState (int starterCardId, int commonObjective1Id, int commonObjective2Id, int secretObjectiveId){
+        cardPlacementController.initializeBoard(starterCardId);
+        cardPlacementController.loadCommonObjectives(commonObjective1Id,commonObjective2Id);
+        cardPlacementController.loadSecretObjective(secretObjectiveId);
     }
 
 
