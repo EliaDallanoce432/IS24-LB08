@@ -88,17 +88,21 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
     }
 
     @Override
-    public JSONObject send(JSONObject message) {
+    public JSONObject send(JSONObject message, boolean waitReply) {
         outputSocket.sendMessage(message.toJSONString());
-        System.out.println("message sent");
-        try {
-            String response = outputSocket.receiveMessage();
-            System.out.println("response: " + response);
-            return (JSONObject) jsonParser.parse(response);
-        } catch (ParseException e) {
-            System.out.println("parse exception");
-            throw new RuntimeException(e);
+        if (waitReply) {
+            try {
+                String response = outputSocket.receiveMessage();
+                return (JSONObject) jsonParser.parse(response);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return null;
+    }
+
+    public void send(JSONObject message) {
+        send(message,false);
     }
 
     @Override

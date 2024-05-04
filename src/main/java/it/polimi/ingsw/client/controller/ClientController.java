@@ -88,7 +88,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public boolean sendSetUsernameMessage(String username) {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username));
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username), true);
         if(response.get("response").equals("ok")) {
             System.out.println("Username set to " + username);
             clientModel.setUsername(username);
@@ -100,7 +100,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
 
     public String[] sendGetAvailableGamesMessage(){
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage());
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage(), true);
         JSONArray jsonArray = (JSONArray) response.get("games");
 
         if (!jsonArray.isEmpty()) {
@@ -115,7 +115,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public boolean sendJoinGameMessage(String gameName){
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName), true);
         if(response.get("response").equals("ok")) {
             return true;
         }
@@ -123,7 +123,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public boolean sendSetUpGameMessage(String gamename, int numOfPlayers) {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,numOfPlayers));
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,numOfPlayers), true);
         if(response.get("response").equals("ok")) {
             return true;
         }
@@ -132,23 +132,23 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
 
     public boolean sendReadyMessage() {
         System.out.println("sending message...");
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage(), true);
         return response.get("response").equals("ok");
     }
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
-        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp));
+        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp), true);
         clientModel.setStarterCardId(cardId);
         clientModel.setStarterCardFacingUp(facingUp);
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
-        clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId));
+        clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId), true);
         clientModel.setSecretObjectiveId(cardId);
     }
     
     public boolean sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId,x,y,facingUp));
+        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId,x,y,facingUp), true);
         if(response.get("response").equals("Not your turn")) {
             throw new NotYourTurnException();
         } else if (response.get("response").equals("Not valid placement")) {
@@ -160,30 +160,31 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public void sendDirectDrawResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage(), true);
     }
 
     public void sendDrawLeftResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage(), true);
     }
 
     public void sendDrawRightResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage(), true);
     }
 
     public void sendDirectDrawGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage(), true);
     }
 
     public void sendDrawLeftGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage(), true);
     }
 
     public void sendDrawRightGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage());
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage(), true);
     }
 
     public void shutdown() {
+        //TODO gestire la chiusura
         running = false;
     }
 }

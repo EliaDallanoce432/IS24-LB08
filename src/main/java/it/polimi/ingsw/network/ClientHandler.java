@@ -152,13 +152,20 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
     }
 
     @Override
-    public JSONObject send(JSONObject message) {
+    public JSONObject send(JSONObject message, boolean waitReply) {
         outputSocket.sendMessage(message.toJSONString());
-        try {
-            return (JSONObject) jsonParser.parse(outputSocket.receiveMessage());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if(waitReply) {
+            try {
+                return (JSONObject) jsonParser.parse(outputSocket.receiveMessage());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return null;
+    }
+
+    public void send(JSONObject message) {
+        send(message, false);
     }
 
     @Override

@@ -108,7 +108,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
                 try {
                     drawnStarterCards.add((StarterCard) game.starterCardDeck.directDraw());
-                    clients.get(i).send(ServerMessageGenerator.generateDrawnStarterCardMessage(drawnStarterCards.get(i)));
+                    clients.get(i).send(ServerMessageGenerator.generateDrawnStarterCardMessage(drawnStarterCards.get(i)), true);
                 } catch (EmptyDeckException ignored) {
                 }
             }
@@ -123,13 +123,13 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                 //System.out.println(drawnStarterCards);
                 //wait for every player to choose starter card orientation
             }
-            System.out.println("tutti i giocatori hanno scelto una starter card");
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
                 try {
                     ObjectiveCard cardtemp1 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
                     ObjectiveCard cardtemp2 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
                     drawnObjectiveCards.add(cardtemp1);
                     drawnObjectiveCards.add(cardtemp2);
+                    JSONObject response = clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2), true);
                     System.out.println("sending ids: " + cardtemp1.getId() + " - " + cardtemp2.getId() + "to: " + clients.get(i).getUsername());
                     clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
 
@@ -183,10 +183,10 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
          */
         public void startGame () {
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
-                clients.get(i).send(ServerMessageGenerator.generateStartGameMessage());
+                clients.get(i).send(ServerMessageGenerator.generateStartGameMessage(), true);
                 //TODO togliere i commenti
-//                clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()));
-//                clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(), game.goldCardDeck.getDrawableCardsId()));
+//                clients.get(i).send(ServerMessageGenerator.generateUpdateHandMessage(game.players[i].getHand()), true);
+//                clients.get(i).send(ServerMessageGenerator.generateDrawableCardsMessage(game.resourceCardDeck.getDrawableCardsId(), game.goldCardDeck.getDrawableCardsId()), true);
                 this.sendUpDatedScores();
             }
             for (ClientHandler player : clients)
@@ -208,7 +208,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             }
 
             for (int i = 0; i < numberOfExpectedPlayers; i++) {
-                clients.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores));
+                clients.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores), true);
             }
         }
 
@@ -380,7 +380,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
 
         private void broadcast (JSONObject message){
             for (ClientHandler player : clients) {
-                player.send(message);
+                player.send(message, true);
             }
         }
     }
