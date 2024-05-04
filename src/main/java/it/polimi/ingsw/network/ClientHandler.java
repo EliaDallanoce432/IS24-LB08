@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.sockets.OutputSocket;
 import it.polimi.ingsw.network.sockets.SocketObserverInterface;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -175,12 +176,12 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
 
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {
-        receivedRequest = message;
         if(isInGame) {
+            //TODO cambiare in aggiunta della richiesta
             game.notifyIncomingMessage(this);
         }
         else {
-            lobby.notifyIncomingMessage(this);
+            lobby.addNewRequest(new Request(this,message));
         }
     }
 

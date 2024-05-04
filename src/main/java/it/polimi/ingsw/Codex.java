@@ -2,10 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 
 public class Codex {
     private Thread thread;
+    private Lobby lobby;
 
     public Thread getThread() {
         return thread;
@@ -13,6 +15,14 @@ public class Codex {
 
     public void setThread(Thread thread) {
         this.thread = thread;
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
     }
 
     public static void main(String[] args) {
@@ -33,10 +43,8 @@ public class Codex {
                 codex.getThread().start();
             }
             else if(args[0].equals("server") && args.length == 2) {
-                Server server = new Server(Integer.parseInt(args[1]), codex);
-                codex.setThread(new Thread(server));
-                codex.getThread().start();
-                server.startServer();
+                codex.setLobby(new Lobby(Integer.parseInt(args[1])));
+                codex.getLobby().startLobby();
             }
             else {
                 System.out.println("unexpected arguments");

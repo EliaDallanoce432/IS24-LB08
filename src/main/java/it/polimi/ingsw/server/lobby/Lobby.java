@@ -1,35 +1,63 @@
 package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.network.ClientHandler;
+import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.ServerNetworkObserverInterface;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
+import it.polimi.ingsw.util.supportclasses.Request;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Lobby implements Runnable, ServerNetworkObserverInterface {
+public class Lobby implements ServerNetworkObserverInterface {
 
+    private List<Request> requests;
     private ArrayList<ClientHandler> connectedClients;
     private HashMap<String, GameController> availableGames;
     private ArrayList<String> takenUsernames;
     private boolean running;
     private ExecutorService executorService;
+    private LobbyRequestExecutor lobbyRequestExecutor;
+    private Server server;
 
-    @Override
-    public void run() {
-        while (running) {}
+    public void startLobby() {
+        while (running) {
+            while (!requests.isEmpty()) {
+                lobbyRequestExecutor.execute(requests.getFirst());
+                requests.removeFirst();
+                System.out.println("executed request");
+            }
+        }
     }
 
-    public Lobby() {
+    public Lobby(int port) {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
+        requests = Collections.synchronizedList(new ArrayList<Request>());
         executorService = Executors.newCachedThreadPool();
+        lobbyRequestExecutor = new LobbyRequestExecutor(this);
+        server = new Server(this, port);
+        executorService.submit(server);
         running = true;
+    }
+
+    public void submitNewCLient(ClientHandler client) {
+        //TODO prendere quello che ritorna la submit
+        executorService.submit(client);
+        connectedClients.add(client);
+        System.out.println("New client added to the lobby");
+    }
+
+    public synchronized void addNewRequest(Request request) {
+        requests.addLast(request);
+        System.out.println("New request added to the lobby");
     }
 
     public HashMap<String, GameController> getAvailableGames() {
@@ -102,7 +130,6 @@ public class Lobby implements Runnable, ServerNetworkObserverInterface {
     @Override
     public void notifyIncomingMessage(ClientHandler clientHandler) {
         System.out.println("incoming message");
-        LobbyRequestExecutor.execute(this,clientHandler.getReceivedRequest(),clientHandler);
     }
 
     @Override

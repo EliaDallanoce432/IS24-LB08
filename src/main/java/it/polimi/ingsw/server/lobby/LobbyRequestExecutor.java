@@ -4,18 +4,23 @@ import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
+import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class LobbyRequestExecutor {
+    private Lobby lobby;
 
+    public LobbyRequestExecutor(Lobby lobby) {
+        this.lobby = lobby;
+    }
     /**
      * method handles the incoming request from a client
-     * @param lobby reference to the lobby
-     * @param message message containing the request
-     * @param clientHandler client handler that received the request
+     * @param request request to be processed
      */
-    public static void execute(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+    public void execute(Request request) {
+        JSONObject message = request.getMessage();
+        ClientHandler clientHandler = request.getClient();
         switch (message.get("command").toString()) {
             case "setUsername" -> setUsername(lobby, message, clientHandler);
             case "getAvailableGames" -> getAvailableGames(lobby,clientHandler);
@@ -27,7 +32,7 @@ public class LobbyRequestExecutor {
         }
     }
 
-    private static void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+    private void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
             lobby.setUsername(message.get("username").toString(),clientHandler);
             clientHandler.reply(ResponseGenerator.OKResponse());
@@ -38,7 +43,7 @@ public class LobbyRequestExecutor {
 
     }
 
-    private static void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
+    private void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
         JSONArray games = new JSONArray();
         games.addAll(lobby.getAvailableGames().keySet());
         JSONObject response = new JSONObject();
@@ -46,12 +51,12 @@ public class LobbyRequestExecutor {
         clientHandler.reply(response);
     }
 
-    private static void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+    private void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         lobby.setupNewGame(Integer.parseInt(message.get("numOfPlayers").toString()),message.get("gameName").toString(),clientHandler);
         clientHandler.reply(ResponseGenerator.OKResponse());
     }
 
-    private static void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+    private void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
             lobby.joinGame(clientHandler,message.get("gameName").toString());
             clientHandler.reply(ResponseGenerator.OKResponse());
@@ -62,7 +67,7 @@ public class LobbyRequestExecutor {
 
     }
 
-    private static void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
+    private void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
         lobby.leaveLobby(clientHandler);
         clientHandler.reply(ResponseGenerator.OKResponse());
     }
