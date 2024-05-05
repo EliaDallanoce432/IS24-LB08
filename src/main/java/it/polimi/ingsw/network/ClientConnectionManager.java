@@ -49,7 +49,9 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         out.println(message.toJSONString());
         JSONObject reply = null;
         if (waitReply) {
-            while (receivedReply == null) {}
+            while (receivedReply == null) {
+                Thread.onSpinWait();
+            }
             reply = receivedReply;
             receivedReply = null;
         }
@@ -112,8 +114,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         inputHandler.shutdown();
         inputHandlerThread.interrupt();
         pinger.shutdown();
-        pingerThread.interrupt();
-        try {
+        pingerThread.interrupt();        try {
             socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -22,7 +22,7 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
 
 
     private JSONObject receivedRequest;
-    private JSONObject receivedReply;
+    private volatile JSONObject receivedReply;
 
     private String username;
     private GameController game = null;
@@ -170,6 +170,9 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
                     out.println(pongMessage);
                 }
                 case "reply" -> {
+                    while (receivedReply != null) {
+                        Thread.onSpinWait();
+                    }
                     receivedReply = message;
                 }
                 default -> {
