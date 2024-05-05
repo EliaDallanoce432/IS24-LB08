@@ -19,7 +19,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
     private final Thread pingerThread;
 
     private JSONObject receivedMessage;
-    private JSONObject receivedReply;
+    private volatile JSONObject receivedReply;
     private final ClientController clientController;
 
     public ClientConnectionManager(ClientController clientController, String serverAddress, int port) throws ServerUnreachableException {
@@ -49,10 +49,9 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         out.println(message.toJSONString());
         JSONObject reply = null;
         if (waitReply) {
-            while (receivedReply != null) {
-                reply = receivedReply;
-                receivedReply = null;
-            }
+            while (receivedReply == null) {}
+            reply = receivedReply;
+            receivedReply = null;
         }
         System.out.println(reply);
         return reply;
@@ -89,6 +88,9 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
                     out.println(pongMessage);
                 }
                 case "reply" -> {
+                    while (receivedReply != null) {
+                        Thread.onSpinWait();
+                    }
                     receivedReply = message;
                 }
                 default -> {
@@ -109,6 +111,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         out.close();
         inputHandler.shutdown();
         inputHandlerThread.interrupt();
+        pinger.shutdown();
         pingerThread.interrupt();
         try {
             socket.close();

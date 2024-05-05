@@ -106,7 +106,8 @@ public class WelcomeViewController extends ViewController {
 
     @FXML
     private void exit() throws IOException {
-        clientController.getClientConnectionManager().shutdown();
+        clientController.shutdown();
+        SceneLoader.getCurrentStage().close();
     }
 
     @Override

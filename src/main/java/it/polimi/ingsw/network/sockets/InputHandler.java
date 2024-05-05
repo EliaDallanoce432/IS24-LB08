@@ -12,7 +12,7 @@ public class InputHandler implements Runnable {
     private final networkInputObserver socketObserver;
     private Scanner in;
     private final JSONParser parser;
-    private boolean running;
+    private volatile boolean running;
 
     public InputHandler(networkInputObserver socketObserver, Socket socket) {
         parser = new JSONParser();

@@ -18,7 +18,7 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     private final Thread inputHandlerThread;
     private final Pinger pinger;
     private final Thread pingerThread;
-    private boolean running;
+    private volatile boolean running;
 
 
     private JSONObject receivedRequest;
@@ -125,10 +125,11 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
         out.println(message.toJSONString());
         JSONObject reply = null;
         if (waitReply) {
-            while (receivedReply != null) {
-                reply = receivedReply;
-                receivedReply = null;
+            while (receivedReply == null) {
+                Thread.onSpinWait();
             }
+            reply = receivedReply;
+            receivedReply = null;
         }
         return reply;
     }

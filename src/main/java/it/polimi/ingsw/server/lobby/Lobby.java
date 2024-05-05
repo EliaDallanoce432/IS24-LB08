@@ -21,7 +21,7 @@ public class Lobby implements ServerNetworkObserverInterface {
     private ArrayList<ClientHandler> connectedClients;
     private HashMap<String, GameController> availableGames;
     private ArrayList<String> takenUsernames;
-    private boolean running;
+    private volatile boolean running;
     private ExecutorService executorService;
     private LobbyRequestExecutor lobbyRequestExecutor;
     private Server server;

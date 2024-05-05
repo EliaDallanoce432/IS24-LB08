@@ -9,6 +9,7 @@ import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
 import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -172,6 +173,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     public void shutdown() {
         clientConnectionManager.shutdown();
+        Platform.exit();
         System.exit(0);
     }
 }
