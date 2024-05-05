@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class JoinGameViewController extends ViewController {
 
@@ -73,8 +74,7 @@ public class JoinGameViewController extends ViewController {
 
     @FXML
     private void refreshPressed() throws IOException {
-        String[] games = clientController.sendGetAvailableGamesMessage();
-        if (games!= null) availableGamesChoiceBox.getItems().addAll(games);
-
+        ArrayList<String> games = clientController.sendGetAvailableGamesMessage();
+        availableGamesChoiceBox.getItems().addAll(games);
     }
 }

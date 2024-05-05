@@ -1,86 +1,43 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.Codex;
 import it.polimi.ingsw.client.controller.ClientController;
-import it.polimi.ingsw.network.ping.ConnectionChecker;
-import it.polimi.ingsw.network.sockets.InputSocket;
-import it.polimi.ingsw.network.sockets.OutputSocket;
-import it.polimi.ingsw.network.sockets.SocketObserverInterface;
+import it.polimi.ingsw.network.ping.Pinger;
+import it.polimi.ingsw.network.sockets.InputHandler;
+import it.polimi.ingsw.network.sockets.networkInputObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class ClientConnectionManager implements Runnable, NetworkInterface, SocketObserverInterface, ConnectionObserver{
-    private Codex codexMain;
-    private final InputSocket inputSocket;
-    private final OutputSocket outputSocket;
-    private final ConnectionChecker connectionChecker;
-    private final Thread inputSocketThread;
-    private final Thread outputSocketThread;
+public class ClientConnectionManager implements NetworkInterface, networkInputObserver, ConnectionObserver{
+    private Socket socket = null;
+    private PrintWriter out = null;
+    private final InputHandler inputHandler;
+    private final Thread inputHandlerThread;
+    private final Pinger pinger;
+    private final Thread pingerThread;
 
     private JSONObject receivedMessage;
-    private final JSONParser jsonParser;
+    private JSONObject receivedReply;
     private final ClientController clientController;
-    private final Thread clientControllerThread;
-    private boolean running;
 
-    public ClientConnectionManager(String serverAddress, int port, Codex codexMain) throws ServerUnreachableException {
-        this.codexMain = codexMain;
-        Scanner scanner;
-        PrintWriter printWriter;
-        Socket setUpSocket;
+    public ClientConnectionManager(ClientController clientController, String serverAddress, int port) throws ServerUnreachableException {
+        this.clientController = clientController;
         try {
-            setUpSocket = new Socket(serverAddress, port);
+            socket = new Socket(serverAddress,port);
+            out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
-            System.out.println("Could not connect to server at: " + serverAddress + ":" + port);
-            throw new ServerUnreachableException();
-        }
-        try {
-            scanner = new Scanner(setUpSocket.getInputStream());
-            printWriter = new PrintWriter(setUpSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            //TODO segnalare che la connessione non si è aperta
         }
 
-        /* setting up input socket and sharing the ports with the server output socket */
-        inputSocket = new InputSocket(this);
-        printWriter.println(inputSocket.getSocketPort());
-        int serverInputSocketPort = Integer.parseInt(scanner.nextLine());
+        inputHandler = new InputHandler(this,socket);
+        inputHandlerThread = new Thread(inputHandler);
+        inputHandlerThread.start();
 
-        /* setting up output socket */
-        outputSocket = new OutputSocket(serverAddress,serverInputSocketPort);
-
-        /* starting communication threads */
-        inputSocketThread = new Thread(inputSocket);
-        outputSocketThread = new Thread(outputSocket);
-        inputSocketThread.start();
-        System.out.println("input socket created");
-        outputSocketThread.start();
-        System.out.println("output socket created");
-
-        this.connectionChecker = new ConnectionChecker(this,setUpSocket);
-        System.out.println("pinger and ponger created");
-        jsonParser = new JSONParser();
-
-        try {
-            setUpSocket.close();
-            scanner.close();
-            printWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        this.clientController = new ClientController(this);
-        this.clientControllerThread = new Thread(clientController);
-        clientControllerThread.start();
-        running = true;
+        pinger = new Pinger(this);
+        pingerThread = new Thread(pinger);
+        pingerThread.start();
     }
 
     public JSONObject getReceivedMessage() {
@@ -89,36 +46,58 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
 
     @Override
     public JSONObject send(JSONObject message, boolean waitReply) {
-        outputSocket.sendMessage(message.toJSONString());
+        out.println(message.toJSONString());
+        JSONObject reply = null;
         if (waitReply) {
-            try {
-                String response = outputSocket.receiveMessage();
-                return (JSONObject) jsonParser.parse(response);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            while (receivedReply != null) {
+                reply = receivedReply;
+                receivedReply = null;
             }
         }
-        return null;
+        System.out.println(reply);
+        return reply;
     }
 
+    @Override
     public void send(JSONObject message) {
         send(message,false);
     }
 
     @Override
     public void reply(JSONObject message) {
-        inputSocket.sendMessage(message.toJSONString());
+        message.put("type", "reply");
+        out.println(message.toJSONString());
     }
 
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {
-        receivedMessage = message;
-        clientController.notifyIncomingMessage();
+        if(!networkMessageHandling(message)) {
+            receivedMessage = message;
+            clientController.notifyIncomingMessage();
+        }
     }
 
-    @Override
-    public void run() {
-        while (running) {}
+    private boolean networkMessageHandling(JSONObject message) {
+        if(message.containsKey("type")) {
+            switch (message.get("type").toString()) {
+                case "pong" -> {
+                    pinger.notifyPong();
+                }
+                case "ping" -> {
+                    JSONObject pongMessage = new JSONObject();
+                    pongMessage.put("type", "pong");
+                    out.println(pongMessage);
+                }
+                case "reply" -> {
+                    receivedReply = message;
+                }
+                default -> {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -126,22 +105,15 @@ public class ClientConnectionManager implements Runnable, NetworkInterface, Sock
         clientController.notifyConnectionLoss();
     }
 
-    @Override
-    public int exchangePongerPorts(int pongerPort) {
-        outputSocket.sendMessage(String.valueOf(pongerPort));
-        return Integer.parseInt(outputSocket.receiveMessage());
-    }
-
-    @Override
-    public InetAddress getRemotePongerAddress() {
-        return outputSocket.getSocketAddress();
-    }
-
     public void shutdown() {
-        //TODO controller shutdown
-        clientController.getViewController().closeGUI();
-        clientController.shutdown();
-        connectionChecker.shutdown();
-        codexMain.shutdown();
+        out.close();
+        inputHandler.shutdown();
+        inputHandlerThread.interrupt();
+        pingerThread.interrupt();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

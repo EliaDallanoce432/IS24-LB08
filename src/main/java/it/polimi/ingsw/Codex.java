@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.server.lobby.Lobby;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 public class Codex {
     private Thread thread;
     private Lobby lobby;
+    private ClientController clientController;
 
     public Thread getThread() {
         return thread;
@@ -25,6 +27,14 @@ public class Codex {
         this.lobby = lobby;
     }
 
+    public ClientController getClientController() {
+        return clientController;
+    }
+
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
     public static void main(String[] args) {
         Codex codex = new Codex();
         if(args.length == 0) {
@@ -35,11 +45,7 @@ public class Codex {
         }
         else {
             if(args[0].equals("client") && args.length == 3) {
-                try {
-                    codex.setThread(new Thread(new ClientConnectionManager(args[1],Integer.parseInt(args[2]),codex)));
-                } catch (ServerUnreachableException e) {
-                    return;
-                }
+                codex.setClientController(new ClientController(args[1], Integer.parseInt(args[2])));
                 codex.getThread().start();
             }
             else if(args[0].equals("server") && args.length == 2) {

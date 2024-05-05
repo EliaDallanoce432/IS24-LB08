@@ -7,31 +7,30 @@ import it.polimi.ingsw.network.ClientNetworkObserverInterface;
 import it.polimi.ingsw.util.customexceptions.AlreadyPlacedInThisRoundException;
 import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
 import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
+import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import javafx.application.Application;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class ClientController implements Runnable, ClientNetworkObserverInterface {
+import java.util.ArrayList;
+
+public class ClientController implements ClientNetworkObserverInterface {
 
     private final ClientConnectionManager clientConnectionManager;
     private final ClientModel clientModel;
     private ViewController viewController;
-    private Boolean running;
 
-    public ClientController (ClientConnectionManager clientConnectionManager)  {
-
-        this.clientConnectionManager = clientConnectionManager;
+    public ClientController (String serverAddress, int serverPort)  {
+        try {
+            this.clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
+        } catch (ServerUnreachableException e) {
+            //TODO gestire l'eccezione
+            throw new RuntimeException(e);
+        }
         int randomNumber = (int) (Math.random() * 100);
         clientModel = new ClientModel("Guest-"+randomNumber);
-        clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(clientModel.getUsername()));
-        running = true;
-    }
-
-
-    @Override
-    public void run() {
-        startClient();
-        while (running) {};
+        clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(clientModel.getUsername()),true);
+        startGui();
     }
 
     public void setViewController(ViewController viewController) {
@@ -46,22 +45,17 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
         return clientConnectionManager;
     }
 
-    public void startClient() {
+    public void startGui() {
         // Create an instance of ClientView
-        ClientView.clientController = this;
-
+        ClientGUI.clientController = this;
         // Launch the application
-        Application.launch(ClientView.class);
-
-
+        Application.launch(ClientGUI.class);
     }
 
 
     @Override
     public void notifyIncomingMessage() {
         ClientControllerRequestExecutor.execute(this,clientConnectionManager.getReceivedMessage(),clientConnectionManager);
-
-
     }
 
     @Override
@@ -80,11 +74,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public void loadGameBoard(){
-
         viewController.loadGameBoard(clientModel.getStarterCardId(),100,101,clientModel.getSecretObjectiveId());
-
-
-
     }
 
     public boolean sendSetUsernameMessage(String username) {
@@ -99,19 +89,16 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
 
-    public String[] sendGetAvailableGamesMessage(){
+    public ArrayList<String> sendGetAvailableGamesMessage(){
         JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage(), true);
         JSONArray jsonArray = (JSONArray) response.get("games");
-
+        ArrayList<String> games = new ArrayList<>();
         if (!jsonArray.isEmpty()) {
-            String[] games = new String[jsonArray.size()];
-            for (int i = 0; i < jsonArray.size(); i++) {
-                games[i] = (String) jsonArray.get(i);
+            for (Object o : jsonArray) {
+                games.add((String) o);
             }
-            return games;
         }
-        else return null;
-
+        return games;
     }
 
     public boolean sendJoinGameMessage(String gameName){
@@ -184,7 +171,7 @@ public class ClientController implements Runnable, ClientNetworkObserverInterfac
     }
 
     public void shutdown() {
-        //TODO gestire la chiusura
-        running = false;
+        clientConnectionManager.shutdown();
+        System.exit(0);
     }
 }

@@ -131,7 +131,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                     drawnObjectiveCards.add(cardtemp2);
                     JSONObject response = clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2), true);
                     System.out.println("sending ids: " + cardtemp1.getId() + " - " + cardtemp2.getId() + "to: " + clients.get(i).getUsername());
-                    clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2));
+                    clients.get(i).send(ServerMessageGenerator.generateDrawnObjectiveCardsMessage(cardtemp1, cardtemp2), true);
 
                 } catch (EmptyDeckException ignored) {
                 }
