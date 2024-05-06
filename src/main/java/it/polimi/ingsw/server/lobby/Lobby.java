@@ -8,23 +8,19 @@ import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Lobby implements ServerNetworkObserverInterface {
 
-    private List<Request> requests;
-    private ArrayList<ClientHandler> connectedClients;
-    private HashMap<String, GameController> availableGames;
-    private ArrayList<String> takenUsernames;
+    private final List<Request> requests;
+    private final ArrayList<ClientHandler> connectedClients;
+    private final HashMap<String, GameController> availableGames;
+    private final ArrayList<String> takenUsernames;
     private volatile boolean running;
-    private ExecutorService executorService;
-    private LobbyRequestExecutor lobbyRequestExecutor;
-    private Server server;
+    private final ExecutorService executorService;
+    private final LobbyRequestExecutor lobbyRequestExecutor;
 
     public void startLobby() {
         while (running) {
@@ -40,10 +36,10 @@ public class Lobby implements ServerNetworkObserverInterface {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
-        requests = Collections.synchronizedList(new ArrayList<Request>());
+        requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestExecutor = new LobbyRequestExecutor(this);
-        server = new Server(this, port);
+        Server server = new Server(this, port);
         executorService.submit(server);
         running = true;
     }
@@ -60,8 +56,8 @@ public class Lobby implements ServerNetworkObserverInterface {
         System.out.println("New request added to the lobby");
     }
 
-    public HashMap<String, GameController> getAvailableGames() {
-        return availableGames;
+    public Set<String> getAvailableGames() {
+        return availableGames.keySet();
     }
 
     /**

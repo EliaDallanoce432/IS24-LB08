@@ -1,15 +1,13 @@
 package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class LobbyRequestExecutor {
-    private Lobby lobby;
+    private final Lobby lobby;
 
     public LobbyRequestExecutor(Lobby lobby) {
         this.lobby = lobby;
@@ -26,50 +24,48 @@ public class LobbyRequestExecutor {
             case "getAvailableGames" -> getAvailableGames(lobby,clientHandler);
             case "setUp" -> setUpGame(lobby,message,clientHandler);
             case "join" -> joinGame(lobby,message,clientHandler);
-            case "leave" -> leaveLobby(lobby,clientHandler);
-            case "connectionLost" -> leaveLobby(lobby,clientHandler);
-            default -> clientHandler.reply(ResponseGenerator.response("unexpectedCommand"));
+            case "leave", "connectionLost" -> leaveLobby(lobby,clientHandler);
+            default -> {
+                //do nothing (request discarded)
+            }
         }
     }
 
     private void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
             lobby.setUsername(message.get("username").toString(),clientHandler);
-            clientHandler.reply(ResponseGenerator.OKResponse());
+            clientHandler.send(LobbyMessageGenerator.usernameSetMessage(clientHandler.getUsername()));
         } catch (AlreadyTakenUsernameException e) {
-             clientHandler.reply(ResponseGenerator.response("usernameAlreadyTaken"));
-             //TODO sostituire la risposta qui sopra con un'apposita risposta specifica
+             clientHandler.send(LobbyMessageGenerator.usernameAlreadyTakenMessage());
         }
 
     }
 
     private void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
-        JSONArray games = new JSONArray();
-        games.addAll(lobby.getAvailableGames().keySet());
-        JSONObject response = new JSONObject();
-        response.put("games", games);
-        clientHandler.reply(response);
+        clientHandler.send(LobbyMessageGenerator.getAvailableGamesMessage(lobby.getAvailableGames()));
     }
 
     private void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
-        lobby.setupNewGame(Integer.parseInt(message.get("numOfPlayers").toString()),message.get("gameName").toString(),clientHandler);
-        clientHandler.reply(ResponseGenerator.OKResponse());
+        int numberOfPlayers = Integer.parseInt(message.get("numOfPlayers").toString());
+        String gameName = message.get("gameName").toString();
+
+        lobby.setupNewGame(numberOfPlayers,gameName,clientHandler);
+
     }
 
     private void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+        String gameName = message.get("gameName").toString();
         try {
-            lobby.joinGame(clientHandler,message.get("gameName").toString());
-            clientHandler.reply(ResponseGenerator.OKResponse());
+            lobby.joinGame(clientHandler,gameName);
+            clientHandler.send(LobbyMessageGenerator.joinGameMessage(gameName));
         } catch (NonExistentGameException e) {
-            clientHandler.reply(ResponseGenerator.response("nonexistentGame"));
-            //TODO sostituire la risposta qui sopra con un'apposita risposta specifica
+            clientHandler.send(LobbyMessageGenerator.gameDoesNotExistMessage());
         }
 
     }
 
     private void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
         lobby.leaveLobby(clientHandler);
-        clientHandler.reply(ResponseGenerator.OKResponse());
     }
 
 }

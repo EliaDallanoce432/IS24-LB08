@@ -59,6 +59,8 @@ public class Codex {
     }
 
     public void shutdown() {
+        if(lobby != null) { lobby.shutdown(); }
+        if(clientController != null) { clientController.shutdown(); }
         thread.interrupt();
     }
 }
