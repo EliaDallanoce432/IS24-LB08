@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.sockets.InputHandler;
 import it.polimi.ingsw.network.sockets.networkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.util.supportclasses.Color;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     private volatile JSONObject receivedReply;
 
     private String username;
+    private Color token;
     private GameController game = null;
     private final Lobby lobby;
     private boolean isInGame;
@@ -47,6 +49,14 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
 
         isInGame = false;
         running = true;
+    }
+
+    public Color getToken() {
+        return token;
+    }
+
+    public void setToken(Color token) {
+        this.token = token;
     }
 
     public JSONObject getReceivedRequest() {

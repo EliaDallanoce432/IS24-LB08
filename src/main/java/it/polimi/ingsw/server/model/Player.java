@@ -14,6 +14,7 @@ public class Player {
     private final String username;
     private final Color token;
     private int score;
+    private Game game;
     private final GameField gamefield;
     private final ArrayList<PlaceableCard> hand;
     private StarterCard starterCard;
@@ -52,6 +53,7 @@ public class Player {
 
     public void setReady(boolean ready) {
         isReady = ready;
+        game.gameObserver.notifyReady();
     }
 
     public ArrayList<PlaceableCard> getHand() {
