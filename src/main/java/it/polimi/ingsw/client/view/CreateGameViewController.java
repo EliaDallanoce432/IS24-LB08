@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -63,19 +65,12 @@ public class CreateGameViewController extends ViewController {
 
         else{
 
-            if (!ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers)) showMessage("ERROR");
+            ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
 
-            else {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(StageManager.loadWaitForPlayersScene());
+            stage.show();
 
-                System.out.println("created game: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
-
-                System.out.println("joining game: " + gameName);
-
-                Stage stage = (Stage) backButton.getScene().getWindow();
-
-                stage.setScene(StageManager.loadWaitForPlayersScene());
-                stage.show();
-            }
 
         }
 

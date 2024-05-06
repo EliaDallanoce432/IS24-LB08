@@ -8,13 +8,12 @@
     <children>
         <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="confirmButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#confirmPressed" text="Ready" />
                 <Label layoutX="29.0" layoutY="28.0" prefHeight="64.0" prefWidth="227.0" textFill="WHITE">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label fx:id="alertLabel" layoutX="329.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+                <Label fx:id="alertLabel" layoutX="329.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="WHITE" />
             <Pane fx:id="cardBox" layoutX="76.0" layoutY="121.0" prefHeight="240.0" prefWidth="448.0" />
             </children>
         </Pane>

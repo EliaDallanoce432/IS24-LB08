@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.util.supportclasses.ClientState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -33,6 +34,10 @@ public class WaitForPlayersViewController extends ViewController {
         readyButton.setVisible(false);
         backButton.setVisible(false);
         showMessage("Joining Game...");
+        System.out.println("INITIALIZE: " + ClientStateModel.getIstance().getClientState());
+
+        Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
+
 
     }
 
@@ -54,8 +59,7 @@ public class WaitForPlayersViewController extends ViewController {
 
         System.out.println("Ready");
 
-        if (!ClientController.getInstance().sendReadyMessage()) showMessage("Someting went wrong");
-        else showMessage("ok");
+        ClientController.getInstance().sendReadyMessage();
 
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.setScene(StageManager.loadChooseCardsScene());
@@ -70,22 +74,29 @@ public class WaitForPlayersViewController extends ViewController {
     }
 
     public void updateSceneStatus(){
-        switch (ClientStateModel.getIstance().getClientState()){
-            case WAITING_STATE -> loadGetReadyScene();
-            case WELCOME_STATE -> loadErrorJoiningScene();
-            default -> {}
-        }
+
+        System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+
+            switch (ClientStateModel.getIstance().getClientState()){
+                case WAITING_STATE -> loadGetReadyScene();
+                case WELCOME_STATE -> loadErrorJoiningScene();
+                default -> {}
+            }
 
     }
 
     private void loadGetReadyScene(){
-        showMessage("Waiting for other players to join...");
-        readyButton.setVisible(true);
-        backButton.setVisible(true);
+        Platform.runLater(()-> {
+            showMessage("Waiting for other players to join...");
+            readyButton.setVisible(true);
+            backButton.setVisible(true);
+        });
     }
 
     private void loadErrorJoiningScene(){
-        showMessage("The Game Is Full or it does not exist anymore");
-        backButton.setVisible(true);
+        Platform.runLater(()-> {
+            showMessage("The Game Is Full or it does not exist anymore");
+            backButton.setVisible(true);
+        });
     }
 }

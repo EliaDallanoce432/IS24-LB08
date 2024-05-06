@@ -7,17 +7,9 @@ import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 
 public class Codex {
-    private Thread thread;
+
     private Lobby lobby;
     private ClientController clientController;
-
-    public Thread getThread() {
-        return thread;
-    }
-
-    public void setThread(Thread thread) {
-        this.thread = thread;
-    }
 
     public Lobby getLobby() {
         return lobby;
@@ -46,7 +38,7 @@ public class Codex {
         else {
             if(args[0].equals("client") && args.length == 3) {
                 codex.setClientController(ClientController.getInstance(args[1], Integer.parseInt(args[2])));
-                codex.getThread().start();
+                codex.getClientController().startClient();
             }
             else if(args[0].equals("server") && args.length == 2) {
                 codex.setLobby(new Lobby(Integer.parseInt(args[1])));
@@ -61,6 +53,6 @@ public class Codex {
     public void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
         if(clientController != null) { clientController.shutdown(); }
-        thread.interrupt();
+
     }
 }

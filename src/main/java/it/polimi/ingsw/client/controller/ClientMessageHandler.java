@@ -14,6 +14,7 @@ public class ClientMessageHandler {
         switch (message.get("message").toString()) {
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
+            case "gameCreated" -> updateClientState(ClientState.WAITING_STATE);
             case "joinGame" -> updateClientState(ClientState.WAITING_STATE);
             case "gameDoesNotExist" -> updateClientState(ClientState.WELCOME_STATE);
             case "availableGames" -> updateAvailableGames(message);

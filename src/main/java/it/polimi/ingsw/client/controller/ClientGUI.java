@@ -6,9 +6,6 @@ import javafx.stage.Stage;
 
 public class ClientGUI extends Application {
 
-    static ClientController clientController;
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception{

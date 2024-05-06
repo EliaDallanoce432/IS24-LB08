@@ -27,6 +27,12 @@ public class LobbyMessageGenerator {
         return message;
     }
 
+    public static JSONObject createdGameMessage() {
+        JSONObject message = new JSONObject();
+        message.put("message", "gameCreated");
+        return message;
+    }
+
     public static JSONObject gameDoesNotExistMessage() {
         JSONObject message = new JSONObject();
         message.put("message", "gameDoesNotExist");

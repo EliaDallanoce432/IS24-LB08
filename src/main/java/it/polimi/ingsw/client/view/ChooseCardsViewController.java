@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,54 +29,52 @@ public class ChooseCardsViewController extends ViewController {
 
     }
 
-    @FXML
-    private void confirmPressed() throws IOException {
 
-
-        if (!ClientController.getInstance().sendReadyMessage()) showMessage("Someting went wrong");
-        else showMessage("ok");
-
-
-    }
 
     @Override
     public void updateSelectableCards() {
 
-        showMessage("Choose the starter card side:");
+        Platform.runLater(()->{
 
-        int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
-        VirtualCard starterCard1 = new VirtualCard(starterCardId,true);
-        Rectangle card1 = starterCard1.getCard();
+            showMessage("Choose the starter card side:");
 
-
-        VirtualCard starterCard2 = new VirtualCard(starterCardId,false);
-        Rectangle card2 = starterCard2.getCard();
-
-        card2.setLayoutX(300);
+            int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
+            VirtualCard starterCard1 = new VirtualCard(starterCardId,true);
+            Rectangle card1 = starterCard1.getCard();
 
 
-        Button button1 = new Button("Choose");
-        button1.setLayoutX(0);
-        button1.setLayoutY(170);
+            VirtualCard starterCard2 = new VirtualCard(starterCardId,false);
+            Rectangle card2 = starterCard2.getCard();
 
-        Button button2 = new Button("Choose");
-        button2.setLayoutX(300);
-        button2.setLayoutY(170);
+            card2.setLayoutX(300);
 
 
-        button1.setOnAction(event -> {
-            ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
-            cardBox.getChildren().clear();
-            showObjectiveCards();
+            Button button1 = new Button("Choose");
+            button1.setLayoutX(0);
+            button1.setLayoutY(170);
+
+            Button button2 = new Button("Choose");
+            button2.setLayoutX(300);
+            button2.setLayoutY(170);
+
+
+            button1.setOnAction(event -> {
+                ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
+                cardBox.getChildren().clear();
+                showObjectiveCards();
+            });
+
+            button2.setOnAction(event -> {
+                ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,false);
+                cardBox.getChildren().clear();
+                showObjectiveCards();
+            });
+
+            cardBox.getChildren().addAll(card1, card2, button1, button2);
+
         });
 
-        button2.setOnAction(event -> {
-            ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,false);
-            cardBox.getChildren().clear();
-            showObjectiveCards();
-        });
 
-        cardBox.getChildren().addAll(card1, card2, button1, button2);
     }
 
     public void showObjectiveCards() {
@@ -121,6 +120,15 @@ public class ChooseCardsViewController extends ViewController {
         });
 
         cardBox.getChildren().addAll(card1, card2, button1, button2);
+    }
+
+    @Override
+    public void showMessage(String message){
+
+        Platform.runLater(()->{
+            alertLabel.setText(message);
+        });
+
     }
 
 

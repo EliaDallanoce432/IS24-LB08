@@ -14,6 +14,7 @@ public class ClientStateModelObserver implements ModelObserver{
     @Override
     public void update() {
         StageManager.getViewController().updateSceneStatus();
+        System.out.println(ClientStateModel.getIstance().getClientState());
 
     }
 }

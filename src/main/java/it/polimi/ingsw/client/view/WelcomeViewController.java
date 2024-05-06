@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.observers.*;
 import it.polimi.ingsw.server.controller.GameObserver;
 import it.polimi.ingsw.server.model.deck.Deck;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,6 +35,8 @@ public class WelcomeViewController extends ViewController {
 
     @FXML
     private void initialize() {
+
+        //initializing observers
 
         new AvailableGamesModelObserver();
         new ClientStateModelObserver();
@@ -71,6 +75,7 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void setUsername() throws IOException {
 
+
         joinGameButton.setVisible(false);
         createGameButton.setVisible(false);
         exitButton.setVisible(false);
@@ -88,19 +93,22 @@ public class WelcomeViewController extends ViewController {
         });
         setUsernamePane.getChildren().add(confirmButton);
 
+
     }
 
     private void saveUsername() {
+
         String username = usernameTextField.getText();
 
-        if (!ClientController.getInstance().sendSetUsernameMessage(username)){
-            showMessage("Invalid Username, try again");
-        }
-        else {
+        ClientController.getInstance().sendSetUsernameMessage(username);
+    }
 
-            System.out.println("Username: " + username);
+    @Override
+    public void updatePlayerInfo(){
 
+        Platform.runLater(()->{
 
+            System.out.println("User logged in as: " + PlayerModel.getIstance().getUsername());
             // Show other buttons
             joinGameButton.setVisible(true);
             createGameButton.setVisible(true);
@@ -113,7 +121,11 @@ public class WelcomeViewController extends ViewController {
 
             // Remove the confirm button from the pane
             setUsernamePane.getChildren().remove(confirmButton);
-        }
+
+        });
+
+
+
     }
 
     @FXML
@@ -123,8 +135,10 @@ public class WelcomeViewController extends ViewController {
     }
 
     @Override
+    @FXML
     public void showMessage(String message) {
         alertLabel.setText(message);
+
     }
 
 

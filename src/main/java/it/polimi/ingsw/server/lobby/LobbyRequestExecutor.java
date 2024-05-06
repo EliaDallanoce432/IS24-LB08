@@ -50,6 +50,7 @@ public class LobbyRequestExecutor {
         String gameName = message.get("gameName").toString();
 
         lobby.setupNewGame(numberOfPlayers,gameName,clientHandler);
+        clientHandler.send(LobbyMessageGenerator.createdGameMessage());
 
     }
 

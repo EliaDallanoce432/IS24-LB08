@@ -47,8 +47,9 @@ public class ClientController implements ClientNetworkObserverInterface {
             //TODO gestire l'eccezione
             throw new RuntimeException(e);
         }
-        startClient();
         startGui();
+
+
     }
 
     @Override
@@ -72,8 +73,7 @@ public class ClientController implements ClientNetworkObserverInterface {
     }
 
     public void startGui() {
-        // Create an instance of ClientView
-        ClientGUI.clientController = this;
+
         // Launch the application
         Application.launch(ClientGUI.class);
     }
@@ -91,58 +91,37 @@ public class ClientController implements ClientNetworkObserverInterface {
         clientConnectionManager.shutdown();
     }
 
-    public boolean sendSetUsernameMessage(String username) {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username), true);
-        if(response.get("response").equals("ok")) {
-            System.out.println("Username set to " + username);
-            //playerModel.setUsername(username);
-            return true;
-        }
-        else return false;
+    public void sendSetUsernameMessage(String username) {
+        clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username));
 
     }
 
-    public ArrayList<String> sendGetAvailableGamesMessage(){
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage(), true);
-        JSONArray jsonArray = (JSONArray) response.get("games");
-        ArrayList<String> games = new ArrayList<>();
-        if (!jsonArray.isEmpty()) {
-            for (Object o : jsonArray) {
-                games.add((String) o);
-            }
-        }
-        return games;
+    public void sendGetAvailableGamesMessage(){
+        clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage());
+
     }
 
-    public boolean sendJoinGameMessage(String gameName){
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName), true);
-        if(response.get("response").equals("ok")) {
-            return true;
-        }
-        else return false;
+    public void sendJoinGameMessage(String gameName){
+        clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));
+
     }
 
-    public boolean sendSetUpGameMessage(String gamename, int numOfPlayers) {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,numOfPlayers), true);
-        if(response.get("response").equals("ok")) {
-            return true;
-        }
-        else return false;
+    public void sendSetUpGameMessage(String gamename, int numOfPlayers) {
+        clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gamename,numOfPlayers));
+
     }
 
-    public boolean sendReadyMessage() {
-        System.out.println("sending message...");
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage(), true);
-        return response.get("response").equals("ok");
+    public void sendReadyMessage() {
+        clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
     }
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
-        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp));
         GameFieldModel.getIstance().setStarterCard(cardId,facingUp);
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
-        clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId));
         ObjectivesModel.getIstance().setSecretObjectiveId(cardId);
     }
     
