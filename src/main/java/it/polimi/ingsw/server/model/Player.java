@@ -21,8 +21,8 @@ public class Player {
     private boolean isReady;
     private boolean starterCardOrientationSelected;
 
-    public Player(Game game, String username, Color token) {
-        this.game = game;
+    public Player(String username, Color token) {
+        this.game = Game.getInstance();
         this.username = username;
         this.token = token;
         this.score = 0;

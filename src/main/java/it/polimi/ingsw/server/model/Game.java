@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
+    private static Game instance;
     public ObjectiveCardDeck objectiveCardDeck;
     public ResourceCardDeck resourceCardDeck;
     public GoldCardDeck goldCardDeck;
@@ -21,6 +22,15 @@ public class Game {
     public GameObserver gameObserver;
     public GameState gameState;
     public ArrayList<ObjectiveCard> commonObjectives;
+
+    public static Game getInstance(int numberOfPlayers, GameObserver gameObserver) {
+        if(instance == null) { instance = new Game(numberOfPlayers, gameObserver); }
+        return instance;
+    }
+
+    public static Game getInstance() {
+        return instance;
+    }
 
     public Game(int numberOfPlayers, GameObserver gameObserver) {
         players = new HashMap<>();

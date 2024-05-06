@@ -36,7 +36,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.requests = Collections.synchronizedList(new ArrayList<>());
         this.running = true;
         this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
-        this.game = new Game(numberOfExpectedPlayers, this);
+        this.game = Game.getInstance(numberOfExpectedPlayers, this);
         System.out.println(gameName + " is ready");
     }
 
@@ -88,7 +88,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         Collections.shuffle(tokens); //randomize color token player
         Collections.shuffle(clientHandlers); //randomize first player
         for (int i = 0; i < numberOfExpectedPlayers; i++) {
-            game.players.put(tokens.get(i), new Player(game, clientHandlers.get(i).getUsername(), tokens.get(i)));
+            game.players.put(tokens.get(i), new Player(clientHandlers.get(i).getUsername(), tokens.get(i)));
             clientHandlers.get(i).setToken(tokens.get(i));
         }
     }
