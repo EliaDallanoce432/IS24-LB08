@@ -40,14 +40,14 @@ public abstract class DeckWithRevealedCards extends Deck{
     }
 
     /**
-     * returns the ids of the drawable cards
-     * @return cardsId
+     * returns the cards that are visible in the deck (top card, left revealed card, right revealed card)
+     * @return Arraylist of the visible cards
      */
-    public ArrayList<Integer> getDrawableCardsId() {
-        ArrayList<Integer> cardsId= new ArrayList<>();
-        cardsId.add(cards.getFirst().getId()) ;
-        cardsId.add(leftRevealedCard.getId()) ;
-        cardsId.add(rightRevealedCard.getId()) ;
+    public ArrayList<Card> getVisibleCards() {
+        ArrayList<Card> cardsId= new ArrayList<>();
+        cardsId.add(cards.getFirst()) ;
+        cardsId.add(leftRevealedCard) ;
+        cardsId.add(rightRevealedCard) ;
         return cardsId;
     }
 }

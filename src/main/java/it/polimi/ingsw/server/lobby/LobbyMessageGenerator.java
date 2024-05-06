@@ -29,7 +29,7 @@ public class LobbyMessageGenerator {
 
     public static JSONObject gameDoesNotExistMessage() {
         JSONObject message = new JSONObject();
-        message.put("message", "gameDoesNotExistMessage");
+        message.put("message", "gameDoesNotExist");
         return message;
     }
 

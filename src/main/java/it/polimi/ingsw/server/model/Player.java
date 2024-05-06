@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.card.PlaceableCard;
-import it.polimi.ingsw.server.model.card.StarterCard;
+import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Color;
 
@@ -19,16 +17,23 @@ public class Player {
     private final ArrayList<PlaceableCard> hand;
     private StarterCard starterCard;
     private ObjectiveCard secretObjective;
+    private ObjectiveCard[] drawnObjectiveCards;
     private boolean isReady;
-    public Player(String username, Color token) {
+    private boolean starterCardOrientationSelected;
+
+    public Player(Game game, String username, Color token) {
+        this.game = game;
         this.username = username;
         this.token = token;
         this.score = 0;
         this.gamefield = new GameField(this);
         this.hand = new ArrayList<>();
+        initializeHand();
         this.starterCard = null;
         this.secretObjective = null;
+        this.drawnObjectiveCards = new ObjectiveCard[2];
         this.isReady = false;
+        this.starterCardOrientationSelected = false;
     }
 
     public String getUsername() {
@@ -47,6 +52,18 @@ public class Player {
         return score;
     }
 
+    public ObjectiveCard[] getDrawnObjectiveCards() {
+        return drawnObjectiveCards;
+    }
+
+    public void setDrawnObjectiveCards(ObjectiveCard[] drawnObjectiveCards) {
+        this.drawnObjectiveCards = drawnObjectiveCards;
+    }
+
+    public boolean isStarterCardOrientationSelected() {
+        return starterCardOrientationSelected;
+    }
+
     public boolean isReady() {
         return isReady;
     }
@@ -56,9 +73,25 @@ public class Player {
         game.gameObserver.notifyReady();
     }
 
+    public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
+        this.starterCardOrientationSelected = starterCardOrientationSelected;
+        game.gameObserver.notifyStarterCardAndSecretObjetiveSelected();
+    }
+
     public ArrayList<PlaceableCard> getHand() {
         return hand;
     }
+
+    private void initializeHand() {
+        hand.clear();
+        try {
+            addToHand((ResourceCard) game.resourceCardDeck.directDraw());
+            addToHand((ResourceCard) game.resourceCardDeck.directDraw());
+            addToHand((GoldCard) game.goldCardDeck.directDraw());
+        } catch (FullHandException | EmptyDeckException ignored) {
+        }
+    }
+
     public void setScore(int newScore) {
         this.score = newScore;
     }
@@ -74,6 +107,7 @@ public class Player {
     public void setSecretObjective(ObjectiveCard objectiveCard) {
         if(this.secretObjective != null) return;
         this.secretObjective = objectiveCard;
+        game.gameObserver.notifyStarterCardAndSecretObjetiveSelected();
     }
 
     public ObjectiveCard getSecretObjective() {

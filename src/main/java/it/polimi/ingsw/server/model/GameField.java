@@ -22,6 +22,7 @@ public class GameField {
     private final ArrayList<PlaceableCard> animalCards;
     private final ArrayList<PlaceableCard> fungiCards;
     private final ArrayList<PlaceableCard> insectCards;
+    private final ArrayList<PlaceableCard> placementHistory;
 
     public GameField(Player player) {
         this.player = player;
@@ -30,6 +31,7 @@ public class GameField {
         insectCards = new ArrayList<>();
         fungiCards = new ArrayList<>();
         plantCards = new ArrayList<>();
+        placementHistory = new ArrayList<>();
     }
 
     public Player getPlayer() {
@@ -54,6 +56,14 @@ public class GameField {
 
     public ArrayList<PlaceableCard> getInsectCards() {
         return insectCards;
+    }
+
+    public ArrayList<PlaceableCard> getPlacementHistory() {
+        return placementHistory;
+    }
+
+    public void addToPlacementHistory(PlaceableCard card) {
+        placementHistory.addLast(card);
     }
 
     public int getAnimalCount() {
@@ -131,6 +141,7 @@ public class GameField {
                 addResource(res);
             }
         }
+        addToPlacementHistory(card);
     }
 
     /**
@@ -151,6 +162,7 @@ public class GameField {
         card.setY(y);
         updateNeighboursAndResources(card, x,y); //updates the surrounding cards and resource state
         if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints(this)); //gets the points earned from placing the card
+        addToPlacementHistory(card);
     }
 
     /**

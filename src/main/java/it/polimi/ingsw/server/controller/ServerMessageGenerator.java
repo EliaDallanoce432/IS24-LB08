@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.server.model.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.card.PlaceableCard;
-import it.polimi.ingsw.server.model.card.ResourceCard;
-import it.polimi.ingsw.server.model.card.StarterCard;
+import it.polimi.ingsw.server.model.card.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -45,7 +42,7 @@ public class ServerMessageGenerator {
 //        return message;
 //    }
 
-    public static JSONObject startGameMessage (ArrayList<PlaceableCard> hand, ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards, StarterCard s, ObjectiveCard o, ArrayList<ObjectiveCard> commonObjective) {
+    public static JSONObject startGameMessage (ArrayList<PlaceableCard> hand, ArrayList<Card> resourceCards, ArrayList<Card> goldCards, StarterCard s, ObjectiveCard o, ArrayList<ObjectiveCard> commonObjectives) {
         JSONObject message = new JSONObject();
         message.put("message","startGame");
         //invio la mano
@@ -55,22 +52,24 @@ public class ServerMessageGenerator {
         }
         message.put("hand",handArray);
         //invio le drawable cards
-        message.put("topDeckResourceCard", resourceCards.getFirst());
-        message.put("leftResourceCard", resourceCards.get(1));
-        message.put("rightResourceCard", resourceCards.getLast());
-        message.put("topDeckGoldCard", goldCards.getFirst());
-        message.put("leftGoldCard", goldCards.get(1));
-        message.put("rightGoldCard", goldCards.getLast());
+        message.put("topDeckResourceCardID", String.valueOf(resourceCards.getFirst().getId()));
+        message.put("leftResourceCardID", String.valueOf(resourceCards.get(1).getId()));
+        message.put("rightResourceCardID", String.valueOf(resourceCards.getLast().getId()));
+        message.put("topDeckGoldCardID", String.valueOf(goldCards.getFirst().getId()));
+        message.put("leftGoldCardID", String.valueOf(goldCards.get(1).getId()));
+        message.put("rightGoldCardID", String.valueOf(goldCards.getLast().getId()));
 
         message.put("starterCardID", String.valueOf(s.getId()));
-        message.put("starterCardOrientation", s.isFacingUp());
+        message.put("starterCardOrientation", String.valueOf(s.isFacingUp()));
         message.put("secretObjectiveID", String.valueOf(o.getId()));
 
-        JSONArray secreteObj = new JSONArray();
-        for(ObjectiveCard card : commonObjective){
-            secreteObj.add(String.valueOf(card.getId()));
+        JSONArray commonObj = new JSONArray();
+        for(ObjectiveCard card : commonObjectives){
+            JSONObject obj = new JSONObject();
+            obj.put("objectiveID", String.valueOf(card.getId()));
+            commonObj.add(obj);
         }
-        message.put("commonObjective",secreteObj);
+        message.put("commonObjectives",commonObj);
         return message;
     }
 

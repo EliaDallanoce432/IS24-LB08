@@ -30,21 +30,22 @@ public class GameControllerRequestExecutor {
             default -> player.reply(ResponseGenerator.response("unexpectedCommand"));
         }
     }
-
+    //TODO sostituire in tutti i metodi le reply
     public void ready(GameController game, ClientHandler player)
     {
         game.ready(player);
     }
-    public void chooseStarterCardOrientation(GameController game,JSONObject message, ClientHandler player)
+
+    public void chooseStarterCardOrientation(GameController gameController,JSONObject message, ClientHandler player)
     {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
-        game.chooseStarterCardOrientations(player,starterCardId, facingUp);
+        gameController.chooseStarterCardOrientations(player,starterCardId, facingUp);
     }
-    public void chooseSecretObjectiveCard(GameController game,JSONObject message, ClientHandler player)
+    public void chooseSecretObjectiveCard(GameController gameController,JSONObject message, ClientHandler player)
     {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
-        game.chooseSecretObjectiveCard(player, objectiveCardId);
+        gameController.chooseSecretObjectiveCard(player, objectiveCardId);
     }
     public void directDrawResourceCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
@@ -156,7 +157,7 @@ public class GameControllerRequestExecutor {
     }
     public void place(GameController game, ClientHandler player, JSONObject message) {
 
-            if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
+        if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
         else {
             try {
                 int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
