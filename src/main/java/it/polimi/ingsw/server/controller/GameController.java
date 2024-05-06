@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Color;
+import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -50,26 +51,32 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
         gamePreparation();
         startGame();
     }
-/*
-    private void waitForEveryoneToJoinAndBeReady() throws InterruptedException {
-        while (clients.size() < numberOfExpectedPlayers || !allPlayersReady()) {
-            if (clients.isEmpty()) {
-                //throw new GameException("No players joined the game.");
-            }
-            System.out.println("Waiting for players to join and be ready...");
-            Thread.sleep(5000);
-        }
+
+    @Override
+    public void addNewRequest(Request request) {
+
     }
 
-    private boolean allPlayersReady() {
-        for (ClientHandler player : clients) {
-            if (!player.isReady()) {
-                return false;
+    /*
+        private void waitForEveryoneToJoinAndBeReady() throws InterruptedException {
+            while (clients.size() < numberOfExpectedPlayers || !allPlayersReady()) {
+                if (clients.isEmpty()) {
+                    //throw new GameException("No players joined the game.");
+                }
+                System.out.println("Waiting for players to join and be ready...");
+                Thread.sleep(5000);
             }
         }
-        return true;
-    }
-*/
+
+        private boolean allPlayersReady() {
+            for (ClientHandler player : clients) {
+                if (!player.isReady()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    */
     private void waitForEveryoneToJoinAndBeReady() {
         int countReadyPlayers = 0;
         while (clients.size() <= numberOfExpectedPlayers && countReadyPlayers<numberOfExpectedPlayers) {
