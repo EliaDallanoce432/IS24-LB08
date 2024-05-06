@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -45,7 +46,7 @@ public class WaitForPlayersViewController extends ViewController {
 
         System.out.println("Ready");
 
-        if (!clientController.sendReadyMessage()) showMessage("Someting went wrong");
+        if (!ClientController.getInstance().sendReadyMessage()) showMessage("Someting went wrong");
         else showMessage("ok");
 
 //        Stage stage = (Stage) backButton.getScene().getWindow();

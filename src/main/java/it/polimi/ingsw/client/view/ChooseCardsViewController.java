@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class ChooseCardsViewController extends ViewController {
     private void confirmPressed() throws IOException {
 
 
-        if (!clientController.sendReadyMessage()) showMessage("Someting went wrong");
+        if (!ClientController.getInstance().sendReadyMessage()) showMessage("Someting went wrong");
         else showMessage("ok");
 
 
@@ -58,7 +59,7 @@ public class ChooseCardsViewController extends ViewController {
         button1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clientController.sendChosenStarterCardOrientation(id,true);
+                ClientController.getInstance().sendChosenStarterCardOrientation(id,true);
             }
         });
 
@@ -66,7 +67,7 @@ public class ChooseCardsViewController extends ViewController {
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clientController.sendChosenStarterCardOrientation(id,false);
+                ClientController.getInstance().sendChosenStarterCardOrientation(id,false);
             }
         });
 
@@ -97,7 +98,7 @@ public class ChooseCardsViewController extends ViewController {
         button1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clientController.sendChosenSecretObjectiveMessage(id1);
+                ClientController.getInstance().sendChosenSecretObjectiveMessage(id1);
             }
         });
 
@@ -105,7 +106,7 @@ public class ChooseCardsViewController extends ViewController {
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clientController.sendChosenSecretObjectiveMessage(id2);
+                ClientController.getInstance().sendChosenSecretObjectiveMessage(id2);
             }
         });
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -33,9 +34,7 @@ public class CreateGameViewController extends ViewController {
         numberOfPlayersChoiceBox.getItems().addAll("2", "3", "4");
         numberOfPlayersChoiceBox.setValue("2");
         numberOfPlayersChoiceBox.setOnAction(event -> {
-            numberOfPlayersChoiceBox.getSelectionModel().select(null);
             int selectedItem = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
-            System.out.println("Selected item: " + selectedItem);
         });
     }
 
@@ -64,7 +63,7 @@ public class CreateGameViewController extends ViewController {
 
         else{
 
-            if (!clientController.sendSetUpGameMessage(gameName, numberOfPlayers)) showMessage("ERROR");
+            if (!ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers)) showMessage("ERROR");
 
             else {
 

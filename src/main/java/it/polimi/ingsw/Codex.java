@@ -45,7 +45,7 @@ public class Codex {
         }
         else {
             if(args[0].equals("client") && args.length == 3) {
-                codex.setClientController(new ClientController(args[1], Integer.parseInt(args[2])));
+                codex.setClientController(ClientController.getInstance(args[1], Integer.parseInt(args[2])));
                 codex.getThread().start();
             }
             else if(args[0].equals("server") && args.length == 2) {

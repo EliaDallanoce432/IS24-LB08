@@ -57,11 +57,6 @@ public class CardPlacementController {
 
     }
 
-
-
-
-
-
     public void unshowCards(){
         handPane.getChildren().clear();
     }

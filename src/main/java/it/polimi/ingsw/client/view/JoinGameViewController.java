@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -55,7 +56,7 @@ public class JoinGameViewController extends ViewController {
         }
         else {
 
-            if(!clientController.sendJoinGameMessage(selectedGame)){
+            if(!ClientController.getInstance().sendJoinGameMessage(selectedGame)){
                 alertLabel.setText("Something went wrong");
             }
             else {
@@ -74,7 +75,8 @@ public class JoinGameViewController extends ViewController {
 
     @FXML
     private void refreshPressed() throws IOException {
-        ArrayList<String> games = clientController.sendGetAvailableGamesMessage();
+        availableGamesChoiceBox.getItems().clear();
+        ArrayList<String> games = ClientController.getInstance().sendGetAvailableGamesMessage();
         availableGamesChoiceBox.getItems().addAll(games);
     }
 }

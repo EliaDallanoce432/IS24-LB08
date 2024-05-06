@@ -13,13 +13,16 @@ public class ClientGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        SceneLoader.setClientController(clientController);
         SceneLoader.setCurrentStage(primaryStage);
 
         primaryStage.setScene(SceneLoader.loadWelcomeScene());
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();
 
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
 
