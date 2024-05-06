@@ -16,15 +16,18 @@ public class Player {
     private int score;
     private final GameField gamefield;
     private final ArrayList<PlaceableCard> hand;
+    private StarterCard starterCard;
     private ObjectiveCard secretObjective;
-
+    private boolean isReady;
     public Player(String username, Color token) {
         this.username = username;
         this.token = token;
         this.score = 0;
         this.gamefield = new GameField(this);
         this.hand = new ArrayList<>();
+        this.starterCard = null;
         this.secretObjective = null;
+        this.isReady = false;
     }
 
     public String getUsername() {
@@ -43,6 +46,14 @@ public class Player {
         return score;
     }
 
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
     public ArrayList<PlaceableCard> getHand() {
         return hand;
     }
@@ -50,11 +61,18 @@ public class Player {
         this.score = newScore;
     }
 
+    public StarterCard getStarterCard() {
+        return starterCard;
+    }
+
+    public void setStarterCard(StarterCard starterCard) {
+        this.starterCard = starterCard;
+    }
+
     public void setSecretObjective(ObjectiveCard objectiveCard) {
         if(this.secretObjective != null) return;
         this.secretObjective = objectiveCard;
     }
-
 
     public ObjectiveCard getSecretObjective() {
         return secretObjective;

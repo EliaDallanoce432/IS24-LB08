@@ -25,14 +25,20 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
     ArrayList<StarterCard> drawnStarterCards;
     ArrayList<ObjectiveCard> drawnObjectiveCards;
     private int turn;
+    private List<Request> requests;
+    private boolean running;
+    private GameControllerRequestExecutor gameControllerRequestExecutor;
 
-    public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
+    public GameController(Lobby lobby, int numberOfExpectedPlayers, String gameName) {
         this.clients = new ArrayList<>();
-        this.numberOfExpectedPlayers = numberOfPlayers;
+        this.numberOfExpectedPlayers = numberOfExpectedPlayers;
         this.lobby = lobby;
         this.drawnStarterCards = new ArrayList<>();
         this.drawnObjectiveCards = new ArrayList<>();
-        this.game = new Game(numberOfPlayers);
+        this.requests = Collections.synchronizedList(new ArrayList<Request>());
+        this.running = true;
+        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
+        this.game = new Game(numberOfExpectedPlayers);
         System.out.println(gameName + " is ready");
     }
 
@@ -43,18 +49,18 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
     public int getNumberOfPlayers() {
         return numberOfExpectedPlayers;
     }
-
-
     public void run() {
-        waitForEveryoneToJoinAndBeReady();
-        System.out.println("All players are ready!");
-        gamePreparation();
-        startGame();
+        while (running) {
+            while (!requests.isEmpty()) {
+                gameControllerRequestExecutor.execute(requests.getFirst());
+                requests.removeFirst();
+            }
+        }
     }
-
     @Override
     public void addNewRequest(Request request) {
-
+        requests.addLast(request);
+        System.out.println("New request added to the lobby");
     }
 
     /*
@@ -77,35 +83,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             return true;
         }
     */
-    private void waitForEveryoneToJoinAndBeReady() {
-        int countReadyPlayers = 0;
-        while (clients.size() <= numberOfExpectedPlayers && countReadyPlayers<numberOfExpectedPlayers) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            if(clients.size()==numberOfExpectedPlayers) {
-                System.out.println("Waiting for players to be ready");
-            }
-            if(clients.isEmpty())
-            {//TODO chiudi partita
-            }
-            countReadyPlayers = 0;
-            for (ClientHandler player : clients) {
-                if (player.isReady()) {
-                    System.out.println(player.getUsername() + " is ready");
-                    countReadyPlayers++;
-                }
-                else {
-                    System.out.println(player.getUsername() + " is not ready");
-                }
-            }
-        }
-    }
         private void gamePreparation (){
-            game = new Game(numberOfExpectedPlayers);
             List<Color> colors = Arrays.asList(Color.blue, Color.yellow, Color.red, Color.green);
             Collections.shuffle(colors); //randomize color token player
             Collections.shuffle(clients); //randomize first player
@@ -164,16 +142,18 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
                     throw new RuntimeException(e);
                 }
             }
-
-
         }
 
-        public void ready (ClientHandler clientHandler){
+    /**
+     * sets the flag ready to true when the player is ready to play
+     * @param clientHandler
+     */
+    public void ready (ClientHandler clientHandler){
             clientHandler.setReady(true);
         }
 
         /**
-         * check if one player reached 20 point, at the end on the round
+         * checks if one player reached 20 point, at the end of the round
          * @return boolean
          */
         public boolean checkWinner () {
@@ -183,7 +163,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             }
             return false;
         }
-
 
         /**
          * communicates to players the game is about to start and sends their cards
@@ -221,11 +200,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
 
         @Override
         public void notifyIncomingMessage (ClientHandler clientHandler){
-            try {
+           /* try {
                 GameControllerRequestExecutor.execute(this, clientHandler.getReceivedRequest(), clientHandler);
             } catch (EmptyDeckException | CannotPlaceCardException | FullHandException e) {
                 throw new RuntimeException(e);
-            }
+            }*/
         }
 
         @Override
@@ -243,13 +222,21 @@ public class GameController implements Runnable, ServerNetworkObserverInterface 
             Thread.currentThread().interrupt();
         }
 
-        public synchronized void enterGame (ClientHandler player){
+    /**
+     * adds the player to the arraylist of players
+     * @param player who joined the current game
+     */
+    public synchronized void enterGame (ClientHandler player){
             clients.add(player);
             player.setGame(this);
             player.setInGame(true);
         }
 
-        public synchronized void leaveGame (ClientHandler player){
+    /**
+     * removes a player from the current game and sends him to the lobby
+     * @param player who left the game
+     */
+    public synchronized void leaveGame (ClientHandler player){
             clients.remove(player);
             player.setGame(null);
             player.setInGame(false);

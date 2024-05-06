@@ -12,21 +12,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ServerMessageGenerator {
-    public static JSONObject generateDrawnStarterCardMessage(StarterCard startercard){
-        JSONObject message = new JSONObject();
-        message.put("message","drawnStarterCards");
-        message.put("starterCard",String.valueOf(startercard.getId()));
-        return message;
-    }
-    public static JSONObject generateDrawnObjectiveCardsMessage (ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2){
-        JSONObject message = new JSONObject();
-        message.put("message","drawnObjectiveCards");
-        message.put("objectiveCard1",String.valueOf(objectiveCard1.getId()));
-        message.put("objectiveCard2",String.valueOf(objectiveCard2.getId()));
-        return message;
-    }
 
-    public static JSONObject generateUpdateHandMessage (ArrayList<PlaceableCard> hand){
+
+    public static JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
+        JSONObject message = new JSONObject();
+        message.put("message", "cardsSelection");
+        message.put("starterCardID", String.valueOf(startercard.getId()));
+        message.put("objectiveCardID1", String.valueOf(objectiveCard1.getId()));
+        message.put("objectiveCardID2", String.valueOf(objectiveCard2.getId()));
+        return message;
+    }
+    /*public static JSONObject generateUpdateHandMessage (ArrayList<PlaceableCard> hand){
         JSONObject message = new JSONObject();
         JSONArray handArray = new JSONArray();
         message.put("message","updateHand");
@@ -35,23 +31,66 @@ public class ServerMessageGenerator {
         }
         message.put("hand",handArray);
         return message;
-    }
-    public static JSONObject generateDrawableCardsMessage (ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards){
-        JSONObject message = new JSONObject();
+    }*/
+//    public static JSONObject generateDrawableCardsMessage (ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards){
+//        JSONObject message = new JSONObject();
+//
+//        message.put("message","drawableCards");
+//        message.put("topDeckResourceCard", resourceCards.getFirst());
+//        message.put("leftResourceCard", resourceCards.get(1));
+//        message.put("rightResourceCard", resourceCards.getLast());
+//        message.put("topDeckGoldCard", goldCards.getFirst());
+//        message.put("leftGoldCard", goldCards.get(1));
+//        message.put("rightGoldCard", goldCards.getLast());
+//        return message;
+//    }
 
-        message.put("message","drawableCards");
+    public static JSONObject startGameMessage (ArrayList<PlaceableCard> hand, ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards, StarterCard s, ObjectiveCard o, ArrayList<ObjectiveCard> commonObjective) {
+        JSONObject message = new JSONObject();
+        message.put("message","startGame");
+        //invio la mano
+        JSONArray handArray = new JSONArray();
+        for(PlaceableCard card : hand){
+            handArray.add(String.valueOf(card.getId()));
+        }
+        message.put("hand",handArray);
+        //invio le drawable cards
         message.put("topDeckResourceCard", resourceCards.getFirst());
         message.put("leftResourceCard", resourceCards.get(1));
         message.put("rightResourceCard", resourceCards.getLast());
         message.put("topDeckGoldCard", goldCards.getFirst());
         message.put("leftGoldCard", goldCards.get(1));
         message.put("rightGoldCard", goldCards.getLast());
+
+        message.put("starterCardID", String.valueOf(s.getId()));
+        message.put("starterCardOrientation", s.isFacingUp());
+        message.put("secretObjectiveID", String.valueOf(o.getId()));
+
+        JSONArray secreteObj = new JSONArray();
+        for(ObjectiveCard card : commonObjective){
+            secreteObj.add(String.valueOf(card.getId()));
+        }
+        message.put("commonObjective",secreteObj);
         return message;
     }
 
-    public static JSONObject generateStartGameMessage () {
+    public JSONObject updatedHandAndDecksMessage (ArrayList<PlaceableCard> hand, ArrayList<Integer> resourceCards, ArrayList<Integer> goldCards) {
         JSONObject message = new JSONObject();
-        message.put("message","start");
+        message.put("message","updatedHandAndDecks");
+        //invio la mano
+        JSONArray handArray = new JSONArray();
+        for(PlaceableCard card : hand){
+            handArray.add(String.valueOf(card.getId()));
+        }
+        message.put("hand",handArray);
+        //invio le drawable cards
+        message.put("topDeckResourceCard", resourceCards.getFirst());
+        message.put("leftResourceCard", resourceCards.get(1));
+        message.put("rightResourceCard", resourceCards.getLast());
+        message.put("topDeckGoldCard", goldCards.getFirst());
+        message.put("leftGoldCard", goldCards.get(1));
+        message.put("rightGoldCard", goldCards.getLast());
+
         return message;
     }
 
