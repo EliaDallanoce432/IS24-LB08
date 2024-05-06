@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
-import it.polimi.ingsw.client.view.observers.DeckObserver;
-import it.polimi.ingsw.client.view.observers.GameBoardObserver;
-import it.polimi.ingsw.client.view.observers.HandObserver;
-import it.polimi.ingsw.client.view.observers.ScoreBoardObserver;
+import it.polimi.ingsw.client.view.observers.*;
+import it.polimi.ingsw.server.controller.GameObserver;
+import it.polimi.ingsw.server.model.deck.Deck;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,10 +34,16 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void initialize() {
 
+        new AvailableGamesModelObserver();
+        new ClientStateModelObserver();
         new DeckObserver();
-        new GameBoardObserver();
+        new GameFieldObserver();
         new HandObserver();
+        new ObjectivesObserver();
+        new PlayerObserver();
         new ScoreBoardObserver();
+        new SelectableCardsObserver();
+
 
 
     }
@@ -50,7 +55,7 @@ public class WelcomeViewController extends ViewController {
 
         Stage stage = (Stage) joinGameButton.getScene().getWindow();
 
-        stage.setScene(SceneLoader.loadJoinGameScene());
+        stage.setScene(StageManager.loadJoinGameScene());
         stage.show();
     }
 
@@ -58,7 +63,7 @@ public class WelcomeViewController extends ViewController {
     private void createGame() throws IOException {
         Stage stage = (Stage) createGameButton.getScene().getWindow();
 
-        stage.setScene(SceneLoader.loadCreateGameScene());
+        stage.setScene(StageManager.loadCreateGameScene());
         stage.show();
 
     }
@@ -114,7 +119,7 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void exit() throws IOException {
         ClientController.getInstance().shutdown();
-        SceneLoader.getCurrentStage().close();
+        StageManager.getCurrentStage().close();
     }
 
     @Override

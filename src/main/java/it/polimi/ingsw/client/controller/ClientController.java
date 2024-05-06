@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.client.model.GameBoardModel;
-import it.polimi.ingsw.client.view.SceneLoader;
-import it.polimi.ingsw.client.view.ViewController;
+import it.polimi.ingsw.client.model.GameFieldModel;
+import it.polimi.ingsw.client.model.ObjectivesModel;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserverInterface;
 import it.polimi.ingsw.util.customexceptions.AlreadyPlacedInThisRoundException;
@@ -15,13 +14,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ClientController implements ClientNetworkObserverInterface {
 
     private final ClientConnectionManager clientConnectionManager;
-
-
+    private final ClientMessageHandler clientMessageHandler;
+    private boolean running;
     private static ClientController instance;
+    private List<JSONObject> messages;
 
     public static ClientController getInstance(String serverAddress, int serverPort) {
         if (instance == null) instance = new ClientController(serverAddress, serverPort);
@@ -30,10 +32,14 @@ public class ClientController implements ClientNetworkObserverInterface {
 
 
     public static ClientController getInstance(){
+        if (instance == null) instance = new ClientController("localhost", 12345); //should not happen !
         return instance;
     }
 
     public ClientController (String serverAddress, int serverPort)  {
+        running = true;
+        clientMessageHandler = new ClientMessageHandler();
+        messages = Collections.synchronizedList(new ArrayList<>());
         try {
             this.clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
             instance = this;
@@ -41,11 +47,24 @@ public class ClientController implements ClientNetworkObserverInterface {
             //TODO gestire l'eccezione
             throw new RuntimeException(e);
         }
+        startClient();
         startGui();
     }
 
+    @Override
+    public void addMessage(JSONObject message) {
+        messages.addLast(message);
+    }
 
-
+    public void startClient() {
+        while (running) {
+            while (!messages.isEmpty()) {
+                clientMessageHandler.execute(messages.getFirst());
+                messages.removeFirst();
+                System.out.println("executed request");
+            }
+        }
+    }
 
 
     public ClientConnectionManager getClientConnectionManager() {
@@ -62,7 +81,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     @Override
     public void notifyIncomingMessage() {
-        ClientControllerRequestExecutor.execute(this,clientConnectionManager.getReceivedMessage(),clientConnectionManager);
+        clientMessageHandler.execute(clientConnectionManager.getReceivedMessage());
     }
 
     @Override
@@ -70,18 +89,6 @@ public class ClientController implements ClientNetworkObserverInterface {
         //TODO in realtà deve mostrare la schermata di chisura dovuta al server che non risponde
         System.out.println("Connection lost");
         clientConnectionManager.shutdown();
-    }
-
-    public void loadStarterCards(int starterCardId) {
-        SceneLoader.getViewController().loadStarterCard(starterCardId);
-    }
-
-    public void loadObjectiveCards(int id1, int id2){
-        SceneLoader.getViewController().loadObjectiveCards(id1,id2);
-    }
-
-    public void loadGameBoard(){
-        SceneLoader.getViewController().loadGameBoard(GameBoardModel.getIstance().getStarterCardId(), 100,101, GameBoardModel.getIstance().getSecretObjectiveId());
     }
 
     public boolean sendSetUsernameMessage(String username) {
@@ -131,13 +138,12 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp), true);
-        GameBoardModel.getIstance().setStarterCardId(cardId);
-        GameBoardModel.getIstance().setStarterCardFacingUp(facingUp);
+        GameFieldModel.getIstance().setStarterCard(cardId,facingUp);
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId), true);
-        GameBoardModel.getIstance().setSecretObjectiveId(cardId);
+        ObjectivesModel.getIstance().setSecretObjectiveId(cardId);
     }
     
     public boolean sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {

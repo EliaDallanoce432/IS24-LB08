@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.client.view.SceneLoader;
+import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,9 +13,9 @@ public class ClientGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        SceneLoader.setCurrentStage(primaryStage);
+        StageManager.setCurrentStage(primaryStage);
 
-        primaryStage.setScene(SceneLoader.loadWelcomeScene());
+        primaryStage.setScene(StageManager.loadWelcomeScene());
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();
 

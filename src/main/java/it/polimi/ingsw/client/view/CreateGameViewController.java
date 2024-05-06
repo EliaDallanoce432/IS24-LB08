@@ -42,7 +42,7 @@ public class CreateGameViewController extends ViewController {
     private void goBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(SceneLoader.loadWelcomeScene());
+        stage.setScene(StageManager.loadWelcomeScene());
         stage.show();
     }
 
@@ -73,7 +73,7 @@ public class CreateGameViewController extends ViewController {
 
                 Stage stage = (Stage) backButton.getScene().getWindow();
 
-                stage.setScene(SceneLoader.loadWaitForPlayersScene());
+                stage.setScene(StageManager.loadWaitForPlayersScene());
                 stage.show();
             }
 

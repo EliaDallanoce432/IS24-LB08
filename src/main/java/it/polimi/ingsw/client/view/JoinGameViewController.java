@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.AvailableGamesModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -44,7 +45,7 @@ public class JoinGameViewController extends ViewController {
     private void goBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(SceneLoader.loadWelcomeScene());
+        stage.setScene(StageManager.loadWelcomeScene());
         stage.show();
     }
 
@@ -56,17 +57,11 @@ public class JoinGameViewController extends ViewController {
         }
         else {
 
-            if(!ClientController.getInstance().sendJoinGameMessage(selectedGame)){
-                alertLabel.setText("Something went wrong");
-            }
-            else {
-                System.out.println("joined game: " + selectedGame);
+            ClientController.getInstance().sendJoinGameMessage(selectedGame);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(StageManager.loadWaitForPlayersScene());
+            stage.show();
 
-                Stage stage = (Stage) backButton.getScene().getWindow();
-
-                stage.setScene(SceneLoader.loadWaitForPlayersScene());
-                stage.show();
-            }
 
         }
 
@@ -76,7 +71,12 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void refreshPressed() throws IOException {
         availableGamesChoiceBox.getItems().clear();
-        ArrayList<String> games = ClientController.getInstance().sendGetAvailableGamesMessage();
-        availableGamesChoiceBox.getItems().addAll(games);
+        ClientController.getInstance().sendGetAvailableGamesMessage();
+    }
+
+    @Override
+    public void updateAvailableGames(){
+        availableGamesChoiceBox.getItems().clear();
+        availableGamesChoiceBox.getItems().addAll(AvailableGamesModel.getIstance().getGames());
     }
 }

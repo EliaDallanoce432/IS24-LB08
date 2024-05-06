@@ -1,13 +1,13 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import it.polimi.ingsw.client.model.SelectableCardsModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -24,6 +24,8 @@ public class ChooseCardsViewController extends ViewController {
     @FXML
     public void initialize() {
 
+        showMessage("Waiting for all players to be ready...");
+
     }
 
     @FXML
@@ -36,12 +38,17 @@ public class ChooseCardsViewController extends ViewController {
 
     }
 
-    public void showStarterCard(int id) {
-        VirtualCard starterCard1 = new VirtualCard(id,true);
+    @Override
+    public void updateSelectableCards() {
+
+        showMessage("Choose the starter card side:");
+
+        int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
+        VirtualCard starterCard1 = new VirtualCard(starterCardId,true);
         Rectangle card1 = starterCard1.getCard();
 
 
-        VirtualCard starterCard2 = new VirtualCard(id,false);
+        VirtualCard starterCard2 = new VirtualCard(starterCardId,false);
         Rectangle card2 = starterCard2.getCard();
 
         card2.setLayoutX(300);
@@ -56,31 +63,32 @@ public class ChooseCardsViewController extends ViewController {
         button2.setLayoutY(170);
 
 
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ClientController.getInstance().sendChosenStarterCardOrientation(id,true);
-            }
+        button1.setOnAction(event -> {
+            ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
+            cardBox.getChildren().clear();
+            showObjectiveCards();
         });
 
-        // Button 2 action
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ClientController.getInstance().sendChosenStarterCardOrientation(id,false);
-            }
+        button2.setOnAction(event -> {
+            ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,false);
+            cardBox.getChildren().clear();
+            showObjectiveCards();
         });
 
         cardBox.getChildren().addAll(card1, card2, button1, button2);
     }
 
-    public void showObjectiveCards(int id1, int id2) {
-        System.out.println("id1: " + id1 + "id2: " + id2);
-        VirtualCard starterCard1 = new VirtualCard(id1,true);
+    public void showObjectiveCards() {
+
+        showMessage("Choose an objective card:");
+
+        int[] ids = SelectableCardsModel.getIstance().getSelectableObjectiveCardsId();
+
+        VirtualCard starterCard1 = new VirtualCard(ids[0],true);
         Rectangle card1 = starterCard1.getCard();
 
 
-        VirtualCard starterCard2 = new VirtualCard(id2,true);
+        VirtualCard starterCard2 = new VirtualCard(ids[1],true);
         Rectangle card2 = starterCard2.getCard();
 
         card2.setLayoutX(300);
@@ -95,19 +103,21 @@ public class ChooseCardsViewController extends ViewController {
         button2.setLayoutY(170);
 
 
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ClientController.getInstance().sendChosenSecretObjectiveMessage(id1);
-            }
+        button1.setOnAction(event -> {
+            ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[0]);
+            cardBox.getChildren().clear();
+            Stage stage = StageManager.getCurrentStage();
+            stage.setScene(StageManager.loadGameBoardScene());
+            stage.show();
+
         });
 
-        // Button 2 action
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ClientController.getInstance().sendChosenSecretObjectiveMessage(id2);
-            }
+        button2.setOnAction(event -> {
+            ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[1]);
+            cardBox.getChildren().clear();
+            Stage stage = StageManager.getCurrentStage();
+            stage.setScene(StageManager.loadGameBoardScene());
+            stage.show();
         });
 
         cardBox.getChildren().addAll(card1, card2, button1, button2);

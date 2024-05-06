@@ -20,13 +20,13 @@ public class CardPlacementController {
 
 
 
-    private Label alertLabel;
-    private Pane handPane;
-    private Pane boardPane;
-    private Pane decksPane;
-    private HBox commonObjectivesPane;
-    private HBox secretObjectivePane;
-    private ScrollPane scrollPane;
+    private final Label alertLabel;
+    private final Pane handPane;
+    private final Pane boardPane;
+    private final Pane decksPane;
+    private final HBox commonObjectivesPane;
+    private final HBox secretObjectivePane;
+    private final ScrollPane scrollPane;
     private int starterCardId;
 
 
@@ -190,11 +190,11 @@ public class CardPlacementController {
         return (abs(absoluteToRelativeX(absX))%2)==(abs(absoluteToRelativeY(absY))%2);
     }
 
-    public void loadCommonObjectives (int firstObjectiveId, int secondObjectiveId){
+    public void loadCommonObjectives (int[] commonObjIds){
 
-        VirtualCard virtualCard = new VirtualCard(firstObjectiveId, true);
+        VirtualCard virtualCard = new VirtualCard(commonObjIds[0], true);
         commonObjectivesPane.getChildren().add(virtualCard.getCard());
-        virtualCard = new VirtualCard(secondObjectiveId, true);
+        virtualCard = new VirtualCard(commonObjIds[1], true);
         commonObjectivesPane.getChildren().add(virtualCard.getCard());
 
     }

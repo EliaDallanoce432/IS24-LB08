@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view;
 
 
+import it.polimi.ingsw.client.model.GameFieldModel;
+import it.polimi.ingsw.client.model.ObjectivesModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class GameBoardViewController extends ViewController {
+public class GameFieldViewController extends ViewController {
 
     @FXML
     private Pane handPane;
@@ -40,6 +42,7 @@ public class GameBoardViewController extends ViewController {
 
         cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
                 commonObjectivesPane,secretObjectivePane);
+        showMessage("Waiting for all players to choose the cards...");
 
 
     }
@@ -85,14 +88,14 @@ public class GameBoardViewController extends ViewController {
 
         Stage stage = (Stage) leaveGameButton.getScene().getWindow();
 
-        stage.setScene(SceneLoader.loadWelcomeScene());
+        stage.setScene(StageManager.loadWelcomeScene());
         stage.show();
     }
 
-    public void loadInitialBoardState (int starterCardId, int commonObjective1Id, int commonObjective2Id, int secretObjectiveId){
-        cardPlacementController.initializeBoard(starterCardId);
-        cardPlacementController.loadCommonObjectives(commonObjective1Id,commonObjective2Id);
-        cardPlacementController.loadSecretObjective(secretObjectiveId);
+    public void loadInitialBoardState (){
+        cardPlacementController.initializeBoard(GameFieldModel.getIstance().getStarterCardId());
+        cardPlacementController.loadCommonObjectives(ObjectivesModel.getIstance().getCommonObjectives());
+        cardPlacementController.loadSecretObjective(ObjectivesModel.getIstance().getSecretObjectiveId());
     }
 
 

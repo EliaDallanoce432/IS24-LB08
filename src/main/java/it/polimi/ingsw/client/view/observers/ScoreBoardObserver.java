@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.view.observers;
 
 import it.polimi.ingsw.client.model.ScoreBoardModel;
-import it.polimi.ingsw.client.view.SceneLoader;
-
-import java.util.Observer;
+import it.polimi.ingsw.client.view.StageManager;
 
 public class ScoreBoardObserver implements ModelObserver {
 
@@ -14,6 +12,6 @@ public class ScoreBoardObserver implements ModelObserver {
 
     @Override
     public void update() {
-        SceneLoader.getViewController().updateScoreBoard();
+        StageManager.getViewController().updateScoreBoard();
     }
 }

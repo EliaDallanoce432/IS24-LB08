@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.observers;
 
 import it.polimi.ingsw.client.model.DeckModel;
-import it.polimi.ingsw.client.view.SceneLoader;
+import it.polimi.ingsw.client.view.StageManager;
 
 public class DeckObserver implements ModelObserver {
 
@@ -12,6 +12,6 @@ public class DeckObserver implements ModelObserver {
 
     @Override
     public void update() {
-        SceneLoader.getViewController().updateDecks();
+        StageManager.getViewController().updateDecks();
     }
 }

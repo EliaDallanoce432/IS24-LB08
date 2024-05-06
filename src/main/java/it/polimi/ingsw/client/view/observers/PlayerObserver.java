@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.observers;
 
 import it.polimi.ingsw.client.model.PlayerModel;
-import it.polimi.ingsw.client.view.SceneLoader;
+import it.polimi.ingsw.client.view.StageManager;
 
 public class PlayerObserver implements ModelObserver {
 
@@ -11,6 +11,6 @@ public class PlayerObserver implements ModelObserver {
 
     @Override
     public void update() {
-        SceneLoader.getViewController().updatePlayerInfo();
+        StageManager.getViewController().updatePlayerInfo();
     }
 }

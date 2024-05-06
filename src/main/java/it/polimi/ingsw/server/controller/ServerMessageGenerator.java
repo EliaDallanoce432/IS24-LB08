@@ -97,7 +97,7 @@ public class ServerMessageGenerator {
     public static JSONObject generateUpdatedScoreMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
         JSONObject message = new JSONObject();
         JSONArray scoreArray = new JSONArray();
-        message.put("message","updated score");
+        message.put("message","updatedScore");
         for (int i=0; i < names.size(); i++) {
             JSONObject personalScore = new JSONObject();
             personalScore.put("username", names.get(i));
@@ -111,7 +111,7 @@ public class ServerMessageGenerator {
     public static JSONObject generateUpdatedResourcesMessage (int[] resources) {
         JSONObject message = new JSONObject();
         JSONArray updatedResources = new JSONArray();
-        message.put("message", "updated resources");
+        message.put("message", "updatedResources");
         for(int i : resources) {
             updatedResources.add(i);
         }

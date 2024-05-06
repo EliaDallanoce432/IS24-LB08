@@ -29,6 +29,7 @@ public class PlayerModel extends ObservableModel {
 
     public void setUsername(String username) {
         this.username = username;
+        notifyObservers();
     }
 
 
