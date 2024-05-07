@@ -20,7 +20,8 @@ public class Player {
     private ObjectiveCard[] drawnObjectiveCards;
     private boolean isReady;
     private boolean starterCardOrientationSelected;
-
+    private int numOfCompletedObjectiveCards;
+    //TODO spostare qui il booleano already placed dal clienthandler
     public Player(String username, Color token) {
         this.game = Game.getInstance();
         this.username = username;
@@ -60,10 +61,6 @@ public class Player {
         this.drawnObjectiveCards = drawnObjectiveCards;
     }
 
-    public boolean isStarterCardOrientationSelected() {
-        return starterCardOrientationSelected;
-    }
-
     public boolean isReady() {
         return isReady;
     }
@@ -71,6 +68,9 @@ public class Player {
     public void setReady(boolean ready) {
         isReady = ready;
         game.gameObserver.notifyReady();
+    }
+    public boolean isStarterCardOrientationSelected() {
+        return starterCardOrientationSelected;
     }
 
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
@@ -82,6 +82,9 @@ public class Player {
         return hand;
     }
 
+    /**
+     * this method adds to the player's hand the first 3 cards of his game
+     */
     private void initializeHand() {
         hand.clear();
         try {
@@ -142,5 +145,15 @@ public class Player {
 
     public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         gamefield.place(card,facingUp,x,y);
+    }
+
+    /**
+     * this method calculates the points given by the secrete objective card and the 2 common objective
+     */
+    public void calculateFinalScore() {
+        //TODO conteggio obiettivi realizzati
+        secretObjective.getEarnedPoints(getGamefield());
+        game.commonObjectives.get(0).getEarnedPoints(getGamefield());
+        game.commonObjectives.get(1).getEarnedPoints(getGamefield());
     }
 }

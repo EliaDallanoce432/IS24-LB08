@@ -136,7 +136,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * sets the flag ready to true when the player is ready to play
      * @param player player that is now ready
      */
-    public void ready(ClientHandler player){
+    public synchronized void ready(ClientHandler player){
         getCurrentPlayer(player).setReady(true);
     }
 
@@ -178,14 +178,13 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
     }
 
-
-
     public synchronized void place (ClientHandler player,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException, NotYourTurnException {
         if(turn != clientHandlers.indexOf(player)) {
             throw new NotYourTurnException();
         }
         PlaceableCard cardInHand = null;
         Player currentPlayer = getCurrentPlayer(player);
+        //seleziona carta dalla mano
         for (PlaceableCard card: currentPlayer.getHand()) {
             if (card.getId() == placeableCardId) {
                 cardInHand = card;
@@ -194,6 +193,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
         assert cardInHand != null;
         currentPlayer.getGamefield().place(cardInHand, facingUp, x, y);
+        //currentPlayer.place(cardInHand, facingUp, x, y);
         player.setAlreadyPlaced(true);
     }
 
@@ -201,6 +201,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         Player currentPlayer = getCurrentPlayer(player);
         StarterCard starterCard = currentPlayer.getStarterCard();
         currentPlayer.getGamefield().place(starterCard, facingUp);
+       // currentPlayer.place(starterCard, facingUp);
     }
 
     public synchronized void directDrawResourceCard (ClientHandler player) throws NotYourTurnException,
@@ -287,7 +288,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @param starterCardId starter card id
      * @param facingUp orientation: true if the front is facing up
      */
-    public void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp) {
+    public synchronized void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp) {
         Player currentPlayer = getCurrentPlayer(player);
         if (currentPlayer.getStarterCard().getId() == starterCardId) {
             currentPlayer.place(currentPlayer.getStarterCard(), facingUp);
@@ -374,8 +375,21 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         game.setGameState(GameState.playing);
         startGame();
     }
+
+    /**
+     * this method invokes the calculateFinalScore method set in the model of each player
+     */
+    public void calculateFinalScore() {
+        for (Player p : game.getPlayers()) {
+            p.calculateFinalScore();
+        }
+        //TODO caso di parità
+    }
+
 }
-    //TODO calcolare punteggio finale
+
+
+
 //    private void broadcast(JSONObject message, ClientHandler  disconnectedPlayer) {
 //        for (ClientHandler player : clients) {
 //            if(player == disconnectedPlayer) continue;
