@@ -69,7 +69,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
     public void notifyIncomingMessageFromSocket(JSONObject message) {
         if(!networkMessageHandling(message)) {
             receivedMessage = message;
-            clientController.notifyIncomingMessage();
+            clientController.processMessage(message);
         }
     }
 

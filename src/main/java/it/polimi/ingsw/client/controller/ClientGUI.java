@@ -15,7 +15,6 @@ public class ClientGUI extends Application {
         primaryStage.setScene(StageManager.loadWelcomeScene());
         primaryStage.setTitle("Codex - Game Demo");
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

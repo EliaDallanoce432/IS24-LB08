@@ -1,24 +1,53 @@
 package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
 
+import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
-import it.polimi.ingsw.util.supportclasses.Color;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectiveCardGoldenTripletTest {
 
+    private static GameController controller;
+    private static Game game;
+    private GameField gameField;
+    private Player player;
+    private static ObjectiveCard objectiveCard;
+
+    @BeforeAll
+    static void setUpBeforeClass() {
+        controller = new GameController(null,4,"test");
+        game = controller.getGame();
+        objectiveCard = new ObjectiveCard(99);
+    }
+
+    @BeforeEach
+    void setUp() {
+        player = new Player();
+        gameField = new GameField(player);
+        gameField.place(new StarterCard(81),true);
+    }
+    @AfterEach
+    void tearDown() {
+        game.reinsertToken(player.getToken());
+        gameField = null;
+    }
+
+    @AfterAll
+    static void tearDownAfterClass() {
+        controller = null;
+        objectiveCard = null;
+    }
+
     @Test
     void calculatePointsCase1() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(5), true, 1,1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -28,10 +57,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase2() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(6), true, 1,1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -40,10 +66,7 @@ class ObjectiveCardGoldenTripletTest {
     }
     @Test
     void calculatePointsCase3() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(7), true, 1,1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -53,10 +76,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase4() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(5), true, 1,1);
             gameField.place(new ResourceCard(6), true, 2,0);
         } catch (CannotPlaceCardException e) {
@@ -67,10 +87,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase5() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(5), true, 1,1);
             gameField.place(new ResourceCard(7), true, 2,0);
         } catch (CannotPlaceCardException e) {
@@ -81,10 +98,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase6() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(6), true, 1,1);
             gameField.place(new ResourceCard(7), true, 2,0);
         } catch (CannotPlaceCardException e) {
@@ -95,10 +109,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase7() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(6), true, 1,1);
             gameField.place(new ResourceCard(7), true, 2,0);
             gameField.place(new ResourceCard(5), true, 2,2);
@@ -110,10 +121,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase8() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(6), true, 1,1);
             gameField.place(new ResourceCard(7), true, 2,0);
             gameField.place(new ResourceCard(5), true, 2,2);
@@ -126,10 +134,7 @@ class ObjectiveCardGoldenTripletTest {
 
     @Test
     void calculatePointsCase9() {
-        GameField gameField = new GameField(new Player("test", Color.red));
-        ObjectiveCard objectiveCard = new ObjectiveCard(99);
         try {
-            gameField.place(new StarterCard(81), true);
             gameField.place(new ResourceCard(6), true, 1,1);
             gameField.place(new ResourceCard(7), true, 2,0);
             gameField.place(new ResourceCard(5), true, 2,2);
@@ -141,7 +146,5 @@ class ObjectiveCardGoldenTripletTest {
         }
         assertEquals(6,objectiveCard.getEarnedPoints(gameField));
     }
-
-
 
 }

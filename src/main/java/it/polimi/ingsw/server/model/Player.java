@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
 
 public class Player {
-    private final String username;
     private final Color token;
     private int score;
-    private Game game;
+    private final Game game;
     private final GameField gamefield;
     private final ArrayList<PlaceableCard> hand;
     private StarterCard starterCard;
@@ -22,10 +21,10 @@ public class Player {
     private boolean starterCardOrientationSelected;
     private int numOfCompletedObjectiveCards;
     //TODO spostare qui il booleano already placed dal clienthandler
-    public Player(String username, Color token) {
+
+    public Player() {
         this.game = Game.getInstance();
-        this.username = username;
-        this.token = token;
+        this.token = game.getRandomToken();
         this.score = 0;
         this.gamefield = new GameField(this);
         this.hand = new ArrayList<>();
@@ -35,10 +34,6 @@ public class Player {
         this.drawnObjectiveCards = new ObjectiveCard[2];
         this.isReady = false;
         this.starterCardOrientationSelected = false;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public GameField getGamefield() {

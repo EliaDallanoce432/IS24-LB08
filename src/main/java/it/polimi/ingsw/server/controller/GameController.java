@@ -19,7 +19,6 @@ import java.util.List;
 
 public class GameController implements Runnable, ServerNetworkObserverInterface, GameObserver {
     private final String gameName;
-    private final int numberOfExpectedPlayers;
     private volatile ArrayList<ClientHandler> clientHandlers;
     private final Lobby lobby;
     private final Game game;
@@ -28,21 +27,17 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     private boolean running;
     private final GameControllerRequestExecutor gameControllerRequestExecutor;
 
-    public GameController(Lobby lobby, int numberOfExpectedPlayers, String gameName) {
+    public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
         this.gameName = gameName;
         this.clientHandlers = new ArrayList<>();
-        this.numberOfExpectedPlayers = numberOfExpectedPlayers;
         this.lobby = lobby;
         this.requests = Collections.synchronizedList(new ArrayList<>());
         this.running = true;
         this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
-        this.game = Game.getInstance(numberOfExpectedPlayers, this);
+        this.game = Game.getInstance(numberOfPlayers, this);
         System.out.println(gameName + " is ready");
     }
 
-    public int getNumberOfPlayers() {
-        return numberOfExpectedPlayers;
-    }
     public void run() {
         while (running) {
             while (!requests.isEmpty()) {
@@ -57,40 +52,37 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         System.out.println("New request added to the lobby");
     }
 
+    public Game getGame() {
+        return game;
+    }
 
     /**
      * adds the player to the arraylist of players
-     * @param player who joined the current game
+     * @param client who joined the current game
      */
-    public synchronized void enterGame (ClientHandler player){
-        clientHandlers.add(player);
-        player.setGame(this);
-        player.setInGame(true);
+    public synchronized void enterGame (ClientHandler client){
+        clientHandlers.add(client);
+        client.setGame(this);
+        client.setInGame(true);
+        game.players.put(client.getUsername(), new Player());
     }
 
     /**
      * removes a player from the current game and sends him to the lobby
-     * @param player who left the game
+     * @param client who left the game
      */
-    public synchronized void leaveGame (ClientHandler player){
-        clientHandlers.remove(player);
-        player.setGame(null);
-        player.setInGame(false);
-        lobby.enterLobby(player);
+    public synchronized void leaveGame (ClientHandler client){
+        clientHandlers.remove(client);
+        game.reinsertToken(getCurrentPlayer(client).getToken());
+        game.players.remove(client.getUsername());
+        client.setGame(null);
+        client.setInGame(false);
+        lobby.enterLobby(client);
     }
 
-    /**
-     * initializes the players in the model and sets the relative tokens for the clients
-     */
-    private void gameInitialize()
+    public Player getCurrentPlayer(ClientHandler player)
     {
-        List<Color> tokens = Arrays.asList(Color.blue, Color.yellow, Color.red, Color.green);
-        Collections.shuffle(tokens); //randomize color token player
-        Collections.shuffle(clientHandlers); //randomize first player
-        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-            game.players.put(tokens.get(i), new Player(clientHandlers.get(i).getUsername(), tokens.get(i)));
-            clientHandlers.get(i).setToken(tokens.get(i));
-        }
+        return game.players.get(player.getUsername());
     }
 
     /**
@@ -127,7 +119,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * prepares the game to wait for players to choose the starter card orientation and the secret objective
      */
     private void gamePreparation (){
-        gameInitialize();
         starterCardsSelectionPreparation();
         secretObjectiveCardsSelectionPreparation();
     }
@@ -152,6 +143,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             StarterCard starterCard = currentPlayer.getStarterCard();
             ObjectiveCard secretObjective = currentPlayer.getSecretObjective();
             ArrayList<ObjectiveCard> commonObjectives = game.commonObjectives;
+            //TODO mandare anche il colore del token
 
             client.send(ServerMessageGenerator.startGameMessage(hand,visibleCardsinResourceCardsDeck,visibleCardsinGoldDeck,starterCard,secretObjective,commonObjectives));
         }
@@ -163,19 +155,20 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * sends the updated scores to every player
      */
     public void sendUpDatedScores () {
-        ArrayList<Integer> scores = new ArrayList<>();
-        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-            scores.add(game.getPlayers().get(i).getScore());
-        }
-
-        ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-            names.add(game.getPlayers().get(i).getUsername());
-        }
-
-        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-            clientHandlers.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores), true);
-        }
+        //TODO rifarla
+//        ArrayList<Integer> scores = new ArrayList<>();
+//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
+//            scores.add(game.getPlayers().get(i).getScore());
+//        }
+//
+//        ArrayList<String> names = new ArrayList<>();
+//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
+//            names.add(clientHandlers.get(i).getUsername());
+//        }
+//
+//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
+//            clientHandlers.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores), true);
+//        }
     }
 
     public synchronized void place (ClientHandler player,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException, NotYourTurnException {
@@ -311,11 +304,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             }
     }
 
-    public Player getCurrentPlayer(ClientHandler player)
-    {
-        return game.players.get(player.getToken());
-    }
-
     private void passTurn (ClientHandler player){
         turn = (turn + 1) % clientHandlers.size();
         player.clearTurnState();
@@ -347,8 +335,13 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         running = false;
     }
 
+    private boolean gameIsFull() {
+        return game.players.size() == game.numberOfPlayers;
+    }
+
     @Override
     public void notifyReady() {
+        if(!gameIsFull()) return;
         if(game.getGameState()!=GameState.waitingForPlayers) {
             return;
         }
@@ -358,6 +351,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
         game.setGameState(GameState.waitingForCardsSelection);
         gamePreparation();
+        sendCardsSelectionMessageToThePlayers();
+        System.out.println("all players are ready");
+    }
+
+    private void sendCardsSelectionMessageToThePlayers() {
         for (ClientHandler c : clientHandlers) {
             StarterCard starterCard = getCurrentPlayer(c).getStarterCard();
             ObjectiveCard objectiveCard1 = getCurrentPlayer(c).getDrawnObjectiveCards()[0];
@@ -374,6 +372,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
         game.setGameState(GameState.playing);
         startGame();
+        System.out.println("game started");
     }
 
     /**

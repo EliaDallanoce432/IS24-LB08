@@ -132,8 +132,7 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     public void notifyIncomingMessageFromSocket(JSONObject message) {
         if(!networkMessageHandling(message)) {
             if(isInGame) {
-                receivedRequest = message;
-                game.notifyIncomingMessage(this);
+                game.addNewRequest(new Request(this, message));
             }
             else {
                 lobby.addNewRequest(new Request(this, message));

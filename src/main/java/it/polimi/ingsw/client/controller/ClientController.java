@@ -21,9 +21,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     private final ClientConnectionManager clientConnectionManager;
     private final ClientMessageHandler clientMessageHandler;
-    private boolean running;
     private static ClientController instance;
-    private List<JSONObject> messages;
 
     public static ClientController getInstance(String serverAddress, int serverPort) {
         if (instance == null) instance = new ClientController(serverAddress, serverPort);
@@ -37,9 +35,8 @@ public class ClientController implements ClientNetworkObserverInterface {
     }
 
     public ClientController (String serverAddress, int serverPort)  {
-        running = true;
         clientMessageHandler = new ClientMessageHandler();
-        messages = Collections.synchronizedList(new ArrayList<>());
+        //messages = Collections.synchronizedList(new ArrayList<>());
         try {
             this.clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
             instance = this;
@@ -48,25 +45,12 @@ public class ClientController implements ClientNetworkObserverInterface {
             throw new RuntimeException(e);
         }
         startGui();
-
-
     }
 
     @Override
-    public void addMessage(JSONObject message) {
-        messages.addLast(message);
+    public void processMessage(JSONObject message) {
+        clientMessageHandler.execute(message);
     }
-
-    public void startClient() {
-        while (running) {
-            while (!messages.isEmpty()) {
-                clientMessageHandler.execute(messages.getFirst());
-                messages.removeFirst();
-                System.out.println("executed request");
-            }
-        }
-    }
-
 
     public ClientConnectionManager getClientConnectionManager() {
         return clientConnectionManager;
@@ -76,12 +60,6 @@ public class ClientController implements ClientNetworkObserverInterface {
 
         // Launch the application
         Application.launch(ClientGUI.class);
-    }
-
-
-    @Override
-    public void notifyIncomingMessage() {
-        clientMessageHandler.execute(clientConnectionManager.getReceivedMessage());
     }
 
     @Override

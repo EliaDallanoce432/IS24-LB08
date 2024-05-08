@@ -38,7 +38,7 @@ public class Codex {
         else {
             if(args[0].equals("client") && args.length == 3) {
                 codex.setClientController(ClientController.getInstance(args[1], Integer.parseInt(args[2])));
-                codex.getClientController().startClient();
+//                ClientController.getInstance().startClient();
             }
             else if(args[0].equals("server") && args.length == 2) {
                 codex.setLobby(new Lobby(Integer.parseInt(args[1])));
