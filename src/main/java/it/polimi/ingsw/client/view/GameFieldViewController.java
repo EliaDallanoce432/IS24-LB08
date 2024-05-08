@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.model.GameFieldModel;
 import it.polimi.ingsw.client.model.ObjectivesModel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -43,6 +44,15 @@ public class GameFieldViewController extends ViewController {
         cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
                 commonObjectivesPane,secretObjectivePane);
         showMessage("Waiting for all players to choose the cards...");
+
+        Platform.runLater(() -> {
+            updateGameBoard();
+            updateObjectives();
+            updateHand();
+            updateDecks();
+        });
+
+
 
 
     }
@@ -93,9 +103,22 @@ public class GameFieldViewController extends ViewController {
     }
 
     public void loadInitialBoardState (){
-        cardPlacementController.initializeBoard(GameFieldModel.getIstance().getStarterCardId());
-        cardPlacementController.loadCommonObjectives(ObjectivesModel.getIstance().getCommonObjectives());
-        cardPlacementController.loadSecretObjective(ObjectivesModel.getIstance().getSecretObjectiveId());
+
+
+    }
+
+    @Override
+    public void updateGameBoard(){
+        Platform.runLater(()->cardPlacementController.loadFromPlacementHistory(GameFieldModel.getIstance().getPlacementHistory()));
+
+    }
+
+    @Override
+    public void updateObjectives(){
+        Platform.runLater(()->{
+            cardPlacementController.loadCommonObjectives(ObjectivesModel.getIstance().getCommonObjectives());
+            cardPlacementController.loadSecretObjective(ObjectivesModel.getIstance().getSecretObjectiveId());
+        });
     }
 
 

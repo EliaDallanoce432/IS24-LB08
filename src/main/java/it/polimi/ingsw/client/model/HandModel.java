@@ -10,10 +10,6 @@ public class HandModel extends ObservableModel {
 
     private ArrayList<VirtualCard> cardsInHand = new ArrayList<>();
 
-    public ArrayList<VirtualCard> getCardsInHand() {
-        return cardsInHand;
-    }
-
     private static HandModel istance;
 
     public static HandModel getIstance(){
@@ -33,6 +29,13 @@ public class HandModel extends ObservableModel {
         }
     }
 
+    public ArrayList<VirtualCard> getCardsInHand() {
+        return cardsInHand;
+    }
 
+    public void updateCardsInHand(ArrayList<VirtualCard> cardsInHand) {
+        this.cardsInHand = cardsInHand;
+        notifyObservers();
+    }
 }
 

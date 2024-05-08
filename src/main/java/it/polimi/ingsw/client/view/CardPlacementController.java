@@ -29,6 +29,9 @@ public class CardPlacementController {
     private final ScrollPane scrollPane;
     private int starterCardId;
 
+    private double centerX;
+    private double centerY;
+
 
 
     private double mouseX;
@@ -46,6 +49,9 @@ public class CardPlacementController {
         this.decksPane = decksPane;
         this.commonObjectivesPane = commonObjectivesPane;
         this.secretObjectivePane = secretObjectivePane;
+
+        centerX = (Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);
+        centerY = (Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);
 
 
         boardPane = new Pane();
@@ -81,24 +87,8 @@ public class CardPlacementController {
     }
 
 
-    public void initializeBoard(int starterCardId){
-
-        VirtualCard virtualCard = new VirtualCard(starterCardId, true);
-        this.starterCardId = starterCardId;
-        Rectangle cardNode = virtualCard.getCard();
-        cardNode.setLayoutX(Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);
-        cardNode.setLayoutY(Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);
-
-        boardPane.getChildren().add(cardNode);
-
-
-    }
-
-
-
     public void clearBoard (){
         boardPane.getChildren().clear();
-        initializeBoard(starterCardId);
     }
 
     public void makeDraggableAndDroppable(Node card) {
@@ -175,22 +165,34 @@ public class CardPlacementController {
     }
 
     private int absoluteToRelativeX(double absX) {
-        double centerX = (Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);
         return ((int) ((absX - centerX) / X_SNAP_INCREMENT) );
 
     }
 
     private int absoluteToRelativeY(double absY) {
-        double centerY = (Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);
         return -((int) ((absY - centerY) / Y_SNAP_INCREMENT) );
 
     }
+
+    private double relativeToAbsoluteX(int relX) {
+        return (relX * X_SNAP_INCREMENT) + centerX;
+
+    }
+
+    private double relativeToAbsoluteY(int relY) {
+        return (relY * Y_SNAP_INCREMENT) + centerY;
+
+    }
+
+
 
     private boolean canBePlacedHere(double absX, double absY){
         return (abs(absoluteToRelativeX(absX))%2)==(abs(absoluteToRelativeY(absY))%2);
     }
 
     public void loadCommonObjectives (int[] commonObjIds){
+
+        commonObjectivesPane.getChildren().clear();
 
         VirtualCard virtualCard = new VirtualCard(commonObjIds[0], true);
         commonObjectivesPane.getChildren().add(virtualCard.getCard());
@@ -201,9 +203,32 @@ public class CardPlacementController {
 
     public void loadSecretObjective (int ObjectiveCardId){
 
+        secretObjectivePane.getChildren().clear();
+
         VirtualCard virtualCard = new VirtualCard(ObjectiveCardId, true);
         secretObjectivePane.getChildren().add(virtualCard.getCard());
 
+    }
+
+    public void loadFromPlacementHistory (ArrayList<VirtualCard> placementHistory){
+        clearBoard();
+        for (VirtualCard virtualCard : placementHistory){
+
+            Rectangle cardNode = virtualCard.getCard();
+            int relativeX = virtualCard.getX();
+            int relativeY = virtualCard.getY();
+            System.out.println("relativeX: " + relativeX + " relativeY: " + relativeY);
+
+            cardNode.setLayoutX(relativeToAbsoluteX(relativeX));
+            cardNode.setLayoutY(relativeToAbsoluteY(relativeY));
+
+            System.out.println("placed card in: " + cardNode.getLayoutX() + " " + cardNode.getLayoutY());
+            System.out.println("center: " + centerX + " " + centerY);
+
+            makeUndraggable(cardNode);
+            boardPane.getChildren().add(cardNode);
+
+        }
     }
 
     public void loadDecks(VirtualCard[] decks){

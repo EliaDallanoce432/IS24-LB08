@@ -2,7 +2,9 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.VirtualCard;
 import it.polimi.ingsw.util.supportclasses.ClientState;
+import it.polimi.ingsw.util.supportclasses.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -12,14 +14,21 @@ public class ClientMessageHandler {
 
     public void execute (JSONObject message) {
         switch (message.get("message").toString()) {
+
+            //in-lobby messages
+
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
             case "gameCreated" -> updateClientState(ClientState.WAITING_STATE);
             case "joinGame" -> updateClientState(ClientState.WAITING_STATE);
             case "gameDoesNotExist" -> updateClientState(ClientState.WELCOME_STATE);
             case "availableGames" -> updateAvailableGames(message);
+
+            //in-game messages
+
             case "cardsSelection" -> updateSelectableCards(message);
-            case "setupGame" -> updateInitialBoardState(message);
+            case "startGame" -> updateInitialBoardState(message);
+
 
             default -> { //do nothing
             }
@@ -57,15 +66,62 @@ public class ClientMessageHandler {
     }
 
     private void updateInitialBoardState (JSONObject message) {
-        int starterCardID = Integer.parseInt( message.get("starterCardID").toString());
-        boolean starterCardOrientation = Boolean.parseBoolean(message.get("starterCardOrientation").toString());
-        int objectiveCardID1 = Integer.parseInt( message.get("commonObjectiveCardID1").toString());
-        int objectiveCardID2 = Integer.parseInt( message.get("commonObjectiveCardID2").toString());
-        int secretObjectiveCardID = Integer.parseInt(message.get("commonSecretObjectiveCardID").toString());
+
+        //parsing the message...
+        int objectiveCardID1 = Integer.parseInt( message.get("commonObjective1").toString());
+        int objectiveCardID2 = Integer.parseInt( message.get("commonObjective2").toString());
+        int secretObjectiveCardID = Integer.parseInt(message.get("secretObjectiveID").toString());
+        ArrayList<VirtualCard> initialPlacementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
+        ArrayList<VirtualCard> initialHand = getHandArray((JSONArray) message.get("hand"));
+        Color token = Color.parseColor(message.get("token").toString());
+
+        //updating the model...
         ObjectivesModel.getIstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getIstance().setSecretObjectiveId(secretObjectiveCardID);
-        GameFieldModel.getIstance().setStarterCard(starterCardID, starterCardOrientation);
+        GameFieldModel.getIstance().updatePlacementHistory(initialPlacementHistory);
+        HandModel.getIstance().updateCardsInHand(initialHand);
+        PlayerModel.getIstance().setToken(token);
 
+    }
+
+    private void updateHandAndDecks (JSONObject message) {
+
+        //parsing the message...
+        ArrayList<VirtualCard> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
+        JSONArray updatedDecksArray = (JSONArray) message.get("updatedDecks");
+
+        //updating the model...
+        //DeckModel.getIstance()...
+
+
+    }
+
+    private static ArrayList<VirtualCard> getHandArray(JSONArray jsonArray){
+        ArrayList<VirtualCard> hand = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject obj = (JSONObject) jsonArray.get(i);
+            VirtualCard vCard = new VirtualCard(Integer.parseInt(obj.get("cardID").toString()),true);
+            hand.add(vCard);
+        }
+
+        return hand;
+    }
+
+    private static ArrayList<VirtualCard> getPlacementHistoryArray(JSONArray jsonArray){
+        ArrayList<VirtualCard> placementHistory = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject obj = (JSONObject) jsonArray.get(i);
+            int cardId = Integer.parseInt(obj.get("cardID").toString());
+            boolean faceUp = Boolean.parseBoolean(obj.get("facingUp").toString());
+            VirtualCard vCard = new VirtualCard(cardId,faceUp);
+            vCard.setX(Integer.parseInt(obj.get("x").toString()));
+            vCard.setY(Integer.parseInt(obj.get("y").toString()));
+            placementHistory.addLast(vCard);
+        }
+
+        return placementHistory;
     }
 
 

@@ -1,8 +1,14 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.client.view.VirtualCard;
+
+import java.util.ArrayList;
+
 public class GameFieldModel extends ObservableModel {
 
     private static GameFieldModel istance;
+
+    private ArrayList<VirtualCard> placementHistory;
 
     public static GameFieldModel getIstance(){
 
@@ -11,20 +17,12 @@ public class GameFieldModel extends ObservableModel {
 
     }
 
-    private int starterCardId;
-    private boolean starterCardFacingUp;
-
-    public  int getStarterCardId() {
-        return starterCardId;
+    public ArrayList<VirtualCard> getPlacementHistory() {
+        return placementHistory;
     }
 
-    public boolean isStarterCardFacingUp() {
-        return starterCardFacingUp;
-    }
-
-    public void setStarterCard(int starterCardId, boolean starterCardFacingUp ) {
-        this.starterCardId = starterCardId;
-        this.starterCardFacingUp = starterCardFacingUp;
+    public void updatePlacementHistory(ArrayList<VirtualCard> placementHistory) {
+        this.placementHistory = placementHistory;
         notifyObservers();
     }
 }

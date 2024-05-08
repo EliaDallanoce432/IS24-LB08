@@ -10,6 +10,8 @@ import static it.polimi.ingsw.util.supportclasses.ViewConstants.HAND_SIZE;
 public class PlayerModel extends ObservableModel {
 
     private static PlayerModel istance;
+    private String username;
+    private Color token;
 
     public static PlayerModel getIstance(){
 
@@ -19,16 +21,21 @@ public class PlayerModel extends ObservableModel {
     }
 
 
-    private String username;
-    private Color color;
-
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+        notifyObservers();
+    }
+
+    public Color getToken() {
+        return token;
+    }
+
+    public void setToken(Color token) {
+        this.token = token;
         notifyObservers();
     }
 

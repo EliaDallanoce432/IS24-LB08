@@ -96,7 +96,6 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp));
-        GameFieldModel.getIstance().setStarterCard(cardId,facingUp);
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
