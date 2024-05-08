@@ -17,6 +17,10 @@ public class GameFieldModel extends ObservableModel {
 
     }
 
+    private GameFieldModel(){
+        placementHistory = new ArrayList<>();
+    }
+
     public ArrayList<VirtualCard> getPlacementHistory() {
         return placementHistory;
     }

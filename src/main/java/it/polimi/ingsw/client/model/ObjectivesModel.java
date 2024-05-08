@@ -23,6 +23,10 @@ public class ObjectivesModel extends ObservableModel{
 
     }
 
+    private ObjectivesModel(){
+        commonObjectives = new int[2];
+    }
+
 
 
 

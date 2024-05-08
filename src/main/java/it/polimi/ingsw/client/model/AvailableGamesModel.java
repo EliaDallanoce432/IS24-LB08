@@ -16,6 +16,10 @@ public class AvailableGamesModel extends ObservableModel{
 
     }
 
+    private AvailableGamesModel(){
+        games = new ArrayList<>();
+    }
+
     public ArrayList<String> getGames() {
         return games;
     }

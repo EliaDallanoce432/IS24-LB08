@@ -19,6 +19,10 @@ public class HandModel extends ObservableModel {
 
     }
 
+    private HandModel(){
+        cardsInHand = new ArrayList<>();
+    }
+
     public ArrayList<VirtualCard> getCardsInHand() {
         return cardsInHand;
     }

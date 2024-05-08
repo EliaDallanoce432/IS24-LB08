@@ -20,6 +20,10 @@ public class PlayerModel extends ObservableModel {
 
     }
 
+    private PlayerModel(){
+        username = "Guest";
+    }
+
 
     public String getUsername() {
         return username;
