@@ -23,6 +23,7 @@ public abstract class ObservableModel {
 
     protected void notifyObservers() {
         for (ModelObserver observer : observers) {
+            System.out.println("Observer: " + observer);
             observer.update();
         }
     }

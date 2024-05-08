@@ -27,6 +27,8 @@ public class ChooseCardsViewController extends ViewController {
 
         showMessage("Waiting for all players to be ready...");
 
+
+
     }
 
 
@@ -34,7 +36,6 @@ public class ChooseCardsViewController extends ViewController {
     @Override
     public void updateSelectableCards() {
 
-        Platform.runLater(()->{
 
             showMessage("Choose the starter card side:");
 
@@ -72,10 +73,10 @@ public class ChooseCardsViewController extends ViewController {
 
             cardBox.getChildren().addAll(card1, card2, button1, button2);
 
-        });
-
-
     }
+
+
+
 
     public void showObjectiveCards() {
 
