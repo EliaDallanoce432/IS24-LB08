@@ -27,7 +27,7 @@ public class GameControllerRequestExecutor {
             case "drawRightGoldCard" -> drawRightRevealedGoldCard(gameController, player);
             case "place" -> place(gameController, player, message);
             case "leave" -> leave(gameController, player);
-            default -> player.reply(ResponseGenerator.response("unexpectedCommand"));
+            default -> player.send(ResponseGenerator.response("unexpectedCommand"));
         }
     }
     //TODO sostituire in tutti i metodi le reply
@@ -41,6 +41,7 @@ public class GameControllerRequestExecutor {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
         gameController.chooseStarterCardOrientations(player,starterCardId, facingUp);
+
     }
     public void chooseSecretObjectiveCard(GameController gameController,JSONObject message, ClientHandler player)
     {
@@ -49,115 +50,115 @@ public class GameControllerRequestExecutor {
     }
     public void directDrawResourceCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.directDrawResourceCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             } catch (EmptyDeckException e) {
-                player.reply(ResponseGenerator.emptyDeckResponse());
+                player.send(ResponseGenerator.emptyDeckResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             }
              catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
              } catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void directDrawGoldCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.directDrawGoldCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             }
             catch (EmptyDeckException e) {
-                player.reply(ResponseGenerator.emptyDeckResponse());
+                player.send(ResponseGenerator.emptyDeckResponse());
             }
             catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             }
             catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
             }
             catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void drawLeftRevealedResourceCard(GameController game,ClientHandler player)  {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawLeftRevealedResourceCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             }
             catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             }
             catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
                 }
             catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void drawRightRevealedResourceCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawRightRevealedResourceCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             } catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
             } catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void drawLeftRevealedGoldCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawLeftRevealedGoldCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             } catch (NotYourTurnException e) {
-                player.reply((ResponseGenerator.notYourTurnResponse()));
+                player.send((ResponseGenerator.notYourTurnResponse()));
             } catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void drawRightRevealedGoldCard(GameController game,ClientHandler player) {
         if (!player.hasAlreadyPlaced())
-            player.reply(ResponseGenerator.cantDrawYetResponse());
+            player.send(ResponseGenerator.cantDrawYetResponse());
         else {
             try {
                 game.drawRightRevealedGoldCard(player);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             } catch (FullHandException e) {
-                player.reply(ResponseGenerator.fullHandResponse());
+                player.send(ResponseGenerator.fullHandResponse());
             } catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
             } catch (CannotDrawException e) {
-                player.reply(ResponseGenerator.cantDrawYetResponse());
+                player.send(ResponseGenerator.cantDrawYetResponse());
             }
         }
     }
     public void place(GameController game, ClientHandler player, JSONObject message) {
 
-        if(!player.hasAlreadyPlaced()) player.reply(ResponseGenerator.alreadyPlacedResponse());
+        if(!player.hasAlreadyPlaced()) player.send(ResponseGenerator.alreadyPlacedResponse());
         else {
             try {
                 int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
@@ -165,21 +166,21 @@ public class GameControllerRequestExecutor {
                 int y = Integer.parseInt(message.get("y").toString());
                 boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
                 game.place(player, placeableCardId, facingUp, x, y);
-                player.reply(ResponseGenerator.OKResponse());
+                player.send(ResponseGenerator.OKResponse());
             }
             catch (CannotPlaceCardException e)
             {
-                player.reply(ResponseGenerator.notValidPlacementResponse());
+                player.send(ResponseGenerator.notValidPlacementResponse());
             }
             catch (NotYourTurnException e) {
-                player.reply(ResponseGenerator.notYourTurnResponse());
+                player.send(ResponseGenerator.notYourTurnResponse());
             }
         }
     }
     public void leave(GameController game, ClientHandler player)
     {
         game.leaveGame(player);
-        player.reply(ResponseGenerator.OKResponse());
+        player.send(ResponseGenerator.OKResponse());
     }
 
 }

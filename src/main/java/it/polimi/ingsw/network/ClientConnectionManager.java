@@ -64,11 +64,6 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         send(message,false);
     }
 
-    @Override
-    public void reply(JSONObject message) {
-        message.put("type", "reply");
-        out.println(message.toJSONString());
-    }
 
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {

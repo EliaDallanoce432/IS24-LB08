@@ -13,6 +13,4 @@ public interface NetworkInterface extends ConnectionObserver {
     JSONObject send(JSONObject message, boolean waitReply);
     void send(JSONObject message);
 
-    @Deprecated
-    void reply(JSONObject message);
 }
