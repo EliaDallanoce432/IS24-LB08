@@ -20,7 +20,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     private volatile ArrayList<ClientHandler> clientHandlers;
     private final Lobby lobby;
     private final Game game;
-    private int turn;
     private final List<Request> requests;
     private boolean running;
     private final GameControllerRequestExecutor gameControllerRequestExecutor;
@@ -44,6 +43,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             }
         }
     }
+
     @Override
     public void addNewRequest(Request request) {
         requests.addLast(request);
@@ -81,6 +81,20 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     public Player getCurrentPlayer(ClientHandler player)
     {
         return game.players.get(player.getUsername());
+    }
+
+    private boolean isTheTurnOf(ClientHandler client) {
+        return (game.turnCounter % game.numberOfPlayers) == clientHandlers.indexOf(client);
+    }
+
+    private void passTurn (ClientHandler client){
+        if(game.turnCounter == game.numberOfPlayers-1) game.turnCounter = 0;
+        else game.turnCounter++;
+        getCurrentPlayer(client).clearTurnState();
+    }
+
+    public String getTurnPlayerUsername() {
+        return clientHandlers.get(game.turnCounter).getUsername();
     }
 
     /**
@@ -136,39 +150,18 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         //shuffle i client handlers per sciegliere l'ordine del turno
         Collections.shuffle(clientHandlers);
         for (ClientHandler client : clientHandlers) {
-            client.send(ServerMessageGenerator.startGameMessage(getCurrentPlayer(client)));
+            client.send(ServerMessageGenerator.startGameMessage(this, getCurrentPlayer(client)));
+            getCurrentPlayer(client).clearTurnState();
         }
-        for (ClientHandler player : clientHandlers)
-            //TODO vedere se serve
-            player.clearTurnState();
+        game.turnCounter = 0;
     }
 
-    /**
-     * sends the updated scores to every player
-     */
-    public void sendUpDatedScores () {
-        //TODO rifarla
-//        ArrayList<Integer> scores = new ArrayList<>();
-//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-//            scores.add(game.getPlayers().get(i).getScore());
-//        }
-//
-//        ArrayList<String> names = new ArrayList<>();
-//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-//            names.add(clientHandlers.get(i).getUsername());
-//        }
-//
-//        for (int i = 0; i < numberOfExpectedPlayers; i++) {
-//            clientHandlers.get(i).send(ServerMessageGenerator.generateUpdatedScoreMessage(names, scores), true);
-//        }
-    }
-
-    public synchronized void place (ClientHandler player,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException, NotYourTurnException {
-        if(turn != clientHandlers.indexOf(player)) {
+    public void place (ClientHandler client,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException, NotYourTurnException {
+        if(!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         PlaceableCard cardInHand = null;
-        Player currentPlayer = getCurrentPlayer(player);
+        Player currentPlayer = getCurrentPlayer(client);
         //seleziona carta dalla mano
         for (PlaceableCard card: currentPlayer.getHand()) {
             if (card.getId() == placeableCardId) {
@@ -177,94 +170,85 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             }
         }
         assert cardInHand != null;
-        currentPlayer.getGamefield().place(cardInHand, facingUp, x, y);
-        //currentPlayer.place(cardInHand, facingUp, x, y);
-        player.setAlreadyPlaced(true);
+        currentPlayer.place(cardInHand, facingUp, x, y);
     }
 
-    public synchronized void place (ClientHandler player,int starterCardId, boolean facingUp){
-        Player currentPlayer = getCurrentPlayer(player);
-        StarterCard starterCard = currentPlayer.getStarterCard();
-        currentPlayer.getGamefield().place(starterCard, facingUp);
-       // currentPlayer.place(starterCard, facingUp);
-    }
-
-    public synchronized void directDrawResourceCard (ClientHandler player) throws NotYourTurnException,
-            EmptyDeckException, FullHandException, CannotDrawException {
-
-        if (turn != clientHandlers.indexOf(player)) {
+    public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
+
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.directDraw();
-
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
-    public synchronized void directDrawGoldCard (ClientHandler player) throws EmptyDeckException, FullHandException, NotYourTurnException, CannotDrawException {
 
-        if (turn != clientHandlers.indexOf(player)) {
+    public void directDrawGoldCard (ClientHandler client) throws EmptyDeckException, FullHandException, NotYourTurnException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.directDraw();
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
-    public synchronized void drawLeftRevealedResourceCard (ClientHandler player) throws FullHandException, NotYourTurnException, CannotDrawException {
 
-        if (turn != clientHandlers.indexOf(player)) {
+    public void drawLeftRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
+
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawLeftRevealedCard();
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
-    public synchronized void drawRightRevealedResourceCard (ClientHandler player) throws FullHandException, NotYourTurnException, CannotDrawException {
-        if (turn != clientHandlers.indexOf(player)) {
+
+    public void drawRightRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawRightRevealedCard();
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
-    public synchronized void drawLeftRevealedGoldCard (ClientHandler player) throws FullHandException, NotYourTurnException, CannotDrawException {
 
-        if (turn != clientHandlers.indexOf(player)) {
+    public void drawLeftRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
+
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawLeftRevealedCard();
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
-    public synchronized void drawRightRevealedGoldCard (ClientHandler player) throws FullHandException, NotYourTurnException, CannotDrawException {
 
-        if (turn != clientHandlers.indexOf(player)) {
+    public void drawRightRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+        if (!isTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
-        if (!player.hasAlreadyPlaced()) {
+        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
+
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawRightRevealedCard();
-        getCurrentPlayer(player).addToHand(cardTemp);
-        passTurn(player);
+        getCurrentPlayer(client).addToHand(cardTemp);
+        passTurn(client);
     }
 
     /**
@@ -273,7 +257,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @param starterCardId starter card id
      * @param facingUp orientation: true if the front is facing up
      */
-    public synchronized void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp) {
+    public void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp) {
         Player currentPlayer = getCurrentPlayer(player);
         if (currentPlayer.getStarterCard().getId() == starterCardId) {
             currentPlayer.place(currentPlayer.getStarterCard(), facingUp);
@@ -287,7 +271,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @param player player choosing the secret objective
      * @param objectiveCardId chosen secret objective card id
      */
-    public synchronized void chooseSecretObjectiveCard (ClientHandler player,int objectiveCardId){
+    public void chooseSecretObjectiveCard (ClientHandler player,int objectiveCardId){
         Player currentPlayer = getCurrentPlayer(player);
         for(ObjectiveCard drawnObjectiveCard : currentPlayer.getDrawnObjectiveCards())
             if (drawnObjectiveCard.getId() == objectiveCardId) {
@@ -296,12 +280,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             }
     }
 
-    private void passTurn (ClientHandler player){
-        turn = (turn + 1) % clientHandlers.size();
-        player.clearTurnState();
-    }
-
-    private void broadcast (JSONObject message){
+    public void broadcast (JSONObject message){
         for (ClientHandler player : clientHandlers) {
             player.send(message);
         }
@@ -357,7 +336,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     @Override
-    public void notifyStarterCardAndSecretObjetiveSelected() {
+    public void notifyStarterCardAndSecretObjectiveSelected() {
         for (ClientHandler player : clientHandlers) {
             Player currentPlayer = getCurrentPlayer(player);
             if(!currentPlayer.isStarterCardOrientationSelected() || currentPlayer.getSecretObjective() == null) return;

@@ -20,15 +20,12 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     private final Pinger pinger;
     private final Thread pingerThread;
     private volatile boolean running;
-    private JSONObject receivedRequest;
     private volatile JSONObject receivedReply;
 
     private String username;
-    private Color token;
     private GameController game = null;
     private final Lobby lobby;
     private boolean isInGame;
-    private boolean alreadyPlaced;
 
     public ClientHandler(Socket socket, Lobby lobby) {
         this.lobby = lobby;
@@ -51,26 +48,6 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
         running = true;
     }
 
-    public Color getToken() {
-        return token;
-    }
-
-    public void setToken(Color token) {
-        this.token = token;
-    }
-
-    public JSONObject getReceivedRequest() {
-        return receivedRequest;
-    }
-
-    public boolean hasAlreadyPlaced() {
-        return alreadyPlaced;
-    }
-
-    public void setAlreadyPlaced(boolean alreadyPlaced) {
-        this.alreadyPlaced = alreadyPlaced;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -87,20 +64,8 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
         this.game = game;
     }
 
-    public boolean isInGame() {
-        return isInGame;
-    }
-
     public void setInGame(boolean inGame) {
         isInGame = inGame;
-    }
-    public Lobby getLobby() {
-        return lobby;
-    }
-
-    public void clearTurnState()
-    {
-        alreadyPlaced = false;
     }
 
     @Override

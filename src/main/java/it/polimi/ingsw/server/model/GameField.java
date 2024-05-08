@@ -154,9 +154,9 @@ public class GameField {
      */
     public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         card.setFacingUp(facingUp);
-        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("could not place card "+card.getId()+" (card already placed at "+coordinatesToString(x,y)+")");
-        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement rules at "+coordinatesToString(x, y)+ ")");
-        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement requirements)");
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("Card already placed at X: " + x + " Y: " + y + " !");
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("Doesn't follow placement rules!");
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("Placement requirements are not satisfied!");
         this.placeCardAtCoordinates(card,x,y);
         card.setX(x);
         card.setY(y);

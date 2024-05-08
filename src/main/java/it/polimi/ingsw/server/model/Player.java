@@ -17,8 +17,10 @@ public class Player {
     private StarterCard starterCard;
     private ObjectiveCard secretObjective;
     private ObjectiveCard[] drawnObjectiveCards;
+
     private boolean isReady;
     private boolean starterCardOrientationSelected;
+    private boolean alreadyPlaced;
     private int numOfCompletedObjectiveCards;
     //TODO spostare qui il booleano already placed dal clienthandler
 
@@ -34,6 +36,14 @@ public class Player {
         this.drawnObjectiveCards = new ObjectiveCard[2];
         this.isReady = false;
         this.starterCardOrientationSelected = false;
+    }
+
+    public boolean hasAlreadyPlaced() {
+        return alreadyPlaced;
+    }
+
+    public void clearTurnState() {
+        alreadyPlaced = false;
     }
 
     public GameField getGamefield() {
@@ -70,7 +80,7 @@ public class Player {
 
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
         this.starterCardOrientationSelected = starterCardOrientationSelected;
-        game.gameObserver.notifyStarterCardAndSecretObjetiveSelected();
+        game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
     }
 
     public ArrayList<PlaceableCard> getHand() {
@@ -105,7 +115,7 @@ public class Player {
     public void setSecretObjective(ObjectiveCard objectiveCard) {
         if(this.secretObjective != null) return;
         this.secretObjective = objectiveCard;
-        game.gameObserver.notifyStarterCardAndSecretObjetiveSelected();
+        game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
     }
 
     public ObjectiveCard getSecretObjective() {
@@ -136,10 +146,12 @@ public class Player {
 
     public void place(StarterCard card, boolean facingUp){
         gamefield.place(card, facingUp);
+        alreadyPlaced = true;
     }
 
     public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         gamefield.place(card,facingUp,x,y);
+        alreadyPlaced = true;
     }
 
     /**

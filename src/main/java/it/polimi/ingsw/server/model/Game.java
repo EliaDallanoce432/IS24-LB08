@@ -17,14 +17,17 @@ import java.util.HashMap;
 public class Game {
     private static Game instance;
     public int numberOfPlayers;
+    private GameState gameState;
+    public int turnCounter;
+
     public ObjectiveCardDeck objectiveCardDeck;
     public ResourceCardDeck resourceCardDeck;
     public GoldCardDeck goldCardDeck;
     public StarterCardDeck starterCardDeck;
-    public HashMap<String, Player> players;
-    public GameObserver gameObserver;
-    public GameState gameState;
     public ArrayList<ObjectiveCard> commonObjectives;
+    public HashMap<String, Player> players;
+
+    public GameObserver gameObserver;
     public ArrayList<Color> availableTokens;
 
     public static Game getInstance(int numberOfPlayers, GameObserver gameObserver) {
@@ -70,20 +73,5 @@ public class Game {
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(players.values());
     }
-
-//    public int getNumberOfPlayers() {
-//        return numberOfPlayers;
-//    }
-
-//    public void starterCardsSelection()
-//    {
-//        for (int i = 0; i < players.length; i++) {
-//            try {
-//                drawnStarterCards.add((StarterCard) game.starterCardDeck.directDraw());
-//            } catch (EmptyDeckException ignored) {
-//                System.out.println(gameName + " has no drawn starter cards");
-//            }
-//        }
-//    }
 
 }

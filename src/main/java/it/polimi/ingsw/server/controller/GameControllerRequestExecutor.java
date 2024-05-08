@@ -14,173 +14,107 @@ public class GameControllerRequestExecutor {
 
     public void execute (Request request)  {
         JSONObject message = request.getMessage();
-        ClientHandler player = request.getClient();
+        ClientHandler client = request.getClient();
         switch (message.get("command").toString()) {
-            case "ready" -> ready(gameController, player);
-            case "starterCard" -> chooseStarterCardOrientation(gameController, message, player);
-            case "objectiveCard" -> chooseSecretObjectiveCard(gameController, message,player);
-            case "directDrawResourceCard" -> directDrawResourceCard(gameController, player);
-            case "directDrawGoldCard" -> directDrawGoldCard(gameController, player);
-            case "drawLeftResourceCard" -> drawLeftRevealedResourceCard(gameController, player);
-            case "drawRightResourceCard" -> drawRightRevealedResourceCard(gameController, player);
-            case "drawLeftGoldCard" -> drawLeftRevealedGoldCard(gameController, player);
-            case "drawRightGoldCard" -> drawRightRevealedGoldCard(gameController, player);
-            case "place" -> place(gameController, player, message);
-            case "leave" -> leave(gameController, player);
-            default -> player.send(ResponseGenerator.response("unexpectedCommand"));
+            case "ready" -> ready(client);
+            case "starterCard" -> chooseStarterCardOrientation(message, client);
+            case "objectiveCard" -> chooseSecretObjectiveCard(message,client);
+            case "directDrawResourceCard" -> directDrawResourceCard(client);
+            case "directDrawGoldCard" -> directDrawGoldCard(client);
+            case "drawLeftResourceCard" -> drawLeftRevealedResourceCard(client);
+            case "drawRightResourceCard" -> drawRightRevealedResourceCard(client);
+            case "drawLeftGoldCard" -> drawLeftRevealedGoldCard(client);
+            case "drawRightGoldCard" -> drawRightRevealedGoldCard(client);
+            case "place" -> place(client, message);
+            case "leave" -> leave(client);
+            default -> client.send(ResponseGenerator.response("unexpectedCommand"));
         }
     }
-    //TODO sostituire in tutti i metodi le reply
-    public void ready(GameController game, ClientHandler player)
+
+    public void ready(ClientHandler player)
     {
-        game.ready(player);
+        gameController.ready(player);
     }
 
-    public void chooseStarterCardOrientation(GameController gameController,JSONObject message, ClientHandler player)
-    {
+    public void chooseStarterCardOrientation(JSONObject message, ClientHandler player) {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
         gameController.chooseStarterCardOrientations(player,starterCardId, facingUp);
-
     }
-    public void chooseSecretObjectiveCard(GameController gameController,JSONObject message, ClientHandler player)
-    {
+
+    public void chooseSecretObjectiveCard(JSONObject message, ClientHandler player) {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
         gameController.chooseSecretObjectiveCard(player, objectiveCardId);
     }
-    public void directDrawResourceCard(GameController game,ClientHandler player) {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.directDrawResourceCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            } catch (EmptyDeckException e) {
-                player.send(ResponseGenerator.emptyDeckResponse());
-            } catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            }
-             catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-             } catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void directDrawGoldCard(GameController game,ClientHandler player) {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.directDrawGoldCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            }
-            catch (EmptyDeckException e) {
-                player.send(ResponseGenerator.emptyDeckResponse());
-            }
-            catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            }
-            catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-            }
-            catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void drawLeftRevealedResourceCard(GameController game,ClientHandler player)  {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.drawLeftRevealedResourceCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            }
-            catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            }
-            catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-                }
-            catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void drawRightRevealedResourceCard(GameController game,ClientHandler player) {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.drawRightRevealedResourceCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            } catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            } catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-            } catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void drawLeftRevealedGoldCard(GameController game,ClientHandler player) {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.drawLeftRevealedGoldCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            } catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            } catch (NotYourTurnException e) {
-                player.send((ResponseGenerator.notYourTurnResponse()));
-            } catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void drawRightRevealedGoldCard(GameController game,ClientHandler player) {
-        if (!player.hasAlreadyPlaced())
-            player.send(ResponseGenerator.cantDrawYetResponse());
-        else {
-            try {
-                game.drawRightRevealedGoldCard(player);
-                player.send(ResponseGenerator.OKResponse());
-            } catch (FullHandException e) {
-                player.send(ResponseGenerator.fullHandResponse());
-            } catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-            } catch (CannotDrawException e) {
-                player.send(ResponseGenerator.cantDrawYetResponse());
-            }
-        }
-    }
-    public void place(GameController game, ClientHandler player, JSONObject message) {
 
-        if(!player.hasAlreadyPlaced()) player.send(ResponseGenerator.alreadyPlacedResponse());
-        else {
-            try {
-                int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
-                int x = Integer.parseInt(message.get("x").toString());
-                int y = Integer.parseInt(message.get("y").toString());
-                boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
-                game.place(player, placeableCardId, facingUp, x, y);
-                player.send(ResponseGenerator.OKResponse());
-            }
-            catch (CannotPlaceCardException e)
-            {
-                player.send(ResponseGenerator.notValidPlacementResponse());
-            }
-            catch (NotYourTurnException e) {
-                player.send(ResponseGenerator.notYourTurnResponse());
-            }
+    public void directDrawResourceCard(ClientHandler client) {
+        try {
+            gameController.directDrawResourceCard(client);
+            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
+    }
+
+    public void directDrawGoldCard(ClientHandler client) {
+        try {
+            gameController.directDrawGoldCard(client);
+            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        }
+        catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
+    }
+
+    public void drawLeftRevealedResourceCard(ClientHandler client)  {
+        try {
+            gameController.drawLeftRevealedResourceCard(client);
+            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        }
+        catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
+    }
+
+    public void drawRightRevealedResourceCard(ClientHandler player) {
+        try {
+            gameController.drawRightRevealedResourceCard(player);
+            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
+    }
+
+    public void drawLeftRevealedGoldCard(ClientHandler player) {
+        try {
+            gameController.drawLeftRevealedGoldCard(player);
+            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
+    }
+
+    public void drawRightRevealedGoldCard(ClientHandler player) {
+        try {
+            gameController.drawRightRevealedGoldCard(player);
+            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+        } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
+    }
+
+    public void place(ClientHandler player, JSONObject message) {
+        try {
+            int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
+            int x = Integer.parseInt(message.get("x").toString());
+            int y = Integer.parseInt(message.get("y").toString());
+            boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
+            gameController.place(player, placeableCardId, facingUp, x, y);
+            player.send(ServerMessageGenerator.gameFieldUpdateMessage(gameController.getCurrentPlayer(player)));
+        }
+        catch (CannotPlaceCardException e) {
+            player.send(ServerMessageGenerator.cannotPlaceMessage(e.getMessage()));
+        }
+        catch (NotYourTurnException ignored) {
         }
     }
-    public void leave(GameController game, ClientHandler player)
-    {
-        game.leaveGame(player);
-        player.send(ResponseGenerator.OKResponse());
+
+    public void leave(ClientHandler player) {
+        gameController.leaveGame(player);
     }
 
 }
