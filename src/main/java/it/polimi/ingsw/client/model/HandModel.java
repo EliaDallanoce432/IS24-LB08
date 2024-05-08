@@ -19,16 +19,6 @@ public class HandModel extends ObservableModel {
 
     }
 
-
-    public void addCardToHand(VirtualCard card) {
-        if (cardsInHand.size() >= HAND_SIZE) {
-            System.out.println("full hand");
-        }
-        else {
-            cardsInHand.add(card);
-        }
-    }
-
     public ArrayList<VirtualCard> getCardsInHand() {
         return cardsInHand;
     }

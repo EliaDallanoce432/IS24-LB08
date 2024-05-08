@@ -55,7 +55,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
             reply = receivedReply;
             receivedReply = null;
         }
-        System.out.println(reply);
+
         return reply;
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.model.HandModel;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -23,11 +24,9 @@ public class CardPlacementController {
     private final Label alertLabel;
     private final Pane handPane;
     private final Pane boardPane;
-    private final Pane decksPane;
     private final HBox commonObjectivesPane;
     private final HBox secretObjectivePane;
     private final ScrollPane scrollPane;
-    private int starterCardId;
 
     private double centerX;
     private double centerY;
@@ -40,13 +39,11 @@ public class CardPlacementController {
     private double offsetX;
     private double offsetY;
 
-    public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane,
-                                   Pane decksPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
+    public CardPlacementController(Label alertLabel, Pane handPane, ScrollPane scrollPane, HBox commonObjectivesPane, HBox secretObjectivePane) {
 
         this.scrollPane = scrollPane;
         this.alertLabel = alertLabel;
         this.handPane = handPane;
-        this.decksPane = decksPane;
         this.commonObjectivesPane = commonObjectivesPane;
         this.secretObjectivePane = secretObjectivePane;
 
@@ -63,15 +60,18 @@ public class CardPlacementController {
 
     }
 
-    public void unshowCards(){
-        handPane.getChildren().clear();
-    }
 
-    public void showCards(ArrayList<VirtualCard> cardsInHand) {
+
+    public void loadHand() {
+
+        handPane.getChildren().clear();
+
 
         double currentX = SPACING;
 
-        for(VirtualCard v: cardsInHand){
+
+
+        for(VirtualCard v: HandModel.getIstance().getCardsInHand()){
             //v.setFacingUp(true);
 
             Rectangle cardNode = v.getCard();
@@ -87,9 +87,7 @@ public class CardPlacementController {
     }
 
 
-    public void clearBoard (){
-        boardPane.getChildren().clear();
-    }
+
 
     public void makeDraggableAndDroppable(Node card) {
 
@@ -123,7 +121,6 @@ public class CardPlacementController {
             if (!scrollPaneBounds.contains(mouseX, mouseY)){
                 card.setLayoutX(offsetX);
                 card.setLayoutY(offsetY);
-                updateLabel("Out of bounds");
             }
 
             else {
@@ -142,8 +139,6 @@ public class CardPlacementController {
                     card.setLayoutY(snapY);
                     boardPane.getChildren().add(card);
                     handPane.getChildren().remove(card);
-
-                    updateLabel("Placed Card In (" + absoluteToRelativeX(snapX) + "," + absoluteToRelativeY(snapY) + ")");
 
                     makeUndraggable(card);
                 }
@@ -211,7 +206,9 @@ public class CardPlacementController {
     }
 
     public void loadFromPlacementHistory (ArrayList<VirtualCard> placementHistory){
-        clearBoard();
+
+        boardPane.getChildren().clear();
+
         for (VirtualCard virtualCard : placementHistory){
 
             Rectangle cardNode = virtualCard.getCard();
@@ -231,86 +228,7 @@ public class CardPlacementController {
         }
     }
 
-    public void loadDecks(VirtualCard[] decks){
 
-        updateLabel("Draw a Card");
-
-        for (int i = 0; i < 3; i++) {
-
-            double xLayout = 10 + i * 150;
-            double yLayout = 20;
-
-
-
-            if(decks[i].getId() != 0) {
-
-                VirtualCard virtualCard = new VirtualCard(decks[i].getId(), i != 0);
-                //cardsOnTopOfDecks[i] = virtualCard;
-                Rectangle cardNode = virtualCard.getCard();
-
-                cardNode.setLayoutX(xLayout);
-                cardNode.setLayoutY(yLayout);
-
-                Button button = getCustomButton("Draw", xLayout, yLayout);
-
-                int finalI = i;
-                button.setOnAction(event -> {
-                    handleDrawButtonClick(finalI);
-                });
-                decksPane.getChildren().addAll(virtualCard.getCard(), button);
-            }
-        }
-
-        for (int i = 3; i < 5; i++) {
-
-            double xLayout = 10 + i * 150;
-            double yLayout = 20 + 2 * CARD_HEIGHT;
-
-            if(decks[i].getId() != 0) {
-
-                VirtualCard virtualCard = new VirtualCard(decks[i].getId(), i != 0);
-                //cardsOnTopOfDecks[i + 3] = virtualCard;
-                Rectangle cardNode = virtualCard.getCard();
-
-
-                cardNode.setLayoutX(xLayout);
-                cardNode.setLayoutY(yLayout);
-
-                Button button = getCustomButton("Draw", xLayout, yLayout);
-
-
-                int finalI = i ;
-                button.setOnAction(event -> {
-                    handleDrawButtonClick(finalI);
-                });
-                decksPane.getChildren().addAll(virtualCard.getCard(), button);
-            }
-        }
-
-    }
-
-    private void handleDrawButtonClick(int buttonIndex) {
-
-        unshowCards();
-        //addCardToHand(cardsOnTopOfDecks[buttonIndex]);
-        decksPane.getChildren().clear();
-        //TODO send draw message
-    }
-
-    public void updateLabel(String newText) {
-        alertLabel.setText(newText);
-    }
-
-    private Button getCustomButton(String text, double xLayout, double yLayout){
-        Button button = new Button(text);
-
-        button.setLayoutX(xLayout);
-        button.setPrefWidth(CARD_WIDTH);
-        button.setLayoutY(yLayout + CARD_HEIGHT + 20);
-
-        return button;
-
-    }
 
 
 }

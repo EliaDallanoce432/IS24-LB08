@@ -23,9 +23,7 @@ public class ServerMessageGenerator {
     public static JSONObject startGameMessage (GameController gameController, Player player) {
         JSONObject message = new JSONObject();
         message.put("message","startGame");
-        //invio la mano
         message.put("hand", updatedHand(player));
-        //invio le drawable cards
         message.put("decks", updatedDecks());
         message.put("placementHistory", updatedPlacementHistory(player));
         message.put("secretObjectiveID", String.valueOf(player.getSecretObjective().getId()));

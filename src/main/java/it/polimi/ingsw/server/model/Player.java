@@ -96,6 +96,7 @@ public class Player {
             addToHand((ResourceCard) game.resourceCardDeck.directDraw());
             addToHand((ResourceCard) game.resourceCardDeck.directDraw());
             addToHand((GoldCard) game.goldCardDeck.directDraw());
+            System.out.println("hand for player " + this.getToken() + ": " + hand);
         } catch (FullHandException | EmptyDeckException ignored) {
         }
     }

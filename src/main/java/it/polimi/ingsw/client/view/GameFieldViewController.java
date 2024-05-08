@@ -36,13 +36,17 @@ public class GameFieldViewController extends ViewController {
 
 
     private CardPlacementController cardPlacementController;
+    private VirtualDeck virtualDeck;
 
     @FXML
     private void initialize() {
 
 
-        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,decksPane,
+        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,
                 commonObjectivesPane,secretObjectivePane);
+
+        virtualDeck = new VirtualDeck(decksPane);
+
         showMessage("Waiting for all players to choose the cards...");
 
         Platform.runLater(() -> {
@@ -52,43 +56,15 @@ public class GameFieldViewController extends ViewController {
             updateDecks();
         });
 
-
-
-
     }
 
-    @FXML
-    private void drawHand() {
 
-//        for(int i=0; i<3 ; i++) {
-//            int randomId = (int) (39*random()+1);
-//            clientModel.addCardToHand(new VirtualCard(randomId, true));
-//
-//        }
-//        cardPlacementController.showCards(clientModel.getCardsInHand());
-    }
-
-    @FXML
-    private void clearCards() {
-        cardPlacementController.clearBoard();
-        initialize();
-    }
-
-    @FXML
-    public void loadDecks() {
-        //cardPlacementController.loadDecks(clientModel.getDecks());
-    }
 
     @FXML
     private void flipCardsInHand() {
 
-        cardPlacementController.unshowCards();
+        //TODO implementare
 
-//        for(VirtualCard card : clientModel.getCardsInHand()) {
-//            card.flip();
-//        }
-//
-//        cardPlacementController.showCards(clientModel.getCardsInHand());
     }
 
     @FXML
@@ -102,10 +78,6 @@ public class GameFieldViewController extends ViewController {
         stage.show();
     }
 
-    public void loadInitialBoardState (){
-
-
-    }
 
     @Override
     public void updateGameBoard(){
@@ -119,6 +91,16 @@ public class GameFieldViewController extends ViewController {
             cardPlacementController.loadCommonObjectives(ObjectivesModel.getIstance().getCommonObjectives());
             cardPlacementController.loadSecretObjective(ObjectivesModel.getIstance().getSecretObjectiveId());
         });
+    }
+
+    @Override
+    public void updateDecks(){
+        Platform.runLater(()-> virtualDeck.loadDecks(false));
+    }
+
+    @Override
+    public void updateHand(){
+        Platform.runLater(()-> cardPlacementController.loadHand());
     }
 
 

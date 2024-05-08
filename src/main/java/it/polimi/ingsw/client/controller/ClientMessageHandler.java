@@ -28,6 +28,9 @@ public class ClientMessageHandler {
 
             case "cardsSelection" -> updateSelectableCards(message);
             case "startGame" -> updateInitialBoardState(message);
+            case "updateHandAndDecks" -> updateHandAndDecks(message);
+            case "gameFieldUpdate" -> updateGameField(message);
+
 
 
             default -> { //do nothing
@@ -73,6 +76,8 @@ public class ClientMessageHandler {
         int secretObjectiveCardID = Integer.parseInt(message.get("secretObjectiveID").toString());
         ArrayList<VirtualCard> initialPlacementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
         ArrayList<VirtualCard> initialHand = getHandArray((JSONArray) message.get("hand"));
+        JSONObject decksJSON = (JSONObject) message.get("decks");
+
         Color token = Color.parseColor(message.get("token").toString());
 
         //updating the model...
@@ -81,6 +86,7 @@ public class ClientMessageHandler {
         GameFieldModel.getIstance().updatePlacementHistory(initialPlacementHistory);
         HandModel.getIstance().updateCardsInHand(initialHand);
         PlayerModel.getIstance().setToken(token);
+        updateDeckModelFromJSON(decksJSON);
 
     }
 
@@ -88,12 +94,19 @@ public class ClientMessageHandler {
 
         //parsing the message...
         ArrayList<VirtualCard> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
-        JSONArray updatedDecksArray = (JSONArray) message.get("updatedDecks");
+        JSONObject updatedDecks = (JSONObject) message.get("updatedDecks");
 
         //updating the model...
-        //DeckModel.getIstance()...
+        updateDeckModelFromJSON(updatedDecks);
+        HandModel.getIstance().updateCardsInHand(updatedHand);
+    }
 
+    private void updateGameField(JSONObject message){
 
+        ArrayList<VirtualCard> placementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
+
+        GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
+        //TODO update scores and resources
     }
 
     private static ArrayList<VirtualCard> getHandArray(JSONArray jsonArray){
@@ -122,6 +135,18 @@ public class ClientMessageHandler {
         }
 
         return placementHistory;
+    }
+
+    private static void updateDeckModelFromJSON (JSONObject decksJSON){
+        int resTop = Integer.parseInt(decksJSON.get("topDeckResourceCardID").toString());
+        int goldTop = Integer.parseInt(decksJSON.get("topDeckGoldCardID").toString());
+        int resLeft = Integer.parseInt(decksJSON.get("leftRevealedResourceCardID").toString());
+        int goldLeft = Integer.parseInt(decksJSON.get("leftRevealedGoldCardID").toString());
+        int resRight = Integer.parseInt(decksJSON.get("rightRevealedResourceCardID").toString());
+        int goldRight = Integer.parseInt(decksJSON.get("rightRevealedGoldCardID").toString());
+
+        DeckModel.getIstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);
+
     }
 
 
