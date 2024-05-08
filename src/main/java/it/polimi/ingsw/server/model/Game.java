@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.GameObserver;
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.deck.GoldCardDeck;
 import it.polimi.ingsw.server.model.deck.ObjectiveCardDeck;
 import it.polimi.ingsw.server.model.deck.ResourceCardDeck;
@@ -46,8 +45,8 @@ public class Game {
         starterCardDeck = new StarterCardDeck();
         commonObjectives = new ArrayList<>();
         availableTokens = new ArrayList<>(Arrays.asList(Color.red,Color.yellow,Color.green,Color.blue));
-        commonObjectives.add((ObjectiveCard) objectiveCardDeck.getLeftRevealedCard());
-        commonObjectives.add((ObjectiveCard) objectiveCardDeck.getRightRevealedCard());
+        commonObjectives.add((ObjectiveCard) objectiveCardDeck.drawLeftRevealedCard());
+        commonObjectives.add((ObjectiveCard) objectiveCardDeck.drawRightRevealedCard());
         gameState = GameState.waitingForPlayers;
         this.gameObserver= gameObserver;
     }

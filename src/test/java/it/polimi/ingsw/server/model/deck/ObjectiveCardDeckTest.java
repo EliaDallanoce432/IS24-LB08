@@ -17,14 +17,14 @@ class ObjectiveCardDeckTest {
     @Test
     void getLeftRevealedCard() {
         ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        Card leftrevealedcard = objectivedecktest.getLeftRevealedCard();
+        Card leftrevealedcard = objectivedecktest.drawLeftRevealedCard();
         assertEquals(leftrevealedcard.getClass(), ObjectiveCard.class);
     }
 
     @Test
     void getRightRevealedCard() {
         ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        Card rightrevealedcard = objectivedecktest.getRightRevealedCard();
+        Card rightrevealedcard = objectivedecktest.drawRightRevealedCard();
         assertEquals(rightrevealedcard.getClass(), ObjectiveCard.class);
     }
 

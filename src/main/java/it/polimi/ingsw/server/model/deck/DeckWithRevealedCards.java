@@ -13,7 +13,7 @@ public abstract class DeckWithRevealedCards extends Deck{
      * returns the left revealed card on the table
      * @return Card
      */
-    public Card getLeftRevealedCard() {
+    public Card drawLeftRevealedCard() {
         Card selectedCard;
         selectedCard = leftRevealedCard;
         try {
@@ -28,7 +28,7 @@ public abstract class DeckWithRevealedCards extends Deck{
      * returns the right revealed card on the table
      * @return Card
      */
-    public Card getRightRevealedCard() {
+    public Card drawRightRevealedCard() {
         Card selectedCard;
         selectedCard = rightRevealedCard;
         try {
@@ -37,6 +37,16 @@ public abstract class DeckWithRevealedCards extends Deck{
             return null; //no cards left
         }
         return selectedCard;
+    }
+
+    public int getLeftRevealedCardID() {
+        if (leftRevealedCard == null) { return 0;}
+        return leftRevealedCard.getId();
+    }
+
+    public int getRightRevealedCardID() {
+        if (rightRevealedCard == null) { return 0;}
+        return rightRevealedCard.getId();
     }
 
     /**

@@ -7,13 +7,11 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.*;
-import it.polimi.ingsw.util.supportclasses.Color;
 import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -135,19 +133,13 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * communicates to players the game is about to start and sends their cards
      */
     public void startGame () {
+        //shuffle i client handlers per sciegliere l'ordine del turno
+        Collections.shuffle(clientHandlers);
         for (ClientHandler client : clientHandlers) {
-            Player currentPlayer = getCurrentPlayer(client);
-            ArrayList<PlaceableCard> hand = currentPlayer.getHand();
-            ArrayList<Card> visibleCardsinResourceCardsDeck = game.resourceCardDeck.getVisibleCards();
-            ArrayList<Card> visibleCardsinGoldDeck = game.goldCardDeck.getVisibleCards();
-            StarterCard starterCard = currentPlayer.getStarterCard();
-            ObjectiveCard secretObjective = currentPlayer.getSecretObjective();
-            ArrayList<ObjectiveCard> commonObjectives = game.commonObjectives;
-            //TODO mandare anche il colore del token
-
-            client.send(ServerMessageGenerator.startGameMessage(hand,visibleCardsinResourceCardsDeck,visibleCardsinGoldDeck,starterCard,secretObjective,commonObjectives));
+            client.send(ServerMessageGenerator.startGameMessage(getCurrentPlayer(client)));
         }
         for (ClientHandler player : clientHandlers)
+            //TODO vedere se serve
             player.clearTurnState();
     }
 
@@ -234,7 +226,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if (!player.hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getLeftRevealedCard();
+        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(player).addToHand(cardTemp);
         passTurn(player);
     }
@@ -246,7 +238,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.getRightRevealedCard();
+        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawRightRevealedCard();
         getCurrentPlayer(player).addToHand(cardTemp);
         passTurn(player);
     }
@@ -258,7 +250,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if (!player.hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getLeftRevealedCard();
+        GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(player).addToHand(cardTemp);
         passTurn(player);
     }
@@ -270,7 +262,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if (!player.hasAlreadyPlaced()) {
             throw new CannotDrawException();
         }
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.getRightRevealedCard();
+        GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawRightRevealedCard();
         getCurrentPlayer(player).addToHand(cardTemp);
         passTurn(player);
     }

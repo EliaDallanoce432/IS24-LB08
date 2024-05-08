@@ -17,14 +17,14 @@ class GoldCardDeckTest {
     @Test
     void getLeftRevealedCard() {
         GoldCardDeck goldcarddecktest = new GoldCardDeck();
-        Card leftrevealedcard = goldcarddecktest.getLeftRevealedCard();
+        Card leftrevealedcard = goldcarddecktest.drawLeftRevealedCard();
         assertEquals(leftrevealedcard.getClass(), GoldCard.class);
     }
 
     @Test
     void getRightRevealedCard() {
         GoldCardDeck goldcarddecktest = new GoldCardDeck();
-        Card rightrevealedcard = goldcarddecktest.getRightRevealedCard();
+        Card rightrevealedcard = goldcarddecktest.drawRightRevealedCard();
         assertEquals(rightrevealedcard.getClass(), GoldCard.class);
     }
 

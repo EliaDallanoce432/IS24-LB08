@@ -21,4 +21,9 @@ public abstract class Deck {
         return drawnCard;
     };
 
+    public int getTopCardID() {
+        if(cards.isEmpty()) {return 0;}
+        return cards.getFirst().getId();
+    }
+
 }
