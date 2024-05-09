@@ -102,6 +102,16 @@ public class StageManager {
         showScene( new Scene(stackPane, 600 , 400));
     }
 
+    public static void loadLostConnectionScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("LostConnectionView.fxml"));
+        Parent root = loader.load();
+        LostConnectionViewController lostConnectionViewController = loader.getController();
+        currentView = lostConnectionViewController;
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        showScene( new Scene(stackPane, 600 , 400));
+    }
+
     private static void showScene(Scene scene) {
         currentStage.setScene(scene);
         currentStage.show();

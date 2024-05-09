@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class LostConnectionViewController {
+public class LostConnectionViewController extends ViewController {
 
     @FXML
     private void exit() throws IOException {
