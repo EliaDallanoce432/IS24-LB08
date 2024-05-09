@@ -51,7 +51,7 @@ public class Lobby implements ServerNetworkObserverInterface {
         System.out.println("New client added to the lobby");
     }
 
-    public synchronized void addNewRequest(Request request) {
+    public synchronized void submitNewRequest(Request request) {
         requests.addLast(request);
         System.out.println("New request added to the lobby");
     }
@@ -111,6 +111,15 @@ public class Lobby implements ServerNetworkObserverInterface {
         thread.start();
     }
 
+    public void makeUnavailable(String gameName) {
+        availableGames.remove(gameName);
+    }
+
+    public void closeGame(String gameName) {
+        makeUnavailable(gameName);
+        //TODO gestire la chiusura della partita
+    }
+
     /**
      * method allows a client to join a game that is waiting for players
      * @param client client that wants to join
@@ -121,11 +130,6 @@ public class Lobby implements ServerNetworkObserverInterface {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
         connectedClients.remove(client);
         availableGames.get(gameName).enterGame(client);
-    }
-
-    @Override
-    public void notifyIncomingMessage(ClientHandler clientHandler) {
-        System.out.println("incoming message");
     }
 
     @Override

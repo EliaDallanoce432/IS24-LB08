@@ -13,12 +13,11 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class GameController implements Runnable, ServerNetworkObserverInterface, GameObserver {
     private final String gameName;
-    private volatile ArrayList<ClientHandler> clientHandlers;
+    private final ArrayList<ClientHandler> clientHandlers;
     private final Lobby lobby;
     private final Game game;
     private final List<Request> requests;
@@ -31,8 +30,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.lobby = lobby;
         this.requests = Collections.synchronizedList(new ArrayList<>());
         this.running = true;
-        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
         this.game = Game.getInstance(numberOfPlayers, this);
+        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
         System.out.println(gameName + " is ready");
     }
 
@@ -46,7 +45,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     @Override
-    public void addNewRequest(Request request) {
+    public void submitNewRequest(Request request) {
         requests.addLast(request);
         System.out.println("New request added to the lobby");
     }
@@ -64,6 +63,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         client.setGame(this);
         client.setInGame(true);
         game.players.put(client.getUsername(), new Player());
+        System.out.println("player " + client.getUsername() + " joined the game");
     }
 
     /**
@@ -76,19 +76,19 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         game.players.remove(client.getUsername());
         client.setGame(null);
         client.setInGame(false);
+        System.out.println("player " + client.getUsername() + " left the game");
         lobby.enterLobby(client);
     }
 
-    public Player getCurrentPlayer(ClientHandler player)
-    {
+    public Player getCurrentPlayer(ClientHandler player) {
         return game.players.get(player.getUsername());
     }
 
-    private boolean isTheTurnOf(ClientHandler client) {
-        return (game.turnCounter % game.numberOfPlayers) == clientHandlers.indexOf(client);
+    private boolean isNotTheTurnOf(ClientHandler client) {
+        return game.turnCounter != clientHandlers.indexOf(client);
     }
 
-    private void passTurn (ClientHandler client){
+    private void passTurn (ClientHandler client) {
         if(game.turnCounter == game.numberOfPlayers-1) game.turnCounter = 0;
         else game.turnCounter++;
         getCurrentPlayer(client).clearTurnState();
@@ -157,9 +157,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         game.turnCounter = 0;
     }
 
-    public void place (ClientHandler client,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException, NotYourTurnException {
-        if(!isTheTurnOf(client)) {
-            throw new NotYourTurnException();
+    public void place (ClientHandler client,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+        if(isNotTheTurnOf(client)) {
+            throw new CannotPlaceCardException("You can't place a card, it's not your turn!");
         }
         PlaceableCard cardInHand = null;
         Player currentPlayer = getCurrentPlayer(client);
@@ -175,7 +175,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -188,7 +188,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void directDrawGoldCard (ClientHandler client) throws EmptyDeckException, FullHandException, NotYourTurnException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -201,7 +201,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void drawLeftRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -214,7 +214,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void drawRightRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -227,7 +227,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void drawLeftRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -240,7 +240,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     public void drawRightRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
-        if (!isTheTurnOf(client)) {
+        if (isNotTheTurnOf(client)) {
             throw new NotYourTurnException();
         }
         if (!getCurrentPlayer(client).hasAlreadyPlaced()) {
@@ -288,23 +288,27 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     @Override
-    public void notifyIncomingMessage (ClientHandler clientHandler){
-       /* try {
-            GameControllerRequestExecutor.execute(this, clientHandler.getReceivedRequest(), clientHandler);
-        } catch (EmptyDeckException | CannotPlaceCardException | FullHandException e) {
-            throw new RuntimeException(e);
-        }*/
+    public void notifyClientConnetctedCountChanged() {
+        if(clientHandlers.isEmpty()) {
+            System.out.println("there are no more players in the game " + game + ": game is closed");
+            lobby.closeGame(gameName);
+            running = false;
+        }
     }
 
     @Override
-    public synchronized void notifyConnectionLoss (ClientHandler clientHandler){
-        //TODO migliorare l'implementazione
+    public void notifyConnectionLoss (ClientHandler clientHandler) {
+        System.out.println("player " + clientHandler.getUsername() + " disconnected");
         leaveGame(clientHandler);
         lobby.notifyConnectionLoss(clientHandler);
-        while (!clientHandlers.isEmpty()) {
-            Thread.onSpinWait();
-        } //waits for everyone to leave back to the lobby
-        running = false;
+        if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
+            game.setGameState(GameState.aClientDisconnected);
+            System.out.println("the game is closing");
+            broadcast(ServerMessageGenerator.closingGameMessage());
+            while (!clientHandlers.isEmpty()) {
+                leaveGame(clientHandlers.getFirst());
+            }
+        }
     }
 
     private boolean gameIsFull() {
@@ -321,6 +325,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             if(!p.isReady())
                 return;
         }
+        lobby.makeUnavailable(gameName);
         game.setGameState(GameState.waitingForCardsSelection);
         gamePreparation();
         sendCardsSelectionMessageToThePlayers();

@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.sockets.InputHandler;
 import it.polimi.ingsw.network.sockets.networkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
-import it.polimi.ingsw.util.supportclasses.Color;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 import java.io.IOException;
@@ -13,14 +12,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable, NetworkInterface, networkInputObserver, ConnectionObserver{
-    private PrintWriter out;
-    private Socket socket;
+    private final PrintWriter out;
+    private final Socket socket;
     private final InputHandler inputHandler;
     private final Thread inputHandlerThread;
     private final Pinger pinger;
     private final Thread pingerThread;
     private volatile boolean running;
-    private volatile JSONObject receivedReply;
 
     private String username;
     private GameController game = null;
@@ -70,37 +68,24 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
 
     @Override
     public void run() {
-        while(running) {}
-    }
-
-    @Override
-    public JSONObject send(JSONObject message, boolean waitReply) {
-        out.println(message.toJSONString());
-        JSONObject reply = null;
-        if (waitReply) {
-            while (receivedReply == null) {
-                Thread.onSpinWait();
-            }
-            reply = receivedReply;
-            receivedReply = null;
+        while (running) {
+            Thread.onSpinWait();
         }
-        return reply;
     }
 
     @Override
     public void send(JSONObject message) {
-        send(message, false);
+        out.println(message.toJSONString());
     }
-
 
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {
         if(!networkMessageHandling(message)) {
             if(isInGame) {
-                game.addNewRequest(new Request(this, message));
+                game.submitNewRequest(new Request(this, message));
             }
             else {
-                lobby.addNewRequest(new Request(this, message));
+                lobby.submitNewRequest(new Request(this, message));
             }
         }
     }
@@ -108,19 +93,11 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     private boolean networkMessageHandling(JSONObject message) {
         if(message.containsKey("type")) {
             switch (message.get("type").toString()) {
-                case "pong" -> {
-                    pinger.notifyPong();
-                }
+                case "pong" -> pinger.notifyPong();
                 case "ping" -> {
                     JSONObject pongMessage = new JSONObject();
                     pongMessage.put("type", "pong");
                     out.println(pongMessage);
-                }
-                case "reply" -> {
-                    while (receivedReply != null) {
-                        Thread.onSpinWait();
-                    }
-                    receivedReply = message;
                 }
                 default -> {
                     return false;
@@ -151,6 +128,5 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
             throw new RuntimeException(e);
         }
         running = false;
-        Thread.currentThread().interrupt();
     }
 }

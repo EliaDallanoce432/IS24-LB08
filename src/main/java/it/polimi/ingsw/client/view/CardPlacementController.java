@@ -149,18 +149,10 @@ public class CardPlacementController {
                     int relX = absoluteToRelativeX(snapX);
                     int relY = absoluteToRelativeY(snapY);
 
-                    try {
-                        System.out.println("placing card #" + vCard.getId() + " at " + relX + " - " + relY);
+                    System.out.println("placing card #" + vCard.getId() + " at " + relX + " - " + relY);
 
-                        ClientController.getInstance().sendPlaceMessage(vCard.getId() , relX , relY , vCard.isFacingUp());
+                    ClientController.getInstance().sendPlaceMessage(vCard.getId(), relX, relY, vCard.isFacingUp());
 
-                    } catch (NotYourTurnException e) {
-                        throw new RuntimeException(e);
-                    } catch (NotValidPlacement e) {
-                        throw new RuntimeException(e);
-                    } catch (AlreadyPlacedInThisRoundException e) {
-                        throw new RuntimeException(e);
-                    }
 
                 }
             }

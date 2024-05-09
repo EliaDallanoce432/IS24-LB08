@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -70,7 +71,7 @@ public class GameFieldViewController extends ViewController {
     private void leaveGame() throws IOException {
 
         System.out.println("leaving game");
-
+        ClientController.getInstance().sendLeaveGameMessage();
         StageManager.loadWelcomeScene();
     }
 

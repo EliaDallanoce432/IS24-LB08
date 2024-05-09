@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -43,7 +44,7 @@ public class WaitForPlayersViewController extends ViewController {
     private void goBack() throws IOException {
 
         if (ClientStateModel.getIstance().getClientState() == ClientState.WAITING_STATE) {
-            //TODO manda messaggio di leave game
+            ClientController.getInstance().sendLeaveGameMessage();
         }
 
         StageManager.loadWelcomeScene();

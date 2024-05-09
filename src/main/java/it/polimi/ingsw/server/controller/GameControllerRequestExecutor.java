@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.*;
+import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
@@ -13,6 +15,12 @@ public class GameControllerRequestExecutor {
     }
 
     public void execute (Request request)  {
+        //TODO decidere se mettere questo codice qui o controllare in ogni metodo nel controller
+//        if(Game.getInstance().getGameState() == GameState.endGame) {
+//            if(!request.getMessage().get("command").equals("leave")) {
+//                return;
+//            }
+//        }
         JSONObject message = request.getMessage();
         ClientHandler client = request.getClient();
         switch (message.get("command").toString()) {
@@ -108,8 +116,6 @@ public class GameControllerRequestExecutor {
         }
         catch (CannotPlaceCardException e) {
             player.send(ServerMessageGenerator.cannotPlaceMessage(e.getMessage()));
-        }
-        catch (NotYourTurnException ignored) {
         }
     }
 

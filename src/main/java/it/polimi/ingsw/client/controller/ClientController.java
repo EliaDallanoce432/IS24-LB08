@@ -1,25 +1,19 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.client.model.GameFieldModel;
 import it.polimi.ingsw.client.model.ObjectivesModel;
+import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserverInterface;
-import it.polimi.ingsw.util.customexceptions.AlreadyPlacedInThisRoundException;
-import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
-import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import javafx.application.Application;
 import javafx.application.Platform;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
 
 public class ClientController implements ClientNetworkObserverInterface {
 
-    private final ClientConnectionManager clientConnectionManager;
+    private ClientConnectionManager clientConnectionManager;
     private final ClientMessageHandler clientMessageHandler;
     private static ClientController instance;
 
@@ -36,13 +30,11 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     public ClientController (String serverAddress, int serverPort)  {
         clientMessageHandler = new ClientMessageHandler();
-        //messages = Collections.synchronizedList(new ArrayList<>());
         try {
-            this.clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
+            clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
             instance = this;
         } catch (ServerUnreachableException e) {
-            //TODO gestire l'eccezione
-            throw new RuntimeException(e);
+            notifyConnectionLoss();
         }
         startGui();
     }
@@ -53,19 +45,19 @@ public class ClientController implements ClientNetworkObserverInterface {
         clientMessageHandler.execute(message);
     }
 
-    public ClientConnectionManager getClientConnectionManager() {
-        return clientConnectionManager;
-    }
-
     public void startGui() {
-
         // Launch the application
         Application.launch(ClientGUI.class);
     }
 
     @Override
     public void notifyConnectionLoss() {
-        //TODO in realtà deve mostrare la schermata di chisura dovuta al server che non risponde
+        Platform.runLater(() -> {
+            try {
+                StageManager.loadLostConnectionScene();
+            } catch (IOException ignored) {
+            }
+        });
         System.out.println("Connection lost");
         clientConnectionManager.shutdown();
     }
@@ -83,6 +75,10 @@ public class ClientController implements ClientNetworkObserverInterface {
     public void sendJoinGameMessage(String gameName){
         clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));
 
+    }
+
+    public void sendLeaveGameMessage(){
+        clientConnectionManager.send(ClientMessageGenerator.generateLeaveMessage());
     }
 
     public void sendSetUpGameMessage(String gamename, int numOfPlayers) {
@@ -103,7 +99,7 @@ public class ClientController implements ClientNetworkObserverInterface {
         ObjectivesModel.getIstance().setSecretObjectiveId(cardId);
     }
     
-    public void sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {
+    public void sendPlaceMessage(int cardId, int x, int y, boolean facingUp) {
         clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId, x, y, facingUp));
     }
 

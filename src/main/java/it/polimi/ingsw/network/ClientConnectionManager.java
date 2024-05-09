@@ -11,15 +11,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientConnectionManager implements NetworkInterface, networkInputObserver, ConnectionObserver{
-    private Socket socket = null;
-    private PrintWriter out = null;
+    private final Socket socket;
+    private final PrintWriter out;
     private final InputHandler inputHandler;
     private final Thread inputHandlerThread;
     private final Pinger pinger;
     private final Thread pingerThread;
-
-    private JSONObject receivedMessage;
-    private volatile JSONObject receivedReply;
     private final ClientController clientController;
 
     public ClientConnectionManager(ClientController clientController, String serverAddress, int port) throws ServerUnreachableException {
@@ -28,7 +25,7 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
             socket = new Socket(serverAddress,port);
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
-            //TODO segnalare che la connessione non si è aperta
+            throw new ServerUnreachableException();
         }
 
         inputHandler = new InputHandler(this,socket);
@@ -40,35 +37,15 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         pingerThread.start();
     }
 
-    public JSONObject getReceivedMessage() {
-        return receivedMessage;
-    }
-
-    @Override
-    public JSONObject send(JSONObject message, boolean waitReply) {
-        out.println(message.toJSONString());
-        JSONObject reply = null;
-        if (waitReply) {
-            while (receivedReply == null) {
-                Thread.onSpinWait();
-            }
-            reply = receivedReply;
-            receivedReply = null;
-        }
-
-        return reply;
-    }
-
     @Override
     public void send(JSONObject message) {
-        send(message,false);
+        out.println(message.toJSONString());
     }
 
 
     @Override
     public void notifyIncomingMessageFromSocket(JSONObject message) {
         if(!networkMessageHandling(message)) {
-            receivedMessage = message;
             clientController.processMessage(message);
         }
     }
@@ -76,19 +53,11 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
     private boolean networkMessageHandling(JSONObject message) {
         if(message.containsKey("type")) {
             switch (message.get("type").toString()) {
-                case "pong" -> {
-                    pinger.notifyPong();
-                }
+                case "pong" -> pinger.notifyPong();
                 case "ping" -> {
                     JSONObject pongMessage = new JSONObject();
                     pongMessage.put("type", "pong");
                     out.println(pongMessage);
-                }
-                case "reply" -> {
-                    while (receivedReply != null) {
-                        Thread.onSpinWait();
-                    }
-                    receivedReply = message;
                 }
                 default -> {
                     return false;
@@ -109,7 +78,8 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         inputHandler.shutdown();
         inputHandlerThread.interrupt();
         pinger.shutdown();
-        pingerThread.interrupt();        try {
+        pingerThread.interrupt();
+        try {
             socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

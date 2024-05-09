@@ -6,4 +6,6 @@ public interface GameObserver {
 
     void notifyStarterCardAndSecretObjectiveSelected();
 
+    void notifyClientConnetctedCountChanged();
+
 }

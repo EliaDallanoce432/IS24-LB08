@@ -9,7 +9,7 @@ public class LostConnectionViewController extends ViewController {
 
     @FXML
     private void exit() throws IOException {
-        ClientController.getInstance().shutdown();
         StageManager.getCurrentStage().close();
+        ClientController.getInstance().shutdown();
     }
 }
