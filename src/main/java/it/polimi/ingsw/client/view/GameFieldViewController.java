@@ -11,7 +11,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -72,10 +71,7 @@ public class GameFieldViewController extends ViewController {
 
         System.out.println("leaving game");
 
-        Stage stage = (Stage) leaveGameButton.getScene().getWindow();
-
-        stage.setScene(StageManager.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
 

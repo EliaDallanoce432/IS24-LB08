@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -48,10 +46,7 @@ public class WaitForPlayersViewController extends ViewController {
             //TODO manda messaggio di leave game
         }
 
-        Stage stage = (Stage) backButton.getScene().getWindow();
-
-        stage.setScene(StageManager.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -61,9 +56,7 @@ public class WaitForPlayersViewController extends ViewController {
 
         ClientController.getInstance().sendReadyMessage();
 
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setScene(StageManager.loadChooseCardsScene());
-        stage.show();
+        StageManager.loadChooseCardsScene();
 
 
     }
@@ -73,15 +66,17 @@ public class WaitForPlayersViewController extends ViewController {
         alertLabel.setText(message);
     }
 
+    @Override
     public void updateSceneStatus(){
 
         System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
 
-            switch (ClientStateModel.getIstance().getClientState()){
-                case WAITING_STATE -> loadGetReadyScene();
-                case WELCOME_STATE -> loadErrorJoiningScene();
-                default -> {}
+        switch (ClientStateModel.getIstance().getClientState()) {
+            case WAITING_STATE -> loadGetReadyScene();
+            case WELCOME_STATE -> loadErrorJoiningScene();
+            default -> {
             }
+        }
 
     }
 

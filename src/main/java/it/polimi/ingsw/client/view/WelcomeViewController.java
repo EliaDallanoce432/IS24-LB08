@@ -3,15 +3,12 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.observers.*;
-import it.polimi.ingsw.server.controller.GameObserver;
-import it.polimi.ingsw.server.model.deck.Deck;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -57,18 +54,12 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void joinGame() throws IOException {
 
-        Stage stage = (Stage) joinGameButton.getScene().getWindow();
-
-        stage.setScene(StageManager.loadJoinGameScene());
-        stage.show();
+        StageManager.loadJoinGameScene();
     }
 
     @FXML
     private void createGame() throws IOException {
-        Stage stage = (Stage) createGameButton.getScene().getWindow();
-
-        stage.setScene(StageManager.loadCreateGameScene());
-        stage.show();
+        StageManager.loadCreateGameScene();
 
     }
 
@@ -140,6 +131,8 @@ public class WelcomeViewController extends ViewController {
         alertLabel.setText(message);
 
     }
+
+    
 
 
 

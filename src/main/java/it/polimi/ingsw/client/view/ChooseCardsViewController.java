@@ -8,9 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class ChooseCardsViewController extends ViewController {
 
@@ -106,18 +103,15 @@ public class ChooseCardsViewController extends ViewController {
         button1.setOnAction(event -> {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[0]);
             cardBox.getChildren().clear();
-            Stage stage = StageManager.getCurrentStage();
-            stage.setScene(StageManager.loadGameBoardScene());
-            stage.show();
+            StageManager.loadGameBoardScene();
 
         });
 
         button2.setOnAction(event -> {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[1]);
             cardBox.getChildren().clear();
-            Stage stage = StageManager.getCurrentStage();
-            stage.setScene(StageManager.loadGameBoardScene());
-            stage.show();
+
+            StageManager.loadGameBoardScene();
         });
 
         cardBox.getChildren().addAll(card1, card2, button1, button2);

@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class JoinGameViewController extends ViewController {
 
@@ -43,10 +41,8 @@ public class JoinGameViewController extends ViewController {
 
     @FXML
     private void goBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(StageManager.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -58,9 +54,7 @@ public class JoinGameViewController extends ViewController {
         else {
 
             ClientController.getInstance().sendJoinGameMessage(selectedGame);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(StageManager.loadWaitForPlayersScene());
-            stage.show();
+            StageManager.loadWaitForPlayersScene();
 
 
         }

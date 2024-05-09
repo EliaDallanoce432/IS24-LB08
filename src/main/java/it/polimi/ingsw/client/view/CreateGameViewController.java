@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
-import it.polimi.ingsw.client.model.ClientStateModel;
-import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
@@ -42,10 +42,8 @@ public class CreateGameViewController extends ViewController {
 
     @FXML
     private void goBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(StageManager.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -67,9 +65,7 @@ public class CreateGameViewController extends ViewController {
 
             ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(StageManager.loadWaitForPlayersScene());
-            stage.show();
+            StageManager.loadWaitForPlayersScene();
 
 
         }
