@@ -34,6 +34,7 @@ public class ObjectiveCardDiagonalFungi implements ObjectiveStrategy{
                 else {
                     counter = 0;
                     triplets ++;
+                    gameField.getPlayer().increaseNumOfCompletedObjective();
                 }
             }
         }

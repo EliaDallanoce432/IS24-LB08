@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GameController implements Runnable, ServerNetworkObserverInterface, GameObserver {
@@ -350,10 +351,23 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * this method invokes the calculateFinalScore method set in the model of each player
      */
     public void calculateFinalScore() {
+        ArrayList<Player> classifiedPlayers = new ArrayList<>();
+        // aggiungo giocatori alla lista e calcolo punteggi finali
         for (Player p : game.getPlayers()) {
+            classifiedPlayers.add(p);
             p.calculateFinalScore();
         }
-        //TODO caso di parità
+
+        classifiedPlayers.sort((p1, p2) -> {
+            // Ordina per attributo1
+            int compare = p1.compareTo(p2.getScore());
+            // Se l'attributo1 è lo stesso, ordina per attributo2
+            if (compare == 0) {
+                return p1.compareTo(p2.getNumOfCompletedObjectiveCards());
+            }
+            return compare;
+        });
+        //TODO ritornare l arraylist finale.
     }
 
 }

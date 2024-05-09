@@ -164,4 +164,16 @@ public class Player {
         game.commonObjectives.get(0).getEarnedPoints(getGamefield());
         game.commonObjectives.get(1).getEarnedPoints(getGamefield());
     }
+    public void increaseNumOfCompletedObjective () {
+        this.numOfCompletedObjectiveCards ++;
+    }
+    public int getNumOfCompletedObjectiveCards() {
+        return numOfCompletedObjectiveCards;
+    }
+
+    public int compareTo (int value){
+        if (this.getScore() > value) return 1;
+        if (this.getScore() < value) return -1;
+        else return 0;
+    }
 }

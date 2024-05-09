@@ -22,6 +22,8 @@ public class ObjectiveCardJPatternAAF implements ObjectiveStrategy{
                     visitedCard.add(card_tempA);
                     visitedCard.add(card_tempB);
                     num_jpattern++;
+                    //TODO verificare se è giusto
+                    gamefield.getPlayer().increaseNumOfCompletedObjective();
                 }
             }
         }
