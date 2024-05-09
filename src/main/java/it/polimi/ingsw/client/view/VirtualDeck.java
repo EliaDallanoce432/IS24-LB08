@@ -85,21 +85,19 @@ public class VirtualDeck {
 
     public void handleButtonClick(String buttonID){
         switch(buttonID){
-            case "resourceDeckTopCard":
+            case "resourceDeckTopCard" ->
                 ClientController.getInstance().sendDirectDrawResourceCardMessage();
-                System.out.println("resource deck top card");
-            case "resourceDeckLeftCard":
+            case "resourceDeckLeftCard" ->
                 ClientController.getInstance().sendDrawLeftResourceCardMessage();
-                System.out.println("resdeck left");
-            case "resourceDeckRightCard":
+            case "resourceDeckRightCard" ->
                 ClientController.getInstance().sendDrawRightResourceCardMessage();
-            case "goldDeckTopCard":
+            case "goldDeckTopCard" ->
                 ClientController.getInstance().sendDirectDrawGoldCardMessage();
-            case "goldDeckLeftCard":
+            case "goldDeckLeftCard" ->
                 ClientController.getInstance().sendDrawLeftGoldCardMessage();
-            case "goldDeckRightCard":
+            case "goldDeckRightCard" ->
                 ClientController.getInstance().sendDrawRightGoldCardMessage();
-            default:
+            default->
                 System.out.println("ERROR: Unknown buttonID: " + buttonID);
         }
 
