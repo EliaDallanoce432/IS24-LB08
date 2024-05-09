@@ -11,6 +11,7 @@ public class PlayerModel extends ObservableModel {
 
     private static PlayerModel istance;
     private String username;
+    private String turnPlayer;
     private Color token;
 
     public static PlayerModel getIstance(){
@@ -22,7 +23,12 @@ public class PlayerModel extends ObservableModel {
 
     private PlayerModel(){
         username = "Guest";
+        turnPlayer = " ";
     }
+
+    public String getTurnPlayer(){return turnPlayer;}
+
+    public void setTurnPlayer(String turnPlayer){this.turnPlayer = turnPlayer;}
 
 
     public String getUsername() {

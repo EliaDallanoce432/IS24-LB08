@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 
-import it.polimi.ingsw.client.model.GameFieldModel;
-import it.polimi.ingsw.client.model.ObjectivesModel;
+import it.polimi.ingsw.client.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -53,6 +52,7 @@ public class GameFieldViewController extends ViewController {
             updateObjectives();
             updateHand();
             updateDecks();
+            updateSceneStatus();
         });
 
     }
@@ -62,7 +62,7 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private void flipCardsInHand() {
 
-        //TODO implementare
+        HandModel.getIstance().flipCardsInHand();
 
     }
 
@@ -97,6 +97,27 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateHand(){
         Platform.runLater(()-> cardPlacementController.loadHand());
+    }
+
+    @Override
+    public void updateSceneStatus(){
+        Platform.runLater(()->{
+            System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+
+            switch (ClientStateModel.getIstance().getClientState()){
+                case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getIstance().getTurnPlayer() + " to finish their turn...");
+                case PLAYING_STATE -> showMessage("It's your Turn, please place a card!");
+                case DRAWING_STATE -> virtualDeck.loadDecks(true);
+                default -> {}
+            }
+        });
+
+    }
+
+    @Override
+    public void showMessage(String message){
+        Platform.runLater(()-> alertLabel.setText(message));
+
     }
 
 

@@ -29,4 +29,9 @@ public class GameFieldModel extends ObservableModel {
         this.placementHistory = placementHistory;
         notifyObservers();
     }
+
+
+    public void rollback(){
+        notifyObservers();
+    }
 }

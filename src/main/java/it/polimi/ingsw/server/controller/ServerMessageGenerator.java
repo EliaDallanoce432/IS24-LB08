@@ -49,9 +49,9 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject gameFieldUpdateMessage (Player player) {
+    public static JSONObject successfulPlaceMessage(Player player) {
         JSONObject message = new JSONObject();
-        message.put("message","gameFieldUpdate");
+        message.put("message","successfulPlace");
         message.put("placementHistory", updatedPlacementHistory(player));
         message.put("updatedResources", updatedResources(player));
         message.put("updatedScore", String.valueOf(player.getScore()));
@@ -75,7 +75,7 @@ public class ServerMessageGenerator {
             personalScore.put("score", updatedScores.get(i));
             scoreArray.add(personalScore);
         }
-        message.put("score", scoreArray);
+        message.put("scoreArray", scoreArray);
         return message;
     }
 
@@ -93,8 +93,9 @@ public class ServerMessageGenerator {
 
     private static JSONArray updatedPlacementHistory(Player player) {
         JSONArray placementHistory = new JSONArray();
-        JSONObject card = new JSONObject();
+        System.out.println(player.getGamefield().getPlacementHistory());
         for(PlaceableCard placeableCard : player.getGamefield().getPlacementHistory()) {
+            JSONObject card = new JSONObject();
             card.put("cardID", String.valueOf(placeableCard.getId()));
             card.put("facingUp", String.valueOf(placeableCard.isFacingUp()));
             card.put("x", String.valueOf(placeableCard.getX()));
@@ -106,10 +107,9 @@ public class ServerMessageGenerator {
 
     private static JSONArray updatedHand(Player player) {
         JSONArray handArray = new JSONArray();
-        JSONObject card = new JSONObject();
         for(PlaceableCard cardInHand : player.getHand()){
-            card.put("cardID", String.valueOf(cardInHand.getId()));
-            handArray.add(card);
+            System.out.println(cardInHand.getId());
+            handArray.add(String.valueOf(cardInHand.getId()));
         }
         return handArray;
     }

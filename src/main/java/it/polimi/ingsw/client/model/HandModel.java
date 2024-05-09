@@ -31,5 +31,18 @@ public class HandModel extends ObservableModel {
         this.cardsInHand = cardsInHand;
         notifyObservers();
     }
+
+    public void rollback(){
+        notifyObservers();
+    }
+
+    public void flipCardsInHand(){
+        for (VirtualCard card : cardsInHand) {
+            card.flip();
+        }
+        notifyObservers();
+    }
+
+
 }
 

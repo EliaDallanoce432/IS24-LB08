@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClientMessageHandler {
 
@@ -29,7 +30,10 @@ public class ClientMessageHandler {
             case "cardsSelection" -> updateSelectableCards(message);
             case "startGame" -> updateInitialBoardState(message);
             case "updateHandAndDecks" -> updateHandAndDecks(message);
-            case "gameFieldUpdate" -> updateGameField(message);
+            case "successfulPlace" -> updateGameField(message);
+            case "cannotPlace" -> cannotPlaceHandler(message);
+            case "turnPlayerUpdate" -> updateTurnPlayer(message);
+            case "updatedScore" -> updateScores(message);
 
 
 
@@ -77,10 +81,16 @@ public class ClientMessageHandler {
         ArrayList<VirtualCard> initialPlacementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
         ArrayList<VirtualCard> initialHand = getHandArray((JSONArray) message.get("hand"));
         JSONObject decksJSON = (JSONObject) message.get("decks");
+        String firstPlayerUsername = message.get("firstPlayer").toString();
 
         Color token = Color.parseColor(message.get("token").toString());
 
         //updating the model...
+        if(PlayerModel.getIstance().getUsername().equals(firstPlayerUsername)) {
+            ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
+        }
+        else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
+        PlayerModel.getIstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getIstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getIstance().setSecretObjectiveId(secretObjectiveCardID);
         GameFieldModel.getIstance().updatePlacementHistory(initialPlacementHistory);
@@ -106,15 +116,53 @@ public class ClientMessageHandler {
         ArrayList<VirtualCard> placementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
 
         GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
+        ClientStateModel.getIstance().setClientState(ClientState.DRAWING_STATE);
         //TODO update scores and resources
     }
+
+    private void cannotPlaceHandler(JSONObject message) {
+        HandModel.getIstance().rollback();
+        GameFieldModel.getIstance().rollback(); //reloads the last update of the model
+        showError(message.get("reason").toString());
+
+    }
+
+    private void updateTurnPlayer (JSONObject message){
+
+        String currentTurnPlayer = message.get("player").toString();
+
+        PlayerModel.getIstance().setTurnPlayer(currentTurnPlayer);
+        if(PlayerModel.getIstance().getUsername().equals(currentTurnPlayer)) {
+            ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
+        }
+        else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
+
+    }
+
+    private void updateScores(JSONObject message) {
+
+        HashMap<String, Integer> scores = new HashMap<>();
+        JSONArray scoresArray = (JSONArray) message.get("scoreArray");
+        for (Object o : scoresArray) {
+            JSONObject scoreObj = (JSONObject) o;
+            scores.put(scoreObj.get("username").toString(), Integer.parseInt(scoreObj.get("score").toString()));
+        }
+        ScoreBoardModel.getIstance().setScores(scores);
+
+    }
+
+
+
+
+
+
+    //Utility methods
 
     private static ArrayList<VirtualCard> getHandArray(JSONArray jsonArray){
         ArrayList<VirtualCard> hand = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject obj = (JSONObject) jsonArray.get(i);
-            VirtualCard vCard = new VirtualCard(Integer.parseInt(obj.get("cardID").toString()),true);
+            VirtualCard vCard = new VirtualCard(Integer.parseInt(jsonArray.get(i).toString()),true);
             hand.add(vCard);
         }
 

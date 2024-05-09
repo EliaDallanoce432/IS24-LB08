@@ -104,7 +104,7 @@ public class GameControllerRequestExecutor {
             int y = Integer.parseInt(message.get("y").toString());
             boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
             gameController.place(player, placeableCardId, facingUp, x, y);
-            player.send(ServerMessageGenerator.gameFieldUpdateMessage(gameController.getCurrentPlayer(player)));
+            player.send(ServerMessageGenerator.successfulPlaceMessage(gameController.getCurrentPlayer(player)));
         }
         catch (CannotPlaceCardException e) {
             player.send(ServerMessageGenerator.cannotPlaceMessage(e.getMessage()));

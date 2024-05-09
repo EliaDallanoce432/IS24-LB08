@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class ObservableModel {
 
-    protected final List<ModelObserver> observers;
+    private final List<ModelObserver> observers;
 
     public ObservableModel() {
         observers = new ArrayList<ModelObserver>();

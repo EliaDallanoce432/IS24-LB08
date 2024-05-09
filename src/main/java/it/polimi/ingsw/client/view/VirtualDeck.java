@@ -40,10 +40,11 @@ public class VirtualDeck {
             topDeckNode.setLayoutX(spacing);
             decksPane.getChildren().add(topDeckNode);
             if(showButtons) {
-                Button button = new Button("Draw");
-                button.setOnAction(e -> {
-                   handleButtonClick(DeckID + "TopCard");
-                });
+                Button button1 = new Button("Draw");
+                button1.setLayoutX(spacing);
+                button1.setLayoutY(yOffset + CARD_HEIGHT + spacing);
+                button1.setOnAction(e -> handleButtonClick(DeckID + "TopCard"));
+                decksPane.getChildren().add(button1);
             }
 
         }
@@ -56,10 +57,11 @@ public class VirtualDeck {
             leftCardNode.setLayoutX(spacing + CARD_WIDTH + spacing);
             decksPane.getChildren().add(leftCardNode);
             if(showButtons) {
-                Button button = new Button("Draw");
-                button.setOnAction(e -> {
-                    handleButtonClick(DeckID + "LeftCard");
-                });
+                Button button2 = new Button("Draw");
+                button2.setLayoutX(spacing + CARD_WIDTH + spacing);
+                button2.setLayoutY(yOffset + CARD_HEIGHT + spacing);
+                button2.setOnAction(e -> handleButtonClick(DeckID + "LeftCard"));
+                decksPane.getChildren().add(button2);
             }
         }
 
@@ -71,10 +73,11 @@ public class VirtualDeck {
             rightCardNode.setLayoutX(spacing + (2 * (CARD_WIDTH + spacing)));
             decksPane.getChildren().add(rightCardNode);
             if(showButtons) {
-                Button button = new Button("Draw");
-                button.setOnAction(e -> {
-                    handleButtonClick(DeckID + "RightCard");
-                });
+                Button button3 = new Button("Draw");
+                button3.setLayoutX(spacing + (2 * (CARD_WIDTH + spacing)));
+                button3.setLayoutY(yOffset + CARD_HEIGHT + spacing);
+                button3.setOnAction(e -> handleButtonClick(DeckID + "RightCard"));
+                decksPane.getChildren().add(button3);
             }
         }
     }
@@ -84,8 +87,10 @@ public class VirtualDeck {
         switch(buttonID){
             case "resourceDeckTopCard":
                 ClientController.getInstance().sendDirectDrawResourceCardMessage();
+                System.out.println("resource deck top card");
             case "resourceDeckLeftCard":
                 ClientController.getInstance().sendDrawLeftResourceCardMessage();
+                System.out.println("resdeck left");
             case "resourceDeckRightCard":
                 ClientController.getInstance().sendDrawRightResourceCardMessage();
             case "goldDeckTopCard":

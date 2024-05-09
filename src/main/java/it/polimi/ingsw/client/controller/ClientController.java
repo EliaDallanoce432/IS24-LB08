@@ -103,40 +103,32 @@ public class ClientController implements ClientNetworkObserverInterface {
         ObjectivesModel.getIstance().setSecretObjectiveId(cardId);
     }
     
-    public boolean sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {
-        JSONObject response = clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId,x,y,facingUp), true);
-        if(response.get("response").equals("Not your turn")) {
-            throw new NotYourTurnException();
-        } else if (response.get("response").equals("Not valid placement")) {
-            throw new NotValidPlacement();
-        } else if (response.get("response").equals("Already placed")) {
-            throw new AlreadyPlacedInThisRoundException();
-        }
-        return true;
+    public void sendPlaceMessage(int cardId, int x, int y, boolean facingUp) throws NotYourTurnException, NotValidPlacement, AlreadyPlacedInThisRoundException {
+        clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId, x, y, facingUp));
     }
 
     public void sendDirectDrawResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage());
     }
 
     public void sendDrawLeftResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage());
     }
 
     public void sendDrawRightResourceCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage());
     }
 
     public void sendDirectDrawGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage());
     }
 
     public void sendDrawLeftGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage());
     }
 
     public void sendDrawRightGoldCardMessage() {
-        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage(), true);
+        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage());
     }
 
     public void shutdown() {

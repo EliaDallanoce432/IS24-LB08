@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.HandModel;
+import it.polimi.ingsw.util.customexceptions.AlreadyPlacedInThisRoundException;
+import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
+import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -30,6 +34,8 @@ public class CardPlacementController {
 
     private double centerX;
     private double centerY;
+
+    private int selectedCardID;
 
 
 
@@ -69,16 +75,13 @@ public class CardPlacementController {
 
         double currentX = SPACING;
 
-
-
         for(VirtualCard v: HandModel.getIstance().getCardsInHand()){
-            //v.setFacingUp(true);
 
             Rectangle cardNode = v.getCard();
             cardNode.setLayoutX(currentX);
             cardNode.setLayoutY(0);
 
-            makeDraggableAndDroppable(cardNode);
+            makeDraggableAndDroppable(cardNode, v);
 
             handPane.getChildren().add(cardNode);
             currentX += CARD_WIDTH + SPACING;
@@ -89,10 +92,12 @@ public class CardPlacementController {
 
 
 
-    public void makeDraggableAndDroppable(Node card) {
+    public void makeDraggableAndDroppable(Node card, VirtualCard vCard) {
 
 
         card.setOnMousePressed(event -> {
+
+
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
 
@@ -139,8 +144,24 @@ public class CardPlacementController {
                     card.setLayoutY(snapY);
                     boardPane.getChildren().add(card);
                     handPane.getChildren().remove(card);
-
                     makeUndraggable(card);
+
+                    int relX = absoluteToRelativeX(snapX);
+                    int relY = absoluteToRelativeY(snapY);
+
+                    try {
+                        System.out.println("placing card #" + vCard.getId() + " at " + relX + " - " + relY);
+
+                        ClientController.getInstance().sendPlaceMessage(vCard.getId() , relX , relY , vCard.isFacingUp());
+
+                    } catch (NotYourTurnException e) {
+                        throw new RuntimeException(e);
+                    } catch (NotValidPlacement e) {
+                        throw new RuntimeException(e);
+                    } catch (AlreadyPlacedInThisRoundException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }
 
@@ -175,7 +196,7 @@ public class CardPlacementController {
     }
 
     private double relativeToAbsoluteY(int relY) {
-        return (relY * Y_SNAP_INCREMENT) + centerY;
+        return ((-relY) * Y_SNAP_INCREMENT) + centerY;
 
     }
 

@@ -10,8 +10,8 @@ public class VirtualCard {
 
     private String frontCardTexturePath;
     private String backCardTexturePath;
-    int id;
-    boolean isFacingUp;
+    private int id;
+    private boolean facingUp;
     Rectangle cardFront;
     Rectangle cardBack;
 
@@ -23,7 +23,7 @@ public class VirtualCard {
     public VirtualCard(int id, boolean isFacingUp) {
 
         this.id = id;
-        this.isFacingUp = isFacingUp;
+        this.facingUp = isFacingUp;
 
 
         this.frontCardTexturePath = "/view/cards/front/" + id + ".png";
@@ -50,7 +50,11 @@ public class VirtualCard {
     }
 
     public void setFacingUp(boolean facingUp) {
-        isFacingUp = facingUp;
+        this.facingUp = facingUp;
+    }
+
+    public boolean isFacingUp() {
+        return facingUp;
     }
 
     public int getX() {
@@ -71,7 +75,7 @@ public class VirtualCard {
 
     public Rectangle getCard() {
 
-        if (isFacingUp) return cardFront;
+        if (facingUp) return cardFront;
         else return cardBack;
     }
 
@@ -80,6 +84,6 @@ public class VirtualCard {
     }
 
     public void flip(){
-        isFacingUp = !isFacingUp;
+        facingUp = !facingUp;
     }
 }
