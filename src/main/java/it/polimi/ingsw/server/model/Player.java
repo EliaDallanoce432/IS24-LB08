@@ -153,9 +153,9 @@ public class Player {
     public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
         //seleziona carta dalla mano
         PlaceableCard cardInHand = null;
-        for (PlaceableCard card: hand) {
-            if (card.getId() == id) {
-                cardInHand = hand.get(hand.indexOf(card));
+        for (int i=0; i< hand.size(); i++) {
+            if (hand.get(i).getId() == id) {
+                cardInHand = hand.get(i);
                 break;
             }
         }
