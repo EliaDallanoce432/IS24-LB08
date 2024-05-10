@@ -45,7 +45,7 @@ public class WelcomeViewController extends ViewController {
         new ScoreBoardObserver();
         new SelectableCardsObserver();
 
-
+        Platform.runLater(this::updatePlayerInfo);
 
     }
 
@@ -107,7 +107,7 @@ public class WelcomeViewController extends ViewController {
             setUsernameButton.setVisible(true);
 
             // Clear the text field and remove it from the pane
-            usernameTextField.clear();
+            if(usernameTextField!=null) usernameTextField.clear();
             setUsernamePane.getChildren().remove(usernameTextField);
 
             // Remove the confirm button from the pane

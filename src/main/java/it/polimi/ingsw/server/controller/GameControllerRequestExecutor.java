@@ -58,7 +58,8 @@ public class GameControllerRequestExecutor {
     public void directDrawResourceCard(ClientHandler client) {
         try {
             gameController.directDrawResourceCard(client);
-            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
@@ -66,8 +67,8 @@ public class GameControllerRequestExecutor {
     public void directDrawGoldCard(ClientHandler client) {
         try {
             gameController.directDrawGoldCard(client);
-
-            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
@@ -76,7 +77,8 @@ public class GameControllerRequestExecutor {
     public void drawLeftRevealedResourceCard(ClientHandler client)  {
         try {
             gameController.drawLeftRevealedResourceCard(client);
-            client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
+            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
@@ -85,7 +87,8 @@ public class GameControllerRequestExecutor {
     public void drawRightRevealedResourceCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedResourceCard(player);
-            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
@@ -93,7 +96,8 @@ public class GameControllerRequestExecutor {
     public void drawLeftRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawLeftRevealedGoldCard(player);
-            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
@@ -101,7 +105,8 @@ public class GameControllerRequestExecutor {
     public void drawRightRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedGoldCard(player);
-            player.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(player)));
+            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }

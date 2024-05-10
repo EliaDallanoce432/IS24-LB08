@@ -150,8 +150,18 @@ public class Player {
         alreadyPlaced = true;
     }
 
-    public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
-        gamefield.place(card,facingUp,x,y);
+    public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
+        //seleziona carta dalla mano
+        PlaceableCard cardInHand = null;
+        for (PlaceableCard card: hand) {
+            if (card.getId() == id) {
+                cardInHand = hand.get(hand.indexOf(card));
+                break;
+            }
+        }
+        if(cardInHand == null) throw new CardNotInHandException();
+        gamefield.place(cardInHand,facingUp,x,y);
+        hand.remove(cardInHand);
         alreadyPlaced = true;
     }
 

@@ -162,21 +162,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if(isNotTheTurnOf(client)) {
             throw new CannotPlaceCardException("You can't place a card, it's not your turn!");
         }
-        PlaceableCard cardInHand = null;
-        Player currentPlayer = getCurrentPlayer(client);
-        //seleziona carta dalla mano
-        for (PlaceableCard card: currentPlayer.getHand()) {
-            if (card.getId() == placeableCardId) {
-                try {
-                    cardInHand = currentPlayer.removeFromHand(card);
-                } catch (CardNotInHandException e) {
-                    //TODO decidere se gestirla
-                }
-                break;
-            }
+        try {
+            getCurrentPlayer(client).place(placeableCardId, facingUp, x, y);
+        } catch (CardNotInHandException e) {
+            throw new CannotPlaceCardException("The card is not in your hand"); //should never happen
         }
-        assert cardInHand != null;
-        currentPlayer.place(cardInHand, facingUp, x, y);
     }
 
     public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {

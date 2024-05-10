@@ -47,8 +47,21 @@ public class Lobby implements ServerNetworkObserverInterface {
     public void submitNewCLient(ClientHandler client) {
         //TODO prendere quello che ritorna la submit
         executorService.submit(client);
-        connectedClients.add(client);
-        System.out.println("New client added to the lobby");
+        enterLobby(client);
+        setRandomGuestUsername(client);
+        client.send(LobbyMessageGenerator.usernameSetMessage(client.getUsername()));
+    }
+
+    private void setRandomGuestUsername(ClientHandler client) {
+        boolean usernameNotSet = true;
+        while (usernameNotSet) {
+            String username = "Guest" + Math.random() * 100000;
+            try {
+                setUsername(username,client);
+                usernameNotSet = false;
+            } catch (AlreadyTakenUsernameException ignored) {
+            }
+        }
     }
 
     public synchronized void submitNewRequest(Request request) {

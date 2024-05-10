@@ -32,7 +32,8 @@ public class ClientMessageHandler {
 
             case "cardsSelection" -> updateSelectableCards(message);
             case "startGame" -> updateInitialBoardState(message);
-            case "updateHandAndDecks" -> updateHandAndDecks(message);
+            case "updatedDecks" -> updateDecks(message);
+            case "updatedHand" -> updateHand(message);
             case "successfulPlace" -> updateGameField(message);
             case "cannotPlace" -> cannotPlaceHandler(message);
             case "turnPlayerUpdate" -> updateTurnPlayer(message);
@@ -103,14 +104,20 @@ public class ClientMessageHandler {
 
     }
 
-    private void updateHandAndDecks (JSONObject message) {
+    private void updateDecks(JSONObject message) {
+        //parsing the message...
+        JSONObject updatedDecks = (JSONObject) message.get("updatedDecks");
+        //updating the model...
+        updateDeckModelFromJSON(updatedDecks);
+    }
+
+    private void updateHand(JSONObject message) {
 
         //parsing the message...
         ArrayList<VirtualCard> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
-        JSONObject updatedDecks = (JSONObject) message.get("updatedDecks");
+
 
         //updating the model...
-        updateDeckModelFromJSON(updatedDecks);
         HandModel.getIstance().updateCardsInHand(updatedHand);
 
     }

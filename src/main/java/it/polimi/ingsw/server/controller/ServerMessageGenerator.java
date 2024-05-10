@@ -41,11 +41,17 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject updatedHandAndDecksMessage (Player player) {
+    public static JSONObject updatedHandMessage(Player player) {
         JSONObject message = new JSONObject();
-        message.put("message","updatedHandAndDecks");
+        message.put("message","updatedHand");
         message.put("updatedHand",updatedHand(player));
-        message.put("updatedDecks",updatedDecks());
+        return message;
+    }
+
+    public static JSONObject updatedDecksMessage() {
+        JSONObject message = new JSONObject();
+        message.put("message", "updatedDecks");
+        message.put("updatedDecks", updatedDecks());
         return message;
     }
 
