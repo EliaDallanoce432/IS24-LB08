@@ -78,6 +78,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         client.setInGame(false);
         System.out.println("player " + client.getUsername() + " left the game");
         lobby.enterLobby(client);
+        notifyClientConnetctedCountChanged();
     }
 
     public Player getCurrentPlayer(ClientHandler player) {
@@ -166,7 +167,11 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         //seleziona carta dalla mano
         for (PlaceableCard card: currentPlayer.getHand()) {
             if (card.getId() == placeableCardId) {
-                cardInHand = card;
+                try {
+                    cardInHand = currentPlayer.removeFromHand(card);
+                } catch (CardNotInHandException e) {
+                    //TODO decidere se gestirla
+                }
                 break;
             }
         }
