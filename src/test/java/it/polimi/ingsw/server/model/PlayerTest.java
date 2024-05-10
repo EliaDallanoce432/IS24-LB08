@@ -23,7 +23,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        referencePlayer = new Player();
+        referencePlayer = new Player(game);
         referencePlayer.getHand().clear();
         gameField = new GameField(referencePlayer);
 

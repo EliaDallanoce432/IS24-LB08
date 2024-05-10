@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class Game {
-    private static Game instance;
     public int numberOfPlayers;
     private GameState gameState;
     public int turnCounter;
@@ -29,15 +28,6 @@ public class Game {
 
     public GameObserver gameObserver;
     public ArrayList<Color> availableTokens;
-
-    public static Game getInstance(int numberOfPlayers, GameObserver gameObserver) {
-        if(instance == null) { instance = new Game(numberOfPlayers, gameObserver); }
-        return instance;
-    }
-
-    public static Game getInstance() {
-        return instance;
-    }
 
     public Game(int numberOfPlayers, GameObserver gameObserver) {
         this.numberOfPlayers = numberOfPlayers;

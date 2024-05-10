@@ -30,7 +30,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.lobby = lobby;
         this.requests = Collections.synchronizedList(new ArrayList<>());
         this.running = true;
-        this.game = Game.getInstance(numberOfPlayers, this);
+        this.game = new Game(numberOfPlayers,this);
         this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
         System.out.println(gameName + " is ready");
     }
@@ -62,7 +62,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         clientHandlers.add(client);
         client.setGame(this);
         client.setInGame(true);
-        game.players.put(client.getUsername(), new Player());
+        game.players.put(client.getUsername(), new Player(game));
         System.out.println("player " + client.getUsername() + " joined the game");
     }
 

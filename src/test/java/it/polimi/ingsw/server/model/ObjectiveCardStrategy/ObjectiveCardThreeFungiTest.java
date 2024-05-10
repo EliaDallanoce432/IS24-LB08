@@ -29,7 +29,7 @@ class ObjectiveCardThreeFungiTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player();
+        player = new Player(game);
         gameField = new GameField(player);
     }
     @AfterEach

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 public class ServerMessageGenerator {
 
+    private static Game game;
+
+    public ServerMessageGenerator(Game game) {
+        this.game = game;
+    }
 
     public static JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
         JSONObject message = new JSONObject();
@@ -28,8 +33,8 @@ public class ServerMessageGenerator {
         message.put("placementHistory", updatedPlacementHistory(player));
         message.put("secretObjectiveID", String.valueOf(player.getSecretObjective().getId()));
         message.put("token", player.getToken().toString());
-        message.put("commonObjective1", String.valueOf(Game.getInstance().commonObjectives.getFirst().getId()));
-        message.put("commonObjective2", String.valueOf(Game.getInstance().commonObjectives.getLast().getId()));
+        message.put("commonObjective1", String.valueOf(game.commonObjectives.getFirst().getId()));
+        message.put("commonObjective2", String.valueOf(game.commonObjectives.getLast().getId()));
         message.put("firstPlayer", gameController.getTurnPlayerUsername());
         return message;
     }
@@ -122,7 +127,6 @@ public class ServerMessageGenerator {
     }
 
     private static JSONObject updatedDecks() {
-        Game game = Game.getInstance();
         JSONObject decks = new JSONObject();
         decks.put("topDeckResourceCardID", String.valueOf(game.resourceCardDeck.getTopCardID()));
         decks.put("leftRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getLeftRevealedCardID()));

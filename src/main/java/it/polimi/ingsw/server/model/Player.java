@@ -24,8 +24,8 @@ public class Player {
     private int numOfCompletedObjectiveCards;
     //TODO spostare qui il booleano already placed dal clienthandler
 
-    public Player() {
-        this.game = Game.getInstance();
+    public Player(Game game) {
+        this.game = game;
         this.token = game.getRandomToken();
         this.score = 0;
         this.gamefield = new GameField(this);

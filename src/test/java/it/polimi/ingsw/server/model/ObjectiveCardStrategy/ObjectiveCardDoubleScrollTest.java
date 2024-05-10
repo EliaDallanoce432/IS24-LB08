@@ -28,7 +28,7 @@ class ObjectiveCardDoubleScrollTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player();
+        player = new Player(game);
         gameField = new GameField(player);
         gameField.place(new StarterCard(81),true);
     }

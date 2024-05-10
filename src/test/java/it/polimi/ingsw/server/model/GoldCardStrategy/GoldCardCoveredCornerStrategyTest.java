@@ -29,7 +29,7 @@ class GoldCardCoveredCornerStrategyTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player();
+        player = new Player(game);
         gameField = new GameField(player);
         gameField.place(new StarterCard(82),true);
     }
