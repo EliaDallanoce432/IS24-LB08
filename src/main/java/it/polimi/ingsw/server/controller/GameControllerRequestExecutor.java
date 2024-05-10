@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.*;
-import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
@@ -21,7 +19,9 @@ public class GameControllerRequestExecutor {
 //                return;
 //            }
 //        }
+
         JSONObject message = request.getMessage();
+        System.out.println("executing message: " + message);
         ClientHandler client = request.getClient();
         switch (message.get("command").toString()) {
             case "ready" -> ready(client);
@@ -66,6 +66,7 @@ public class GameControllerRequestExecutor {
     public void directDrawGoldCard(ClientHandler client) {
         try {
             gameController.directDrawGoldCard(client);
+
             client.send(ServerMessageGenerator.updatedHandAndDecksMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
         }

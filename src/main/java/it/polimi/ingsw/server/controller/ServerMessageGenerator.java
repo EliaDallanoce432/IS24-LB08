@@ -53,6 +53,7 @@ public class ServerMessageGenerator {
         JSONObject message = new JSONObject();
         message.put("message","successfulPlace");
         message.put("placementHistory", updatedPlacementHistory(player));
+        message.put("updatedHand" , updatedHand(player));
         message.put("updatedResources", updatedResources(player));
         message.put("updatedScore", String.valueOf(player.getScore()));
         return message;
