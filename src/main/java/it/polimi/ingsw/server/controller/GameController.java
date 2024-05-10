@@ -47,7 +47,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     @Override
     public void submitNewRequest(Request request) {
         requests.addLast(request);
-        System.out.println("New request added to the lobby");
+        System.out.println("New request added: " + request.getMessage());
     }
 
     public Game getGame() {

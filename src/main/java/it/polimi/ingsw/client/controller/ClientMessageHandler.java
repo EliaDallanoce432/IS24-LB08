@@ -14,6 +14,9 @@ import java.util.HashMap;
 public class ClientMessageHandler {
 
     public void execute (JSONObject message) {
+
+        System.out.println("executing message: " + message);
+
         switch (message.get("message").toString()) {
 
             //in-lobby messages
@@ -109,14 +112,19 @@ public class ClientMessageHandler {
         //updating the model...
         updateDeckModelFromJSON(updatedDecks);
         HandModel.getIstance().updateCardsInHand(updatedHand);
+
     }
 
     private void updateGameField(JSONObject message){
 
         ArrayList<VirtualCard> placementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
+        ArrayList<VirtualCard> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
         GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
         ClientStateModel.getIstance().setClientState(ClientState.DRAWING_STATE);
+        HandModel.getIstance().updateCardsInHand(updatedHand);
+
+
         //TODO update scores and resources
     }
 
