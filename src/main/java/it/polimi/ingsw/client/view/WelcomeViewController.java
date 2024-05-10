@@ -121,6 +121,7 @@ public class WelcomeViewController extends ViewController {
 
     @FXML
     private void exit() throws IOException {
+        ClientController.getInstance().sendLeaveMessage();
         ClientController.getInstance().shutdown();
         StageManager.getCurrentStage().close();
     }

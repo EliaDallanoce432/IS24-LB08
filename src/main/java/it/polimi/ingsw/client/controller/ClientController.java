@@ -77,7 +77,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     }
 
-    public void sendLeaveGameMessage(){
+    public void sendLeaveMessage(){
         clientConnectionManager.send(ClientMessageGenerator.generateLeaveMessage());
     }
 

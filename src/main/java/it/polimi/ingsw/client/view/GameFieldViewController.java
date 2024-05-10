@@ -71,7 +71,7 @@ public class GameFieldViewController extends ViewController {
     private void leaveGame() throws IOException {
 
         System.out.println("leaving game");
-        ClientController.getInstance().sendLeaveGameMessage();
+        ClientController.getInstance().sendLeaveMessage();
         StageManager.loadWelcomeScene();
     }
 

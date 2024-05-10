@@ -55,7 +55,7 @@ public class Lobby implements ServerNetworkObserverInterface {
     private void setRandomGuestUsername(ClientHandler client) {
         boolean usernameNotSet = true;
         while (usernameNotSet) {
-            String username = "Guest" + Math.random() * 100000;
+            String username = "Guest" + (int) (Math.random() * 100000);
             try {
                 setUsername(username,client);
                 usernameNotSet = false;
