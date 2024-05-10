@@ -180,6 +180,12 @@ public class JsonCardsReader {
         catch (ParseException e){
             throw new CannotOpenJSONException("couldn't load starter card "+id);
         }
+        finally {
+            try {
+                isr.close();
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
