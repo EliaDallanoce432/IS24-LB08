@@ -118,6 +118,7 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
     }
 
     public void shutdown() {
+        pinger.shutdown();
         out.close();
         inputHandler.shutdown();
         inputHandlerThread.interrupt();

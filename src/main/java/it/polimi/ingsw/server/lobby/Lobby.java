@@ -27,7 +27,6 @@ public class Lobby implements ServerNetworkObserverInterface {
             while (!requests.isEmpty()) {
                 lobbyRequestExecutor.execute(requests.getFirst());
                 requests.removeFirst();
-                System.out.println("executed request");
             }
         }
     }
@@ -66,7 +65,6 @@ public class Lobby implements ServerNetworkObserverInterface {
 
     public synchronized void submitNewRequest(Request request) {
         requests.addLast(request);
-        System.out.println("New request added to the lobby");
     }
 
     public Set<String> getAvailableGames() {
@@ -90,6 +88,7 @@ public class Lobby implements ServerNetworkObserverInterface {
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
         System.out.println("client " + client.getUsername() + " left the lobby");
+        client.shutdown();
     }
 
     /**

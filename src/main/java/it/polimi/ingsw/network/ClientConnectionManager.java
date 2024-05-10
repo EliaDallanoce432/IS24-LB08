@@ -74,10 +74,10 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
     }
 
     public void shutdown() {
+        pinger.shutdown();
         out.close();
         inputHandler.shutdown();
         inputHandlerThread.interrupt();
-        pinger.shutdown();
         pingerThread.interrupt();
         try {
             socket.close();

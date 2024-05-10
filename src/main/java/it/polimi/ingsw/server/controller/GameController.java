@@ -50,7 +50,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     @Override
     public void submitNewRequest(Request request) {
         requests.addLast(request);
-        System.out.println("New request added: " + request.getMessage());
     }
 
     public Game getGame() {
@@ -81,7 +80,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         client.setInGame(false);
         System.out.println("player " + client.getUsername() + " left the game");
         lobby.enterLobby(client);
-        notifyClientConnetctedCountChanged();
+        notifyClientConnectedCountChanged();
     }
 
     public Player getCurrentPlayer(ClientHandler player) {
@@ -260,7 +259,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         Player currentPlayer = getCurrentPlayer(player);
         if (currentPlayer.getStarterCard().getId() == starterCardId) {
             currentPlayer.place(currentPlayer.getStarterCard(), facingUp);
-            System.out.println("il player " + player.getUsername() + "ha scelto facingup = " + facingUp);
+            System.out.println("player " + player.getUsername() + "chose facingup = " + facingUp);
             currentPlayer.setStarterCardOrientationSelected(true);
         }
     }
@@ -275,7 +274,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         for(ObjectiveCard drawnObjectiveCard : currentPlayer.getDrawnObjectiveCards())
             if (drawnObjectiveCard.getId() == objectiveCardId) {
                 currentPlayer.setSecretObjective(drawnObjectiveCard);
-                System.out.println("il player " + player.getUsername() + "ha scelto la objective card " + objectiveCardId);
+                System.out.println("player " + player.getUsername() + "chose objective card " + objectiveCardId);
             }
     }
 
@@ -286,7 +285,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     }
 
     @Override
-    public void notifyClientConnetctedCountChanged() {
+    public void notifyClientConnectedCountChanged() {
         if(clientHandlers.isEmpty()) {
             System.out.println("there are no more players in the game " + game + ": game is closed");
             lobby.closeGame(gameName);

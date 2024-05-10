@@ -161,7 +161,12 @@ public class Player {
         }
         if(cardInHand == null) throw new CardNotInHandException();
         gamefield.place(cardInHand,facingUp,x,y);
-        hand.remove(cardInHand);
+        for (int i=0; i< hand.size(); i++) {
+            if (hand.get(i).getId() == cardInHand.getId()) {
+                hand.remove(cardInHand);
+                break;
+            }
+        }
         alreadyPlaced = true;
     }
 

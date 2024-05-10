@@ -31,6 +31,7 @@ public class ServerMessageGenerator {
         message.put("hand", updatedHand(player));
         message.put("decks", updatedDecks());
         message.put("placementHistory", updatedPlacementHistory(player));
+        message.put("resources", updatedResources(player));
         message.put("secretObjectiveID", String.valueOf(player.getSecretObjective().getId()));
         message.put("token", player.getToken().toString());
         message.put("commonObjective1", String.valueOf(game.commonObjectives.getFirst().getId()));
@@ -77,7 +78,7 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public JSONObject updatedScoreMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
+    public JSONObject updatedScoresMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
         JSONObject message = new JSONObject();
         JSONArray scoreArray = new JSONArray();
         message.put("message","updatedScore");
@@ -147,11 +148,21 @@ public class ServerMessageGenerator {
         animalResources.put("animalResources", String.valueOf(player.getGamefield().getAnimalCount()));
         JSONObject insectResources = new JSONObject();
         insectResources.put("insectResources", String.valueOf(player.getGamefield().getInsectCount()));
+        JSONObject scrollCount = new JSONObject();
+        scrollCount.put("scrollCount", String.valueOf(player.getGamefield().getScrollCount()));
+        JSONObject inkPotCount = new JSONObject();
+        inkPotCount.put("inkPutCount", String.valueOf(player.getGamefield().getInkPotCount()));
+        JSONObject featherCount = new JSONObject();
+        featherCount.put("featherCount", String.valueOf(player.getGamefield().getFeatherCount()));
 
         updatedResources.add(fungiResources);
         updatedResources.add(plantResources);
         updatedResources.add(animalResources);
         updatedResources.add(insectResources);
+        updatedResources.add(scrollCount);
+        updatedResources.add(inkPotCount);
+        updatedResources.add(featherCount);
+
         return updatedResources;
     }
 }
