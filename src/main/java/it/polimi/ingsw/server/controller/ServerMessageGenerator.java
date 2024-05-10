@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class ServerMessageGenerator {
 
-    private static Game game;
+    private Game game;
 
     public ServerMessageGenerator(Game game) {
         this.game = game;
     }
 
-    public static JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
+    public JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
         JSONObject message = new JSONObject();
         message.put("message", "cardsSelection");
         message.put("starterCardID", String.valueOf(startercard.getId()));
@@ -25,7 +25,7 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject startGameMessage (GameController gameController, Player player) {
+    public JSONObject startGameMessage (GameController gameController, Player player) {
         JSONObject message = new JSONObject();
         message.put("message","startGame");
         message.put("hand", updatedHand(player));
@@ -39,28 +39,28 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject turnPlayerUpdateMessage(GameController gameController) {
+    public JSONObject turnPlayerUpdateMessage(GameController gameController) {
         JSONObject message = new JSONObject();
         message.put("message","turnPlayerUpdate");
         message.put("player", gameController.getTurnPlayerUsername());
         return message;
     }
 
-    public static JSONObject updatedHandMessage(Player player) {
+    public JSONObject updatedHandMessage(Player player) {
         JSONObject message = new JSONObject();
         message.put("message","updatedHand");
         message.put("updatedHand",updatedHand(player));
         return message;
     }
 
-    public static JSONObject updatedDecksMessage() {
+    public JSONObject updatedDecksMessage() {
         JSONObject message = new JSONObject();
         message.put("message", "updatedDecks");
         message.put("updatedDecks", updatedDecks());
         return message;
     }
 
-    public static JSONObject successfulPlaceMessage(Player player) {
+    public JSONObject successfulPlaceMessage(Player player) {
         JSONObject message = new JSONObject();
         message.put("message","successfulPlace");
         message.put("placementHistory", updatedPlacementHistory(player));
@@ -70,14 +70,14 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public static JSONObject cannotPlaceMessage(String reason) {
+    public JSONObject cannotPlaceMessage(String reason) {
         JSONObject message = new JSONObject();
         message.put("message","cannotPlace");
         message.put("reason", reason);
         return message;
     }
 
-    public static JSONObject updatedScoreMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
+    public JSONObject updatedScoreMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
         JSONObject message = new JSONObject();
         JSONArray scoreArray = new JSONArray();
         message.put("message","updatedScore");
@@ -97,13 +97,13 @@ public class ServerMessageGenerator {
      * message sent when a client looses connection to inform the other clients that the game is getting cancelled
      * @return message
      */
-    public static JSONObject closingGameMessage () {
+    public JSONObject closingGameMessage () {
         JSONObject message = new JSONObject();
         message.put("message","closingGame");
         return message;
     }
 
-    private static JSONArray updatedPlacementHistory(Player player) {
+    private JSONArray updatedPlacementHistory(Player player) {
         JSONArray placementHistory = new JSONArray();
         System.out.println(player.getGamefield().getPlacementHistory());
         for(PlaceableCard placeableCard : player.getGamefield().getPlacementHistory()) {
@@ -117,7 +117,7 @@ public class ServerMessageGenerator {
         return placementHistory;
     }
 
-    private static JSONArray updatedHand(Player player) {
+    private JSONArray updatedHand(Player player) {
         JSONArray handArray = new JSONArray();
         for(PlaceableCard cardInHand : player.getHand()){
             System.out.println(cardInHand.getId());
@@ -126,7 +126,7 @@ public class ServerMessageGenerator {
         return handArray;
     }
 
-    private static JSONObject updatedDecks() {
+    private JSONObject updatedDecks() {
         JSONObject decks = new JSONObject();
         decks.put("topDeckResourceCardID", String.valueOf(game.resourceCardDeck.getTopCardID()));
         decks.put("leftRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getLeftRevealedCardID()));
@@ -137,7 +137,7 @@ public class ServerMessageGenerator {
         return decks;
     }
 
-    private static JSONArray updatedResources(Player player) {
+    private JSONArray updatedResources(Player player) {
         JSONArray updatedResources = new JSONArray();
         JSONObject fungiResources = new JSONObject();
         fungiResources.put("fungiResources", String.valueOf(player.getGamefield().getFungiCount()));

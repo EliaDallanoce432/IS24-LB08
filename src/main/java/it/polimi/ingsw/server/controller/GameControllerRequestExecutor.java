@@ -7,8 +7,10 @@ import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
 public class GameControllerRequestExecutor {
-    GameController gameController;
-    public GameControllerRequestExecutor(GameController gameController) {
+    private GameController gameController;
+    private ServerMessageGenerator messageGenerator;
+    public GameControllerRequestExecutor(GameController gameController, ServerMessageGenerator messageGenerator) {
+        this.messageGenerator = messageGenerator;
         this.gameController = gameController;
     }
 
@@ -58,18 +60,18 @@ public class GameControllerRequestExecutor {
     public void directDrawResourceCard(ClientHandler client) {
         try {
             gameController.directDrawResourceCard(client);
-            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
     public void directDrawGoldCard(ClientHandler client) {
         try {
             gameController.directDrawGoldCard(client);
-            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
@@ -77,9 +79,9 @@ public class GameControllerRequestExecutor {
     public void drawLeftRevealedResourceCard(ClientHandler client)  {
         try {
             gameController.drawLeftRevealedResourceCard(client);
-            client.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
@@ -87,27 +89,27 @@ public class GameControllerRequestExecutor {
     public void drawRightRevealedResourceCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedResourceCard(player);
-            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
     public void drawLeftRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawLeftRevealedGoldCard(player);
-            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
     public void drawRightRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedGoldCard(player);
-            player.send(ServerMessageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
-            gameController.broadcast(ServerMessageGenerator.updatedDecksMessage());
-            gameController.broadcast(ServerMessageGenerator.turnPlayerUpdateMessage(gameController));
+            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.broadcast(messageGenerator.updatedDecksMessage());
+            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
@@ -118,10 +120,10 @@ public class GameControllerRequestExecutor {
             int y = Integer.parseInt(message.get("y").toString());
             boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
             gameController.place(player, placeableCardId, facingUp, x, y);
-            player.send(ServerMessageGenerator.successfulPlaceMessage(gameController.getCurrentPlayer(player)));
+            player.send(messageGenerator.successfulPlaceMessage(gameController.getCurrentPlayer(player)));
         }
         catch (CannotPlaceCardException e) {
-            player.send(ServerMessageGenerator.cannotPlaceMessage(e.getMessage()));
+            player.send(messageGenerator.cannotPlaceMessage(e.getMessage()));
         }
     }
 

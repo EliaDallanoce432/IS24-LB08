@@ -23,6 +23,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     private final List<Request> requests;
     private boolean running;
     private final GameControllerRequestExecutor gameControllerRequestExecutor;
+    private final ServerMessageGenerator messageGenerator;
 
     public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
         this.gameName = gameName;
@@ -31,7 +32,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.requests = Collections.synchronizedList(new ArrayList<>());
         this.running = true;
         this.game = new Game(numberOfPlayers,this);
-        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this);
+        this.messageGenerator = new ServerMessageGenerator(game);
+        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator);
+
         System.out.println(gameName + " is ready");
     }
 
@@ -152,7 +155,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         //shuffle i client handlers per sciegliere l'ordine del turno
         Collections.shuffle(clientHandlers);
         for (ClientHandler client : clientHandlers) {
-            client.send(ServerMessageGenerator.startGameMessage(this, getCurrentPlayer(client)));
+            client.send(messageGenerator.startGameMessage(this, getCurrentPlayer(client)));
             getCurrentPlayer(client).clearTurnState();
         }
         game.turnCounter = 0;
@@ -299,7 +302,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
             game.setGameState(GameState.aClientDisconnected);
             System.out.println("the game is closing");
-            broadcast(ServerMessageGenerator.closingGameMessage());
+            broadcast(messageGenerator.closingGameMessage());
             while (!clientHandlers.isEmpty()) {
                 leaveGame(clientHandlers.getFirst());
             }
@@ -332,7 +335,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             StarterCard starterCard = getCurrentPlayer(c).getStarterCard();
             ObjectiveCard objectiveCard1 = getCurrentPlayer(c).getDrawnObjectiveCards()[0];
             ObjectiveCard objectiveCard2 = getCurrentPlayer(c).getDrawnObjectiveCards()[1];
-            c.send(ServerMessageGenerator.cardsSelectionMessage(starterCard, objectiveCard1, objectiveCard2));
+            c.send(messageGenerator.cardsSelectionMessage(starterCard, objectiveCard1, objectiveCard2));
         }
     }
 
