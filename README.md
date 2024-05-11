@@ -3,7 +3,7 @@
 #### Group members 
 [Simone Pizzelli](https://github.com/SimonePizzelli) <br>
 [Elia Dallanoce](https://github.com/EliaDallanoce432) <br>
-[Marco Pedretti](https://github.com/MarcoPedretti) <br>
+[Marco Pedretti](https://github.com/10736964) <br>
 [Marcello Massari](https://github.com/MarcelloMassari) <br>
 
 ### Introduction
@@ -14,7 +14,7 @@ The MVC is a software design pattern used for developing user interfaces that
 divides the related program logic into three interconnected elements.
 This is done to separate internal representations of information from the ways information is presented to and accepted from the user.
 
-#### Server
+### Server
 ...
 
 ### Client
