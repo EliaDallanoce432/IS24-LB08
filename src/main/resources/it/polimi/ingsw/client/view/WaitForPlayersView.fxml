@@ -6,10 +6,16 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.WaitForPlayersViewController">
     <children>
-        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane layoutX="245.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="readyButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#readyPressed" text="Ready" />
-                <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+                <Button fx:id="readyButton" layoutX="508.0" layoutY="341.0" mnemonicParsing="false" onAction="#readyPressed" text="Ready">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+                <Button fx:id="backButton" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#goBack" text="Back">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
                 <Label layoutX="29.0" layoutY="44.0" text="Waiting For Players...." textFill="WHITE">
                     <font>
                         <Font size="19.0" />

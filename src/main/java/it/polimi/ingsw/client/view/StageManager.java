@@ -5,10 +5,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.Objects;
 
 public class StageManager {
 
@@ -91,8 +93,10 @@ public class StageManager {
     private static void showScene(Scene scene) {
         currentStage.setOnCloseRequest(event -> System.exit(0));
         currentStage.setScene(scene);
+        //if()
+            currentStage.setMaximized(true);
+        //currentStage.setResizable(false);
         currentStage.show();
-
     }
 }
 

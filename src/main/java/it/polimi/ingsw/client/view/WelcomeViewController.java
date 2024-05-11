@@ -5,10 +5,13 @@ import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -44,9 +47,7 @@ public class WelcomeViewController extends ViewController {
         new PlayerObserver();
         new ScoreBoardObserver();
         new SelectableCardsObserver();
-
         Platform.runLater(this::updatePlayerInfo);
-
     }
 
 

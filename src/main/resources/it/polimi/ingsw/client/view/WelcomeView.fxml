@@ -6,12 +6,24 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.WelcomeViewController">
    <children>
-      <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="245.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="createGameButton" layoutX="189.0" layoutY="188.0" mnemonicParsing="false" onAction="#createGame" text="Create Game" />
-            <Button fx:id="joinGameButton" layoutX="326.0" layoutY="188.0" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
-            <Button fx:id="exitButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
-            <Button fx:id="setUsernameButton" layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#setUsername" text="Set Username" />
+            <Button fx:id="createGameButton" layoutX="189.0" layoutY="188.0" mnemonicParsing="false" onAction="#createGame" text="Create Game">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button fx:id="joinGameButton" layoutX="326.0" layoutY="188.0" mnemonicParsing="false" onAction="#joinGame" text="Join Game">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button fx:id="exitButton" layoutX="14.0" layoutY="354.0" mnemonicParsing="false" onAction="#exit" text="Exit">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <Button fx:id="setUsernameButton" layoutX="14.0" layoutY="315.0" mnemonicParsing="false" onAction="#setUsername" text="Set Username">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
             <Pane fx:id="setUsernamePane" layoutX="171.0" layoutY="249.0" prefHeight="137.0" prefWidth="259.0" />
             <Label fx:id="alertLabel" layoutX="430.0" layoutY="301.0" prefHeight="49.0" prefWidth="162.0" textFill="#f23030">
                <font>
