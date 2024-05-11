@@ -10,15 +10,20 @@ public class VirtualCard {
 
     private String frontCardTexturePath;
     private String backCardTexturePath;
-    int id;
-    boolean isFacingUp;
+    private int id;
+    private boolean facingUp;
     Rectangle cardFront;
     Rectangle cardBack;
+
+
+    //only used in placementHistory array to memorize coordinates
+    private int x;
+    private int y;
 
     public VirtualCard(int id, boolean isFacingUp) {
 
         this.id = id;
-        this.isFacingUp = isFacingUp;
+        this.facingUp = isFacingUp;
 
 
         this.frontCardTexturePath = "/view/cards/front/" + id + ".png";
@@ -45,12 +50,32 @@ public class VirtualCard {
     }
 
     public void setFacingUp(boolean facingUp) {
-        isFacingUp = facingUp;
+        this.facingUp = facingUp;
+    }
+
+    public boolean isFacingUp() {
+        return facingUp;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public Rectangle getCard() {
 
-        if (isFacingUp) return cardFront;
+        if (facingUp) return cardFront;
         else return cardBack;
     }
 
@@ -59,6 +84,6 @@ public class VirtualCard {
     }
 
     public void flip(){
-        isFacingUp = !isFacingUp;
+        facingUp = !facingUp;
     }
 }

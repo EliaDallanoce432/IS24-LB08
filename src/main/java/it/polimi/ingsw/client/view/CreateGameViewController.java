@@ -1,12 +1,15 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class CreateGameViewController {
+public class CreateGameViewController extends ViewController {
 
     @FXML
     private TextField gameNameField;
@@ -23,12 +26,9 @@ public class CreateGameViewController {
     @FXML
     private ChoiceBox<String> numberOfPlayersChoiceBox;
 
-    private SceneLoader sceneLoader;
 
     @FXML
     public void initialize() {
-
-        sceneLoader = new SceneLoader();
 
 
         gameNameField.setPromptText("Game Name Here");
@@ -37,16 +37,13 @@ public class CreateGameViewController {
         numberOfPlayersChoiceBox.setValue("2");
         numberOfPlayersChoiceBox.setOnAction(event -> {
             int selectedItem = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
-            System.out.println("Selected item: " + selectedItem);
         });
     }
 
     @FXML
     private void goBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -54,22 +51,22 @@ public class CreateGameViewController {
         String gameName = gameNameField.getText();
         int numberOfPlayers = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
 
-        if ( gameName.contains(" ") || gameName.equals("\n")) {
+        if ( gameName.startsWith(" ") || gameName.equals("\n") || gameName.endsWith(" ") ) {
             alertLabel.setText("Invalid Game Name (no spaces allowed!)");
         }
         else if (gameName.isEmpty()) {
             alertLabel.setText("Game Name cannot be empty!");
         }
+        else if (numberOfPlayers < 2) {
+            alertLabel.setText("Number of Players must be greater than 2");
+        }
+
         else{
 
-            System.out.println("created game: " + gameName + ", numberOfPlayers: " + numberOfPlayers);
+            ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
 
-            System.out.println("joining game: " + gameName);
+            StageManager.loadWaitForPlayersScene();
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
-
-            stage.setScene(sceneLoader.loadWaitForPlayersScene());
-            stage.show();
 
         }
 

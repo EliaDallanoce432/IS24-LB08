@@ -1,14 +1,17 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
+import it.polimi.ingsw.util.supportclasses.ClientState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WaitForPlayersViewController {
+public class WaitForPlayersViewController extends ViewController {
 
     @FXML
     private Button backButton;
@@ -23,24 +26,27 @@ public class WaitForPlayersViewController {
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
 
-    private SceneLoader sceneLoader;
-
     @FXML
     public void initialize() {
 
-        sceneLoader = new SceneLoader();
+        readyButton.setVisible(false);
+        backButton.setVisible(false);
+        showMessage("Joining Game...");
+        System.out.println("INITIALIZE: " + ClientStateModel.getIstance().getClientState());
 
-
+        Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
 
 
     }
 
     @FXML
     private void goBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadJoinGameScene());
-        stage.show();
+        if (ClientStateModel.getIstance().getClientState() == ClientState.WAITING_STATE) {
+            ClientController.getInstance().sendLeaveMessage();
+        }
+
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -48,11 +54,44 @@ public class WaitForPlayersViewController {
 
         System.out.println("Ready");
 
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        ClientController.getInstance().sendReadyMessage();
 
-        stage.setScene(sceneLoader.loadGameBoardScene());
-        stage.show();
+        StageManager.loadChooseCardsScene();
 
 
+    }
+
+    @FXML
+    public void showMessage(String message){
+        alertLabel.setText(message);
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+
+        switch (ClientStateModel.getIstance().getClientState()) {
+            case WAITING_STATE -> loadGetReadyScene();
+            case WELCOME_STATE -> loadErrorJoiningScene();
+            default -> {
+            }
+        }
+
+    }
+
+    private void loadGetReadyScene(){
+        Platform.runLater(()-> {
+            showMessage("Waiting for other players to join...");
+            readyButton.setVisible(true);
+            backButton.setVisible(true);
+        });
+    }
+
+    private void loadErrorJoiningScene(){
+        Platform.runLater(()-> {
+            showMessage("The Game Is Full or it does not exist anymore");
+            backButton.setVisible(true);
+        });
     }
 }

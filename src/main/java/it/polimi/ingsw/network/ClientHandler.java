@@ -1,76 +1,49 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.ping.ConnectionChecker;
-import it.polimi.ingsw.network.sockets.InputSocket;
-import it.polimi.ingsw.network.sockets.OutputSocket;
-import it.polimi.ingsw.network.sockets.SocketObserverInterface;
+import it.polimi.ingsw.network.ping.Pinger;
+import it.polimi.ingsw.network.sockets.InputHandler;
+import it.polimi.ingsw.network.sockets.networkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class ClientHandler implements Runnable, NetworkInterface, SocketObserverInterface, ConnectionObserver{
-    private final OutputSocket outputSocket;
-    private final InputSocket inputSocket;
-    private boolean running;
-    private final Thread outputSocketThread;
-    private final Thread inputSocketThread;
-    private final ConnectionChecker connectionChecker;
-
-    private JSONObject receivedRequest;
-    private final JSONParser jsonParser;
+public class ClientHandler implements Runnable, NetworkInterface, networkInputObserver, ConnectionObserver{
+    private final PrintWriter out;
+    private final Socket socket;
+    private final InputHandler inputHandler;
+    private final Thread inputHandlerThread;
+    private final Pinger pinger;
+    private final Thread pingerThread;
+    private volatile boolean running;
 
     private String username;
-    private GameController game;
+    private GameController game = null;
     private final Lobby lobby;
     private boolean isInGame;
 
-    public ClientHandler(Socket setUpSocket, Lobby lobby) {
-        Scanner scanner;
-        PrintWriter printWriter;
-        try {
-            scanner = new Scanner(setUpSocket.getInputStream());
-            printWriter = new PrintWriter(setUpSocket.getOutputStream(),true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /* setting up input socket and sharing the ports with the client output socket */
-        inputSocket = new InputSocket(this);
-        printWriter.println(inputSocket.getSocketPort());
-        int clientInputSocketPort = Integer.parseInt(scanner.nextLine());
-
-        /* setting up output socket */
-        outputSocket = new OutputSocket(setUpSocket.getInetAddress().getHostAddress(), clientInputSocketPort);
-
-        /* starting communication threads */
-        inputSocketThread = new Thread(inputSocket);
-        outputSocketThread = new Thread(outputSocket);
-        inputSocketThread.start();
-        System.out.println("clienthandler input socket ready");
-        outputSocketThread.start();
-        System.out.println("clienthandler output socket ready");
-
+    public ClientHandler(Socket socket, Lobby lobby) {
         this.lobby = lobby;
-        this.connectionChecker = new ConnectionChecker(this, setUpSocket);
-        System.out.println("pinger and ponger created");
-        this.jsonParser = new JSONParser();
+        this.socket = socket;
         try {
-            setUpSocket.close();
-            scanner.close();
-            printWriter.close();
+            out= new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    public JSONObject getReceivedRequest() {
-        return receivedRequest;
+        inputHandler = new InputHandler(this,socket);
+        inputHandlerThread = new Thread(inputHandler);
+        inputHandlerThread.start();
+
+        pinger = new Pinger(this);
+        pingerThread = new Thread(pinger);
+        pingerThread.start();
+
+        isInGame = false;
+        running = true;
     }
 
     public String getUsername() {
@@ -89,77 +62,72 @@ public class ClientHandler implements Runnable, NetworkInterface, SocketObserver
         this.game = game;
     }
 
-    public boolean isInGame() {
-        return isInGame;
-    }
-
     public void setInGame(boolean inGame) {
         isInGame = inGame;
     }
 
-    public Lobby getLobby() {
-        return lobby;
+    @Override
+    public void run() {
+        while (running) {
+            Thread.onSpinWait();
+        }
     }
 
     @Override
-    public void run() {
-        while(running) {}
+    public void send(JSONObject message) {
+        out.println(message.toJSONString());
     }
 
+    @Override
+    public void notifyIncomingMessageFromSocket(JSONObject message) {
+        if(!networkMessageHandling(message)) {
+            if(isInGame) {
+                game.submitNewRequest(new Request(this, message));
+            }
+            else {
+                lobby.submitNewRequest(new Request(this, message));
+            }
+        }
+    }
+
+    private boolean networkMessageHandling(JSONObject message) {
+        if(message.containsKey("type")) {
+            switch (message.get("type").toString()) {
+                case "pong" -> pinger.notifyPong();
+                case "ping" -> {
+                    JSONObject pongMessage = new JSONObject();
+                    pongMessage.put("type", "pong");
+                    out.println(pongMessage);
+                }
+                default -> {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void connectionLossNotification() {
         if(isInGame) {
             game.notifyConnectionLoss(this);
         }
-        lobby.notifyConnectionLoss(this);
+        else {lobby.notifyConnectionLoss(this);}
         shutdown();
     }
 
-    @Override
-    public JSONObject send(JSONObject message) {
-        outputSocket.sendMessage(message.toJSONString());
+    public void shutdown() {
+        pinger.shutdown();
+        out.close();
+        inputHandler.shutdown();
+        inputHandlerThread.interrupt();
+        pingerThread.interrupt();
         try {
-            return (JSONObject) jsonParser.parse(outputSocket.receiveMessage());
-        } catch (ParseException e) {
+            socket.close();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void reply(JSONObject message) {
-        inputSocket.sendMessage(message.toJSONString());
-    }
-
-    @Override
-    public void notifyIncomingMessageFromSocket(JSONObject message) {
-        receivedRequest = message;
-        if(isInGame) {
-            game.notifyIncomingMessage(this);
-        }
-        else {
-            lobby.notifyIncomingMessage(this);
-        }
-    }
-
-    @Override
-    public int exchangePongerPorts(int pongerPort) {
-        outputSocket.sendMessage(String.valueOf(pongerPort));
-        return Integer.parseInt(outputSocket.receiveMessage());
-    }
-
-    @Override
-    public InetAddress getRemotePongerAddress() {
-        return outputSocket.getSocketAddress();
-    }
-
-    public void shutdown() {
-        //TODO controller shutdown
-        connectionChecker.shutdown();
-        outputSocket.shutdown();
-        inputSocket.shutdown();
-        outputSocketThread.interrupt();
-        inputSocketThread.interrupt();
         running = false;
     }
 }

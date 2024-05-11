@@ -22,6 +22,7 @@ public class ObjectiveCardJPatternPPI implements ObjectiveStrategy{
                     visitedCard.add(card_tempA);
                     visitedCard.add(card_tempB);
                     num_jpattern++;
+                    gamefield.getPlayer().increaseNumOfCompletedObjective();
                 }
             }
         }

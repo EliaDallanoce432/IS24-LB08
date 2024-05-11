@@ -5,21 +5,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GameBoardViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GameFieldViewController">
    <children>
       <Pane layoutX="-7.0" prefHeight="900.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ScrollPane fx:id="scrollPane" layoutX="36.0" layoutY="32.0" prefHeight="551.0" prefWidth="930.0" />
-            <Button layoutX="32.0" layoutY="786.0" mnemonicParsing="false" onAction="#drawHand" text="Draw Hand" />
             <Pane fx:id="handPane" layoutX="163.0" layoutY="745.0" prefHeight="131.0" prefWidth="479.0" style="-fx-border-color: black;" />
-            <Button layoutX="33.0" layoutY="823.0" mnemonicParsing="false" onAction="#clearCards" text="Clear" />
-            <Label fx:id="alertLabel" layoutX="758.0" layoutY="766.0" prefHeight="90.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" text="Play a card" textAlignment="RIGHT">
+            <Label fx:id="alertLabel" layoutX="656.0" layoutY="742.0" prefHeight="131.0" prefWidth="350.0" style="-fx-background-color: white; -fx-border-color: black;" textAlignment="RIGHT">
                <font>
-                  <Font name="Calibri" size="22.0" />
+                  <Font name="Calibri" size="16.0" />
                </font>
             </Label>
-            <Button layoutX="32.0" layoutY="754.0" mnemonicParsing="false" onAction="#loadDecks" text="Draw" />
-            <Button layoutX="36.0" layoutY="720.0" mnemonicParsing="false" onAction="#flipCardsInHand" text="Flip Cards" />
+            <Button layoutX="33.0" layoutY="745.0" mnemonicParsing="false" onAction="#flipCardsInHand" text="Flip Cards" />
             <Pane layoutX="1021.0" layoutY="32.0" prefHeight="221.0" prefWidth="548.0" style="-fx-border-color: black;">
                <children>
                   <ImageView fx:id="scoreTrackImageView" fitHeight="221.0" fitWidth="548.0" pickOnBounds="true" preserveRatio="true" />

@@ -1,18 +1,18 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.PlayerModel;
+import it.polimi.ingsw.client.view.observers.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WelcomeViewController {
+public class WelcomeViewController extends ViewController {
 
     @FXML
     private Button joinGameButton;
@@ -24,32 +24,48 @@ public class WelcomeViewController {
     private Button exitButton;
     @FXML
     private Pane setUsernamePane;
+    @FXML
+    private Label alertLabel;
 
     private TextField usernameTextField;
     private Button confirmButton;
 
-    SceneLoader sceneLoader = new SceneLoader();
+    @FXML
+    private void initialize() {
+
+        //initializing observers
+
+        new AvailableGamesModelObserver();
+        new ClientStateModelObserver();
+        new DeckObserver();
+        new GameFieldObserver();
+        new HandObserver();
+        new ObjectivesObserver();
+        new PlayerObserver();
+        new ScoreBoardObserver();
+        new SelectableCardsObserver();
+
+        Platform.runLater(this::updatePlayerInfo);
+
+    }
+
+
 
     @FXML
     private void joinGame() throws IOException {
 
-        Stage stage = (Stage) joinGameButton.getScene().getWindow();
-
-        stage.setScene(sceneLoader.loadJoinGameScene());
-        stage.show();
+        StageManager.loadJoinGameScene();
     }
 
     @FXML
     private void createGame() throws IOException {
-        Stage stage = (Stage) createGameButton.getScene().getWindow();
-
-        stage.setScene(sceneLoader.loadCreateGameScene());
-        stage.show();
+        StageManager.loadCreateGameScene();
 
     }
 
     @FXML
     private void setUsername() throws IOException {
+
 
         joinGameButton.setVisible(false);
         createGameButton.setVisible(false);
@@ -68,33 +84,58 @@ public class WelcomeViewController {
         });
         setUsernamePane.getChildren().add(confirmButton);
 
+
     }
 
     private void saveUsername() {
+
         String username = usernameTextField.getText();
-        System.out.println("Username: " + username);
 
-        // Show other buttons
-        joinGameButton.setVisible(true);
-        createGameButton.setVisible(true);
-        exitButton.setVisible(true);
-        setUsernameButton.setVisible(true);
+        ClientController.getInstance().sendSetUsernameMessage(username);
+    }
 
-        // Clear the text field and remove it from the pane
-        usernameTextField.clear();
-        setUsernamePane.getChildren().remove(usernameTextField);
+    @Override
+    public void updatePlayerInfo(){
 
-        // Remove the confirm button from the pane
-        setUsernamePane.getChildren().remove(confirmButton);
+        Platform.runLater(()->{
+
+            System.out.println("User logged in as: " + PlayerModel.getIstance().getUsername());
+            // Show other buttons
+            joinGameButton.setVisible(true);
+            createGameButton.setVisible(true);
+            exitButton.setVisible(true);
+            setUsernameButton.setVisible(true);
+
+            // Clear the text field and remove it from the pane
+            if(usernameTextField!=null) usernameTextField.clear();
+            setUsernamePane.getChildren().remove(usernameTextField);
+
+            // Remove the confirm button from the pane
+            setUsernamePane.getChildren().remove(confirmButton);
+
+        });
+
+
+
     }
 
     @FXML
     private void exit() throws IOException {
+        ClientController.getInstance().sendLeaveMessage();
+        ClientController.getInstance().shutdown();
+        StageManager.getCurrentStage().close();
+    }
 
-        Stage stage = (Stage) joinGameButton.getScene().getWindow();
-        stage.close();
+    @Override
+    @FXML
+    public void showMessage(String message) {
+        alertLabel.setText(message);
 
     }
+
+
+
+
 
 
 }

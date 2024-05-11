@@ -8,7 +8,7 @@
     <children>
         <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="okButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#readyPressed" text="Ready" />
+                <Button fx:id="readyButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#readyPressed" text="Ready" />
                 <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
                 <Label layoutX="29.0" layoutY="44.0" text="Waiting For Players...." textFill="WHITE">
                     <font>

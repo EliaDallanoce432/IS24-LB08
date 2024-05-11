@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model.json;
 
 
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -61,6 +60,12 @@ public class JsonCardsReader {
         catch (ParseException e){
             throw new CannotOpenJSONException("couldn't load resource card "+id);
         }
+        finally {
+            try {
+                isr.close();
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     /**
@@ -95,6 +100,12 @@ public class JsonCardsReader {
         }
         catch (ParseException e){
             throw new CannotOpenJSONException("couldn't load gold card "+id);
+        }
+        finally {
+            try {
+                isr.close();
+            } catch (IOException ignored) {
+            }
         }
     }
 
@@ -168,6 +179,12 @@ public class JsonCardsReader {
         }
         catch (ParseException e){
             throw new CannotOpenJSONException("couldn't load starter card "+id);
+        }
+        finally {
+            try {
+                isr.close();
+            } catch (IOException ignored) {
+            }
         }
     }
 

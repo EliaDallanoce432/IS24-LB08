@@ -1,61 +1,45 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.Codex;
+import it.polimi.ingsw.server.lobby.Lobby;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Server implements Runnable {
-    private final int port;
+    private ServerSocket serverSocket;
     Lobby lobby;
-    ExecutorService executor = Executors.newCachedThreadPool();
+    boolean running;
 
-    public Server(int port) {
-        this.port = port;
-        this.lobby = new Lobby();
-        executor.execute(this.lobby);
-
-    }
-
-    public void run() {}
-
-    //TODO controllare la gestione dell'uscita
-    public void startServer() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket;
+    public Server(Lobby lobby, int port) {
+        this.lobby = lobby;
         try {
             serverSocket = new ServerSocket(port);
+            System.out.println("Server ready at: " + InetAddress.getLocalHost());
         } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
-        try {
-            System.out.println("Server ready at: " + InetAddress.getLocalHost() + ":" + serverSocket.getLocalPort());
-        } catch (UnknownHostException e) {
+            //TODO lanciare eccezione se non si apre la accept socket
             throw new RuntimeException(e);
         }
-        while (true) {
+        running = true;
+    }
+
+    @Override
+    public void run() {
+        while (running) {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("server address: " + socket.getInetAddress());
                 System.out.println("client address: " + socket.getRemoteSocketAddress());
                 ClientHandler client = new ClientHandler(socket,lobby);
-                lobby.enterLobby(client);
-                executor.submit(client);
+                lobby.submitNewCLient(client);
             } catch (IOException e) {
                 break;
             }
-        }
-
-        executor.shutdown();
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return;
         }
     }
 }

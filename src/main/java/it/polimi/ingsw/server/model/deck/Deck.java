@@ -9,7 +9,6 @@ public abstract class Deck {
 
     /**
      * returns a card from the deck
-     *
      * @return Card
      */
     public Card directDraw() throws EmptyDeckException {
@@ -19,7 +18,16 @@ public abstract class Deck {
         }
         drawnCard = cards.getFirst();
         cards.removeFirst();
-        return drawnCard;
-    };
 
+        return drawnCard;
+    }
+
+    public int getTopCardID() {
+        if(cards.isEmpty()) {return 0;}
+        return cards.getFirst().getId();
+    }
+
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
 }

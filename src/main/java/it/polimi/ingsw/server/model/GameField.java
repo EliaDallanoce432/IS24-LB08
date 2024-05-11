@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameField {
-    private HashMap<String, PlaceableCard> cardsGrid;
-    private Player player;
+    private final HashMap<String, PlaceableCard> cardsGrid;
+    private final Player player;
     private int fungiCount;
     private int animalCount;
     private int plantCount;
@@ -18,11 +18,11 @@ public class GameField {
     private int scrollCount;
     private int inkPotCount;
     private int featherCount;
-    private ArrayList<PlaceableCard> plantCards;
-    private ArrayList<PlaceableCard> animalCards;
-    private ArrayList<PlaceableCard> fungiCards;
-    private ArrayList<PlaceableCard> insectCards;
-
+    private final ArrayList<PlaceableCard> plantCards;
+    private final ArrayList<PlaceableCard> animalCards;
+    private final ArrayList<PlaceableCard> fungiCards;
+    private final ArrayList<PlaceableCard> insectCards;
+    private final ArrayList<PlaceableCard> placementHistory;
 
     public GameField(Player player) {
         this.player = player;
@@ -31,6 +31,7 @@ public class GameField {
         insectCards = new ArrayList<>();
         fungiCards = new ArrayList<>();
         plantCards = new ArrayList<>();
+        placementHistory = new ArrayList<>();
     }
 
     public Player getPlayer() {
@@ -55,6 +56,14 @@ public class GameField {
 
     public ArrayList<PlaceableCard> getInsectCards() {
         return insectCards;
+    }
+
+    public ArrayList<PlaceableCard> getPlacementHistory() {
+        return placementHistory;
+    }
+
+    public void addToPlacementHistory(PlaceableCard card) {
+        placementHistory.addLast(card);
     }
 
     public int getAnimalCount() {
@@ -132,6 +141,7 @@ public class GameField {
                 addResource(res);
             }
         }
+        addToPlacementHistory(card);
     }
 
     /**
@@ -144,14 +154,15 @@ public class GameField {
      */
     public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         card.setFacingUp(facingUp);
-        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("could not place card "+card.getId()+" (card already placed at "+coordinatesToString(x,y)+")");
-        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement rules at "+coordinatesToString(x, y)+ ")");
-        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("could not place card "+card.getId()+" (doesn't follow placement requirements)");
+        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("Card already placed at X: " + x + " Y: " + y + " !");
+        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("Doesn't follow placement rules!");
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("Placement requirements are not satisfied!");
         this.placeCardAtCoordinates(card,x,y);
         card.setX(x);
         card.setY(y);
         updateNeighboursAndResources(card, x,y); //updates the surrounding cards and resource state
         if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints(this)); //gets the points earned from placing the card
+        addToPlacementHistory(card);
     }
 
     /**
@@ -171,14 +182,27 @@ public class GameField {
     }
 
     private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
-        return switch (offset[0]) {
-            case 1 ->
-                    neighbourCard.getBottomLeftCorner().isAttachable() || neighbourCard.getTopLeftCorner().isAttachable();
-            case -1 ->
-                    neighbourCard.getTopRightCorner().isAttachable() || neighbourCard.getBottomRightCorner().isAttachable();
-            default -> false;
-        };
+         switch (offset[0]) {
+            case 1 -> {
+                if (offset[1] == 1)
+                    return neighbourCard.getBottomLeftCorner().isAttachable();
+                if(offset[1] == -1)
+                    return neighbourCard.getTopLeftCorner().isAttachable();
+            }
+            case -1 -> {
+                if (offset[1] == 1)
+                    return neighbourCard.getBottomRightCorner().isAttachable();
+                if (offset[1] == -1)
+                    return neighbourCard.getTopRightCorner().isAttachable();
+            }
+             default -> {
+                 return false;
+             }
+         }
+         //shouldn't get here
+         return false;
     }
+
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
         int validNeighbourCount = 0;

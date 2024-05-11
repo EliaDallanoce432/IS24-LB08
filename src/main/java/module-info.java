@@ -6,8 +6,9 @@ module LB08 {
 
     requires org.controlsfx.controls;
 
-    opens it.polimi.ingsw.client.view to javafx.fxml;
-    exports it.polimi.ingsw.client.view;
     exports it.polimi.ingsw.client.controller;
+    exports it.polimi.ingsw.client.view;
+    exports it.polimi.ingsw;
+    opens it.polimi.ingsw.client.view;
     opens it.polimi.ingsw.client.controller to javafx.fxml;
 }

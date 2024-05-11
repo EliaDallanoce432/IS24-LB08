@@ -1,55 +1,67 @@
 package it.polimi.ingsw.server.model.deck;
 
+import it.polimi.ingsw.server.controller.GameObserver;
 import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GoldCardDeckTest {
+    GoldCardDeck goldCardDeck;
+    @BeforeEach
+    void setUp () {
+         goldCardDeck = new GoldCardDeck();
+    }
+
+    @AfterEach
+    void tearDown() {
+        goldCardDeck = null;
+    }
 
     @Test
     void generateDeck() {
-        GoldCardDeck goldcarddecktest = new GoldCardDeck();
-        assertEquals(38, goldcarddecktest.cards.size());
+
+        assertEquals(38, goldCardDeck.cards.size());
     }
     @Test
     void getLeftRevealedCard() {
-        GoldCardDeck goldcarddecktest = new GoldCardDeck();
-        Card leftrevealedcard = goldcarddecktest.getLeftRevealedCard();
+
+        Card leftrevealedcard = goldCardDeck.drawLeftRevealedCard();
         assertEquals(leftrevealedcard.getClass(), GoldCard.class);
     }
 
     @Test
     void getRightRevealedCard() {
-        GoldCardDeck goldcarddecktest = new GoldCardDeck();
-        Card rightrevealedcard = goldcarddecktest.getRightRevealedCard();
+
+        Card rightrevealedcard = goldCardDeck.drawRightRevealedCard();
         assertEquals(rightrevealedcard.getClass(), GoldCard.class);
     }
 
     @Test
     void directDraw() {
-        GoldCardDeck goldcarddecktest = new GoldCardDeck();
+
         try {
-            goldcarddecktest.directDraw();
+            goldCardDeck.directDraw();
         } catch (EmptyDeckException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(37, goldcarddecktest.cards.size());
+        assertEquals(37, goldCardDeck.cards.size());
     }
 
     @Test
     void directDrawEmptyDeck() {
-        GoldCardDeck goldcarddecktest = new GoldCardDeck();
 
         for (int i=0; i<38; i++) {
             try {
-               goldcarddecktest.directDraw();
+                goldCardDeck.directDraw();
             } catch (EmptyDeckException e) {
                 throw new RuntimeException(e);
             }
         }
-        assertThrows(EmptyDeckException.class,()-> goldcarddecktest.directDraw());
+        assertThrows(EmptyDeckException.class,()-> goldCardDeck.directDraw());
     }
 }

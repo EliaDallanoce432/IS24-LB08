@@ -32,6 +32,7 @@ public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
                 else {
                     counter = 0;
                     triplets ++;
+                    gameField.getPlayer().increaseNumOfCompletedObjective();
                 }
             }
         }

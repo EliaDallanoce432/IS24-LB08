@@ -32,6 +32,8 @@ public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy{
                 else {
                     counter = 0;
                     triplets ++;
+                    //TODO avere conferma
+                    gameField.getPlayer().increaseNumOfCompletedObjective();
                 }
             }
         }

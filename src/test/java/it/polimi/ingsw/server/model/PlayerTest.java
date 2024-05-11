@@ -1,37 +1,59 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.card.ResourceCard;
-import it.polimi.ingsw.server.model.json.JsonCardsReader;
-import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.CardNotInHandException;
 import it.polimi.ingsw.util.customexceptions.FullHandException;
-import it.polimi.ingsw.util.supportclasses.Color;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
+    private static GameController controller;
+    private static Game game;
+    private GameField gameField;
+    private Player referencePlayer;
+
+    @BeforeAll
+    static void setUpBeforeClass() {
+        controller = new GameController(null,4,"test");
+        game = controller.getGame();
+    }
+
+    @BeforeEach
+    void setUp() {
+        referencePlayer = new Player(game);
+        referencePlayer.getHand().clear();
+        gameField = new GameField(referencePlayer);
+
+    }
+    @AfterEach
+    void tearDown() {
+        game.reinsertToken(referencePlayer.getToken());
+        gameField = null;
+    }
+
+    @AfterAll
+    static void tearDownAfterClass() {
+        controller = null;
+    }
+
     @Test
     void addToHand_RegularAddCard() throws FullHandException, CardNotInHandException {
-
-        Player testPlayer = new Player("reference", Color.yellow);
-
-        testPlayer.addToHand(new ResourceCard(1));
-        testPlayer.addToHand(new ResourceCard(2));
+        referencePlayer.addToHand(new ResourceCard(1));
+        referencePlayer.addToHand(new ResourceCard(2));
 
         ResourceCard referenceCard = new ResourceCard(3);
         ResourceCard testCard = new ResourceCard(3);
-        testPlayer.addToHand(testCard);
+        referencePlayer.addToHand(testCard);
 
-        assertEquals(referenceCard, testPlayer.removeFromHand(testCard));
+        assertEquals(referenceCard, referencePlayer.removeFromHand(testCard));
 
     }
 
     @Test
     void addToHand_CheckException() throws FullHandException {
-
-        Player referencePlayer = new Player("reference", Color.yellow);
 
         referencePlayer.addToHand(new ResourceCard(1));
         referencePlayer.addToHand(new ResourceCard(2));
@@ -43,8 +65,6 @@ class PlayerTest {
 
     @Test
     void removeFromHand_CardInHandCase() throws CardNotInHandException, FullHandException {
-
-        Player referencePlayer = new Player("reference", Color.yellow);
 
         referencePlayer.addToHand(new ResourceCard(1));
         referencePlayer.addToHand(new ResourceCard(2));
@@ -60,8 +80,6 @@ class PlayerTest {
 
     @Test
     void removeFromHand_CheckException() throws FullHandException {
-
-        Player referencePlayer = new Player("reference", Color.yellow);
 
         referencePlayer.addToHand(new ResourceCard(1));
         referencePlayer.addToHand(new ResourceCard(2));

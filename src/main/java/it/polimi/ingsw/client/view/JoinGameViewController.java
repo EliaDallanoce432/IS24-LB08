@@ -1,14 +1,15 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.AvailableGamesModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class JoinGameViewController {
+public class JoinGameViewController extends ViewController {
 
 
 
@@ -22,17 +23,16 @@ public class JoinGameViewController {
     private Button okButton;
 
     @FXML
+    private Button refreshButton;
+
+    @FXML
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
-
-    private SceneLoader sceneLoader;
 
     @FXML
     public void initialize() {
 
-        sceneLoader = new SceneLoader();
 
-        availableGamesChoiceBox.getItems().addAll("carlo" , "piero");
         availableGamesChoiceBox.setOnAction(event -> {
             selectedGame = availableGamesChoiceBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected game: " + selectedGame);
@@ -41,10 +41,8 @@ public class JoinGameViewController {
 
     @FXML
     private void goBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        stage.setScene(sceneLoader.loadWelcomeScene());
-        stage.show();
+        StageManager.loadWelcomeScene();
     }
 
     @FXML
@@ -55,15 +53,24 @@ public class JoinGameViewController {
         }
         else {
 
-            System.out.println("joined game: " + selectedGame);
+            ClientController.getInstance().sendJoinGameMessage(selectedGame);
+            StageManager.loadWaitForPlayersScene();
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
-
-            stage.setScene(sceneLoader.loadWaitForPlayersScene());
-            stage.show();
 
         }
 
 
+    }
+
+    @FXML
+    private void refreshPressed() throws IOException {
+        availableGamesChoiceBox.getItems().clear();
+        ClientController.getInstance().sendGetAvailableGamesMessage();
+    }
+
+    @Override
+    public void updateAvailableGames(){
+        availableGamesChoiceBox.getItems().clear();
+        availableGamesChoiceBox.getItems().addAll(AvailableGamesModel.getIstance().getGames());
     }
 }

@@ -2,20 +2,11 @@ package it.polimi.ingsw.network;
 
 import org.json.simple.JSONObject;
 
-import java.net.InetAddress;
-import java.net.Socket;
-
-public interface NetworkInterface {
+public interface NetworkInterface extends ConnectionObserver {
     /**
-     * method sends a message to a remote host and returns the reply received from it
-     * @param message message to send to the remote host
-     * @return JSONObject reply from th remote host
+     * method sends a message to a remote host
+     * @param message   message to send to the remote host
      */
-    JSONObject send(JSONObject message);
+    void send(JSONObject message);
 
-    /**
-     * method sends a reply to the remote host
-     * @param message JSONObject reply to send
-     */
-    void reply(JSONObject message);
 }
