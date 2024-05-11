@@ -79,17 +79,10 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public JSONObject updatedScoresMessage (ArrayList<String> names,ArrayList<Integer> updatedScores) {
+    public JSONObject updatedScoresMessage () {
+        //TODO rifarla (manda i punteggi di tutti)
         JSONObject message = new JSONObject();
-        JSONArray scoreArray = new JSONArray();
-        message.put("message","updatedScore");
-        for (int i=0; i < names.size(); i++) {
-            JSONObject personalScore = new JSONObject();
-            personalScore.put("username", names.get(i));
-            personalScore.put("score", updatedScores.get(i));
-            scoreArray.add(personalScore);
-        }
-        message.put("scoreArray", scoreArray);
+        message.put("message","updatedScores");
         return message;
     }
 
@@ -111,6 +104,7 @@ public class ServerMessageGenerator {
      * @return the final scores
      */
     public JSONObject leaderBoardMessage (ArrayList<ClientHandler> clientHandlers, GameController gameController) {
+        //TODO la lista è al contrario
         JSONObject message = new JSONObject();
         message.put("message", "leaderBoard");
         if(clientHandlers.size()>= 1) {

@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GoldCardDeck extends DeckWithRevealedCards {
-    GameObserver gameObserver;
-    public GoldCardDeck(GameObserver gameObserver){
+    public GoldCardDeck(){
         cards = new ArrayList<>();
         for (int i=41; i<81; i++) {
             cards.add(new GoldCard(i));
@@ -22,14 +21,5 @@ public class GoldCardDeck extends DeckWithRevealedCards {
         } catch (EmptyDeckException e) {
             throw new RuntimeException(e);
         }
-        this.gameObserver = gameObserver;
-    }
-
-    @Override
-    public Card directDraw() throws EmptyDeckException {
-        Card tempGoldCard = super.directDraw();
-        //aggiunto if statement per i test sui deck
-        if (gameObserver!=null) gameObserver.notifyLastRound();
-        return tempGoldCard;
     }
 }

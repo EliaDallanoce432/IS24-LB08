@@ -9,43 +9,11 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceCardDeckTest {
-    static GameObserver gameObserver;
     ResourceCardDeck resourceCardDeck;
-    @BeforeAll
-    static void setGameObserver() {
-        gameObserver = new GameObserver() {
-            int i;
-            @Override
-            public void notifyReady() {
-
-            }
-
-            @Override
-            public void notifyStarterCardAndSecretObjectiveSelected() {
-
-            }
-
-            @Override
-            public void notifyClientConnectedCountChanged() {
-
-            }
-
-            @Override
-            public void notifyLastRound() {
-
-            }
-
-            @Override
-            public void notifyEndGame() {
-
-            }
-        };
-    }
-
 
     @BeforeEach
     void setUp() {
-        resourceCardDeck = new ResourceCardDeck(gameObserver);
+        resourceCardDeck = new ResourceCardDeck();
     }
 
     @AfterEach
@@ -53,10 +21,6 @@ class ResourceCardDeckTest {
         resourceCardDeck = null;
     }
 
-    @AfterAll
-    static void tearDownObserver() {
-        gameObserver = null;
-    }
     @Test
     void generateDeck() {
 

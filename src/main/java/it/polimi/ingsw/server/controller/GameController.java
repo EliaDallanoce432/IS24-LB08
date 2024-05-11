@@ -33,7 +33,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.running = true;
         this.game = new Game(numberOfPlayers,this);
         this.messageGenerator = new ServerMessageGenerator(game);
-        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator);
+        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator, game);
 
         System.out.println(gameName + " is ready");
     }
@@ -95,6 +95,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if(game.turnCounter == game.numberOfPlayers-1) game.turnCounter = 0;
         else game.turnCounter++;
         getCurrentPlayer(client).clearTurnState();
+        broadcast(messageGenerator.turnPlayerUpdateMessage(this));
         notifyEndGame();
     }
 
@@ -170,6 +171,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         } catch (CardNotInHandException e) {
             throw new CannotPlaceCardException("The card is not in your hand"); //should never happen
         }
+        broadcast(messageGenerator.updatedScoresMessage());
+        if(game.getGameState() == GameState.lastRound) passTurn(client);
     }
 
     public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
@@ -182,6 +185,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -195,6 +199,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -208,6 +213,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -221,6 +227,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -234,6 +241,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -247,6 +255,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -354,8 +363,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyLastRound() {
+        if(game.getGameState()==GameState.lastRound || game.getGameState()==GameState.endGame) return;
         for (ClientHandler clientHandler : clientHandlers) {
-            if (getCurrentPlayer(clientHandler).getScore() >= 20) {
+            if (getCurrentPlayer(clientHandler).getScore() >= 5) {
                 game.setGameState(GameState.lastRound);
                 broadcast(messageGenerator.lastRoundMessage("player " + clientHandler.getUsername() + " has 20 or more points"));
                 return;
@@ -371,8 +381,10 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyEndGame() {
-        if (!game.getGameState().equals(GameState.lastRound)) return;
-        if (game.turnCounter != 0) return;
+        //TODO controllare perchè non scatta sempre nel momento giusto
+        if(game.getGameState()==GameState.endGame) return;
+        if(game.getGameState()!=GameState.lastRound) return;
+        if(game.turnCounter != 0) return;
         game.setGameState(GameState.endGame);
         calculateFinalScore();
     }

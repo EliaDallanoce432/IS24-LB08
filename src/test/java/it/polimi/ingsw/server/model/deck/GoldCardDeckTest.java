@@ -14,38 +14,14 @@ class GoldCardDeckTest {
     GoldCardDeck goldCardDeck;
     @BeforeEach
     void setUp () {
-         goldCardDeck = new GoldCardDeck(new GameObserver() {
-            @Override
-            public void notifyReady() {
-
-            }
-
-            @Override
-            public void notifyStarterCardAndSecretObjectiveSelected() {
-
-            }
-
-            @Override
-            public void notifyClientConnectedCountChanged() {
-
-            }
-
-            @Override
-            public void notifyLastRound() {
-
-            }
-
-            @Override
-            public void notifyEndGame() {
-
-            }
-        });
+         goldCardDeck = new GoldCardDeck();
     }
 
     @AfterEach
     void tearDown() {
         goldCardDeck = null;
     }
+
     @Test
     void generateDeck() {
 

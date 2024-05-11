@@ -165,7 +165,7 @@ public class Player {
         gamefield.place(cardInHand,facingUp,x,y);
         for (int i=0; i< hand.size(); i++) {
             if (hand.get(i).getId() == cardInHand.getId()) {
-                hand.remove(cardInHand);
+                hand.remove(i);
                 break;
             }
         }
