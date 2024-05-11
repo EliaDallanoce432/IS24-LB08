@@ -1,5 +1,5 @@
 # Codex -  Project Software Engineering 2024
-![codex]()
+![codex](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Images/codex_logo.png)
 #### Group members 
 [Simone Pizzelli](https://github.com/SimonePizzelli) <br>
 [Elia Dallanoce](https://github.com/EliaDallanoce432) <br>
@@ -24,7 +24,7 @@ This is done to separate internal representations of information from the ways i
 
 ...
 
-### How to use
+### Usage
 
 ...
 
