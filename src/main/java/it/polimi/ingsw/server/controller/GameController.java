@@ -293,6 +293,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
     }
 
+
+
     @Override
     public void notifyConnectionLoss (ClientHandler clientHandler) {
         System.out.println("player " + clientHandler.getUsername() + " disconnected");
@@ -349,6 +351,16 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         System.out.println("game started");
     }
 
+    @Override
+    public void notifyLastRound() {
+
+    }
+
+    @Override
+    public void notifyEndGame() {
+
+    }
+
     /**
      * this method invokes the calculateFinalScore method set in the model of each player
      */
@@ -361,9 +373,9 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         }
 
         classifiedPlayers.sort((p1, p2) -> {
-            // Ordina per attributo1
+            // Ordina per score
             int compare = p1.compareTo(p2.getScore());
-            // Se l'attributo1 è lo stesso, ordina per attributo2
+            // Se lo score è lo stesso, ordina per obiettivi completati
             if (compare == 0) {
                 return p1.compareTo(p2.getNumOfCompletedObjectiveCards());
             }

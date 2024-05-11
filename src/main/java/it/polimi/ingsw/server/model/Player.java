@@ -174,7 +174,7 @@ public class Player {
      * this method calculates the points given by the secrete objective card and the 2 common objective
      */
     public void calculateFinalScore() {
-        //TODO conteggio obiettivi realizzati
+
         secretObjective.getEarnedPoints(getGamefield());
         game.commonObjectives.get(0).getEarnedPoints(getGamefield());
         game.commonObjectives.get(1).getEarnedPoints(getGamefield());

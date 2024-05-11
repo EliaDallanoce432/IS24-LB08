@@ -8,4 +8,8 @@ public interface GameObserver {
 
     void notifyClientConnectedCountChanged();
 
+    void notifyLastRound();
+
+    void notifyEndGame();
+
 }
