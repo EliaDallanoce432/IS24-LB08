@@ -18,12 +18,16 @@ public abstract class Deck {
         }
         drawnCard = cards.getFirst();
         cards.removeFirst();
+
         return drawnCard;
-    };
+    }
 
     public int getTopCardID() {
         if(cards.isEmpty()) {return 0;}
         return cards.getFirst().getId();
     }
 
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
 }

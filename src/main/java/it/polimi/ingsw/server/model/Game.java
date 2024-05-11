@@ -33,8 +33,8 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         players = new HashMap<>();
         objectiveCardDeck = new ObjectiveCardDeck();
-        resourceCardDeck = new ResourceCardDeck();
-        goldCardDeck = new GoldCardDeck();
+        resourceCardDeck = new ResourceCardDeck(gameObserver);
+        goldCardDeck = new GoldCardDeck(gameObserver);
         starterCardDeck = new StarterCardDeck();
         commonObjectives = new ArrayList<>();
         availableTokens = new ArrayList<>(Arrays.asList(Color.red,Color.yellow,Color.green,Color.blue));
