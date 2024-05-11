@@ -52,12 +52,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     @Override
     public void notifyConnectionLoss() {
-        Platform.runLater(() -> {
-            try {
-                StageManager.loadLostConnectionScene();
-            } catch (IOException ignored) {
-            }
-        });
+        Platform.runLater(() -> StageManager.loadLostConnectionScene());
         System.out.println("Connection lost");
         clientConnectionManager.shutdown();
     }

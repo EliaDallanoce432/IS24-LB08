@@ -37,7 +37,7 @@ public class VirtualDeck {
             VirtualCard topDeck = new VirtualCard(topDeckID, false);
             Rectangle topDeckNode = topDeck.getCard();
             topDeckNode.setLayoutY(yOffset);
-            topDeckNode.setLayoutX(spacing);
+            topDeckNode.setLayoutX(0);
             decksPane.getChildren().add(topDeckNode);
             if(showButtons) {
                 Button button1 = new Button("Draw");
@@ -54,11 +54,11 @@ public class VirtualDeck {
             VirtualCard leftCard = new VirtualCard(leftCardID, true);
             Rectangle leftCardNode = leftCard.getCard();
             leftCardNode.setLayoutY(yOffset);
-            leftCardNode.setLayoutX(spacing + CARD_WIDTH + spacing);
+            leftCardNode.setLayoutX(CARD_WIDTH + spacing);
             decksPane.getChildren().add(leftCardNode);
             if(showButtons) {
                 Button button2 = new Button("Draw");
-                button2.setLayoutX(spacing + CARD_WIDTH + spacing);
+                button2.setLayoutX(CARD_WIDTH + spacing);
                 button2.setLayoutY(yOffset + CARD_HEIGHT + spacing);
                 button2.setOnAction(e -> handleButtonClick(DeckID + "LeftCard"));
                 decksPane.getChildren().add(button2);
@@ -70,7 +70,7 @@ public class VirtualDeck {
             VirtualCard rightCard = new VirtualCard(rightCardID, true);
             Rectangle rightCardNode = rightCard.getCard();
             rightCardNode.setLayoutY(yOffset);
-            rightCardNode.setLayoutX(spacing + (2 * (CARD_WIDTH + spacing)));
+            rightCardNode.setLayoutX((2 * (CARD_WIDTH + spacing)));
             decksPane.getChildren().add(rightCardNode);
             if(showButtons) {
                 Button button3 = new Button("Draw");
