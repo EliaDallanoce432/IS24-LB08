@@ -182,14 +182,27 @@ public class GameField {
     }
 
     private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
-        return switch (offset[0]) {
-            case 1 ->
-                    neighbourCard.getBottomLeftCorner().isAttachable() || neighbourCard.getTopLeftCorner().isAttachable();
-            case -1 ->
-                    neighbourCard.getTopRightCorner().isAttachable() || neighbourCard.getBottomRightCorner().isAttachable();
-            default -> false;
-        };
+         switch (offset[0]) {
+            case 1 -> {
+                if (offset[1] == 1)
+                    return neighbourCard.getBottomLeftCorner().isAttachable();
+                if(offset[1] == -1)
+                    return neighbourCard.getTopLeftCorner().isAttachable();
+            }
+            case -1 -> {
+                if (offset[1] == 1)
+                    return neighbourCard.getBottomRightCorner().isAttachable();
+                if (offset[1] == -1)
+                    return neighbourCard.getTopRightCorner().isAttachable();
+            }
+             default -> {
+                 return false;
+             }
+         }
+         //shouldn't get here
+         return false;
     }
+
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
         int validNeighbourCount = 0;

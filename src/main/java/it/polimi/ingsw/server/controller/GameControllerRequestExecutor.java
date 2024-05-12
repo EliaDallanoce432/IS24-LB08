@@ -1,26 +1,39 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.*;
+import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
 public class GameControllerRequestExecutor {
-    private GameController gameController;
-    private ServerMessageGenerator messageGenerator;
-    public GameControllerRequestExecutor(GameController gameController, ServerMessageGenerator messageGenerator) {
+    private final GameController gameController;
+    private final ServerMessageGenerator messageGenerator;
+    private final Game game;
+    public GameControllerRequestExecutor(GameController gameController, ServerMessageGenerator messageGenerator, Game game) {
         this.messageGenerator = messageGenerator;
         this.gameController = gameController;
+        this.game = game;
     }
 
     public void execute (Request request)  {
-        //TODO decidere se mettere questo codice qui o controllare in ogni metodo nel controller
-//        if(Game.getInstance().getGameState() == GameState.endGame) {
-//            if(!request.getMessage().get("command").equals("leave")) {
-//                return;
-//            }
-//        }
+        if(game.getGameState() == GameState.lastRound) {
+            if(request.getMessage().get("command").equals("directDrawResourceCard") ||
+                request.getMessage().get("command").equals("directDrawGoldCard") ||
+                request.getMessage().get("command").equals("drawLeftResourceCard") ||
+                request.getMessage().get("command").equals("drawRightResourceCard") ||
+                request.getMessage().get("command").equals("drawLeftGoldCard") ||
+                request.getMessage().get("command").equals("drawRightGoldCard")) {
+                return;
+            }
+        }
+        if(game.getGameState() == GameState.endGame) {
+            if(!request.getMessage().get("command").equals("leave")) {
+                return;
+            }
+        }
 
         JSONObject message = request.getMessage();
         System.out.println("executing message: " + message);
@@ -62,7 +75,6 @@ public class GameControllerRequestExecutor {
             gameController.directDrawResourceCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
@@ -71,7 +83,6 @@ public class GameControllerRequestExecutor {
             gameController.directDrawGoldCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
@@ -81,7 +92,6 @@ public class GameControllerRequestExecutor {
             gameController.drawLeftRevealedResourceCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         }
         catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
@@ -91,7 +101,6 @@ public class GameControllerRequestExecutor {
             gameController.drawRightRevealedResourceCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
@@ -100,7 +109,6 @@ public class GameControllerRequestExecutor {
             gameController.drawLeftRevealedGoldCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
@@ -109,7 +117,6 @@ public class GameControllerRequestExecutor {
             gameController.drawRightRevealedGoldCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
-            gameController.broadcast(messageGenerator.turnPlayerUpdateMessage(gameController));
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 

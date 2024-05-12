@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.deck;
 
+import it.polimi.ingsw.server.controller.GameObserver;
+import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 

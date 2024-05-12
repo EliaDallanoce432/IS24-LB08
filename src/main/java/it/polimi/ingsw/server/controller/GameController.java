@@ -33,7 +33,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.running = true;
         this.game = new Game(numberOfPlayers,this);
         this.messageGenerator = new ServerMessageGenerator(game);
-        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator);
+        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator, game);
 
         System.out.println(gameName + " is ready");
     }
@@ -95,6 +95,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if(game.turnCounter == game.numberOfPlayers-1) game.turnCounter = 0;
         else game.turnCounter++;
         getCurrentPlayer(client).clearTurnState();
+        broadcast(messageGenerator.turnPlayerUpdateMessage(this));
+        notifyEndGame();
     }
 
     public String getTurnPlayerUsername() {
@@ -151,7 +153,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * communicates to players the game is about to start and sends their cards
      */
     public void startGame () {
-        //shuffle i client handlers per sciegliere l'ordine del turno
+        //shuffle i client handlers per scegliere l'ordine del turno
         Collections.shuffle(clientHandlers);
         for (ClientHandler client : clientHandlers) {
             client.send(messageGenerator.startGameMessage(this, getCurrentPlayer(client)));
@@ -169,6 +171,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         } catch (CardNotInHandException e) {
             throw new CannotPlaceCardException("The card is not in your hand"); //should never happen
         }
+        broadcast(messageGenerator.updatedScoresMessage());
+        if(game.getGameState() == GameState.lastRound) passTurn(client);
     }
 
     public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
@@ -181,6 +185,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -194,6 +199,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -207,6 +213,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -220,6 +227,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -233,6 +241,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -246,6 +255,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
         GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
+        notifyLastRound();
         passTurn(client);
     }
 
@@ -353,35 +363,53 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyLastRound() {
+        if(game.getGameState()==GameState.lastRound || game.getGameState()==GameState.endGame) return;
+        for (ClientHandler clientHandler : clientHandlers) {
+            if (getCurrentPlayer(clientHandler).getScore() >= 5) {
+                game.setGameState(GameState.lastRound);
+                broadcast(messageGenerator.lastRoundMessage("player " + clientHandler.getUsername() + " has 20 or more points"));
+                return;
+            }
+        }
+        
+        if (game.goldCardDeck.isEmpty() && game.resourceCardDeck.isEmpty()) {
+            game.setGameState(GameState.lastRound);
+            broadcast(messageGenerator.lastRoundMessage("decks are empty"));
+        }
 
     }
 
     @Override
     public void notifyEndGame() {
-
+        //TODO controllare perchè non scatta sempre nel momento giusto
+        if(game.getGameState()==GameState.endGame) return;
+        if(game.getGameState()!=GameState.lastRound) return;
+        if(game.turnCounter != 0) return;
+        game.setGameState(GameState.endGame);
+        calculateFinalScore();
     }
 
     /**
      * this method invokes the calculateFinalScore method set in the model of each player
      */
     public void calculateFinalScore() {
-        ArrayList<Player> classifiedPlayers = new ArrayList<>();
+        ArrayList<ClientHandler> classifiedPlayers = new ArrayList<>();
         // aggiungo giocatori alla lista e calcolo punteggi finali
-        for (Player p : game.getPlayers()) {
-            classifiedPlayers.add(p);
-            p.calculateFinalScore();
+        for (ClientHandler c : clientHandlers) {
+            classifiedPlayers.add(c);
+            getCurrentPlayer(c).calculateFinalScore();
         }
 
         classifiedPlayers.sort((p1, p2) -> {
             // Ordina per score
-            int compare = p1.compareTo(p2.getScore());
+            int compare = getCurrentPlayer(p1).compareTo(getCurrentPlayer(p2).getScore());
             // Se lo score è lo stesso, ordina per obiettivi completati
             if (compare == 0) {
-                return p1.compareTo(p2.getNumOfCompletedObjectiveCards());
+                return getCurrentPlayer(p1).compareTo(getCurrentPlayer(p2).getNumOfCompletedObjectiveCards());
             }
             return compare;
         });
-        //TODO ritornare l arraylist finale.
+        broadcast(messageGenerator.leaderBoardMessage(classifiedPlayers,this));
     }
 
 }

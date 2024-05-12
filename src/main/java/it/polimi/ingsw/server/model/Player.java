@@ -103,6 +103,7 @@ public class Player {
 
     public void setScore(int newScore) {
         this.score = newScore;
+        game.gameObserver.notifyLastRound();
     }
 
     public StarterCard getStarterCard() {
@@ -151,6 +152,7 @@ public class Player {
     }
 
     public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
+        if (hasAlreadyPlaced()) throw new CannotPlaceCardException("You have already placed!");
         //seleziona carta dalla mano
         PlaceableCard cardInHand = null;
         for (int i=0; i< hand.size(); i++) {
@@ -163,7 +165,7 @@ public class Player {
         gamefield.place(cardInHand,facingUp,x,y);
         for (int i=0; i< hand.size(); i++) {
             if (hand.get(i).getId() == cardInHand.getId()) {
-                hand.remove(cardInHand);
+                hand.remove(i);
                 break;
             }
         }
