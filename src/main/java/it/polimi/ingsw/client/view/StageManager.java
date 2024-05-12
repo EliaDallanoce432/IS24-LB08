@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+
 public class StageManager {
 
     private static Stage currentStage;
@@ -33,9 +35,6 @@ public class StageManager {
         Image backgroundImage = new Image(StageManager.class.getResourceAsStream(path));
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setPreserveRatio(false);
-        backgroundImageView.fitWidthProperty().bind(currentStage.widthProperty());
-        backgroundImageView.fitHeightProperty().bind(currentStage.heightProperty());
-
         return backgroundImageView;
     }
 
@@ -49,7 +48,13 @@ public class StageManager {
         }
         currentView = loader.getController();
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
+        ImageView backgroundImageView = loadBackground("/view/wood_background2.jpg");
+        stackPane.getChildren().add(backgroundImageView);
+        stackPane.getChildren().add(root);
+        backgroundImageView.fitWidthProperty().bind(stackPane.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(stackPane.heightProperty());
+
+
         return stackPane;
     }
 
@@ -93,9 +98,7 @@ public class StageManager {
     private static void showScene(Scene scene) {
         currentStage.setOnCloseRequest(event -> System.exit(0));
         currentStage.setScene(scene);
-        //if()
-            currentStage.setMaximized(true);
-        //currentStage.setResizable(false);
+        currentStage.sizeToScene();
         currentStage.show();
     }
 }

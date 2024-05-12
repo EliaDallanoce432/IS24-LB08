@@ -1,6 +1,8 @@
 package it.polimi.ingsw.util.supportclasses;
 
-public class ViewConstants {
+public final class ViewConstants {
+
+
     public static final double CARD_WIDTH = 113;
     public static final double CARD_HEIGHT = 75;
     public static final double SPACING = 10;
