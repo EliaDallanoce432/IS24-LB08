@@ -79,6 +79,21 @@ public class VirtualCard {
         else return cardBack;
     }
 
+    public Rectangle getCard(double size){
+
+        if (facingUp) {
+            cardFront.setWidth(size*CARD_WIDTH);
+            cardFront.setHeight(size*CARD_HEIGHT);
+            return cardFront;
+        }
+        else{
+            cardBack.setWidth(size*CARD_WIDTH);
+            cardBack.setHeight(size*CARD_HEIGHT);
+            return cardBack;
+        }
+
+    }
+
     public int getId() {
         return id;
     }

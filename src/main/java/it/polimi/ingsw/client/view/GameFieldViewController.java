@@ -23,7 +23,7 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Label alertLabel;
     @FXML
-    private ImageView scoreTrackImageView;
+    private Pane scoreBoardPane;
     @FXML
     private Pane decksPane;
     @FXML
@@ -92,7 +92,7 @@ public class GameFieldViewController extends ViewController {
 
     @Override
     public void updateDecks(){
-        Platform.runLater(()-> virtualDeck.loadDecks(false));
+        Platform.runLater(()-> virtualDeck.loadDecks());
     }
 
     @Override
@@ -108,7 +108,10 @@ public class GameFieldViewController extends ViewController {
             switch (ClientStateModel.getIstance().getClientState()){
                 case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getIstance().getTurnPlayer() + " to finish their turn...");
                 case PLAYING_STATE -> showMessage("It's your Turn, please place a card!");
-                case DRAWING_STATE -> virtualDeck.loadDecks(true);
+                case DRAWING_STATE -> {
+                    showMessage("Please Draw a Card from the decks!");
+                    virtualDeck.loadDecks();
+                }
                 default -> {}
             }
         });

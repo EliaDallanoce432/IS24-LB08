@@ -67,6 +67,8 @@ public class StageManager {
 
     public static void loadWelcomeScene() {
         StackPane stackPane = createStackPaneWithBackground("WelcomeView.fxml");
+        currentStage.setWidth(SCENE_WIDTH);
+        currentStage.setHeight(SCENE_HEIGHT);
         showScene(new Scene(stackPane));
     }
 
