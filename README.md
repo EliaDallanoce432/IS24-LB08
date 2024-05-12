@@ -6,6 +6,21 @@
 [Marco Pedretti](https://github.com/10736964) <br>
 [Marcello Massari](https://github.com/MarcelloMassari) <br>
 
+#### Progress 
+
+| Feature | Status |
+|--|--|
+| UML | Updating... |
+| Model | Done✅ |
+| Network | Done✅ |
+| Controller| Done✅ | 
+| GUI | working progress...⌛ |
+| TUI | working progress...⌛ |
+| Persistence | ❌ |
+| Multiple games | Done✅ |
+| Connection resilience | ❌ |
+| Chat | ❌ |
+
 ### Introduction
 ...
 ### MVC pattern
