@@ -9,7 +9,7 @@
    <children>
       <Pane layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="850.0" prefWidth="1300.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
          <children>
-            <Button layoutX="22.0" layoutY="574.0" mnemonicParsing="false" onAction="#flipCardsInHand" prefHeight="40.0" prefWidth="60.0" text="🔄">
+            <Button fx:id="flipButton" layoutX="22.0" layoutY="574.0" mnemonicParsing="false" onAction="#flipCardsInHand" prefHeight="40.0" prefWidth="60.0" text="🔄">
                <font>
                   <Font size="22.0" />
                </font></Button>
@@ -37,16 +37,13 @@
                   <Font name="Baskerville Old Face" size="18.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="41.0" layoutY="89.0" pannable="true" prefHeight="388.0" prefWidth="709.0" vbarPolicy="NEVER" />
-            <Pane fx:id="handPane" layoutX="110.0" layoutY="576.0" prefHeight="131.0" prefWidth="509.0" style="-fx-border-color: black;">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="41.0" layoutY="89.0" pannable="true" prefHeight="388.0" prefWidth="709.0" vbarPolicy="NEVER">
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Pane>
+                  <Cursor fx:constant="MOVE" />
+               </cursor></ScrollPane>
+            <Pane fx:id="handPane" layoutX="110.0" layoutY="576.0" prefHeight="131.0" prefWidth="509.0" style="-fx-border-color: black;" />
             <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="206.0" prefHeight="350.0" prefWidth="450.0" style="-fx-border-color: black;" />
-            <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" style="-fx-border-color: black;">
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Pane>
+            <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" style="-fx-border-color: black;" />
             <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="89.0" prefHeight="75.0" prefWidth="230.0" style="-fx-border-color: black;" />
             <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="89.0" prefHeight="75.0" prefWidth="113.0" style="-fx-border-color: black;" />
          </children>

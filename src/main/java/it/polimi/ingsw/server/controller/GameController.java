@@ -163,6 +163,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             client.send(messageGenerator.startGameMessage(this, getCurrentPlayer(client)));
             getCurrentPlayer(client).clearTurnState();
         }
+        broadcast(messageGenerator.updatedScoresMessage(this));
         game.turnCounter = 0;
     }
 

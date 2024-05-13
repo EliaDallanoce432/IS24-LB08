@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class ScoreBoardModel extends ObservableModel{
 
-    private static ScoreBoardModel istance;
+    private static ScoreBoardModel instance;
     private HashMap<String, Integer> scores;
     private int playerNumber;
 
@@ -14,8 +14,8 @@ public class ScoreBoardModel extends ObservableModel{
 
     public static ScoreBoardModel getInstance(){
 
-        if (istance==null) istance = new ScoreBoardModel();
-        return istance;
+        if (instance ==null) instance = new ScoreBoardModel();
+        return instance;
 
     }
 

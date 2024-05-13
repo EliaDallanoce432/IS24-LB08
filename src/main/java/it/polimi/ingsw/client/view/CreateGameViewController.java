@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -30,11 +31,17 @@ public class CreateGameViewController extends ViewController {
     @FXML
     public void initialize() {
 
+        okButton.setOnMouseEntered(mouseEvent -> okButton.setCursor(Cursor.HAND));
+        okButton.setOnMouseExited(mouseEvent -> okButton.setCursor(Cursor.DEFAULT));
+        backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
+        backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
 
         gameNameField.setPromptText("Game Name Here");
 
         numberOfPlayersChoiceBox.getItems().addAll("2", "3", "4");
         numberOfPlayersChoiceBox.setValue("2");
+        numberOfPlayersChoiceBox.setOnMouseEntered(mouseEvent -> numberOfPlayersChoiceBox.setCursor(Cursor.HAND));
+        numberOfPlayersChoiceBox.setOnMouseExited(mouseEvent -> numberOfPlayersChoiceBox.setCursor(Cursor.DEFAULT));
         numberOfPlayersChoiceBox.setOnAction(event -> {
             int selectedItem = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
         });

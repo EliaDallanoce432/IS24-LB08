@@ -37,7 +37,7 @@ public class ClientMessageHandler {
             case "successfulPlace" -> updateGameField(message);
             case "cannotPlace" -> cannotPlaceHandler(message);
             case "turnPlayerUpdate" -> updateTurnPlayer(message);
-            case "updatedScore" -> updateScores(message);
+            case "updatedScores" -> updateScores(message);
 
 
 

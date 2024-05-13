@@ -94,10 +94,16 @@ public class CardPlacementController {
 
 
     public void makeDraggableAndDroppable(Node card, VirtualCard vCard) {
+        card.setOnMouseEntered(mouseEvent -> {
+            card.setCursor(Cursor.OPEN_HAND);
+        });
 
+        card.setOnMouseExited(mouseEvent -> {
+            card.setCursor(Cursor.DEFAULT);
+        });
 
         card.setOnMousePressed(event -> {
-
+            card.toFront();
 
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();

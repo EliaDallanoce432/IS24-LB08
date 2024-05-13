@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -30,6 +31,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private HBox secretObjectivePane;
     @FXML
+    private Button flipButton;
+    @FXML
     private Button leaveGameButton;
 
 
@@ -40,6 +43,10 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private void initialize() {
 
+        flipButton.setOnMouseEntered(mouseEvent -> flipButton.setCursor(Cursor.HAND));
+        flipButton.setOnMouseExited(mouseEvent -> flipButton.setCursor(Cursor.DEFAULT));
+        leaveGameButton.setOnMouseEntered(mouseEvent -> leaveGameButton.setCursor(Cursor.HAND));
+        leaveGameButton.setOnMouseExited(mouseEvent -> leaveGameButton.setCursor(Cursor.DEFAULT));
 
         cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,
                 commonObjectivesPane,secretObjectivePane);

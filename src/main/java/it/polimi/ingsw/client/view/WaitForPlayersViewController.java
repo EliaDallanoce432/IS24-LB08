@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -30,7 +31,11 @@ public class WaitForPlayersViewController extends ViewController {
     public void initialize() {
 
         readyButton.setVisible(false);
+        readyButton.setOnMouseEntered(mouseEvent -> readyButton.setCursor(Cursor.HAND));
+        readyButton.setOnMouseExited(mouseEvent -> readyButton.setCursor(Cursor.DEFAULT));
         backButton.setVisible(false);
+        backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
+        backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
         showMessage("Joining Game...");
         System.out.println("INITIALIZE: " + ClientStateModel.getIstance().getClientState());
 

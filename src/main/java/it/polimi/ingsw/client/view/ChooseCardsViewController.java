@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -46,6 +47,10 @@ public class ChooseCardsViewController extends ViewController {
             Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
 
             faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
+            faceUpCard.setOnMouseEntered(mouseEvent -> faceUpCard.setCursor(Cursor.HAND));
+            faceUpCard.setOnMouseExited(mouseEvent -> faceUpCard.setCursor(Cursor.DEFAULT));
+            faceDownCard.setOnMouseEntered(mouseEvent -> faceDownCard.setCursor(Cursor.HAND));
+            faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
 
             faceUpCard.setOnMouseClicked( e -> {
                 ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
@@ -83,12 +88,16 @@ public class ChooseCardsViewController extends ViewController {
             cardBox.getChildren().clear();
             StageManager.loadGameBoardScene();
         });
+        card1.setOnMouseEntered(mouseEvent -> card1.setCursor(Cursor.HAND));
+        card1.setOnMouseExited(mouseEvent -> card1.setCursor(Cursor.DEFAULT));
 
         card2.setOnMouseClicked( e -> {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[1]);
             cardBox.getChildren().clear();
             StageManager.loadGameBoardScene();
         });
+        card2.setOnMouseEntered(mouseEvent -> card2.setCursor(Cursor.HAND));
+        card2.setOnMouseExited(mouseEvent -> card2.setCursor(Cursor.DEFAULT));
 
         cardBox.getChildren().addAll(card1, card2);
     }

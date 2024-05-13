@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -76,6 +77,8 @@ public class WelcomeViewController extends ViewController {
         setUsernamePane.getChildren().add(usernameTextField);
 
         confirmButton = new Button("Confirm");
+        confirmButton.setOnMouseEntered(mouseEvent -> confirmButton.setCursor(Cursor.HAND));
+        confirmButton.setOnMouseExited(mouseEvent -> confirmButton.setCursor(Cursor.DEFAULT));
         confirmButton.setLayoutY(100);
         confirmButton.setOnAction(event -> {
             saveUsername();
@@ -100,9 +103,17 @@ public class WelcomeViewController extends ViewController {
             System.out.println("User logged in as: " + PlayerModel.getInstance().getUsername());
             // Show other buttons
             joinGameButton.setVisible(true);
+            joinGameButton.setOnMouseEntered(mouseEvent -> joinGameButton.setCursor(Cursor.HAND));
+            joinGameButton.setOnMouseExited(mouseEvent -> joinGameButton.setCursor(Cursor.DEFAULT));
             createGameButton.setVisible(true);
+            createGameButton.setOnMouseEntered(mouseEvent -> createGameButton.setCursor(Cursor.HAND));
+            createGameButton.setOnMouseExited(mouseEvent -> createGameButton.setCursor(Cursor.DEFAULT));
             exitButton.setVisible(true);
+            exitButton.setOnMouseEntered(mouseEvent -> exitButton.setCursor(Cursor.HAND));
+            exitButton.setOnMouseExited(mouseEvent -> exitButton.setCursor(Cursor.DEFAULT));
             setUsernameButton.setVisible(true);
+            setUsernameButton.setOnMouseEntered(mouseEvent -> setUsernameButton.setCursor(Cursor.HAND));
+            setUsernameButton.setOnMouseExited(mouseEvent -> setUsernameButton.setCursor(Cursor.DEFAULT));
 
             // Clear the text field and remove it from the pane
             if(usernameTextField!=null) usernameTextField.clear();

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.DeckModel;
 import it.polimi.ingsw.server.model.deck.Deck;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -51,6 +52,8 @@ public class VirtualDeck {
             topDeckNode.setLayoutY(yOffset);
             topDeckNode.setLayoutX(0);
             topDeckNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "TopCard"));
+            topDeckNode.setOnMouseEntered( e -> topDeckNode.setCursor(Cursor.HAND));
+            topDeckNode.setOnMouseExited( e -> topDeckNode.setCursor(Cursor.DEFAULT));
             decksPane.getChildren().add(topDeckNode);
 
         }
@@ -62,6 +65,8 @@ public class VirtualDeck {
             leftCardNode.setLayoutY(yOffset);
             leftCardNode.setLayoutX((2*spacing) + CARD_WIDTH + spacing);
             leftCardNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "LeftCard"));
+            leftCardNode.setOnMouseEntered( e -> leftCardNode.setCursor(Cursor.HAND));
+            leftCardNode.setOnMouseExited( e -> leftCardNode.setCursor(Cursor.DEFAULT));
             decksPane.getChildren().add(leftCardNode);
         }
 
@@ -71,8 +76,10 @@ public class VirtualDeck {
             Rectangle rightCardNode = rightCard.getCard();
             rightCardNode.setLayoutY(yOffset);
             rightCardNode.setLayoutX( (2*spacing) + (2 * (CARD_WIDTH + spacing)));
-            decksPane.getChildren().add(rightCardNode);
             rightCardNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "RightCard"));
+            rightCardNode.setOnMouseEntered( e -> rightCardNode.setCursor(Cursor.HAND));
+            rightCardNode.setOnMouseExited( e -> rightCardNode.setCursor(Cursor.DEFAULT));
+            decksPane.getChildren().add(rightCardNode);
         }
     }
 
