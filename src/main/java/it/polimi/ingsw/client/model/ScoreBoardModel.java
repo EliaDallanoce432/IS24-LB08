@@ -19,8 +19,8 @@ public class ScoreBoardModel extends ObservableModel{
 
     }
 
-    public int getPlayerNumber() {
-        return playerNumber;
+    public void setMyScore(int score){
+        scores.put(PlayerModel.getInstance().getUsername(),score);
     }
 
     public void setScores(HashMap<String, Integer> scores){

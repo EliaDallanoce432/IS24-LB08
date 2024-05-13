@@ -130,6 +130,7 @@ public class ClientMessageHandler {
         GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
         ClientStateModel.getIstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getIstance().updateCardsInHand(updatedHand);
+        ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
 
         //TODO update scores and resources
