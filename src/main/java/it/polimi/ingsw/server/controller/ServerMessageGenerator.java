@@ -17,6 +17,14 @@ public class ServerMessageGenerator {
         this.game = game;
     }
 
+    /**
+     * this message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
+     * secrete objective
+     * @param startercard given to the player
+     * @param objectiveCard1 fist objective card that can be selected
+     * @param objectiveCard2 second objective card that can be selected
+     * @return a message containing these three cards
+     */
     public JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
         JSONObject message = new JSONObject();
         message.put("message", "cardsSelection");
@@ -26,6 +34,12 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent to each player at the beginning of the match
+     * @param gameController of the current match
+     * @param player player who is playing the current match
+     * @return a message containing all the necessary information the player needs to start the match
+     */
     public JSONObject startGameMessage (GameController gameController, Player player) {
         JSONObject message = new JSONObject();
         message.put("message","startGame");
@@ -41,6 +55,11 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent to notify the beginning of a player's turn
+     * @param gameController is used to get the player's name
+     * @return a message showing which player is about to play and his name
+     */
     public JSONObject turnPlayerUpdateMessage(GameController gameController) {
         JSONObject message = new JSONObject();
         message.put("message","turnPlayerUpdate");
@@ -55,6 +74,10 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent to players in order to update the decks after each draw
+     * @return a message containing updated information about the decks
+     */
     public JSONObject updatedDecksMessage() {
         JSONObject message = new JSONObject();
         message.put("message", "updatedDecks");
@@ -62,6 +85,11 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent when the player executes a successful placement
+     * @param player who places the card
+     * @return a message containing updated information (score, his hand, resources on the game-field)
+     */
     public JSONObject successfulPlaceMessage(Player player) {
         JSONObject message = new JSONObject();
         message.put("message","successfulPlace");
@@ -72,6 +100,11 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent when a player cannot place a card for a particular reason
+     * @param reason explains why the placement is incorrect
+     * @return the message to the player
+     */
     public JSONObject cannotPlaceMessage(String reason) {
         JSONObject message = new JSONObject();
         message.put("message","cannotPlace");
