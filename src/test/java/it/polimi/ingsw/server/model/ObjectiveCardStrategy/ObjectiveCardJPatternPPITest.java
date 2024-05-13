@@ -61,9 +61,9 @@ class ObjectiveCardJPatternPPITest {
     @Test
     void calculatePointsSimpleCaseWithNegativeCoordinates() {
         try {
-            gameField.place(new ResourceCard(19), true, -1,-1);
-            gameField.place(new ResourceCard(20), true, -1,1);
-            gameField.place(new ResourceCard(32), true, -2,-2);
+            gameField.place(new ResourceCard(19), false, -1,-1);
+            gameField.place(new ResourceCard(20), false, -1,1);
+            gameField.place(new ResourceCard(32), false, -2,-2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

@@ -115,13 +115,13 @@ class ObjectiveCardJPatternAAFTest {
     @Test
     void calculatePointsDoubleHorizontalJPatternCase() {
         try {
-            gameField.place(new ResourceCard(28), true, 1,1);
-            gameField.place(new ResourceCard(29), true, 1,-1);
-            gameField.place(new ResourceCard(8), true, 2,2);
-            gameField.place(new ResourceCard(34), true, 2,0);
-            gameField.place(new ResourceCard(26), true, 3,1);
-            gameField.place(new ResourceCard(25), true, 3,-1);
-            gameField.place(new ResourceCard(4), true, 4,2);
+            gameField.place(new ResourceCard(28), false, 1,1);
+            gameField.place(new ResourceCard(29), false, 1,-1);
+            gameField.place(new ResourceCard(8), false, 2,2);
+            gameField.place(new ResourceCard(34), false, 2,0);
+            gameField.place(new ResourceCard(26), false, 3,1);
+            gameField.place(new ResourceCard(25), false, 3,-1);
+            gameField.place(new ResourceCard(4), false, 4,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

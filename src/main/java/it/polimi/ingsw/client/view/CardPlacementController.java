@@ -163,8 +163,6 @@ public class CardPlacementController {
                     int relX = absoluteToRelativeX(snapX);
                     int relY = absoluteToRelativeY(snapY);
 
-                    System.out.println("placing card #" + vCard.getId() + " at " + relX + " - " + relY);
-
                     ClientController.getInstance().sendPlaceMessage(vCard.getId(), relX, relY, vCard.isFacingUp());
 
 
@@ -241,13 +239,9 @@ public class CardPlacementController {
             Rectangle cardNode = virtualCard.getCard();
             int relativeX = virtualCard.getX();
             int relativeY = virtualCard.getY();
-            System.out.println("relativeX: " + relativeX + " relativeY: " + relativeY);
 
             cardNode.setLayoutX(relativeToAbsoluteX(relativeX));
             cardNode.setLayoutY(relativeToAbsoluteY(relativeY));
-
-            System.out.println("placed card in: " + cardNode.getLayoutX() + " " + cardNode.getLayoutY());
-            System.out.println("center: " + centerX + " " + centerY);
 
             makeUndraggable(cardNode);
             boardPane.getChildren().add(cardNode);

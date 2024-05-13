@@ -60,8 +60,8 @@ class ObjectiveCardDoubleFeatherTest {
     void calculatePointsCase2() {
         try {
             gameField.place(new ResourceCard(15), true, -1,1);
+            gameField.place(new ResourceCard(15), true, 0,2);
             gameField.place(new ResourceCard(15), true, -2,0);
-            gameField.place(new ResourceCard(15), true, -2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +73,7 @@ class ObjectiveCardDoubleFeatherTest {
         try {
             gameField.place(new ResourceCard(15), true, -1,1);
             gameField.place(new ResourceCard(15), true, -2,0);
-            gameField.place(new ResourceCard(15), true, -2,2);
+            gameField.place(new ResourceCard(15), true, 0,2);
             gameField.place(new ResourceCard(15), true, 1,-1);
             gameField.place(new ResourceCard(15), true, 2,-2);
         } catch (CannotPlaceCardException e) {
@@ -86,7 +86,7 @@ class ObjectiveCardDoubleFeatherTest {
         try {
             gameField.place(new ResourceCard(15), true, -1,1);
             gameField.place(new ResourceCard(15), true, -2,0);
-            gameField.place(new ResourceCard(15), true, -2,2);
+            gameField.place(new ResourceCard(15), true, 0,2);
             gameField.place(new ResourceCard(15), true, 1,-1);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);

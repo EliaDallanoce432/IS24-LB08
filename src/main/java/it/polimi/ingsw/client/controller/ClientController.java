@@ -43,7 +43,6 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     @Override
     public void processMessage(JSONObject message) {
-        System.out.println(message.toJSONString());
         clientMessageHandler.execute(message);
     }
 

@@ -72,7 +72,7 @@ class ObjectiveCardJPatternFFPTest {
     @Test
     void calculatePointsNoPattern() {
         try {
-            gameField.place(new ResourceCard(1), true, 1,1);
+            gameField.place(new ResourceCard(1), false, 1,1);
             gameField.place(new ResourceCard(2), true, 1,-1);
             gameField.place(new ResourceCard(16), true, 2,0);
         } catch (CannotPlaceCardException e) {

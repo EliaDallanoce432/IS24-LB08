@@ -64,7 +64,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * adds the player to the arraylist of players
      * @param client who joined the current game
      */
-    public synchronized void enterGame (ClientHandler client){
+    public void enterGame (ClientHandler client){
         clientHandlers.add(client);
         client.setGame(this);
         client.setInGame(true);
@@ -76,7 +76,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * removes a player from the current game and sends him to the lobby
      * @param client who left the game
      */
-    public synchronized void leaveGame (ClientHandler client){
+    public void leaveGame (ClientHandler client){
         clientHandlers.remove(client);
         game.reinsertToken(getCurrentPlayer(client).getToken());
         game.players.remove(client.getUsername());
@@ -84,7 +84,19 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         client.setInGame(false);
         System.out.println("player " + client.getUsername() + " left the game");
         lobby.enterLobby(client);
+        if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
+            disconnectionDuringGameProcedure();
+        }
         notifyClientConnectedCountChanged();
+    }
+
+    private void disconnectionDuringGameProcedure() {
+        game.setGameState(GameState.aClientDisconnected);
+        System.out.println("the game is closing");
+        broadcast(messageGenerator.closingGameMessage());
+        while (!clientHandlers.isEmpty()) {
+            leaveGame(clientHandlers.getFirst());
+        }
     }
 
     public Player getCurrentPlayer(ClientHandler player) {
@@ -316,12 +328,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         leaveGame(clientHandler);
         lobby.notifyConnectionLoss(clientHandler);
         if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
-            game.setGameState(GameState.aClientDisconnected);
-            System.out.println("the game is closing");
-            broadcast(messageGenerator.closingGameMessage());
-            while (!clientHandlers.isEmpty()) {
-                leaveGame(clientHandlers.getFirst());
-            }
+            disconnectionDuringGameProcedure();
         }
     }
 
@@ -370,7 +377,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     public void notifyLastRound() {
         if(game.getGameState() != GameState.playing) return;
         for (ClientHandler clientHandler : clientHandlers) {
-            if (getCurrentPlayer(clientHandler).getScore() >= 5) {
+            if (getCurrentPlayer(clientHandler).getScore() >= 3) {
                 game.setGameState(GameState.lastRound);
                 broadcast(messageGenerator.lastRoundMessage("player " + clientHandler.getUsername() + " has 20 or more points"));
                 return;

@@ -84,12 +84,12 @@ class ObjectiveCardDiagonalInsectTest {
     @Test
     void calculatePointsDoubleTripletCase() {
         try {
-            gameField.place(new ResourceCard(38), true, -1,1);
-            gameField.place(new ResourceCard(38), true, -2,2);
-            gameField.place(new ResourceCard(38), true, -3,3);
-            gameField.place(new ResourceCard(38), true, -2,4);
-            gameField.place(new ResourceCard(38), true, -3,5);
-            gameField.place(new ResourceCard(38), true, -4,6);
+            gameField.place(new ResourceCard(38), false, -1,1);
+            gameField.place(new ResourceCard(38), false, -2,2);
+            gameField.place(new ResourceCard(38), false, -3,3);
+            gameField.place(new ResourceCard(38), false, -2,4);
+            gameField.place(new ResourceCard(38), false, -3,5);
+            gameField.place(new ResourceCard(38), false, -4,6);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

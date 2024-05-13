@@ -22,20 +22,21 @@ public class ObjectiveCardDiagonalFungi implements ObjectiveStrategy{
                     currentCard = nextCard;
                     nextCard = gameField.lookAtCoordinates(nextCard.getX()+1, nextCard.getY()+1);
                 }
+                else nextCard = null;
             }
             //counts the triplets in the diagonal
             int counter = 0; //keeps track of consecutive cards in the pattern to detect triplets
             while(currentCard != null && currentCard.getCardKingdom() == Resource.fungi) {
                 if(counter < 2) {
-                    visited.add(currentCard);
                     counter++;
-                    currentCard = gameField.lookAtCoordinates(currentCard.getX() - 1, currentCard.getY() - 1);
                 }
                 else {
                     counter = 0;
                     triplets ++;
                     gameField.getPlayer().increaseNumOfCompletedObjective();
                 }
+                visited.add(currentCard);
+                currentCard = gameField.lookAtCoordinates(currentCard.getX() - 1, currentCard.getY() - 1);
             }
         }
         return triplets;

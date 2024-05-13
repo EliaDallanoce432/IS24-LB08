@@ -48,8 +48,8 @@ class ObjectiveCardDoubleInkpotTest {
     @Test
     void calculatePointsCase1() {
         try {
-            gameField.place(new ResourceCard(15), true, -1,1);
-            gameField.place(new ResourceCard(15), true, -2,2);
+            gameField.place(new ResourceCard(15), false, -1,1);
+            gameField.place(new ResourceCard(15), false, -2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
