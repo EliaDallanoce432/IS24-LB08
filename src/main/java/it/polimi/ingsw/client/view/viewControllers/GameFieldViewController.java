@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.viewControllers;
 
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
+import it.polimi.ingsw.client.view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -124,6 +125,8 @@ public class GameFieldViewController extends ViewController {
                     showMessage("Please Draw a Card from the decks!");
                     virtualDeck.loadDecks();
                 }
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}
             }
         });

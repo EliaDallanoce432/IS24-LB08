@@ -38,6 +38,7 @@ public class ClientMessageHandler {
             case "cannotPlace" -> cannotPlaceHandler(message);
             case "turnPlayerUpdate" -> updateTurnPlayer(message);
             case "updatedScores" -> updateScores(message);
+            case "closingGame" -> updateClientState(ClientState.KICKED_STATE);
 
 
 

@@ -1,11 +1,11 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.AvailableGamesModel;
+import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 

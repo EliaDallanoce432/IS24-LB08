@@ -1,11 +1,12 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
+import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.VirtualCard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;

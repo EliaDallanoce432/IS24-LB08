@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.controller;
 
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.ObjectivesModel;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserverInterface;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Application;
 import javafx.application.Platform;
 import org.json.simple.JSONObject;
@@ -52,7 +54,7 @@ public class ClientController implements ClientNetworkObserverInterface {
 
     @Override
     public void notifyConnectionLoss() {
-        Platform.runLater(() -> StageManager.loadLostConnectionScene());
+        ClientStateModel.getIstance().setClientState(ClientState.LOST_CONNECTION_STATE);
         System.out.println("Connection lost");
         clientConnectionManager.shutdown();
     }

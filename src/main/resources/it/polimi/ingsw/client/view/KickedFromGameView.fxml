@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.KickedFromGameViewController">
+    <children>
+        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#backToMainScreen" text="Back to Main Screen" />
+                <Label fx:id="alertLabel" layoutX="94.0" layoutY="64.0" prefHeight="252.0" prefWidth="384.0" text="One Player has left or lost connection. The game was ended." textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
