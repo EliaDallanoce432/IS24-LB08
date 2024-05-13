@@ -56,6 +56,10 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         return game;
     }
 
+    public ArrayList<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
+
     /**
      * adds the player to the arraylist of players
      * @param client who joined the current game
@@ -171,7 +175,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         } catch (CardNotInHandException e) {
             throw new CannotPlaceCardException("The card is not in your hand"); //should never happen
         }
-        broadcast(messageGenerator.updatedScoresMessage());
+        broadcast(messageGenerator.updatedScoresMessage(this));
         if(game.getGameState() == GameState.lastRound) passTurn(client);
     }
 
@@ -327,9 +331,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     @Override
     public void notifyReady() {
         if(!gameIsFull()) return;
-        if(game.getGameState()!=GameState.waitingForPlayers) {
-            return;
-        }
+        if(game.getGameState()!=GameState.waitingForPlayers) return;
+
         for (Player p : game.getPlayers()) {
             if(!p.isReady())
                 return;
@@ -352,6 +355,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyStarterCardAndSecretObjectiveSelected() {
+        if(game.getGameState() != GameState.waitingForCardsSelection) return;
         for (ClientHandler player : clientHandlers) {
             Player currentPlayer = getCurrentPlayer(player);
             if(!currentPlayer.isStarterCardOrientationSelected() || currentPlayer.getSecretObjective() == null) return;
@@ -363,7 +367,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyLastRound() {
-        if(game.getGameState()==GameState.lastRound || game.getGameState()==GameState.endGame) return;
+        if(game.getGameState() != GameState.playing) return;
         for (ClientHandler clientHandler : clientHandlers) {
             if (getCurrentPlayer(clientHandler).getScore() >= 5) {
                 game.setGameState(GameState.lastRound);
@@ -381,7 +385,6 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
 
     @Override
     public void notifyEndGame() {
-        //TODO controllare perchè non scatta sempre nel momento giusto
         if(game.getGameState()==GameState.endGame) return;
         if(game.getGameState()!=GameState.lastRound) return;
         if(game.turnCounter != 0) return;
@@ -399,17 +402,15 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             classifiedPlayers.add(c);
             getCurrentPlayer(c).calculateFinalScore();
         }
-
-        classifiedPlayers.sort((p1, p2) -> {
-            // Ordina per score
-            int compare = getCurrentPlayer(p1).compareTo(getCurrentPlayer(p2).getScore());
-            // Se lo score è lo stesso, ordina per obiettivi completati
-            if (compare == 0) {
-                return getCurrentPlayer(p1).compareTo(getCurrentPlayer(p2).getNumOfCompletedObjectiveCards());
-            }
-            return compare;
-        });
+        sortPlayers(classifiedPlayers);
         broadcast(messageGenerator.leaderBoardMessage(classifiedPlayers,this));
+    }
+
+    void sortPlayers(ArrayList<ClientHandler> clients) {
+        clients.sort((c1, c2) -> {
+            // Ordina per score e obiettivi completati
+            return getCurrentPlayer(c1).compareTo(getCurrentPlayer(c2));
+        });
     }
 
 }

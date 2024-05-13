@@ -19,7 +19,7 @@ public abstract class DeckWithRevealedCards extends Deck{
         try {
             leftRevealedCard = this.directDraw();
         } catch (EmptyDeckException e) {
-            return null; //no cards left
+            leftRevealedCard = null; //no cards left
         }
         return selectedCard;
     }
@@ -34,7 +34,7 @@ public abstract class DeckWithRevealedCards extends Deck{
         try {
             rightRevealedCard = this.directDraw();
         } catch (EmptyDeckException e) {
-            return null; //no cards left
+            rightRevealedCard = null; //no cards left
         }
         return selectedCard;
     }

@@ -117,10 +117,17 @@ public class ServerMessageGenerator {
         return message;
     }
 
-    public JSONObject updatedScoresMessage () {
-        //TODO rifarla (manda i punteggi di tutti)
+    public JSONObject updatedScoresMessage (GameController gameController) {
         JSONObject message = new JSONObject();
         message.put("message","updatedScores");
+        JSONArray scores = new JSONArray();
+        for(ClientHandler clientHandler: gameController.getClientHandlers()) {
+            JSONObject client = new JSONObject();
+            client.put("username", clientHandler.getUsername());
+            client.put("score", String.valueOf(gameController.getCurrentPlayer(clientHandler).getScore()));
+            scores.add(client);
+        }
+        message.put("updatedScores", scores);
         return message;
     }
 
@@ -145,10 +152,11 @@ public class ServerMessageGenerator {
         //TODO la lista è al contrario
         JSONObject message = new JSONObject();
         message.put("message", "leaderBoard");
-        if(clientHandlers.size()>= 1) {
+        if(!clientHandlers.isEmpty()) {
             JSONObject player = new JSONObject();
-            player.put("username",clientHandlers.get(0).getUsername());
-            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(0)).getScore()));
+            player.put("username",clientHandlers.getFirst().getUsername());
+            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.getFirst()).getScore()));
+            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.getFirst()).getNumOfCompletedObjectiveCards()));
             message.put("first", player);
         }
         else message.put("first", null);
@@ -157,6 +165,7 @@ public class ServerMessageGenerator {
             JSONObject player = new JSONObject();
             player.put("username",clientHandlers.get(1).getUsername());
             player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(1)).getScore()));
+            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(1)).getNumOfCompletedObjectiveCards()));
             message.put("second", player);
         }
         else message.put("second", null);
@@ -165,6 +174,7 @@ public class ServerMessageGenerator {
             JSONObject player = new JSONObject();
             player.put("username",clientHandlers.get(2).getUsername());
             player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(2)).getScore()));
+            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(2)).getNumOfCompletedObjectiveCards()));
             message.put("third", player);
         }
         else message.put("third", null);
@@ -172,6 +182,7 @@ public class ServerMessageGenerator {
             JSONObject player = new JSONObject();
             player.put("username",clientHandlers.get(3).getUsername());
             player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(3)).getScore()));
+            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(3)).getNumOfCompletedObjectiveCards()));
             message.put("fourth", player);
         }
         else message.put("fourth", null);

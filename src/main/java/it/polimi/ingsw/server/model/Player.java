@@ -114,6 +114,10 @@ public class Player {
         game.gameObserver.notifyLastRound();
     }
 
+    public void increaseScore(int amount) {
+        setScore(getScore() + amount);
+    }
+
     public StarterCard getStarterCard() {
         return starterCard;
     }
@@ -202,10 +206,9 @@ public class Player {
      * this method calculates the points given by the secrete objective card and the 2 common objective
      */
     public void calculateFinalScore() {
-
-        secretObjective.getEarnedPoints(getGamefield());
-        game.commonObjectives.get(0).getEarnedPoints(getGamefield());
-        game.commonObjectives.get(1).getEarnedPoints(getGamefield());
+        increaseScore(secretObjective.getEarnedPoints(getGamefield()));
+        increaseScore(game.commonObjectives.get(0).getEarnedPoints(getGamefield()));
+        increaseScore(game.commonObjectives.get(1).getEarnedPoints(getGamefield()));
     }
 
     /**
@@ -220,12 +223,16 @@ public class Player {
 
     /**
      * this method is used to compare a player's attribute with another player
-     * @param value that is used for the comparison
+     * @param other other player in the comparison
      * @return the result of the comparison
      */
-    public int compareTo (int value){
-        if (this.getScore() > value) return 1; // il valore del primo player è maggiore del secondo
-        if (this.getScore() < value) return -1; // il valore del primo player è minore del secondo
-        else return 0; // i valori sono uguali
+    public int compareTo (Player other){
+        if (this.getScore() > other.getScore()) return -1;
+        else if (this.getScore() < other.getScore()) return 1;
+        else {
+            if(this.getNumOfCompletedObjectiveCards() > other.getNumOfCompletedObjectiveCards()) return -1;
+            else if (this.getNumOfCompletedObjectiveCards() < other.getNumOfCompletedObjectiveCards()) return 1;
+        }
+        return 0;
     }
 }
