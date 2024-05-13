@@ -22,12 +22,12 @@
                   <Font name="Baskerville Old Face" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="1103.0" layoutY="51.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
+            <Label layoutX="1103.0" layoutY="77.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="807.0" layoutY="50.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
+            <Label layoutX="807.0" layoutY="76.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="21.0" />
                </font>
@@ -44,8 +44,8 @@
             <Pane fx:id="handPane" layoutX="110.0" layoutY="576.0" prefHeight="131.0" prefWidth="509.0" style="-fx-border-color: black;" />
             <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="206.0" prefHeight="350.0" prefWidth="450.0" style="-fx-border-color: black;" />
             <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" style="-fx-border-color: black;" />
-            <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="89.0" prefHeight="75.0" prefWidth="230.0" style="-fx-border-color: black;" />
-            <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="89.0" prefHeight="75.0" prefWidth="113.0" style="-fx-border-color: black;" />
+            <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="113.0" prefHeight="75.0" prefWidth="230.0" style="-fx-border-color: black;" />
+            <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="113.0" prefHeight="75.0" prefWidth="113.0" style="-fx-border-color: black;" />
          </children>
       </Pane>
    </children>
