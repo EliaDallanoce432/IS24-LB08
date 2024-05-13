@@ -14,8 +14,8 @@
 | Model | Done✅ |
 | Network | Done✅ |
 | Controller| Done✅ | 
-| GUI | working progress...⌛ |
-| TUI | working progress...⌛ |
+| GUI | work in progress...⌛ |
+| TUI | work in progress...⌛ |
 | Persistence | ❌ |
 | Multiple games | Done✅ |
 | Connection resilience | ❌ |
