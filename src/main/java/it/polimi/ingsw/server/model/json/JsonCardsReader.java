@@ -1,7 +1,4 @@
 package it.polimi.ingsw.server.model.json;
-
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +29,7 @@ public class JsonCardsReader {
     }
 
     /**
-     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * load resource card from json file
      * @param id unique id that identifies the card
      * @param resourceCard  reference to the card itself
      */
@@ -42,9 +39,8 @@ public class JsonCardsReader {
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("JsonResourceCards.json");
-        InputStreamReader isr = new InputStreamReader(is);
-        JSONParser jsonParser = new JSONParser();
-        try {
+        try (InputStreamReader isr = new InputStreamReader(is)) {
+            JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
             for (Object obj : dataArray) {
@@ -56,20 +52,13 @@ public class JsonCardsReader {
             }
         } catch (IOException e) {
             throw new CannotOpenJSONException("couldn't load JsonResourceCards file");
-        }
-        catch (ParseException e){
-            throw new CannotOpenJSONException("couldn't load resource card "+id);
-        }
-        finally {
-            try {
-                isr.close();
-            } catch (IOException ignored) {
-            }
+        } catch (ParseException e) {
+            throw new CannotOpenJSONException("couldn't load resource card " + id);
         }
     }
 
     /**
-     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * load gold card from json file
      * @param id unique id that identifies the card
      * @param goldCard  reference to the card itself
      */
@@ -79,36 +68,34 @@ public class JsonCardsReader {
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("JsonGoldCards.json");
-        InputStreamReader isr = new InputStreamReader(is);
-        JSONParser jsonParser = new JSONParser();
-        try {
+        try (InputStreamReader isr = new InputStreamReader(is)) {
+            JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
             for (Object obj : dataArray) {
                 JSONObject item = (JSONObject) obj;
                 JSONArray requirements = (JSONArray) item.get("Requirements");
                 if (id == ((Long) item.get("Id")).intValue()) {
-                    loadGenericPlaceableCardInformation(goldCard,item,id);
-                    loadGoldCardStrategy(goldCard,item);
-                    loadGoldCardRequirements(goldCard,requirements);
+                    loadGenericPlaceableCardInformation(goldCard, item, id);
+                    loadGoldCardStrategy(goldCard, item);
+                    loadGoldCardRequirements(goldCard, requirements);
                     break;
                 }
             }
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new CannotOpenJSONException("couldn't load JsonGoldCards file");
-        }
-        catch (ParseException e){
-            throw new CannotOpenJSONException("couldn't load gold card "+id);
-        }
-        finally {
-            try {
-                isr.close();
-            } catch (IOException ignored) {
-            }
+        } catch (ParseException e) {
+            throw new CannotOpenJSONException("couldn't load gold card " + id);
         }
     }
 
+    /**
+     * method access the information of a specific placeable card from the json file and sets the attributes in the card according to what is read on the file
+     * @param placeableCard placeable card to load
+     * @param item reference to the card itself
+     * @param id unique id that identifies the card
+     */
     private static void loadGenericPlaceableCardInformation(PlaceableCard placeableCard, JSONObject item, int id) {
         placeableCard.setId(id);
         placeableCard.setPoints(((Long) item.get("Points")).intValue());
@@ -122,9 +109,13 @@ public class JsonCardsReader {
         placeableCard.setBackTopRightCorner(new Corner(Resource.none, true,placeableCard));
         placeableCard.setBackBottomRightCorner(new Corner(Resource.none, true,placeableCard));
         placeableCard.setFacingUp(true);
-
     }
 
+    /**
+     * method access the information of a specific gold card from the json file and sets the attributes in the card according to what is read on the file
+     * @param goldCard gold card to load
+     * @param item reference to the card itself
+     */
     private static void loadGoldCardStrategy(GoldCard goldCard, JSONObject item)  {
         String strategy = item.get("Strategy").toString();
         switch (strategy) {
@@ -136,6 +127,11 @@ public class JsonCardsReader {
         }
     }
 
+    /**
+     * method access the information of a specific requirements card from the json file and sets the attributes in the card according to what is read on the file
+     * @param goldCard gold card to load
+     * @param requirements reference to the card requirements
+     */
     private static void loadGoldCardRequirements(GoldCard goldCard, JSONArray requirements) {
         for (int i = 0; i < 4; i++) {
             JSONObject currentRequirement = (JSONObject) requirements.get(i);
@@ -152,7 +148,7 @@ public class JsonCardsReader {
 
 
     /**
-     * method access the information of a specific card from the json file and sets the attributes in the card according to what is read on the file
+     * load starter card from json file
      * @param id unique id that identifies the card
      * @param starterCard  reference to the card itself
      */
@@ -162,9 +158,8 @@ public class JsonCardsReader {
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("JsonStarterCards.json");
-        InputStreamReader isr = new InputStreamReader(is);
-        JSONParser jsonParser = new JSONParser();
-        try {
+        try (InputStreamReader isr = new InputStreamReader(is)) {
+            JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
             for (Object obj : dataArray) {
@@ -174,20 +169,19 @@ public class JsonCardsReader {
                     break;
                 }
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new CannotOpenJSONException("couldn't load JsonStarterCards file");
-        }
-        catch (ParseException e){
-            throw new CannotOpenJSONException("couldn't load starter card "+id);
-        }
-        finally {
-            try {
-                isr.close();
-            } catch (IOException ignored) {
-            }
+        } catch (ParseException e) {
+            throw new CannotOpenJSONException("couldn't load starter card " + id);
         }
     }
 
+    /**
+     * method access the information of a specific starter card from the json file and sets the attributes in the card according to what is read on the file
+     * @param starterCard starter card
+     * @param item reference to the card itself
+     * @param id unique id that identifies the card
+     */
     private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
         List<Resource> backResources = new ArrayList<>();
         JSONArray resource = (JSONArray) item.get("ResourceBack");

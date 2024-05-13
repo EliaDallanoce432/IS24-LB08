@@ -30,10 +30,19 @@ public class GoldCard extends PlaceableCard {
         return super.equals(obj);
     }
 
+    /**
+     * method returns the points earned with this gold card
+     * @param gameField game field
+     * @return int
+     */
     public int placementPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField,this);
     }
 
+    /**
+     * set context of gold card (strategy pattern)
+     * @param context context of gold card
+     */
     public void setContext(GoldCardContext context) {
         this.context = context;
     }

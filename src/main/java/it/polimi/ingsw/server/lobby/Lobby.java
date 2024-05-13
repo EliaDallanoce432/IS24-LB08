@@ -22,15 +22,6 @@ public class Lobby implements ServerNetworkObserverInterface {
     private final ExecutorService executorService;
     private final LobbyRequestExecutor lobbyRequestExecutor;
 
-    public void startLobby() {
-        while (running) {
-            while (!requests.isEmpty()) {
-                lobbyRequestExecutor.execute(requests.getFirst());
-                requests.removeFirst();
-            }
-        }
-    }
-
     public Lobby(int port) {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
@@ -43,7 +34,27 @@ public class Lobby implements ServerNetworkObserverInterface {
         running = true;
     }
 
-    public void submitNewCLient(ClientHandler client) {
+    public Set<String> getAvailableGames() {
+        return availableGames.keySet();
+    }
+
+    /**
+     * this method start the lobby server that continuously processes requests from clients until the server is shut down
+     */
+    public void startLobby() {
+        while (running) {
+            while (!requests.isEmpty()) {
+                lobbyRequestExecutor.execute(requests.getFirst());
+                requests.removeFirst();
+            }
+        }
+    }
+
+    /**
+     * This method adds a new client to the lobby.
+     * @param client Client Handler of client
+     */
+    public void submitNewClient(ClientHandler client) {
         //TODO prendere quello che ritorna la submit
         executorService.submit(client);
         enterLobby(client);
@@ -51,6 +62,10 @@ public class Lobby implements ServerNetworkObserverInterface {
         client.send(LobbyMessageGenerator.usernameSetMessage(client.getUsername()));
     }
 
+    /**
+     * This method set a random username to submitted client.
+     * @param client Client Handler of client
+     */
     private void setRandomGuestUsername(ClientHandler client) {
         boolean usernameNotSet = true;
         while (usernameNotSet) {
@@ -62,13 +77,12 @@ public class Lobby implements ServerNetworkObserverInterface {
             }
         }
     }
-
+    /**
+     * this method submit a new request from lobby
+     * @param request request of client
+     */
     public synchronized void submitNewRequest(Request request) {
         requests.addLast(request);
-    }
-
-    public Set<String> getAvailableGames() {
-        return availableGames.keySet();
     }
 
     /**
@@ -123,6 +137,10 @@ public class Lobby implements ServerNetworkObserverInterface {
         thread.start();
     }
 
+    /**
+     * This method removes a game from the list of available games.
+     * @param gameName game name available
+     */
     public void makeUnavailable(String gameName) {
         availableGames.remove(gameName);
     }

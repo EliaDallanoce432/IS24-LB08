@@ -7,7 +7,6 @@ public abstract class PlaceableCard extends Card {
     protected int points;
     protected Resource cardKingdom; //animal, plant, fungi or insect
     protected boolean facingUp;
-    //protected ArrayList<Resource> requirements;
     protected int x;
     protected int y;
     protected int requiredFungiResourceAmount;

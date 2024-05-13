@@ -34,6 +34,7 @@ public class GameField {
         placementHistory = new ArrayList<>();
     }
 
+    //GETTERS and SETTERS
     public Player getPlayer() {
         return player;
     }
@@ -123,7 +124,6 @@ public class GameField {
 
     /**
      * places the starter card on the game field
-     *
      * @param card     starter card that needs to be placed
      * @param facingUp optional value that chooses the side of the card that will be shown
      */
@@ -172,15 +172,25 @@ public class GameField {
      * @return boolean
      */
     private boolean followsPlacementRules(int x, int y){
-
         return isInValidCoordinates(x, y) && hasValidNeighbours(x,y);
-
     }
 
+    /**
+     * check if the card is in valid coordinates, x and y must be both even or both odd
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return boolean
+     * */
     private boolean isInValidCoordinates(int x, int y) {
         return (Math.abs(x)%2==0 && Math.abs(y)%2==0) || (Math.abs(x)%2==1 && Math.abs(y)%2==1);
     }
 
+    /**
+     * check if the card has valid corner for placement
+     * @param neighbourCard placeable neighbourCard
+     * @param offset offset of cards
+     * @return boolean
+     */
     private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
          switch (offset[0]) {
             case 1 -> {
@@ -203,6 +213,12 @@ public class GameField {
          return false;
     }
 
+    /**
+     * check if the card has valid neighbors for placement
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return boolean
+     */
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
         int validNeighbourCount = 0;

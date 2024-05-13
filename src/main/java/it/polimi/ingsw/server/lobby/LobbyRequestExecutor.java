@@ -31,6 +31,12 @@ public class LobbyRequestExecutor {
         }
     }
 
+    /**
+     * method handles the logic for setting a username for a client
+     * @param lobby lobby reference
+     * @param message json object message
+     * @param clientHandler client handler of client
+     */
     private void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         try {
             lobby.setUsername(message.get("username").toString(),clientHandler);
@@ -41,10 +47,21 @@ public class LobbyRequestExecutor {
 
     }
 
+    /**
+     * method retrieves a list of available games from the lobby and sends them to the requesting client
+     * @param lobby lobby reference
+     * @param clientHandler client handler of client
+     */
     private void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
         clientHandler.send(LobbyMessageGenerator.getAvailableGamesMessage(lobby.getAvailableGames()));
     }
 
+    /**
+     * method processes a request to create a new game
+     * @param lobby lobby reference
+     * @param message json object message
+     * @param clientHandler client handler of client
+     */
     private void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         int numberOfPlayers = Integer.parseInt(message.get("numOfPlayers").toString());
         String gameName = message.get("gameName").toString();
@@ -54,6 +71,12 @@ public class LobbyRequestExecutor {
 
     }
 
+    /**
+     * method handles a client's request to join a game
+     * @param lobby lobby reference
+     * @param message json object message
+     * @param clientHandler client handler of client
+     */
     private void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
         String gameName = message.get("gameName").toString();
         try {
@@ -65,6 +88,11 @@ public class LobbyRequestExecutor {
 
     }
 
+    /**
+     * method  removes a client from the lobby when they choose to leave
+     * @param lobby lobby reference
+     * @param clientHandler client handler of client
+     */
     private void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
         lobby.leaveLobby(clientHandler);
     }

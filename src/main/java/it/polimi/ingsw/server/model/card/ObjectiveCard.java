@@ -82,7 +82,7 @@ public class ObjectiveCard extends Card {
 
     /**
      * method returns the points earned with this objective card
-     * @param gameField gamefield on which the objective has to be checked
+     * @param gameField game field on which the objective has to be checked
      * @return int
      */
     public int getEarnedPoints(GameField gameField) {

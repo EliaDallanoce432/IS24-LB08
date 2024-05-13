@@ -37,6 +37,10 @@ public class Player {
         this.isReady = false;
         this.starterCardOrientationSelected = false;
     }
+    //GETTERS and SETTERS
+    public ArrayList<PlaceableCard> getHand() {
+        return hand;
+    }
 
     public boolean hasAlreadyPlaced() {
         return alreadyPlaced;
@@ -48,6 +52,18 @@ public class Player {
 
     public GameField getGamefield() {
         return gamefield;
+    }
+
+    public StarterCard getStarterCard() {
+        return starterCard;
+    }
+
+    public void setStarterCard(StarterCard starterCard) {
+        this.starterCard = starterCard;
+    }
+
+    public boolean isStarterCardOrientationSelected() {
+        return starterCardOrientationSelected;
     }
 
     public Color getToken() {
@@ -62,12 +78,18 @@ public class Player {
         return drawnObjectiveCards;
     }
 
-    public void setDrawnObjectiveCards(ObjectiveCard[] drawnObjectiveCards) {
-        this.drawnObjectiveCards = drawnObjectiveCards;
+    public ObjectiveCard getSecretObjective() {
+        return secretObjective;
     }
+
+    public void setDrawnObjectiveCards(ObjectiveCard[] drawnObjectiveCards) {this.drawnObjectiveCards = drawnObjectiveCards;}
 
     public boolean isReady() {
         return isReady;
+    }
+
+    public int getNumOfCompletedObjectiveCards() {
+        return numOfCompletedObjectiveCards;
     }
 
     /**
@@ -78,10 +100,6 @@ public class Player {
         isReady = ready;
         game.gameObserver.notifyReady();
     }
-    public boolean isStarterCardOrientationSelected() {
-        return starterCardOrientationSelected;
-    }
-
     /**
      * this method sets the starter-card orientation chosen by the player and notifies the GameObserver
      * @param starterCardOrientationSelected is the orientation selected by the player
@@ -89,10 +107,6 @@ public class Player {
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
         this.starterCardOrientationSelected = starterCardOrientationSelected;
         game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
-    }
-
-    public ArrayList<PlaceableCard> getHand() {
-        return hand;
     }
 
     /**
@@ -126,14 +140,6 @@ public class Player {
         setScore(getScore() + amount);
     }
 
-    public StarterCard getStarterCard() {
-        return starterCard;
-    }
-
-    public void setStarterCard(StarterCard starterCard) {
-        this.starterCard = starterCard;
-    }
-
     /**
      * this method sets the secrete objective card chosen by the player
      * @param objectiveCard chosen by the player at the beginning of the match
@@ -144,20 +150,13 @@ public class Player {
         game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
     }
 
-    public ObjectiveCard getSecretObjective() {
-        return secretObjective;
-    }
-
-
     /**
      * adds the drawn card to the player's hand
      * @param card card to be added
      */
     public void addToHand(PlaceableCard card) throws FullHandException {
-
         if (this.hand.size() >= MAX_HAND_SIZE) throw new FullHandException();
         else hand.add(card);
-
     }
 
     /**
@@ -191,11 +190,10 @@ public class Player {
      */
     public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
         if (hasAlreadyPlaced()) throw new CannotPlaceCardException("You have already placed!");
-        //seleziona carta dalla mano
         PlaceableCard cardInHand = null;
-        for (int i=0; i< hand.size(); i++) {
-            if (hand.get(i).getId() == id) {
-                cardInHand = hand.get(i);
+        for (PlaceableCard placeableCard : hand) {
+            if (placeableCard.getId() == id) {
+                cardInHand = placeableCard;
                 break;
             }
         }
@@ -224,9 +222,6 @@ public class Player {
      */
     public void increaseNumOfCompletedObjective () {
         this.numOfCompletedObjectiveCards ++;
-    }
-    public int getNumOfCompletedObjectiveCards() {
-        return numOfCompletedObjectiveCards;
     }
 
     /**

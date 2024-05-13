@@ -47,21 +47,24 @@ public class Game {
         return gameState;
     }
 
+    public void setGameState(GameState gamestate) {this.gameState = gamestate;}
+
     public Color getRandomToken() {
         Collections.shuffle(availableTokens);
         return availableTokens.removeFirst();
     }
 
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(players.values());
+    }
+
+    /**
+    * this method make the token available again
+    * @param token of the player
+     * */
     public void reinsertToken(Color token) {
         availableTokens.add(token);
     }
 
-    public void setGameState(GameState gamestate) {
-        this.gameState = gamestate;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return new ArrayList<>(players.values());
-    }
 
 }

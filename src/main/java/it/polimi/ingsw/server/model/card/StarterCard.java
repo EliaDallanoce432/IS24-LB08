@@ -24,6 +24,11 @@ public class StarterCard extends PlaceableCard {
         }
     }
 
+    /**
+     * method returns the points earned by placing this starter card
+     * @param gameField game field
+     * @return int
+     */
     @Override
     public int placementPoints(GameField gameField) {
         return 0;

@@ -61,14 +61,6 @@ public class Corner {
         return attachable;
     }
 
-    /**
-     * return the card that owns this corner
-     * @return PlaceableCard
-     */
-    public PlaceableCard getParentCard() {
-        return parentCard;
-    }
-
     public boolean isAttached() {
         return attached;
     }

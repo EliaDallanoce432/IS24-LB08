@@ -22,11 +22,19 @@ public abstract class Deck {
         return drawnCard;
     }
 
+    /**
+     * returns top card id from the deck
+     * @return int
+     */
     public int getTopCardID() {
         if(cards.isEmpty()) {return 0;}
         return cards.getFirst().getId();
     }
 
+    /**
+     * check if deck is empty
+     * @return boolean
+     */
     public boolean isEmpty() {
         return cards.isEmpty();
     }
