@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -36,6 +35,7 @@ public class GameFieldViewController extends ViewController {
 
     private CardPlacementController cardPlacementController;
     private VirtualDeck virtualDeck;
+    private ScoreBoardController scoreBoardController;
 
     @FXML
     private void initialize() {
@@ -45,6 +45,8 @@ public class GameFieldViewController extends ViewController {
                 commonObjectivesPane,secretObjectivePane);
 
         virtualDeck = new VirtualDeck(decksPane);
+
+        scoreBoardController = new ScoreBoardController(scoreBoardPane);
 
         showMessage("Waiting for all players to choose the cards...");
 
@@ -101,12 +103,15 @@ public class GameFieldViewController extends ViewController {
     }
 
     @Override
+    public void updateScoreBoard(){Platform.runLater(() -> scoreBoardController.updateScores());}
+
+    @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
             System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
 
             switch (ClientStateModel.getIstance().getClientState()){
-                case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getIstance().getTurnPlayer() + " to finish their turn...");
+                case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
                 case PLAYING_STATE -> showMessage("It's your Turn, please place a card!");
                 case DRAWING_STATE -> {
                     showMessage("Please Draw a Card from the decks!");

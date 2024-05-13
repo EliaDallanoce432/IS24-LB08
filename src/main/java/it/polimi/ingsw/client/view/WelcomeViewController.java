@@ -5,13 +5,10 @@ import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -100,7 +97,7 @@ public class WelcomeViewController extends ViewController {
 
         Platform.runLater(()->{
 
-            System.out.println("User logged in as: " + PlayerModel.getIstance().getUsername());
+            System.out.println("User logged in as: " + PlayerModel.getInstance().getUsername());
             // Show other buttons
             joinGameButton.setVisible(true);
             createGameButton.setVisible(true);

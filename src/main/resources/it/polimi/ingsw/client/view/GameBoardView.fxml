@@ -37,7 +37,7 @@
                   <Font name="Baskerville Old Face" size="18.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="scrollPane" layoutX="41.0" layoutY="89.0" prefHeight="388.0" prefWidth="709.0" />
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="41.0" layoutY="89.0" pannable="true" prefHeight="388.0" prefWidth="709.0" vbarPolicy="NEVER" />
             <Pane fx:id="handPane" layoutX="110.0" layoutY="576.0" prefHeight="131.0" prefWidth="509.0" style="-fx-border-color: black;">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
