@@ -17,35 +17,41 @@ public class VirtualDeck {
         this.decksPane = decksPane;
     }
 
-    public void loadDecks(boolean showButtons) {
+    public void loadDecks() {
 
         decksPane.getChildren().clear();
 
         DeckModel deckModel = DeckModel.getIstance();
 
         showDeckWithRevealedCards("resourceDeck",0, SPACING, deckModel.getResourceDeckTopCardId(),
-                deckModel.getResourceDeckLeftCardId(), deckModel.getResourceDeckRightCardId(), showButtons);
+                deckModel.getResourceDeckLeftCardId(), deckModel.getResourceDeckRightCardId());
 
         showDeckWithRevealedCards("goldDeck",Y_GOLD_DECK, SPACING, deckModel.getGoldDeckTopCardId(),
-                deckModel.getGoldDeckLeftCardId(), deckModel.getGoldDeckRightCardId(), showButtons );
+                deckModel.getGoldDeckLeftCardId(), deckModel.getGoldDeckRightCardId());
     }
 
-    public void showDeckWithRevealedCards (String DeckID, double yOffset, double spacing, int topDeckID, int leftCardID, int rightCardID, boolean showButtons) {
+    public void showDeckWithRevealedCards (String DeckID, double yOffset, double spacing, int topDeckID, int leftCardID, int rightCardID) {
 
 
         if(topDeckID != 0) {
+
+            //generates the blank cards for the deck representation
+
+            for(int i = 0; i < BLANK_CARDS_NUMBER; i++) {
+                VirtualCard blankCard  = new VirtualCard(0,false);
+                Rectangle blankCardRect = blankCard.getCard();
+                blankCardRect.setLayoutX((BLANK_CARDS_NUMBER-i)*BLANK_CARDS_OFFSET);
+                blankCardRect.setLayoutY(yOffset);
+                decksPane.getChildren().add(blankCardRect);
+            }
+
+
             VirtualCard topDeck = new VirtualCard(topDeckID, false);
             Rectangle topDeckNode = topDeck.getCard();
             topDeckNode.setLayoutY(yOffset);
-            topDeckNode.setLayoutX(spacing);
+            topDeckNode.setLayoutX(0);
+            topDeckNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "TopCard"));
             decksPane.getChildren().add(topDeckNode);
-            if(showButtons) {
-                Button button1 = new Button("Draw");
-                button1.setLayoutX(spacing);
-                button1.setLayoutY(yOffset + CARD_HEIGHT + spacing);
-                button1.setOnAction(e -> handleButtonClick(DeckID + "TopCard"));
-                decksPane.getChildren().add(button1);
-            }
 
         }
 
@@ -54,15 +60,9 @@ public class VirtualDeck {
             VirtualCard leftCard = new VirtualCard(leftCardID, true);
             Rectangle leftCardNode = leftCard.getCard();
             leftCardNode.setLayoutY(yOffset);
-            leftCardNode.setLayoutX(spacing + CARD_WIDTH + spacing);
+            leftCardNode.setLayoutX((2*spacing) + CARD_WIDTH + spacing);
+            leftCardNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "LeftCard"));
             decksPane.getChildren().add(leftCardNode);
-            if(showButtons) {
-                Button button2 = new Button("Draw");
-                button2.setLayoutX(spacing + CARD_WIDTH + spacing);
-                button2.setLayoutY(yOffset + CARD_HEIGHT + spacing);
-                button2.setOnAction(e -> handleButtonClick(DeckID + "LeftCard"));
-                decksPane.getChildren().add(button2);
-            }
         }
 
 
@@ -70,15 +70,9 @@ public class VirtualDeck {
             VirtualCard rightCard = new VirtualCard(rightCardID, true);
             Rectangle rightCardNode = rightCard.getCard();
             rightCardNode.setLayoutY(yOffset);
-            rightCardNode.setLayoutX(spacing + (2 * (CARD_WIDTH + spacing)));
+            rightCardNode.setLayoutX( (2*spacing) + (2 * (CARD_WIDTH + spacing)));
             decksPane.getChildren().add(rightCardNode);
-            if(showButtons) {
-                Button button3 = new Button("Draw");
-                button3.setLayoutX(spacing + (2 * (CARD_WIDTH + spacing)));
-                button3.setLayoutY(yOffset + CARD_HEIGHT + spacing);
-                button3.setOnAction(e -> handleButtonClick(DeckID + "RightCard"));
-                decksPane.getChildren().add(button3);
-            }
+            rightCardNode.setOnMouseClicked( e -> handleButtonClick(DeckID + "RightCard"));
         }
     }
 

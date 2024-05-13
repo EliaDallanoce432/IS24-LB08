@@ -7,6 +7,7 @@ import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
 import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -103,10 +104,15 @@ public class CardPlacementController {
 
             offsetX = card.getLayoutX();
             offsetY = card.getLayoutY();
+
+            card.setCursor(Cursor.CLOSED_HAND);
         });
 
 
         card.setOnMouseDragged(event -> {
+
+            card.setCursor(Cursor.CLOSED_HAND);
+
             double deltaX = event.getSceneX() - mouseX;
             double deltaY = event.getSceneY() - mouseY;
 
@@ -119,6 +125,8 @@ public class CardPlacementController {
             Bounds cardBounds = card.localToScene(card.getBoundsInLocal());
 
             Bounds scrollPaneBounds = scrollPane.getLayoutBounds();
+
+            card.setCursor(Cursor.OPEN_HAND);
 
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();

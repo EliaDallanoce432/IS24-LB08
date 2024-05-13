@@ -30,17 +30,10 @@ public class Codex {
     public static void main(String[] args) {
         Codex codex = new Codex();
         if(args.length == 0) {
-            System.out.println("start up arguments required:");
-            System.out.println("client [server address] [server port]");
-            System.out.println("or");
-            System.out.println("server [port number]");
+            codex.setClientController(ClientController.getInstance("localhost", 12345));
         }
         else {
-            if(args[0].equals("client") && args.length == 3) {
-                codex.setClientController(ClientController.getInstance(args[1], Integer.parseInt(args[2])));
-//                ClientController.getInstance().startClient();
-            }
-            else if(args[0].equals("server") && args.length == 2) {
+            if(args[0].equals("server") && args.length == 2) {
                 codex.setLobby(new Lobby(Integer.parseInt(args[1])));
                 codex.getLobby().startLobby();
             }
@@ -48,6 +41,7 @@ public class Codex {
                 System.out.println("unexpected arguments");
             }
         }
+
     }
 
     public void shutdown() {

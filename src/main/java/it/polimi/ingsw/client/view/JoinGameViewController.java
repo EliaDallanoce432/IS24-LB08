@@ -2,9 +2,11 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.AvailableGamesModel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
@@ -26,17 +28,18 @@ public class JoinGameViewController extends ViewController {
     private Button refreshButton;
 
     @FXML
-    private ChoiceBox<String> availableGamesChoiceBox;
+    private ComboBox<String> availableGamesComboBox;
     private String selectedGame;
 
     @FXML
     public void initialize() {
 
 
-        availableGamesChoiceBox.setOnAction(event -> {
-            selectedGame = availableGamesChoiceBox.getSelectionModel().getSelectedItem();
+        availableGamesComboBox.setOnAction(event -> {
+            selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected game: " + selectedGame);
         });
+
     }
 
     @FXML
@@ -62,15 +65,19 @@ public class JoinGameViewController extends ViewController {
 
     }
 
+
     @FXML
-    private void refreshPressed() throws IOException {
-        availableGamesChoiceBox.getItems().clear();
+    private void refresh()  {
+        availableGamesComboBox.getItems().clear();
         ClientController.getInstance().sendGetAvailableGamesMessage();
     }
 
+
     @Override
     public void updateAvailableGames(){
-        availableGamesChoiceBox.getItems().clear();
-        availableGamesChoiceBox.getItems().addAll(AvailableGamesModel.getIstance().getGames());
+        Platform.runLater(()->{
+            availableGamesComboBox.getItems().clear();
+            availableGamesComboBox.getItems().addAll(AvailableGamesModel.getIstance().getGames());
+        });
     }
 }

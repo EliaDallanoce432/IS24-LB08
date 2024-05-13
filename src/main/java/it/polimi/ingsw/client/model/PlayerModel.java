@@ -1,11 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.VirtualCard;
 import it.polimi.ingsw.util.supportclasses.Color;
-
-import java.util.ArrayList;
-
-import static it.polimi.ingsw.util.supportclasses.ViewConstants.HAND_SIZE;
 
 public class PlayerModel extends ObservableModel {
 
@@ -14,7 +9,7 @@ public class PlayerModel extends ObservableModel {
     private String turnPlayer;
     private Color token;
 
-    public static PlayerModel getIstance(){
+    public static PlayerModel getInstance(){
 
         if (istance==null) istance = new PlayerModel();
         return istance;

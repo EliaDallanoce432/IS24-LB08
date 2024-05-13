@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -14,7 +15,10 @@
                     </font>
                 </Label>
                 <Label fx:id="alertLabel" layoutX="329.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="WHITE" />
-            <Pane fx:id="cardBox" layoutX="76.0" layoutY="121.0" prefHeight="240.0" prefWidth="448.0" />
+            <Pane fx:id="cardBox" layoutX="75.0" layoutY="109.0" prefHeight="240.0" prefWidth="450.0">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Pane>
             </children>
         </Pane>
     </children>

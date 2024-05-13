@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class ScoreBoardObserver implements ModelObserver {
 
     public ScoreBoardObserver() {
-        ScoreBoardModel.getIstance().addObserver(this);
+        ScoreBoardModel.getInstance().addObserver(this);
     }
 
 

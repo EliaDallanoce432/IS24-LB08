@@ -47,7 +47,7 @@ public class ClientMessageHandler {
     }
 
     private void updateUsername(JSONObject message) {
-        PlayerModel.getIstance().setUsername(message.get("username").toString());
+        PlayerModel.getInstance().setUsername(message.get("username").toString());
     }
 
     private void showError(String errorMessage) {
@@ -90,16 +90,16 @@ public class ClientMessageHandler {
         Color token = Color.parseColor(message.get("token").toString());
 
         //updating the model...
-        if(PlayerModel.getIstance().getUsername().equals(firstPlayerUsername)) {
+        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
             ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
         }
         else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
-        PlayerModel.getIstance().setTurnPlayer(firstPlayerUsername);
+        PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getIstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getIstance().setSecretObjectiveId(secretObjectiveCardID);
         GameFieldModel.getIstance().updatePlacementHistory(initialPlacementHistory);
         HandModel.getIstance().updateCardsInHand(initialHand);
-        PlayerModel.getIstance().setToken(token);
+        PlayerModel.getInstance().setToken(token);
         updateDeckModelFromJSON(decksJSON);
 
     }
@@ -130,6 +130,7 @@ public class ClientMessageHandler {
         GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
         ClientStateModel.getIstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getIstance().updateCardsInHand(updatedHand);
+        ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
 
         //TODO update scores and resources
@@ -146,8 +147,8 @@ public class ClientMessageHandler {
 
         String currentTurnPlayer = message.get("player").toString();
 
-        PlayerModel.getIstance().setTurnPlayer(currentTurnPlayer);
-        if(PlayerModel.getIstance().getUsername().equals(currentTurnPlayer)) {
+        PlayerModel.getInstance().setTurnPlayer(currentTurnPlayer);
+        if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {
             ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
         }
         else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
@@ -157,12 +158,12 @@ public class ClientMessageHandler {
     private void updateScores(JSONObject message) {
 
         HashMap<String, Integer> scores = new HashMap<>();
-        JSONArray scoresArray = (JSONArray) message.get("scoreArray");
+        JSONArray scoresArray = (JSONArray) message.get("updatedScores");
         for (Object o : scoresArray) {
             JSONObject scoreObj = (JSONObject) o;
             scores.put(scoreObj.get("username").toString(), Integer.parseInt(scoreObj.get("score").toString()));
         }
-        ScoreBoardModel.getIstance().setScores(scores);
+        ScoreBoardModel.getInstance().setScores(scores);
 
     }
 

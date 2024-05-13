@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class PlayerObserver implements ModelObserver {
 
     public PlayerObserver() {
-        PlayerModel.getIstance().addObserver(this);
+        PlayerModel.getInstance().addObserver(this);
     }
 
     @Override

@@ -5,15 +5,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.Objects;
+
+import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 public class StageManager {
 
     private static Stage currentStage;
-
     private static ViewController currentView;
 
     public static void setCurrentStage(Stage currentStage) {
@@ -24,7 +27,6 @@ public class StageManager {
         return currentStage;
     }
 
-
     public static ViewController getViewController() {
         return currentView;
     }
@@ -32,90 +34,76 @@ public class StageManager {
     private static ImageView loadBackground(String path){
         Image backgroundImage = new Image(StageManager.class.getResourceAsStream(path));
         ImageView backgroundImageView = new ImageView(backgroundImage);
-        backgroundImageView.setFitWidth(1600);
-        backgroundImageView.setFitHeight(900);
+        backgroundImageView.setPreserveRatio(false);
         return backgroundImageView;
     }
 
-    public static void loadGameBoardScene() {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("GameBoardView.fxml"));
-        Parent root = null;
+    private static StackPane createStackPaneWithBackground(String fxmlPath) {
+        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));
+        Parent root;
         try {
             root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        GameFieldViewController gameFieldViewController = loader.getController();
-        currentView = gameFieldViewController;
+        currentView = loader.getController();
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 1600 , 900));
+        ImageView backgroundImageView = loadBackground("/view/wood_background2.jpg");
+        stackPane.getChildren().add(backgroundImageView);
+        stackPane.getChildren().add(root);
+        backgroundImageView.fitWidthProperty().bind(stackPane.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(stackPane.heightProperty());
+
+
+        return stackPane;
     }
 
-    public static void loadWelcomeScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("WelcomeView.fxml"));
-        Parent root = loader.load();
-        WelcomeViewController welcomeViewController = loader.getController();
-        currentView = welcomeViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadGameBoardScene() {
+        StackPane stackPane = createStackPaneWithBackground("GameBoardView.fxml");
+        stackPane.prefWidthProperty().bind(currentStage.widthProperty());
+        stackPane.prefHeightProperty().bind(currentStage.heightProperty());
+        showScene(new Scene(stackPane));
     }
 
-    public static void loadCreateGameScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("CreateGameView.fxml"));
-        Parent root = loader.load();
-        CreateGameViewController createGameViewController = loader.getController();
-        currentView = createGameViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadWelcomeScene() {
+        StackPane stackPane = createStackPaneWithBackground("WelcomeView.fxml");
+        currentStage.setWidth(SCENE_WIDTH);
+        currentStage.setHeight(SCENE_HEIGHT);
+        showScene(new Scene(stackPane));
     }
 
-    public static void loadJoinGameScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("JoinGameView.fxml"));
-        Parent root = loader.load();
-        JoinGameViewController joinGameViewController = loader.getController();
-        currentView = joinGameViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadCreateGameScene() {
+        StackPane stackPane = createStackPaneWithBackground("CreateGameView.fxml");
+        showScene(new Scene(stackPane));
     }
 
-    public static void loadWaitForPlayersScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("WaitForPlayersView.fxml"));
-        Parent root = loader.load();
-        WaitForPlayersViewController waitForPlayersViewController = loader.getController();
-        currentView = waitForPlayersViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadJoinGameScene() {
+        StackPane stackPane = createStackPaneWithBackground("JoinGameView.fxml");
+        showScene(new Scene(stackPane));
     }
 
-    public static void loadChooseCardsScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("ChooseCardsView.fxml"));
-        Parent root = loader.load();
-        ChooseCardsViewController chooseCardsViewController = loader.getController();
-        currentView = chooseCardsViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadWaitForPlayersScene() {
+        StackPane stackPane = createStackPaneWithBackground("WaitForPlayersView.fxml");
+        showScene(new Scene(stackPane));
     }
 
-    public static void loadLostConnectionScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource("LostConnectionView.fxml"));
-        Parent root = loader.load();
-        LostConnectionViewController lostConnectionViewController = loader.getController();
-        currentView = lostConnectionViewController;
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(loadBackground("/view/wood_background2.jpg"), root);
-        showScene( new Scene(stackPane, 600 , 400));
+    public static void loadChooseCardsScene() {
+        StackPane stackPane = createStackPaneWithBackground("ChooseCardsView.fxml");
+        showScene(new Scene(stackPane));
+    }
+
+    public static void loadLostConnectionScene() {
+        StackPane stackPane = createStackPaneWithBackground("LostConnectionView.fxml");
+        showScene(new Scene(stackPane));
     }
 
     private static void showScene(Scene scene) {
+        currentStage.setOnCloseRequest(event -> System.exit(0));
         currentStage.setScene(scene);
+        currentStage.sizeToScene();
         currentStage.show();
     }
-
-
 }
+
+
+

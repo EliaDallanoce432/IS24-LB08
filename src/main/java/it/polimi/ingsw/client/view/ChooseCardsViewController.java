@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+
 public class ChooseCardsViewController extends ViewController {
 
 
@@ -37,38 +39,24 @@ public class ChooseCardsViewController extends ViewController {
             showMessage("Choose the starter card side:");
 
             int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
-            VirtualCard starterCard1 = new VirtualCard(starterCardId,true);
-            Rectangle card1 = starterCard1.getCard();
 
+            VirtualCard starterCard = new VirtualCard(starterCardId,true);
+            Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
+            starterCard.flip();
+            Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
 
-            VirtualCard starterCard2 = new VirtualCard(starterCardId,false);
-            Rectangle card2 = starterCard2.getCard();
+            faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
 
-            card2.setLayoutX(300);
-
-
-            Button button1 = new Button("Choose");
-            button1.setLayoutX(0);
-            button1.setLayoutY(170);
-
-            Button button2 = new Button("Choose");
-            button2.setLayoutX(300);
-            button2.setLayoutY(170);
-
-
-            button1.setOnAction(event -> {
+            faceUpCard.setOnMouseClicked( e -> {
                 ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
-                cardBox.getChildren().clear();
                 showObjectiveCards();
             });
-
-            button2.setOnAction(event -> {
+            faceDownCard.setOnMouseClicked( e -> {
                 ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,false);
-                cardBox.getChildren().clear();
                 showObjectiveCards();
             });
 
-            cardBox.getChildren().addAll(card1, card2, button1, button2);
+            cardBox.getChildren().addAll(faceUpCard, faceDownCard);
 
     }
 
@@ -81,40 +69,28 @@ public class ChooseCardsViewController extends ViewController {
 
         int[] ids = SelectableCardsModel.getIstance().getSelectableObjectiveCardsId();
 
-        VirtualCard starterCard1 = new VirtualCard(ids[0],true);
-        Rectangle card1 = starterCard1.getCard();
+        VirtualCard objectiveCard1 = new VirtualCard(ids[0],true);
+        Rectangle card1 = objectiveCard1.getCard(CHOOSE_CARDS_SCALE);
 
 
-        VirtualCard starterCard2 = new VirtualCard(ids[1],true);
-        Rectangle card2 = starterCard2.getCard();
+        VirtualCard objectiveCard2 = new VirtualCard(ids[1],true);
+        Rectangle card2 = objectiveCard2.getCard(CHOOSE_CARDS_SCALE);
 
-        card2.setLayoutX(300);
+        card2.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
 
-
-        Button button1 = new Button("Choose");
-        button1.setLayoutX(0);
-        button1.setLayoutY(170);
-
-        Button button2 = new Button("Choose");
-        button2.setLayoutX(300);
-        button2.setLayoutY(170);
-
-
-        button1.setOnAction(event -> {
+        card1.setOnMouseClicked( e -> {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[0]);
             cardBox.getChildren().clear();
             StageManager.loadGameBoardScene();
-
         });
 
-        button2.setOnAction(event -> {
+        card2.setOnMouseClicked( e -> {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(ids[1]);
             cardBox.getChildren().clear();
-
             StageManager.loadGameBoardScene();
         });
 
-        cardBox.getChildren().addAll(card1, card2, button1, button2);
+        cardBox.getChildren().addAll(card1, card2);
     }
 
     @Override

@@ -44,9 +44,7 @@ public class WelcomeViewController extends ViewController {
         new PlayerObserver();
         new ScoreBoardObserver();
         new SelectableCardsObserver();
-
         Platform.runLater(this::updatePlayerInfo);
-
     }
 
 
@@ -99,7 +97,7 @@ public class WelcomeViewController extends ViewController {
 
         Platform.runLater(()->{
 
-            System.out.println("User logged in as: " + PlayerModel.getIstance().getUsername());
+            System.out.println("User logged in as: " + PlayerModel.getInstance().getUsername());
             // Show other buttons
             joinGameButton.setVisible(true);
             createGameButton.setVisible(true);
