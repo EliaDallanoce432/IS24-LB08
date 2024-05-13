@@ -117,6 +117,11 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message is sent to notify players' updated scores after each turn
+     * @param gameController of the current game
+     * @return a message containing all of the players' scores
+     */
     public JSONObject updatedScoresMessage (GameController gameController) {
         JSONObject message = new JSONObject();
         message.put("message","updatedScores");

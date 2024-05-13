@@ -82,6 +82,10 @@ public class Player {
         return starterCardOrientationSelected;
     }
 
+    /**
+     * this method sets the starter-card orientation chosen by the player and notifies the GameObserver
+     * @param starterCardOrientationSelected is the orientation selected by the player
+     */
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
         this.starterCardOrientationSelected = starterCardOrientationSelected;
         game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
@@ -114,6 +118,10 @@ public class Player {
         game.gameObserver.notifyLastRound();
     }
 
+    /**
+     * method used to calculate player's final score
+     * @param amount is the amount of points to be added
+     */
     public void increaseScore(int amount) {
         setScore(getScore() + amount);
     }
@@ -153,7 +161,7 @@ public class Player {
     }
 
     /**
-     * takes the card from the player's hand
+     * removes the card from the player's hand
      * @param card card to be taken
      */
     public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {

@@ -18,6 +18,10 @@ public class GameControllerRequestExecutor {
         this.game = game;
     }
 
+    /**
+     * this method is used to parse the commands received from clients and invokes the specific command they requested
+     * @param request that is about to be executed
+     */
     public void execute (Request request)  {
         if(game.getGameState() == GameState.lastRound) {
             if(request.getMessage().get("command").equals("directDrawResourceCard") ||
@@ -54,6 +58,10 @@ public class GameControllerRequestExecutor {
         }
     }
 
+    /**
+     * this method invokes the ready method in the game-controller
+     * @param player who sent the request
+     */
     public void ready(ClientHandler player)
     {
         gameController.ready(player);

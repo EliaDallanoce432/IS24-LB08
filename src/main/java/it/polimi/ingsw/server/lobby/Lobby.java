@@ -72,7 +72,7 @@ public class Lobby implements ServerNetworkObserverInterface {
     }
 
     /**
-     * method adds the client to the lobby arraylist of clients connected to it
+     * this method adds the client to the lobby's arraylist of connected clients
      * @param client client to allow in
      */
     public void enterLobby(ClientHandler client) {
@@ -81,7 +81,7 @@ public class Lobby implements ServerNetworkObserverInterface {
     }
 
     /**
-     * method removes the client to the lobby arraylist of clients waiting inside of it
+     * this method removes the client to the lobby arraylist of clients waiting inside of it
      * @param client client to allow in
      */
     public void leaveLobby(ClientHandler client) {
@@ -111,7 +111,7 @@ public class Lobby implements ServerNetworkObserverInterface {
     }
 
     /**
-     * method create a new game with the requested number of players and assign a name to it
+     * this method creates a new game with the requested number of players and assign a name to it
      * @param numberOfPlayers number of players that will join
      * @param gameName name to identify the game
      */
