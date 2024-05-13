@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
-import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
 
@@ -12,6 +11,8 @@ public abstract class ViewController {
     public void showMessage(String message) {
         System.out.println(message);
     }
+
+    public void updateAvailableGames(){}
 
     public void updateDecks(){}
 
@@ -27,6 +28,8 @@ public abstract class ViewController {
 
     public void updateObjectives(){}
 
+    public void updateResources(){}
+
     public void updateSceneStatus(){
 
         Platform.runLater(()->{
@@ -41,6 +44,6 @@ public abstract class ViewController {
 
     }
 
-    public void updateAvailableGames(){}
+
 
 }

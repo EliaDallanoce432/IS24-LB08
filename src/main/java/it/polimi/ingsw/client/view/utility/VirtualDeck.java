@@ -1,10 +1,8 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.utility;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.DeckModel;
-import it.polimi.ingsw.server.model.deck.Deck;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 

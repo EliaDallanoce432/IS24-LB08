@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.VirtualCard;
+import it.polimi.ingsw.client.view.utility.VirtualCard;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.Color;
 import org.json.simple.JSONArray;
@@ -39,9 +39,8 @@ public class ClientMessageHandler {
             case "turnPlayerUpdate" -> updateTurnPlayer(message);
             case "updatedScores" -> updateScores(message);
             case "closingGame" -> updateClientState(ClientState.KICKED_STATE);
-
-
-
+            case "lastRound" -> updateClientState(ClientState.LAST_TURN_STATE, message.get("reason").toString());
+            case "leaderBoard" -> updateLeaderboard(message);
             default -> { //do nothing
             }
         }
@@ -57,6 +56,10 @@ public class ClientMessageHandler {
 
     private void updateClientState(ClientState clientState) {
         ClientStateModel.getIstance().setClientState(clientState);
+    }
+
+    private void updateClientState(ClientState clientState, String reason) {
+        ClientStateModel.getIstance().setClientState(clientState, reason);
     }
 
     private void updateAvailableGames(JSONObject message) {
@@ -134,7 +137,7 @@ public class ClientMessageHandler {
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
 
-        //TODO update scores and resources
+        //TODO update resources
     }
 
     private void cannotPlaceHandler(JSONObject message) {
@@ -165,6 +168,24 @@ public class ClientMessageHandler {
             scores.put(scoreObj.get("username").toString(), Integer.parseInt(scoreObj.get("score").toString()));
         }
         ScoreBoardModel.getInstance().setScores(scores);
+
+    }
+
+    private void updateLeaderboard(JSONObject message){
+
+        JSONObject leaderboardJSON = (JSONObject) message.get("leaderBoard");
+        ArrayList<JSONObject> leaderboard = new ArrayList<>();
+
+        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("first", null));
+        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("second", null));
+        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("third", null));
+        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("fourth", null));
+
+
+        ScoreBoardModel.getInstance().setLeaderboard(leaderboard);
+        ClientStateModel.getIstance().setClientState(ClientState.END_GAME_STATE);
+
+
 
     }
 

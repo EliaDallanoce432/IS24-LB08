@@ -25,9 +25,14 @@ public class GoldCard extends PlaceableCard {
 
     @Override
     public boolean equals(Object obj) {
-        GoldCard other = (GoldCard) obj;
-        if(!this.context.equals(other.context))return false;
-        return super.equals(obj);
+        if (obj instanceof ResourceCard) return false;
+        else {
+            GoldCard other = (GoldCard) obj;
+            if (!this.context.equals(other.context)) return false;
+            return super.equals(obj);
+        }
+
+        //TODO controllare se e' corretto, durante testing lanciava eccezione casting resourcecard a goldcard
     }
 
     /**

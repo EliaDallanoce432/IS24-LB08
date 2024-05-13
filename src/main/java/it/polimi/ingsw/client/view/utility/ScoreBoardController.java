@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.utility;
 
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.ScoreBoardModel;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.viewControllers;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.VirtualCard;
+import it.polimi.ingsw.client.view.utility.VirtualCard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.VirtualCard;
+import it.polimi.ingsw.client.view.utility.VirtualCard;
 
 import java.util.ArrayList;
 

@@ -1,15 +1,11 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.utility;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.HandModel;
-import it.polimi.ingsw.util.customexceptions.AlreadyPlacedInThisRoundException;
-import it.polimi.ingsw.util.customexceptions.NotValidPlacement;
-import it.polimi.ingsw.util.customexceptions.NotYourTurnException;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;

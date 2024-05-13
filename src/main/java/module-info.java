@@ -13,4 +13,6 @@ module LB08 {
     opens it.polimi.ingsw.client.controller to javafx.fxml;
     exports it.polimi.ingsw.client.view.viewControllers;
     opens it.polimi.ingsw.client.view.viewControllers;
+    exports it.polimi.ingsw.client.view.utility;
+    opens it.polimi.ingsw.client.view.utility;
 }

@@ -1,12 +1,16 @@
 package it.polimi.ingsw.client.model;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ScoreBoardModel extends ObservableModel{
 
     private static ScoreBoardModel instance;
     private HashMap<String, Integer> scores;
-    private int playerNumber;
+    private ArrayList<JSONObject> leaderboard;
 
     public ScoreBoardModel() {
         scores = new HashMap<>();
@@ -23,9 +27,17 @@ public class ScoreBoardModel extends ObservableModel{
         scores.put(PlayerModel.getInstance().getUsername(),score);
     }
 
+    public ArrayList<JSONObject> getLeaderboard(){
+        return leaderboard;
+    }
+
+    public void setLeaderboard(ArrayList<JSONObject> leaderboard){
+        this.leaderboard = leaderboard;
+        notifyObservers();
+    }
+
     public void setScores(HashMap<String, Integer> scores){
         this.scores = scores;
-        playerNumber = scores.size();
         notifyObservers();
     }
 

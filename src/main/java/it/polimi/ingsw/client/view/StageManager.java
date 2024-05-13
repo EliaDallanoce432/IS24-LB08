@@ -104,6 +104,13 @@ public class StageManager {
         showScene(new Scene(stackPane));
     }
 
+    public static void loadLeaderboardScene() {
+        StackPane stackPane = createStackPaneWithBackground("LeaderboardView.fxml");
+        currentStage.setWidth(SCENE_WIDTH);
+        currentStage.setHeight(SCENE_HEIGHT);
+        showScene(new Scene(stackPane));
+    }
+
     private static void showScene(Scene scene) {
         currentStage.setOnCloseRequest(event -> System.exit(0));
         currentStage.setScene(scene);

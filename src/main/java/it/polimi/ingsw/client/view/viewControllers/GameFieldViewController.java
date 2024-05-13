@@ -3,7 +3,10 @@ package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.*;
+import it.polimi.ingsw.client.view.utility.CardPlacementController;
+import it.polimi.ingsw.client.view.utility.ScoreBoardController;
+import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.utility.VirtualDeck;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -127,6 +130,8 @@ public class GameFieldViewController extends ViewController {
                 }
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                case LAST_TURN_STATE -> showMessage("It's the last turn! " + ClientStateModel.getIstance().getReason());
+                case END_GAME_STATE -> StageManager.loadLeaderboardScene();
                 default -> {}
             }
         });
