@@ -70,6 +70,10 @@ public class Player {
         return isReady;
     }
 
+    /**
+     * this method sets the player state to ready and notifies the GameObserver
+     * @param ready is the state of the player
+     */
     public void setReady(boolean ready) {
         isReady = ready;
         game.gameObserver.notifyReady();
@@ -101,6 +105,10 @@ public class Player {
         }
     }
 
+    /**
+     * this method updates the player's score and notifies the GameObserver
+     * @param newScore is the player's updated score
+     */
     public void setScore(int newScore) {
         this.score = newScore;
         game.gameObserver.notifyLastRound();
@@ -114,6 +122,10 @@ public class Player {
         this.starterCard = starterCard;
     }
 
+    /**
+     * this method sets the secrete objective card chosen by the player
+     * @param objectiveCard chosen by the player at the beginning of the match
+     */
     public void setSecretObjective(ObjectiveCard objectiveCard) {
         if(this.secretObjective != null) return;
         this.secretObjective = objectiveCard;
@@ -146,11 +158,25 @@ public class Player {
         else return card;
     }
 
+    /**
+     * this method invokes the place method for the starter card in the player's game-field
+     * @param card is the starter card the player owns
+     * @param facingUp is the orientation of the starter card
+     */
     public void place(StarterCard card, boolean facingUp){
         gamefield.place(card, facingUp);
         alreadyPlaced = true;
     }
 
+    /**
+     * this method invokes the place method for a generic placeable card in the player's game-field
+     * @param id that identifies the card
+     * @param facingUp is the card's orientation
+     * @param x horizontal coordinate
+     * @param y vertical coordinate
+     * @throws CannotPlaceCardException thrown when the player executes an illegal placement
+     * @throws CardNotInHandException thrown when the card isn't owned by the player
+     */
     public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
         if (hasAlreadyPlaced()) throw new CannotPlaceCardException("You have already placed!");
         //seleziona carta dalla mano
@@ -181,6 +207,10 @@ public class Player {
         game.commonObjectives.get(0).getEarnedPoints(getGamefield());
         game.commonObjectives.get(1).getEarnedPoints(getGamefield());
     }
+
+    /**
+     * this method increases the number of completed objective cards
+     */
     public void increaseNumOfCompletedObjective () {
         this.numOfCompletedObjectiveCards ++;
     }
@@ -188,9 +218,14 @@ public class Player {
         return numOfCompletedObjectiveCards;
     }
 
+    /**
+     * this method is used to compare a player's attribute with another player
+     * @param value that is used for the comparison
+     * @return the result of the comparison
+     */
     public int compareTo (int value){
-        if (this.getScore() > value) return 1;
-        if (this.getScore() < value) return -1;
-        else return 0;
+        if (this.getScore() > value) return 1; // il valore del primo player è maggiore del secondo
+        if (this.getScore() < value) return -1; // il valore del primo player è minore del secondo
+        else return 0; // i valori sono uguali
     }
 }

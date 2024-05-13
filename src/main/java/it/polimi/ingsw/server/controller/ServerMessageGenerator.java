@@ -67,6 +67,11 @@ public class ServerMessageGenerator {
         return message;
     }
 
+    /**
+     * this message sends to a player his updated hand
+     * @param player with the updated hand
+     * @return a message containing the updated hand
+     */
     public JSONObject updatedHandMessage(Player player) {
         JSONObject message = new JSONObject();
         message.put("message","updatedHand");
