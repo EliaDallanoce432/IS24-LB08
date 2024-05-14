@@ -7,11 +7,11 @@ import it.polimi.ingsw.server.model.card.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class ServerMessageGenerator {
 
-    private Game game;
+    private final Game game;
 
     public ServerMessageGenerator(Game game) {
         this.game = game;
@@ -20,18 +20,18 @@ public class ServerMessageGenerator {
     /**
      * this message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
      * secrete objective
-     * @param startercard given to the player
-     * @param objectiveCard1 fist objective card that can be selected
+     * @param starterCard given to the player
+     * @param objectiveCard1 first objective card that can be selected
      * @param objectiveCard2 second objective card that can be selected
      * @return a message containing these three cards
      */
-    public JSONObject cardsSelectionMessage (StarterCard startercard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
-        JSONObject message = new JSONObject();
-        message.put("message", "cardsSelection");
-        message.put("starterCardID", String.valueOf(startercard.getId()));
-        message.put("objectiveCardID1", String.valueOf(objectiveCard1.getId()));
-        message.put("objectiveCardID2", String.valueOf(objectiveCard2.getId()));
-        return message;
+    public JSONObject cardsSelectionMessage (StarterCard starterCard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
+        Map<String,String> jsonMap = new HashMap<>();
+        jsonMap.put("message", "cardsSelection");
+        jsonMap.put("starterCardID", String.valueOf(starterCard.getId()));
+        jsonMap.put("objectiveCardID1", String.valueOf(objectiveCard1.getId()));
+        jsonMap.put("objectiveCardID2", String.valueOf(objectiveCard2.getId()));
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -56,27 +56,26 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent to notify the beginning of a player's turn
-     * @param gameController is used to get the player's name
-     * @return a message showing which player is about to play and his name
-     */
-    public JSONObject turnPlayerUpdateMessage(GameController gameController) {
-        JSONObject message = new JSONObject();
-        message.put("message","turnPlayerUpdate");
-        message.put("player", gameController.getTurnPlayerUsername());
-        return message;
-    }
-
-    /**
      * this message sends to a player his updated hand
      * @param player with the updated hand
      * @return a message containing the updated hand
      */
     public JSONObject updatedHandMessage(Player player) {
         JSONObject message = new JSONObject();
-        message.put("message","updatedHand");
-        message.put("updatedHand",updatedHand(player));
+        message.put("message", "updatedHand");
+        message.put("updatedHand", updatedHand(player));
         return message;
+    }
+    /**
+     * this message is sent to notify the beginning of a player's turn
+     * @param gameController is used to get the player's name
+     * @return a message showing which player is about to play and his name
+     */
+    public JSONObject turnPlayerUpdateMessage(GameController gameController) {
+        Map<String,String> jsonMap = new HashMap<>();
+        jsonMap.put("message", "turnPlayerUpdate");
+        jsonMap.put("player",  gameController.getTurnPlayerUsername());
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -111,16 +110,16 @@ public class ServerMessageGenerator {
      * @return the message to the player
      */
     public JSONObject cannotPlaceMessage(String reason) {
-        JSONObject message = new JSONObject();
-        message.put("message","cannotPlace");
-        message.put("reason", reason);
-        return message;
+        Map<String,String> jsonMap = new HashMap<>();
+        jsonMap.put("message", "cannotPlace");
+        jsonMap.put("reason",  reason);
+        return new JSONObject(jsonMap);
     }
 
     /**
      * this message is sent to notify players' updated scores after each turn
      * @param gameController of the current game
-     * @return a message containing all of the players' scores
+     * @return a message containing all the players' scores
      */
     public JSONObject updatedScoresMessage (GameController gameController) {
         JSONObject message = new JSONObject();
@@ -142,10 +141,10 @@ public class ServerMessageGenerator {
      * @return the message that informs the players
      */
     public JSONObject lastRoundMessage(String reason) {
-        JSONObject message = new JSONObject();
-        message.put("message", "lastRound");
-        message.put("reason", reason);
-        return message;
+        Map<String,String> jsonMap = new HashMap<>();
+        jsonMap.put("message", "lastRound");
+        jsonMap.put("reason",  reason);
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -158,14 +157,14 @@ public class ServerMessageGenerator {
         JSONObject message = new JSONObject();
         message.put("message", "leaderBoard");
         if(!clientHandlers.isEmpty()) {
+            Map<String,String> jsonMap = new HashMap<>();
+            jsonMap.put("username",clientHandlers.getFirst().getUsername());
+            jsonMap.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.getFirst()).getScore()));
+            jsonMap.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.getFirst()).getNumOfCompletedObjectiveCards()));
             JSONObject player = new JSONObject();
-            player.put("username",clientHandlers.getFirst().getUsername());
-            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.getFirst()).getScore()));
-            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.getFirst()).getNumOfCompletedObjectiveCards()));
             message.put("first", player);
         }
         else message.put("first", null);
-
         if(clientHandlers.size()>= 2) {
             JSONObject player = new JSONObject();
             player.put("username",clientHandlers.get(1).getUsername());
@@ -176,18 +175,20 @@ public class ServerMessageGenerator {
         else message.put("second", null);
 
         if(clientHandlers.size()>= 3) {
-            JSONObject player = new JSONObject();
-            player.put("username",clientHandlers.get(2).getUsername());
-            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(2)).getScore()));
-            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(2)).getNumOfCompletedObjectiveCards()));
+            Map<String,String> jsonMap = new HashMap<>();
+            jsonMap.put("username",clientHandlers.get(2).getUsername());
+            jsonMap.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(2)).getScore()));
+            jsonMap.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(2)).getNumOfCompletedObjectiveCards()));
+            JSONObject player = new JSONObject(jsonMap);
             message.put("third", player);
         }
         else message.put("third", null);
         if(clientHandlers.size()>= 4) {
-            JSONObject player = new JSONObject();
-            player.put("username",clientHandlers.get(3).getUsername());
-            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(3)).getScore()));
-            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(3)).getNumOfCompletedObjectiveCards()));
+            Map<String,String> jsonMap = new HashMap<>();
+            jsonMap.put("message", clientHandlers.get(3).getUsername());
+            jsonMap.put("score",  String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(3)).getScore()));
+            jsonMap.put("solvedObjectives", String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(3)).getNumOfCompletedObjectiveCards()));
+            JSONObject player = new JSONObject(jsonMap);
             message.put("fourth", player);
         }
         else message.put("fourth", null);
@@ -199,20 +200,21 @@ public class ServerMessageGenerator {
      * @return message
      */
     public JSONObject closingGameMessage () {
-        JSONObject message = new JSONObject();
-        message.put("message","closingGame");
-        return message;
+        Map<String,String> jsonMap = new HashMap<>();
+        jsonMap.put("message", "closingGame");
+        return new JSONObject(jsonMap);
     }
 
     private JSONArray updatedPlacementHistory(Player player) {
         JSONArray placementHistory = new JSONArray();
         System.out.println(player.getGamefield().getPlacementHistory());
         for(PlaceableCard placeableCard : player.getGamefield().getPlacementHistory()) {
-            JSONObject card = new JSONObject();
-            card.put("cardID", String.valueOf(placeableCard.getId()));
-            card.put("facingUp", String.valueOf(placeableCard.isFacingUp()));
-            card.put("x", String.valueOf(placeableCard.getX()));
-            card.put("y", String.valueOf(placeableCard.getY()));
+            Map<String,String> jsonMap = new HashMap<>();
+            jsonMap.put("cardID", String.valueOf(placeableCard.getId()));
+            jsonMap.put("facingUp", String.valueOf(placeableCard.isFacingUp()));
+            jsonMap.put("x", String.valueOf(placeableCard.getX()));
+            jsonMap.put("y", String.valueOf(placeableCard.getY()));
+            JSONObject card = new JSONObject(jsonMap);
             placementHistory.add(card);
         }
         return placementHistory;
@@ -228,32 +230,46 @@ public class ServerMessageGenerator {
     }
 
     private JSONObject updatedDecks() {
-        JSONObject decks = new JSONObject();
+        Map<String,String> decks = new HashMap<>();
         decks.put("topDeckResourceCardID", String.valueOf(game.resourceCardDeck.getTopCardID()));
         decks.put("leftRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getLeftRevealedCardID()));
         decks.put("rightRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getRightRevealedCardID()));
         decks.put("topDeckGoldCardID", String.valueOf(game.goldCardDeck.getTopCardID()));
         decks.put("leftRevealedGoldCardID", String.valueOf(game.goldCardDeck.getLeftRevealedCardID()));
         decks.put("rightRevealedGoldCardID", String.valueOf(game.goldCardDeck.getRightRevealedCardID()));
-        return decks;
+        return new JSONObject(decks);
     }
 
     private JSONArray updatedResources(Player player) {
         JSONArray updatedResources = new JSONArray();
-        JSONObject fungiResources = new JSONObject();
-        fungiResources.put("fungiResources", String.valueOf(player.getGamefield().getFungiCount()));
-        JSONObject plantResources = new JSONObject();
-        plantResources.put("plantResources", String.valueOf(player.getGamefield().getPlantCount()));
-        JSONObject animalResources = new JSONObject();
-        animalResources.put("animalResources", String.valueOf(player.getGamefield().getAnimalCount()));
-        JSONObject insectResources = new JSONObject();
-        insectResources.put("insectResources", String.valueOf(player.getGamefield().getInsectCount()));
-        JSONObject scrollCount = new JSONObject();
-        scrollCount.put("scrollCount", String.valueOf(player.getGamefield().getScrollCount()));
-        JSONObject inkPotCount = new JSONObject();
-        inkPotCount.put("inkPutCount", String.valueOf(player.getGamefield().getInkPotCount()));
-        JSONObject featherCount = new JSONObject();
-        featherCount.put("featherCount", String.valueOf(player.getGamefield().getFeatherCount()));
+        Map<String,String> jsonMapFungi= new HashMap<>();
+        Map<String,String> jsonMapPlant= new HashMap<>();
+        Map<String,String> jsonMapAnimal= new HashMap<>();
+        Map<String,String> jsonMapInsect= new HashMap<>();
+        Map<String,String> jsonMapInkPot= new HashMap<>();
+        Map<String,String> jsonMapFeather= new HashMap<>();
+        Map<String,String> jsonMapScroll= new HashMap<>();
+
+        jsonMapFungi.put("fungiResources", String.valueOf(player.getGamefield().getFungiCount()));
+        JSONObject fungiResources = new JSONObject(jsonMapFungi);
+
+        jsonMapPlant.put("plantResources", String.valueOf(player.getGamefield().getPlantCount()));
+        JSONObject plantResources = new JSONObject(jsonMapPlant);
+
+        jsonMapAnimal.put("animalResources", String.valueOf(player.getGamefield().getAnimalCount()));
+        JSONObject animalResources = new JSONObject(jsonMapAnimal);
+
+        jsonMapInsect.put("insectResources", String.valueOf(player.getGamefield().getInsectCount()));
+        JSONObject insectResources = new JSONObject(jsonMapInsect);
+
+        jsonMapFeather.put("featherCount", String.valueOf(player.getGamefield().getFeatherCount()));
+        JSONObject featherCount = new JSONObject(jsonMapFeather);
+
+        jsonMapScroll.put("scrollCount", String.valueOf(player.getGamefield().getScrollCount()));
+        JSONObject scrollCount = new JSONObject(jsonMapScroll);
+
+        jsonMapInkPot.put("inkPotCount", String.valueOf(player.getGamefield().getInkPotCount()));
+        JSONObject inkPotCount = new JSONObject(jsonMapInkPot);
 
         updatedResources.add(fungiResources);
         updatedResources.add(plantResources);
