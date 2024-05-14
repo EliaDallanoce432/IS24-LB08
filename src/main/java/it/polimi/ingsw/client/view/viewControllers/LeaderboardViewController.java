@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.viewControllers;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.ScoreBoardModel;
@@ -26,7 +27,11 @@ public class LeaderboardViewController extends ViewController {
 
     @FXML
     private void backToMainScreen(){
+
+        StageManager.loadWelcomeScene();
+        ClientController.getInstance().sendLeaveMessage();
         ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+
     }
 
     @FXML

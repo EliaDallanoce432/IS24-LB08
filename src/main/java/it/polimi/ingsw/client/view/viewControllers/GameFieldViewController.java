@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.utility.ObjectivesRepresentation;
 import it.polimi.ingsw.client.view.utility.ScoreBoardRepresentation;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.client.view.utility.DecksRepresentation;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -92,6 +93,7 @@ public class GameFieldViewController extends ViewController {
 
         System.out.println("leaving game");
         ClientController.getInstance().sendLeaveMessage();
+        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
         StageManager.loadWelcomeScene();
     }
 

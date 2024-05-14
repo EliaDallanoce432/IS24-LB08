@@ -14,5 +14,6 @@ public class KickedFromGameViewController extends ViewController{
     @FXML
     private void backToMainScreen(){
         ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        StageManager.loadWelcomeScene();
     }
 }
