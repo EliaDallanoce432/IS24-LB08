@@ -10,6 +10,14 @@ public class GoldCardContext {
     public GoldCardContext(ConditionStrategy strategy) {
         this.strategy = strategy;
     }
+
+    /**
+     * Used to calculate the amount of points given by the specific gold-card
+     * @param pointsOnTheCard points given by the gold-card
+     * @param gamefield identifies the player's game-field
+     * @param goldcard used for the calculation
+     * @return the amount of calculated points
+     */
     public int executePointsCalculation(int pointsOnTheCard, GameField gamefield, GoldCard goldcard) {
         return strategy.calculatePoints(pointsOnTheCard, gamefield,goldcard );
     }
