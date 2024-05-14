@@ -3,10 +3,11 @@ package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.utility.CardPlacementController;
-import it.polimi.ingsw.client.view.utility.ScoreBoardController;
+import it.polimi.ingsw.client.view.utility.HandAndBoardRepresentation;
+import it.polimi.ingsw.client.view.utility.ObjectivesRepresentation;
+import it.polimi.ingsw.client.view.utility.ScoreBoardRepresentation;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.utility.VirtualDeck;
+import it.polimi.ingsw.client.view.utility.DecksRepresentation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -29,6 +30,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Label specialAlertsLabel;
     @FXML
+    private Label errorLabel;
+    @FXML
     private Pane scoreBoardPane;
     @FXML
     private Pane decksPane;
@@ -42,9 +45,10 @@ public class GameFieldViewController extends ViewController {
     private Button leaveGameButton;
 
 
-    private CardPlacementController cardPlacementController;
-    private VirtualDeck virtualDeck;
-    private ScoreBoardController scoreBoardController;
+    private HandAndBoardRepresentation handAndBoardRepresentation;
+    private DecksRepresentation decksRepresentation;
+    private ScoreBoardRepresentation scoreBoardRepresentation;
+    private ObjectivesRepresentation objectivesRepresentation;
 
     @FXML
     private void initialize() {
@@ -54,14 +58,13 @@ public class GameFieldViewController extends ViewController {
         leaveGameButton.setOnMouseEntered(mouseEvent -> leaveGameButton.setCursor(Cursor.HAND));
         leaveGameButton.setOnMouseExited(mouseEvent -> leaveGameButton.setCursor(Cursor.DEFAULT));
 
-        cardPlacementController = new CardPlacementController(alertLabel,handPane,scrollPane,
-                commonObjectivesPane,secretObjectivePane);
-
-        virtualDeck = new VirtualDeck(decksPane);
-
-        scoreBoardController = new ScoreBoardController(scoreBoardPane);
+        handAndBoardRepresentation = new HandAndBoardRepresentation(handPane,scrollPane);
+        objectivesRepresentation = new ObjectivesRepresentation(commonObjectivesPane, secretObjectivePane);
+        decksRepresentation = new DecksRepresentation(decksPane);
+        scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardPane);
 
         specialAlertsLabel.setVisible(false);
+        errorLabel.setVisible(false);
 
         showMessage("Waiting for all players to choose the cards...");
 
@@ -95,46 +98,50 @@ public class GameFieldViewController extends ViewController {
 
     @Override
     public void updateGameBoard(){
-        Platform.runLater(()->cardPlacementController.loadFromPlacementHistory(GameFieldModel.getIstance().getPlacementHistory()));
+        Platform.runLater(()-> handAndBoardRepresentation.loadFromPlacementHistory());
 
     }
 
     @Override
     public void updateObjectives(){
         Platform.runLater(()->{
-            cardPlacementController.loadCommonObjectives(ObjectivesModel.getIstance().getCommonObjectives());
-            cardPlacementController.loadSecretObjective(ObjectivesModel.getIstance().getSecretObjectiveId());
+            objectivesRepresentation.loadCommonObjectives();
+            objectivesRepresentation.loadSecretObjective();
         });
     }
 
     @Override
     public void updateDecks(){
-        Platform.runLater(()-> virtualDeck.loadDecks());
+        Platform.runLater(()-> decksRepresentation.loadDecks());
     }
 
     @Override
     public void updateHand(){
-        Platform.runLater(()-> cardPlacementController.loadHand());
+        Platform.runLater(()-> handAndBoardRepresentation.loadHand());
     }
 
     @Override
-    public void updateScoreBoard(){Platform.runLater(() -> scoreBoardController.updateScores());}
+    public void updateScoreBoard(){Platform.runLater(() -> scoreBoardRepresentation.updateScores());}
 
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
             System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
-
+            errorLabel.setVisible(false);
             switch (ClientStateModel.getInstance().getClientState()){
-                case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
-                case PLAYING_STATE -> showMessage("It's your Turn, please place a card!");
+                case NOT_PLAYING_STATE -> {
+                    showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
+                }
+                case PLAYING_STATE -> {
+                    showMessage("It's your Turn, please place a card!");
+                }
                 case DRAWING_STATE -> {
                     showMessage("Please Draw a Card from the decks!");
-                    virtualDeck.loadDecks();
+                    decksRepresentation.loadDecks();
                 }
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
-                case LAST_TURN_STATE -> showSpecialMessage("⚠ It's the last turn! " + ClientStateModel.getInstance().getReason());
+                case LAST_TURN_STATE -> showSpecialMessage(" It's the last turn! " + ClientStateModel.getInstance().getReason() + "!" );
                 case END_GAME_STATE -> StageManager.loadLeaderboardScene();
                 default -> {}
             }
@@ -151,6 +158,14 @@ public class GameFieldViewController extends ViewController {
         Platform.runLater(() -> {
             specialAlertsLabel.setText(message);
             specialAlertsLabel.setVisible(true);
+        });
+    }
+
+    @Override
+    public void showErrorMessage(String message){
+        Platform.runLater(() -> {
+            errorLabel.setText("⚠" + message);
+            errorLabel.setVisible(true);
         });
     }
 

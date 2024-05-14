@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.utility.VirtualCard;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class GameFieldModel extends ObservableModel {
 
     private static GameFieldModel istance;
 
-    private ArrayList<VirtualCard> placementHistory;
+    private ArrayList<CardRepresentation> placementHistory;
 
     public static GameFieldModel getIstance(){
 
@@ -21,11 +21,11 @@ public class GameFieldModel extends ObservableModel {
         placementHistory = new ArrayList<>();
     }
 
-    public ArrayList<VirtualCard> getPlacementHistory() {
+    public ArrayList<CardRepresentation> getPlacementHistory() {
         return placementHistory;
     }
 
-    public void updatePlacementHistory(ArrayList<VirtualCard> placementHistory) {
+    public void updatePlacementHistory(ArrayList<CardRepresentation> placementHistory) {
         this.placementHistory = placementHistory;
         notifyObservers();
     }

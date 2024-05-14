@@ -8,13 +8,26 @@ import javafx.scene.shape.Rectangle;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
-public class VirtualDeck {
+/**
+ * This class manages the representation of the Decks
+ */
+
+public class DecksRepresentation {
 
     Pane decksPane;
 
-    public VirtualDeck(Pane decksPane) {
+    /**
+     * Sets up the Decks Representation
+     * @param decksPane the Pane where the decks will be shown
+     */
+
+    public DecksRepresentation(Pane decksPane) {
         this.decksPane = decksPane;
     }
+
+    /**
+     * Loads the decks from the DeckModel
+     */
 
     public void loadDecks() {
 
@@ -29,7 +42,17 @@ public class VirtualDeck {
                 deckModel.getGoldDeckLeftCardId(), deckModel.getGoldDeckRightCardId());
     }
 
-    public void showDeckWithRevealedCards (String DeckID, double yOffset, double spacing, int topDeckID, int leftCardID, int rightCardID) {
+    /**
+     * Shows a Deck with the given proprieties in the Pane
+     * @param DeckID String that identifies the type of deck
+     * @param yOffset the y coordinate where the deck will be generated
+     * @param spacing the spacing between the cards
+     * @param topDeckID the ID of the card on top of the deck
+     * @param leftCardID the ID of the left revealed card
+     * @param rightCardID the ID of the right revealed card
+     */
+
+    private void showDeckWithRevealedCards (String DeckID, double yOffset, double spacing, int topDeckID, int leftCardID, int rightCardID) {
 
 
         if(topDeckID != 0) {
@@ -37,7 +60,7 @@ public class VirtualDeck {
             //generates the blank cards for the deck representation
 
             for(int i = 0; i < BLANK_CARDS_NUMBER; i++) {
-                VirtualCard blankCard  = new VirtualCard(0,false);
+                CardRepresentation blankCard  = new CardRepresentation(0,false);
                 Rectangle blankCardRect = blankCard.getCard();
                 blankCardRect.setLayoutX((BLANK_CARDS_NUMBER-i)*BLANK_CARDS_OFFSET);
                 blankCardRect.setLayoutY(yOffset);
@@ -45,7 +68,7 @@ public class VirtualDeck {
             }
 
 
-            VirtualCard topDeck = new VirtualCard(topDeckID, false);
+            CardRepresentation topDeck = new CardRepresentation(topDeckID, false);
             Rectangle topDeckNode = topDeck.getCard();
             topDeckNode.setLayoutY(yOffset);
             topDeckNode.setLayoutX(0);
@@ -58,7 +81,7 @@ public class VirtualDeck {
 
 
         if(leftCardID != 0) {
-            VirtualCard leftCard = new VirtualCard(leftCardID, true);
+            CardRepresentation leftCard = new CardRepresentation(leftCardID, true);
             Rectangle leftCardNode = leftCard.getCard();
             leftCardNode.setLayoutY(yOffset);
             leftCardNode.setLayoutX((2*spacing) + CARD_WIDTH + spacing);
@@ -70,7 +93,7 @@ public class VirtualDeck {
 
 
         if(rightCardID != 0) {
-            VirtualCard rightCard = new VirtualCard(rightCardID, true);
+            CardRepresentation rightCard = new CardRepresentation(rightCardID, true);
             Rectangle rightCardNode = rightCard.getCard();
             rightCardNode.setLayoutY(yOffset);
             rightCardNode.setLayoutX( (2*spacing) + (2 * (CARD_WIDTH + spacing)));
@@ -81,8 +104,14 @@ public class VirtualDeck {
         }
     }
 
+    /**
+     * handles the click on a card by sending the relative draw message
+     * @param buttonID ID of the button that has been pressed
+     */
 
-    public void handleButtonClick(String buttonID){
+
+
+    private void handleButtonClick(String buttonID){
         switch(buttonID){
             case "resourceDeckTopCard" ->
                 ClientController.getInstance().sendDirectDrawResourceCardMessage();

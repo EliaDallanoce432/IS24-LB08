@@ -1,12 +1,12 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.utility.VirtualCard;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 
 import java.util.ArrayList;
 
 public class HandModel extends ObservableModel {
 
-    private ArrayList<VirtualCard> cardsInHand = new ArrayList<>();
+    private ArrayList<CardRepresentation> cardsInHand = new ArrayList<>();
 
     private static HandModel istance;
 
@@ -21,11 +21,11 @@ public class HandModel extends ObservableModel {
         cardsInHand = new ArrayList<>();
     }
 
-    public ArrayList<VirtualCard> getCardsInHand() {
+    public ArrayList<CardRepresentation> getCardsInHand() {
         return cardsInHand;
     }
 
-    public void updateCardsInHand(ArrayList<VirtualCard> cardsInHand) {
+    public void updateCardsInHand(ArrayList<CardRepresentation> cardsInHand) {
         this.cardsInHand = cardsInHand;
         notifyObservers();
     }
@@ -35,7 +35,7 @@ public class HandModel extends ObservableModel {
     }
 
     public void flipCardsInHand(){
-        for (VirtualCard card : cardsInHand) {
+        for (CardRepresentation card : cardsInHand) {
             card.flip();
         }
         notifyObservers();

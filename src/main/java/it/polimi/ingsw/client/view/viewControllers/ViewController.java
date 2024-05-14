@@ -30,6 +30,8 @@ public abstract class ViewController {
 
     public void updateResources(){}
 
+    public void showErrorMessage(String message) {}
+
     public void updateSceneStatus(){
 
         Platform.runLater(()->{
@@ -38,6 +40,7 @@ public abstract class ViewController {
             switch (ClientStateModel.getInstance().getClientState()){
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                case WELCOME_STATE -> StageManager.loadWelcomeScene();
                 default -> {}
             }
         });

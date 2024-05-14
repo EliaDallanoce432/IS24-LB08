@@ -161,15 +161,16 @@ public class ServerMessageGenerator {
             jsonMap.put("username",clientHandlers.getFirst().getUsername());
             jsonMap.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.getFirst()).getScore()));
             jsonMap.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.getFirst()).getNumOfCompletedObjectiveCards()));
-            JSONObject player = new JSONObject();
+            JSONObject player = new JSONObject(jsonMap);
             message.put("first", player);
         }
         else message.put("first", null);
         if(clientHandlers.size()>= 2) {
-            JSONObject player = new JSONObject();
-            player.put("username",clientHandlers.get(1).getUsername());
-            player.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(1)).getScore()));
-            player.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(1)).getNumOfCompletedObjectiveCards()));
+            Map<String,String> jsonMap = new HashMap<>();
+            jsonMap.put("username",clientHandlers.get(1).getUsername());
+            jsonMap.put("score", String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(1)).getScore()));
+            jsonMap.put("solvedObjectives" , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(1)).getNumOfCompletedObjectiveCards()));
+            JSONObject player = new JSONObject(jsonMap);
             message.put("second", player);
         }
         else message.put("second", null);

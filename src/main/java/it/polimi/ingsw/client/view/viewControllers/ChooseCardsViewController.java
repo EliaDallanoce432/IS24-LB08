@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.viewControllers;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.utility.VirtualCard;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -15,8 +15,6 @@ import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 public class ChooseCardsViewController extends ViewController {
 
-
-
     @FXML
     private Label alertLabel;
 
@@ -25,11 +23,7 @@ public class ChooseCardsViewController extends ViewController {
 
     @FXML
     public void initialize() {
-
         showMessage("Waiting for all players to be ready...");
-
-
-
     }
 
 
@@ -42,7 +36,7 @@ public class ChooseCardsViewController extends ViewController {
 
             int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
 
-            VirtualCard starterCard = new VirtualCard(starterCardId,true);
+            CardRepresentation starterCard = new CardRepresentation(starterCardId,true);
             Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
             starterCard.flip();
             Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
@@ -75,11 +69,11 @@ public class ChooseCardsViewController extends ViewController {
 
         int[] ids = SelectableCardsModel.getIstance().getSelectableObjectiveCardsId();
 
-        VirtualCard objectiveCard1 = new VirtualCard(ids[0],true);
+        CardRepresentation objectiveCard1 = new CardRepresentation(ids[0],true);
         Rectangle card1 = objectiveCard1.getCard(CHOOSE_CARDS_SCALE);
 
 
-        VirtualCard objectiveCard2 = new VirtualCard(ids[1],true);
+        CardRepresentation objectiveCard2 = new CardRepresentation(ids[1],true);
         Rectangle card2 = objectiveCard2.getCard(CHOOSE_CARDS_SCALE);
 
         card2.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);

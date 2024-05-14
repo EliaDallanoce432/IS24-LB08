@@ -79,7 +79,7 @@ public class WaitForPlayersViewController extends ViewController {
 
         switch (ClientStateModel.getInstance().getClientState()) {
             case WAITING_STATE -> loadGetReadyScene();
-            case WELCOME_STATE -> loadErrorJoiningScene();
+            case ERROR_JOINING_STATE -> loadErrorJoiningScene();
             default -> {
             }
         }

@@ -6,7 +6,11 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
-public class VirtualCard {
+/**
+ * This class manages the visual representation of a card
+ */
+
+public class CardRepresentation {
 
     private String frontCardTexturePath;
     private String backCardTexturePath;
@@ -20,7 +24,13 @@ public class VirtualCard {
     private int x;
     private int y;
 
-    public VirtualCard(int id, boolean isFacingUp) {
+    /**
+     * Sets up the CardRepresentation
+     * @param id the ID of the card to be represented
+     * @param isFacingUp whether the card is facing up or not
+     */
+
+    public CardRepresentation(int id, boolean isFacingUp) {
 
         this.id = id;
         this.facingUp = isFacingUp;
@@ -73,11 +83,22 @@ public class VirtualCard {
         this.y = y;
     }
 
+    /**
+     * returns the representation of the current state of the card
+     * @return the Rectangle representing the card
+     */
+
     public Rectangle getCard() {
 
         if (facingUp) return cardFront;
         else return cardBack;
     }
+
+    /**
+     * returns the card representation with a custom size multiplier
+     * @param size the size multiplier
+     * @return the Rectangle representing the card
+     */
 
     public Rectangle getCard(double size){
 
@@ -97,6 +118,10 @@ public class VirtualCard {
     public int getId() {
         return id;
     }
+
+    /**
+     * changes the current facingUp variable to its opposite
+     */
 
     public void flip(){
         facingUp = !facingUp;

@@ -9,14 +9,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class ScoreBoardController {
+/**
+ * This class manages the representation of the Scoreboard
+ */
+
+public class ScoreBoardRepresentation {
 
     Pane scoreBoardPane;
 
-    public ScoreBoardController(Pane scoreBoardPane) {
+    /**
+     * Sets up the ScoreBoardRepresentation
+     * @param scoreBoardPane the Pane in which the scoreboard will be shown
+     */
+
+    public ScoreBoardRepresentation(Pane scoreBoardPane) {
         this.scoreBoardPane = scoreBoardPane;
 
     }
+
+    /**
+     * Updates the scores from the PlayerModel
+     */
 
     public void updateScores() {
         scoreBoardPane.getChildren().clear();
