@@ -33,9 +33,9 @@ public abstract class ViewController {
     public void updateSceneStatus(){
 
         Platform.runLater(()->{
-            System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+            System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
 
-            switch (ClientStateModel.getIstance().getClientState()){
+            switch (ClientStateModel.getInstance().getClientState()){
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}

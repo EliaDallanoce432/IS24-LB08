@@ -9,7 +9,7 @@ public class ClientStateModel extends ObservableModel{
     private ClientState clientState = ClientState.WELCOME_STATE;
 
 
-    public static ClientStateModel getIstance(){
+    public static ClientStateModel getInstance(){
 
         if (istance==null) istance = new ClientStateModel();
         return istance;

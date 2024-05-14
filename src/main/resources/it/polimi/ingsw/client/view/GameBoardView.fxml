@@ -46,6 +46,11 @@
             <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" style="-fx-border-color: black;" />
             <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="113.0" prefHeight="75.0" prefWidth="230.0" style="-fx-border-color: black;" />
             <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="113.0" prefHeight="75.0" prefWidth="113.0" style="-fx-border-color: black;" />
+            <Label fx:id="specialAlertsLabel" alignment="CENTER" layoutX="41.0" layoutY="36.0" opacity="0.56" prefHeight="40.0" prefWidth="709.0" style="-fx-background-color: red;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

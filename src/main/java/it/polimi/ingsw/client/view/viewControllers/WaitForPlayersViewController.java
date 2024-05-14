@@ -38,7 +38,7 @@ public class WaitForPlayersViewController extends ViewController {
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
         showMessage("Joining Game...");
-        System.out.println("INITIALIZE: " + ClientStateModel.getIstance().getClientState());
+        System.out.println("INITIALIZE: " + ClientStateModel.getInstance().getClientState());
 
         Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
 
@@ -48,7 +48,7 @@ public class WaitForPlayersViewController extends ViewController {
     @FXML
     private void goBack() throws IOException {
 
-        if (ClientStateModel.getIstance().getClientState() == ClientState.WAITING_STATE) {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.WAITING_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
 
@@ -75,9 +75,9 @@ public class WaitForPlayersViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
 
-        System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+        System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
 
-        switch (ClientStateModel.getIstance().getClientState()) {
+        switch (ClientStateModel.getInstance().getClientState()) {
             case WAITING_STATE -> loadGetReadyScene();
             case WELCOME_STATE -> loadErrorJoiningScene();
             default -> {

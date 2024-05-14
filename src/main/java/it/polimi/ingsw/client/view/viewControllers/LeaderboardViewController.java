@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.viewControllers;
 
+import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.ScoreBoardModel;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
@@ -17,6 +18,8 @@ public class LeaderboardViewController extends ViewController {
     @FXML
     Label leaderboardLabel;
 
+    private String[] positions;
+
     @FXML
     private void backToMainScreen(){
         StageManager.loadWelcomeScene();
@@ -24,6 +27,7 @@ public class LeaderboardViewController extends ViewController {
 
     @FXML
     private void initialize() {
+        positions = new String[]{"1st", "2nd", "3rd", "4th"};
         Platform.runLater(this::updateScoreBoard);
     }
 
@@ -35,15 +39,27 @@ public class LeaderboardViewController extends ViewController {
 
             leaderboardVBox.getChildren().clear();
 
-            int position = 1;
+            int pos_index = 0;
 
             for(JSONObject obj : ScoreBoardModel.getInstance().getLeaderboard()){
                 Label scoreLabel = new Label();
-                scoreLabel.setText( position + "° - " + obj.get("username") + ": " + obj.get("score").toString());
+                scoreLabel.setText( positions[pos_index] + " - " + obj.get("username").toString() + ": " + obj.get("score").toString() + " Points (" + obj.get("solvedObjectives").toString() + " solved Objectives)" );
                 scoreLabel.setStyle("-fx-font-weight: bold");
                 scoreLabel.setFont(Font.font("Arial", 24));
                 leaderboardVBox.getChildren().add(scoreLabel);
-                position++;
+
+
+                if(obj.get("username").toString() == PlayerModel.getInstance().getUsername()){
+
+                    if(pos_index == 0){
+                        leaderboardLabel.setText("You Won!");
+                    }
+                    else {
+                        leaderboardLabel.setText("You came in " + positions[pos_index] + " place!");
+                    }
+                }
+
+                pos_index++;
             }
 
         });

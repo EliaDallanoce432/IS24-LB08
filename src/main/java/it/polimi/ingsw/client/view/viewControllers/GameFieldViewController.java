@@ -27,6 +27,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Label alertLabel;
     @FXML
+    private Label specialAlertsLabel;
+    @FXML
     private Pane scoreBoardPane;
     @FXML
     private Pane decksPane;
@@ -58,6 +60,8 @@ public class GameFieldViewController extends ViewController {
         virtualDeck = new VirtualDeck(decksPane);
 
         scoreBoardController = new ScoreBoardController(scoreBoardPane);
+
+        specialAlertsLabel.setVisible(false);
 
         showMessage("Waiting for all players to choose the cards...");
 
@@ -119,9 +123,9 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
-            System.out.println("UPDATE STATUS: " + ClientStateModel.getIstance().getClientState());
+            System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
 
-            switch (ClientStateModel.getIstance().getClientState()){
+            switch (ClientStateModel.getInstance().getClientState()){
                 case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
                 case PLAYING_STATE -> showMessage("It's your Turn, please place a card!");
                 case DRAWING_STATE -> {
@@ -130,7 +134,7 @@ public class GameFieldViewController extends ViewController {
                 }
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
-                case LAST_TURN_STATE -> showMessage("It's the last turn! " + ClientStateModel.getIstance().getReason());
+                case LAST_TURN_STATE -> showSpecialMessage("⚠ It's the last turn! " + ClientStateModel.getInstance().getReason());
                 case END_GAME_STATE -> StageManager.loadLeaderboardScene();
                 default -> {}
             }
@@ -141,7 +145,13 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void showMessage(String message){
         Platform.runLater(()-> alertLabel.setText(message));
+    }
 
+    public void showSpecialMessage(String message){
+        Platform.runLater(() -> {
+            specialAlertsLabel.setText(message);
+            specialAlertsLabel.setVisible(true);
+        });
     }
 
 

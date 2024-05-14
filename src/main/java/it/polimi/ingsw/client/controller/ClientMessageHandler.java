@@ -55,11 +55,11 @@ public class ClientMessageHandler {
     }
 
     private void updateClientState(ClientState clientState) {
-        ClientStateModel.getIstance().setClientState(clientState);
+        ClientStateModel.getInstance().setClientState(clientState);
     }
 
     private void updateClientState(ClientState clientState, String reason) {
-        ClientStateModel.getIstance().setClientState(clientState, reason);
+        ClientStateModel.getInstance().setClientState(clientState, reason);
     }
 
     private void updateAvailableGames(JSONObject message) {
@@ -95,9 +95,9 @@ public class ClientMessageHandler {
 
         //updating the model...
         if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
-            ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
+            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
         }
-        else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
         PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getIstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getIstance().setSecretObjectiveId(secretObjectiveCardID);
@@ -132,7 +132,7 @@ public class ClientMessageHandler {
         ArrayList<VirtualCard> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
         GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
-        ClientStateModel.getIstance().setClientState(ClientState.DRAWING_STATE);
+        ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getIstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
@@ -153,9 +153,9 @@ public class ClientMessageHandler {
 
         PlayerModel.getInstance().setTurnPlayer(currentTurnPlayer);
         if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {
-            ClientStateModel.getIstance().setClientState(ClientState.PLAYING_STATE);
+            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
         }
-        else ClientStateModel.getIstance().setClientState(ClientState.NOT_PLAYING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
 
     }
 
@@ -171,24 +171,17 @@ public class ClientMessageHandler {
 
     }
 
-    private void updateLeaderboard(JSONObject message){
-
-        JSONObject leaderboardJSON = (JSONObject) message.get("leaderBoard");
+    private void updateLeaderboard(JSONObject message) {
         ArrayList<JSONObject> leaderboard = new ArrayList<>();
 
-        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("first", null));
-        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("second", null));
-        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("third", null));
-        leaderboard.addLast((JSONObject) leaderboardJSON.getOrDefault("fourth", null));
-
+        addIfNotNull(leaderboard, message.getOrDefault("first",null));
+        addIfNotNull(leaderboard, message.getOrDefault("second",null));
+        addIfNotNull(leaderboard, message.getOrDefault("third",null));
+        addIfNotNull(leaderboard, message.getOrDefault("fourth",null));
 
         ScoreBoardModel.getInstance().setLeaderboard(leaderboard);
-        ClientStateModel.getIstance().setClientState(ClientState.END_GAME_STATE);
-
-
-
+        ClientStateModel.getInstance().setClientState(ClientState.END_GAME_STATE);
     }
-
 
 
 
@@ -233,6 +226,12 @@ public class ClientMessageHandler {
 
         DeckModel.getIstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);
 
+    }
+
+    private void addIfNotNull(ArrayList<JSONObject> list, Object obj) {
+        if (obj != null ) {
+            list.add((JSONObject) obj);
+        }
     }
 
 
