@@ -6,7 +6,7 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
-public class ObjectiveCardJPatternIIA implements ObjectiveStrategy{
+public class ObjectiveCardJPatternIIA extends ObjectiveStrategy {
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         int num_jpattern=0;
         ArrayList<PlaceableCard> visitedCard= new ArrayList<>();
@@ -16,9 +16,9 @@ public class ObjectiveCardJPatternIIA implements ObjectiveStrategy{
             int y= c.getY();
             PlaceableCard card_tempA= gamefield.lookAtCoordinates(x+1, y-1);
             PlaceableCard card_tempB= gamefield.lookAtCoordinates(x+1, y-3);
-            if(card_tempA!=null && card_tempA.getCardKingdom() == Resource.insect && !visitedCard.contains(card_tempA))
+            if(card_tempA!=null && card_tempA.getCardKingdom() == Resource.insect && !arrayContainsCard(visitedCard, card_tempA))
             {
-                if(card_tempB!=null && card_tempB.getCardKingdom() == Resource.insect && !visitedCard.contains(card_tempB)) {
+                if(card_tempB!=null && card_tempB.getCardKingdom() == Resource.insect && !arrayContainsCard(visitedCard, card_tempB)) {
                     visitedCard.add(card_tempA);
                     visitedCard.add(card_tempB);
                     num_jpattern++;

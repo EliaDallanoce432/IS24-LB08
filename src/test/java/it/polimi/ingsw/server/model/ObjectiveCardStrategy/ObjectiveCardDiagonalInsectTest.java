@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
@@ -48,9 +49,9 @@ class ObjectiveCardDiagonalInsectTest {
     @Test
     void calculatePointsSimpleCase() {
         try {
-            gameField.place(new ResourceCard(38), true, -1,1);
-            gameField.place(new ResourceCard(38), true, -2,2);
-            gameField.place(new ResourceCard(38), true, -3,3);
+            gameField.place(new ResourceCard(31), false, -1,1);
+            gameField.place(new ResourceCard(32), false, -2,2);
+            gameField.place(new ResourceCard(33), false, -3,3);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -60,10 +61,10 @@ class ObjectiveCardDiagonalInsectTest {
     @Test
     void calculatePointsDiagonalWith4CardsCase() {
         try {
-            gameField.place(new ResourceCard(38), true, -1,1);
-            gameField.place(new ResourceCard(38), true, -2,2);
-            gameField.place(new ResourceCard(38), true, -3,3);
-            gameField.place(new ResourceCard(38), true, -4,4);
+            gameField.place(new ResourceCard(31), false, -1,1);
+            gameField.place(new ResourceCard(32), false, -2,2);
+            gameField.place(new ResourceCard(33), false, -3,3);
+            gameField.place(new ResourceCard(35), false, -4,4);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +74,7 @@ class ObjectiveCardDiagonalInsectTest {
     @Test
     void calculatePointsNoTripletsCase() {
         try {
-            gameField.place(new ResourceCard(38), true, -1,1);
+            gameField.place(new ResourceCard(31), true, -1,1);
             gameField.place(new ResourceCard(38), true, -2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -84,12 +85,12 @@ class ObjectiveCardDiagonalInsectTest {
     @Test
     void calculatePointsDoubleTripletCase() {
         try {
-            gameField.place(new ResourceCard(38), false, -1,1);
-            gameField.place(new ResourceCard(38), false, -2,2);
-            gameField.place(new ResourceCard(38), false, -3,3);
-            gameField.place(new ResourceCard(38), false, -2,4);
-            gameField.place(new ResourceCard(38), false, -3,5);
-            gameField.place(new ResourceCard(38), false, -4,6);
+            gameField.place(new ResourceCard(31), false, -1,1);
+            gameField.place(new ResourceCard(32), false, -2,2);
+            gameField.place(new ResourceCard(33), false, -3,3);
+            gameField.place(new ResourceCard(34), false, -2,4);
+            gameField.place(new ResourceCard(35), false, -3,5);
+            gameField.place(new ResourceCard(36), false, -4,6);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }

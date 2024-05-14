@@ -48,9 +48,9 @@ class ObjectiveCardDiagonalFungiTest {
     @Test
     void calculatePointsSimpleCase() {
         try {
-            gameField.place(new ResourceCard(4), true, 1,1);
-            gameField.place(new ResourceCard(4), true, 2,2);
-            gameField.place(new ResourceCard(4), true, 3,3);
+            gameField.place(new ResourceCard(1), true, 1,1);
+            gameField.place(new ResourceCard(2), true, 2,2);
+            gameField.place(new ResourceCard(3), true, 3,3);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -61,9 +61,9 @@ class ObjectiveCardDiagonalFungiTest {
     void calculatePointsDiagonalWith4CardsCase() {
 
         try {
-            gameField.place(new ResourceCard(4), true, 1,1);
-            gameField.place(new ResourceCard(4), true, 2,2);
-            gameField.place(new ResourceCard(4), true, 3,3);
+            gameField.place(new ResourceCard(1), true, 1,1);
+            gameField.place(new ResourceCard(2), true, 2,2);
+            gameField.place(new ResourceCard(3), false, 3,3);
             gameField.place(new ResourceCard(4), true, 4,4);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
@@ -74,8 +74,8 @@ class ObjectiveCardDiagonalFungiTest {
     @Test
     void calculatePointsNoTripletsCase() {
         try {
-            gameField.place(new ResourceCard(4), true, 1,1);
-            gameField.place(new ResourceCard(4), true, 2,2);
+            gameField.place(new ResourceCard(1), true, 1,1);
+            gameField.place(new ResourceCard(2), true, 2,2);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
@@ -85,12 +85,12 @@ class ObjectiveCardDiagonalFungiTest {
     @Test
     void calculatePointsDoubleTripletCase() {
         try {
-            gameField.place(new ResourceCard(4), true, 1,1);
-            gameField.place(new ResourceCard(4), true, 2,2);
-            gameField.place(new ResourceCard(4), false, 3,3);
+            gameField.place(new ResourceCard(1), true, 1,1);
+            gameField.place(new ResourceCard(2), true, 2,2);
+            gameField.place(new ResourceCard(3), false, 3,3);
             gameField.place(new ResourceCard(4), true, 2,4);
-            gameField.place(new ResourceCard(4), true, 3,5);
-            gameField.place(new ResourceCard(4), true, 4,6);
+            gameField.place(new ResourceCard(5), true, 3,5);
+            gameField.place(new ResourceCard(6), true, 4,6);
         } catch (CannotPlaceCardException e) {
             throw new RuntimeException(e);
         }
