@@ -1,14 +1,26 @@
 package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
+import it.polimi.ingsw.server.model.card.PlaceableCard;
 
-public interface ObjectiveStrategy {
+import java.util.ArrayList;
+
+public abstract class ObjectiveStrategy {
     /**
      * method performs the calculation of the points received by fulfilling the objective
      * @param pointsOnTheCard points multiplier written on the card
      * @param gamefield gamefield on which the objective has to be checked
      * @return int
      */
-    int calculatePoints(int pointsOnTheCard, GameField gamefield);
+    int calculatePoints(int pointsOnTheCard, GameField gamefield){return 0;};
+
+    protected boolean arrayContainsCard(ArrayList<PlaceableCard> arrayList, PlaceableCard card){
+        for(PlaceableCard card2 : arrayList){
+            if(card2.getId() == card.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
