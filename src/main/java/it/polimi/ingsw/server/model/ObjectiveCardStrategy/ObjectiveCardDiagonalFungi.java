@@ -42,6 +42,13 @@ public class ObjectiveCardDiagonalFungi extends ObjectiveStrategy {
         return triplets;
     }
 
+    /**
+     * Used to calculate the amount of points given for each diagonalFungiTriplet completed on
+     * the game-field
+     * @param pointsOnTheCard points multiplier written on the card
+     * @param gamefield game-field on which the objective has to be checked
+     * @return the amount of calculated points
+     */
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         return pointsOnTheCard*diagonalFungiTriplets(gamefield, gamefield.getFungiCards());
     }

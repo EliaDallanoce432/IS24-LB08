@@ -9,8 +9,8 @@ public abstract class ObjectiveStrategy {
     /**
      * method performs the calculation of the points received by fulfilling the objective
      * @param pointsOnTheCard points multiplier written on the card
-     * @param gamefield gamefield on which the objective has to be checked
-     * @return int
+     * @param gamefield game-field on which the objective has to be checked
+     * @return the amount of calculated points
      */
     int calculatePoints(int pointsOnTheCard, GameField gamefield){return 0;};
 
