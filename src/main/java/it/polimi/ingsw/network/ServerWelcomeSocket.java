@@ -7,12 +7,12 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server implements Runnable {
-    private ServerSocket serverSocket;
+public class ServerWelcomeSocket implements Runnable {
+    private final ServerSocket serverSocket;
     Lobby lobby;
     boolean running;
 
-    public Server(Lobby lobby, int port) {
+    public ServerWelcomeSocket(Lobby lobby, int port) {
         this.lobby = lobby;
         try {
             serverSocket = new ServerSocket(port);

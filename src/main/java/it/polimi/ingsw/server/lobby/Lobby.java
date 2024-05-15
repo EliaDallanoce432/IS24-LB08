@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.network.ClientHandler;
-import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserverInterface;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
@@ -29,8 +29,8 @@ public class Lobby implements ServerNetworkObserverInterface {
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestExecutor = new LobbyRequestExecutor(this);
-        Server server = new Server(this, port);
-        executorService.submit(server);
+        ServerWelcomeSocket serverWelcomeSocket = new ServerWelcomeSocket(this, port);
+        executorService.submit(serverWelcomeSocket);
         running = true;
     }
 

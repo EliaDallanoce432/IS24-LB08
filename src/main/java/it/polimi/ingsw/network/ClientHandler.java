@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.ping.Pinger;
-import it.polimi.ingsw.network.sockets.InputHandler;
-import it.polimi.ingsw.network.sockets.networkInputObserver;
+import it.polimi.ingsw.network.input.InputHandler;
+import it.polimi.ingsw.network.input.networkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -10,7 +10,12 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * this class offers network functionalities for the server between the server and the client
+ */
 public class ClientHandler implements Runnable, NetworkInterface, networkInputObserver, ConnectionObserver{
     private final PrintWriter out;
     private final Socket socket;
@@ -90,13 +95,19 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
         }
     }
 
+    /**
+     * handles messages that are not meant for the higher level, but they are service messages for the proper network functionality
+     * @param message message to handle
+     * @return returns true if it was a service message, false if it's a message for the application
+     */
     private boolean networkMessageHandling(JSONObject message) {
         if(message.containsKey("type")) {
             switch (message.get("type").toString()) {
                 case "pong" -> pinger.notifyPong();
                 case "ping" -> {
-                    JSONObject pongMessage = new JSONObject();
-                    pongMessage.put("type", "pong");
+                    Map<String,String> jsonMap = new HashMap<>();
+                    jsonMap.put("type", "pong");
+                    JSONObject pongMessage = new JSONObject(jsonMap);
                     out.println(pongMessage);
                 }
                 default -> {
@@ -117,6 +128,9 @@ public class ClientHandler implements Runnable, NetworkInterface, networkInputOb
         shutdown();
     }
 
+    /**
+     * closes every service that was open and ends the connection
+     */
     public void shutdown() {
         pinger.shutdown();
         out.close();

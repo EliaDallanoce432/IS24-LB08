@@ -2,6 +2,9 @@ package it.polimi.ingsw.network;
 
 import org.json.simple.JSONObject;
 
+/**
+ * represents a generic network interface to enable communication between two hosts
+ */
 public interface NetworkInterface extends ConnectionObserver {
     /**
      * method sends a message to a remote host

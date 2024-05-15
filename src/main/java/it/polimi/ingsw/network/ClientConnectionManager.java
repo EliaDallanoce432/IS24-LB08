@@ -2,14 +2,19 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.network.ping.Pinger;
-import it.polimi.ingsw.network.sockets.InputHandler;
-import it.polimi.ingsw.network.sockets.networkInputObserver;
+import it.polimi.ingsw.network.input.InputHandler;
+import it.polimi.ingsw.network.input.networkInputObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * this class offers networks functionalities for the client
+ */
 public class ClientConnectionManager implements NetworkInterface, networkInputObserver, ConnectionObserver{
     private final Socket socket;
     private final PrintWriter out;
@@ -50,13 +55,19 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         }
     }
 
+    /**
+     * handles messages that are not meant for the higher level, but they are service messages for the proper network functionality
+     * @param message message to handle
+     * @return returns true if it was a service message, false if it's a message for the application
+     */
     private boolean networkMessageHandling(JSONObject message) {
         if(message.containsKey("type")) {
             switch (message.get("type").toString()) {
                 case "pong" -> pinger.notifyPong();
                 case "ping" -> {
-                    JSONObject pongMessage = new JSONObject();
-                    pongMessage.put("type", "pong");
+                    Map<String,String> jsonMap = new HashMap<>();
+                    jsonMap.put("type", "pong");
+                    JSONObject pongMessage = new JSONObject(jsonMap);
                     out.println(pongMessage);
                 }
                 default -> {
@@ -73,6 +84,9 @@ public class ClientConnectionManager implements NetworkInterface, networkInputOb
         clientController.notifyConnectionLoss();
     }
 
+    /**
+     * closes every service that was open and ends the connection
+     */
     public void shutdown() {
         pinger.shutdown();
         out.close();

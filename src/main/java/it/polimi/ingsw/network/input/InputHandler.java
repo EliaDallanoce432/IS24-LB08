@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.sockets;
+package it.polimi.ingsw.network.input;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -7,10 +7,13 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * this class handles the input from the TCP socket
+ */
 public class InputHandler implements Runnable {
 
     private final networkInputObserver socketObserver;
-    private Scanner in;
+    private final Scanner in;
     private final JSONParser parser;
     private volatile boolean running;
 
@@ -23,10 +26,6 @@ public class InputHandler implements Runnable {
             throw new RuntimeException(e);
         }
         running = true;
-    }
-
-    public void shutdown() {
-        running = false;
     }
 
     @Override
@@ -44,5 +43,12 @@ public class InputHandler implements Runnable {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    /**
+     * stops the InputHandler execution
+     */
+    public void shutdown() {
+        running = false;
     }
 }

@@ -1,7 +1,10 @@
-package it.polimi.ingsw.network.sockets;
+package it.polimi.ingsw.network.input;
 
 import org.json.simple.JSONObject;
 
+/**
+ * this interface is used by a class that is interested in incoming messages from the network
+ */
 public interface networkInputObserver {
 
     /**
