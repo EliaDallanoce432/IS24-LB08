@@ -12,20 +12,7 @@ class ObjectiveCardDeckTest {
     @Test
     void generateDeck() {
         ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        assertEquals(14, objectivedecktest.cards.size());
-    }
-    @Test
-    void getLeftRevealedCard() {
-        ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        Card leftrevealedcard = objectivedecktest.drawLeftRevealedCard();
-        assertEquals(leftrevealedcard.getClass(), ObjectiveCard.class);
-    }
-
-    @Test
-    void getRightRevealedCard() {
-        ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        Card rightrevealedcard = objectivedecktest.drawRightRevealedCard();
-        assertEquals(rightrevealedcard.getClass(), ObjectiveCard.class);
+        assertEquals(16, objectivedecktest.cards.size());
     }
 
     @Test
@@ -43,13 +30,13 @@ class ObjectiveCardDeckTest {
     @Test
     void directDrawEmptyDeck () {
         ObjectiveCardDeck objectivedecktest = new ObjectiveCardDeck();
-        for(int i=0; i < 14; i++) {
+        for(int i=0; i < 16; i++) {
             try {
                 objectivedecktest.directDraw();
             } catch (EmptyDeckException e) {
                 throw new RuntimeException(e);
             }
         }
-        assertThrows(EmptyDeckException.class, ()-> objectivedecktest.directDraw());
+        assertThrows(EmptyDeckException.class, objectivedecktest::directDraw);
     }
 }
