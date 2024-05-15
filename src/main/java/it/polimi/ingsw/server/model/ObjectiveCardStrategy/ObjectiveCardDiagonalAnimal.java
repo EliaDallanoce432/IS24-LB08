@@ -6,12 +6,13 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
-public class ObjectiveCardDiagonalAnimal extends ObjectiveStrategy {
+public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy {
     private int diagonalAnimalTriplets(GameField gameField, ArrayList<PlaceableCard> animalCards) {
         int triplets = 0;
         ArrayList<PlaceableCard> visited = new ArrayList<>();
         for (PlaceableCard card : animalCards) {
-            if(arrayContainsCard(visited,card)) continue;
+            //if(arrayContainsCard(visited,card)) continue;
+            if(visited.contains(card)) continue;
             //moves from the current card to the top of the diagonal
             PlaceableCard nextCard = card; //next card in the diagonal pattern going upwards
             PlaceableCard currentCard = null;

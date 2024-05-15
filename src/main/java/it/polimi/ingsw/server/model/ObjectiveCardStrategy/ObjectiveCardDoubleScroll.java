@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
-public class ObjectiveCardDoubleScroll extends ObjectiveStrategy {
+public class ObjectiveCardDoubleScroll implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each couple of Scroll found on the game-field
      * @param pointsOnTheCard points multiplier written on the card

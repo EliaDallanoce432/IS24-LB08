@@ -64,7 +64,10 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * adds the player to the arraylist of players
      * @param client who joined the current game
      */
-    public void enterGame (ClientHandler client){
+    public synchronized void enterGame (ClientHandler client) {
+        if(gameIsFull()) {
+            //TODO fare qualcosa da decidere con gli altri tipo tirare eccezione
+        }
         clientHandlers.add(client);
         client.setGame(this);
         client.setInGame(true);
@@ -76,7 +79,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * removes a player from the current game and sends him to the lobby
      * @param client who left the game
      */
-    public void leaveGame (ClientHandler client){
+    public synchronized void leaveGame (ClientHandler client){
         clientHandlers.remove(client);
         game.reinsertToken(getCurrentPlayer(client).getToken());
         game.players.remove(client.getUsername());

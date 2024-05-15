@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
-public class ObjectiveCardDoubleFeather extends ObjectiveStrategy {
+public class ObjectiveCardDoubleFeather implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each couple of feathers found on the game-field
      * @param pointsOnTheCard points multiplier written on the card

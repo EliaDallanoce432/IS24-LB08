@@ -164,7 +164,6 @@ public class Player {
      * @param card card to be taken
      */
     public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {
-
         if(!hand.remove(card)) throw new CardNotInHandException();
         else return card;
     }
@@ -199,12 +198,7 @@ public class Player {
         }
         if(cardInHand == null) throw new CardNotInHandException();
         gamefield.place(cardInHand,facingUp,x,y);
-        for (int i=0; i< hand.size(); i++) {
-            if (hand.get(i).getId() == cardInHand.getId()) {
-                hand.remove(i);
-                break;
-            }
-        }
+        removeFromHand(cardInHand);
         alreadyPlaced = true;
     }
 
