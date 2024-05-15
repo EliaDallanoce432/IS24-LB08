@@ -2,7 +2,9 @@
 
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="gameBoard" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.GameFieldViewController">
@@ -42,7 +44,7 @@
                   <Cursor fx:constant="MOVE" />
                </cursor></ScrollPane>
             <Pane fx:id="handPane" layoutX="110.0" layoutY="612.0" prefHeight="131.0" prefWidth="509.0" style="-fx-border-color: black;" />
-            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="206.0" prefHeight="350.0" prefWidth="450.0" style="-fx-border-color: black;" />
+            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="206.0" prefHeight="350.0" prefWidth="230.0" style="-fx-border-color: black;" />
             <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" style="-fx-border-color: black;" />
             <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="113.0" prefHeight="75.0" prefWidth="230.0" style="-fx-border-color: black;" />
             <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="113.0" prefHeight="75.0" prefWidth="113.0" style="-fx-border-color: black;" />
@@ -55,6 +57,16 @@
                <font>
                   <Font name="Baskerville Old Face" size="16.0" />
                </font></Label>
+            <Pane fx:id="scoreTrackPane" layoutX="1053.0" layoutY="206.0" prefHeight="350.0" prefWidth="207.0">
+               <children>
+                  <ImageView fitHeight="364.0" fitWidth="220.0" layoutX="11.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/scoreTrack.png" />
+                     </image>
+                  </ImageView>
+                  <Circle fx:id="startingReference" fill="DODGERBLUE" layoutX="61.0" layoutY="327.0" opacity="0.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>

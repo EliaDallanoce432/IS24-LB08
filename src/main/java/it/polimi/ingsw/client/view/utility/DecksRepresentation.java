@@ -62,8 +62,8 @@ public class DecksRepresentation {
             for(int i = 0; i < BLANK_CARDS_NUMBER; i++) {
                 CardRepresentation blankCard  = new CardRepresentation(0,false);
                 Rectangle blankCardRect = blankCard.getCard();
-                blankCardRect.setLayoutX((BLANK_CARDS_NUMBER-i)*BLANK_CARDS_OFFSET);
-                blankCardRect.setLayoutY(yOffset);
+                blankCardRect.setLayoutY(yOffset + (BLANK_CARDS_NUMBER-i)*BLANK_CARDS_OFFSET);
+                blankCardRect.setLayoutX(0);
                 decksPane.getChildren().add(blankCardRect);
             }
 

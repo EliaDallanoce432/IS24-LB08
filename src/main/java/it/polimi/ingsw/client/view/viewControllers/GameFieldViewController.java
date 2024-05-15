@@ -3,11 +3,8 @@ package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.utility.HandAndBoardRepresentation;
-import it.polimi.ingsw.client.view.utility.ObjectivesRepresentation;
-import it.polimi.ingsw.client.view.utility.ScoreBoardRepresentation;
+import it.polimi.ingsw.client.view.utility.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.utility.DecksRepresentation;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
@@ -44,12 +42,17 @@ public class GameFieldViewController extends ViewController {
     private Button flipButton;
     @FXML
     private Button leaveGameButton;
+    @FXML
+    private Pane scoreTrackPane;
+    @FXML
+    private Circle startingReference;
 
 
     private HandAndBoardRepresentation handAndBoardRepresentation;
     private DecksRepresentation decksRepresentation;
     private ScoreBoardRepresentation scoreBoardRepresentation;
     private ObjectivesRepresentation objectivesRepresentation;
+    private ScoreTrackRepresentation scoreTrackRepresentation;
 
     @FXML
     private void initialize() {
@@ -63,6 +66,7 @@ public class GameFieldViewController extends ViewController {
         objectivesRepresentation = new ObjectivesRepresentation(commonObjectivesPane, secretObjectivePane);
         decksRepresentation = new DecksRepresentation(decksPane);
         scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardPane);
+        scoreTrackRepresentation = new ScoreTrackRepresentation(scoreTrackPane,startingReference);
 
         specialAlertsLabel.setVisible(false);
         errorLabel.setVisible(false);
