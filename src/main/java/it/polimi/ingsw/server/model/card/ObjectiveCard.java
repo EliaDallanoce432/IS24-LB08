@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.card;
 
 import it.polimi.ingsw.server.model.GameField;
-import it.polimi.ingsw.server.model.ObjectiveCardStrategy.*;
+import it.polimi.ingsw.server.model.card.ObjectiveCardStrategy.*;
 
 /**
  * This class represents a Objective card
@@ -18,7 +18,7 @@ public class ObjectiveCard extends Card {
                 context = new ObjectiveCardContext(new ObjectiveCardDiagonalFungi());
             }case 88 -> {
                 points = 2;
-                context = new ObjectiveCardContext(new ObjectiveCardDiagonalPlant());
+                context = new ObjectiveCardContext(new ObjectiveCardDiagonalPlants());
             }
             case 89 -> {
                 points = 2;

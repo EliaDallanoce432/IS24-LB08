@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.deck.GoldCardDeck;
 import it.polimi.ingsw.server.model.deck.ObjectiveCardDeck;
 import it.polimi.ingsw.server.model.deck.ResourceCardDeck;
 import it.polimi.ingsw.server.model.deck.StarterCardDeck;
+import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import it.polimi.ingsw.util.supportclasses.Color;
 import it.polimi.ingsw.util.supportclasses.GameState;
 
@@ -18,22 +19,22 @@ import java.util.HashMap;
  * This class represents model of the Game
  */
 public class Game {
-    public int numberOfPlayers;
+    private int numberOfPlayers;
     private GameState gameState;
-    public int turnCounter;
+    private int turnCounter;
 
-    public ObjectiveCardDeck objectiveCardDeck;
-    public ResourceCardDeck resourceCardDeck;
-    public GoldCardDeck goldCardDeck;
-    public StarterCardDeck starterCardDeck;
-    public ArrayList<ObjectiveCard> commonObjectives;
-    public HashMap<String, Player> players;
+    private final ObjectiveCardDeck objectiveCardDeck;
+    private final ResourceCardDeck resourceCardDeck;
+    private final GoldCardDeck goldCardDeck;
+    private final StarterCardDeck starterCardDeck;
+    private final ArrayList<ObjectiveCard> commonObjectives;
+    private final HashMap<String, Player> players;
 
-    public GameObserver gameObserver;
-    public ArrayList<Color> availableTokens;
+    private GameObserver gameObserver;
+    private final ArrayList<Color> availableTokens;
 
     public Game(int numberOfPlayers, GameObserver gameObserver) {
-        this.numberOfPlayers = numberOfPlayers;
+        this.setNumberOfPlayers(numberOfPlayers);
         players = new HashMap<>();
         objectiveCardDeck = new ObjectiveCardDeck();
         resourceCardDeck = new ResourceCardDeck();
@@ -41,10 +42,13 @@ public class Game {
         starterCardDeck = new StarterCardDeck();
         commonObjectives = new ArrayList<>();
         availableTokens = new ArrayList<>(Arrays.asList(Color.red,Color.yellow,Color.green,Color.blue));
-        commonObjectives.add((ObjectiveCard) objectiveCardDeck.drawLeftRevealedCard());
-        commonObjectives.add((ObjectiveCard) objectiveCardDeck.drawRightRevealedCard());
+        try {
+            commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());
+            commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());
+        } catch (EmptyDeckException ignored) {
+        }
         gameState = GameState.waitingForPlayers;
-        this.gameObserver= gameObserver;
+        this.setGameObserver(gameObserver);
     }
     public GameState getGameState() {
         return gameState;
@@ -53,9 +57,11 @@ public class Game {
     public void setGameState(GameState gamestate) {this.gameState = gamestate;}
 
     public Color getRandomToken() {
-        Collections.shuffle(availableTokens);
-        return availableTokens.removeFirst();
+        Collections.shuffle(getAvailableTokens());
+        return getAvailableTokens().removeFirst();
     }
+
+    public HashMap<String, Player> getPlayersHashMap() { return players;}
 
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(players.values());
@@ -66,8 +72,56 @@ public class Game {
     * @param token of the player
      */
     public void reinsertToken(Color token) {
-        availableTokens.add(token);
+        getAvailableTokens().add(token);
     }
 
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public int getTurnCounter() {
+        return turnCounter;
+    }
+
+    public void setTurnCounter(int turnCounter) {
+        this.turnCounter = turnCounter;
+    }
+
+    public ObjectiveCardDeck getObjectiveCardDeck() {
+        return objectiveCardDeck;
+    }
+
+    public ResourceCardDeck getResourceCardDeck() {
+        return resourceCardDeck;
+    }
+
+    public GoldCardDeck getGoldCardDeck() {
+        return goldCardDeck;
+    }
+
+    public StarterCardDeck getStarterCardDeck() {
+        return starterCardDeck;
+    }
+
+    public ArrayList<ObjectiveCard> getCommonObjectives() {
+        return commonObjectives;
+    }
+
+    public GameObserver getGameObserver() {
+        return gameObserver;
+    }
+
+    public void setGameObserver(GameObserver gameObserver) {
+        this.gameObserver = gameObserver;
+    }
+
+    public ArrayList<Color> getAvailableTokens() {
+        return availableTokens;
+    }
 
 }

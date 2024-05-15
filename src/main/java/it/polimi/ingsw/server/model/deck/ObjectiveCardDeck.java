@@ -16,13 +16,5 @@ public class ObjectiveCardDeck extends DeckWithRevealedCards {
             cards.add(new ObjectiveCard(i));
         }
         Collections.shuffle(cards);
-
-        try {
-            leftRevealedCard = this.directDraw();
-            rightRevealedCard = this.directDraw();
-        } catch (EmptyDeckException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
+package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
@@ -6,7 +6,7 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
-public class ObjectiveCardDiagonalPlant implements ObjectiveStrategy {
+public class ObjectiveCardDiagonalPlants implements ObjectiveStrategy {
     private int diagonalPlantTriplets(GameField gameField, ArrayList<PlaceableCard> plantCards) {
         int triplets = 0;
         ArrayList<PlaceableCard> visited = new ArrayList<>();

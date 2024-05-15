@@ -5,7 +5,7 @@ import it.polimi.ingsw.util.supportclasses.Request;
 /**
  * this interface has the functionalities of the server seen from the client handler perspective
  */
-public interface ServerNetworkObserverInterface {
+public interface ServerNetworkObserver {
 
     /**
      * notifies the server network observer that the connection with the remote host is lost

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.GoldCardStrategy;
+package it.polimi.ingsw.server.model.card.GoldCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.GoldCard;

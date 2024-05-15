@@ -17,6 +17,12 @@ public class ServerMessageGenerator {
         this.game = game;
     }
 
+    public JSONObject gameIsFullMessage() {
+        JSONObject message = new JSONObject();
+        //TODO fare il messaggio
+        return message;
+    }
+
     /**
      * this message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
      * secrete objective
@@ -49,8 +55,8 @@ public class ServerMessageGenerator {
         message.put("resources", updatedResources(player));
         message.put("secretObjectiveID", String.valueOf(player.getSecretObjective().getId()));
         message.put("token", player.getToken().toString());
-        message.put("commonObjective1", String.valueOf(game.commonObjectives.getFirst().getId()));
-        message.put("commonObjective2", String.valueOf(game.commonObjectives.getLast().getId()));
+        message.put("commonObjective1", String.valueOf(game.getCommonObjectives().getFirst().getId()));
+        message.put("commonObjective2", String.valueOf(game.getCommonObjectives().getLast().getId()));
         message.put("firstPlayer", gameController.getTurnPlayerUsername());
         return message;
     }
@@ -149,11 +155,10 @@ public class ServerMessageGenerator {
 
     /**
      * this message sends to the players their final scores when the game is ended
-     * @param clientHandlers is the collection of current players
      * @return the final scores
      */
-    public JSONObject leaderBoardMessage (ArrayList<ClientHandler> clientHandlers, GameController gameController) {
-        //TODO la lista è al contrario
+    public JSONObject leaderBoardMessage (GameController gameController) {
+        ArrayList<ClientHandler> clientHandlers = gameController.getClientHandlers();
         JSONObject message = new JSONObject();
         message.put("message", "leaderBoard");
         if(!clientHandlers.isEmpty()) {
@@ -232,12 +237,12 @@ public class ServerMessageGenerator {
 
     private JSONObject updatedDecks() {
         Map<String,String> decks = new HashMap<>();
-        decks.put("topDeckResourceCardID", String.valueOf(game.resourceCardDeck.getTopCardID()));
-        decks.put("leftRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getLeftRevealedCardID()));
-        decks.put("rightRevealedResourceCardID", String.valueOf(game.resourceCardDeck.getRightRevealedCardID()));
-        decks.put("topDeckGoldCardID", String.valueOf(game.goldCardDeck.getTopCardID()));
-        decks.put("leftRevealedGoldCardID", String.valueOf(game.goldCardDeck.getLeftRevealedCardID()));
-        decks.put("rightRevealedGoldCardID", String.valueOf(game.goldCardDeck.getRightRevealedCardID()));
+        decks.put("topDeckResourceCardID", String.valueOf(game.getResourceCardDeck().getTopCardID()));
+        decks.put("leftRevealedResourceCardID", String.valueOf(game.getResourceCardDeck().getLeftRevealedCardID()));
+        decks.put("rightRevealedResourceCardID", String.valueOf(game.getResourceCardDeck().getRightRevealedCardID()));
+        decks.put("topDeckGoldCardID", String.valueOf(game.getGoldCardDeck().getTopCardID()));
+        decks.put("leftRevealedGoldCardID", String.valueOf(game.getGoldCardDeck().getLeftRevealedCardID()));
+        decks.put("rightRevealedGoldCardID", String.valueOf(game.getGoldCardDeck().getRightRevealedCardID()));
         return new JSONObject(decks);
     }
 

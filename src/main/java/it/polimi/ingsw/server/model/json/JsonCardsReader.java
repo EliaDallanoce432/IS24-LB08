@@ -5,8 +5,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.server.model.GoldCardStrategy.*;
 import it.polimi.ingsw.server.model.card.*;
+import it.polimi.ingsw.server.model.card.GoldCardStrategy.*;
 import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;

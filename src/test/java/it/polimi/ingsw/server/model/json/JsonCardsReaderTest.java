@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.json;
 
-import it.polimi.ingsw.server.model.GoldCardStrategy.GoldCardContext;
-import it.polimi.ingsw.server.model.GoldCardStrategy.GoldCardFeatherStrategy;
+import it.polimi.ingsw.server.model.card.GoldCardStrategy.GoldCardContext;
+import it.polimi.ingsw.server.model.card.GoldCardStrategy.GoldCardFeatherStrategy;
 import it.polimi.ingsw.server.model.card.Corner;
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;

@@ -15,7 +15,7 @@ public interface GameObserver {
     /**
      * this method is used to notify the controller the number of connected players changed
      */
-    void notifyClientConnectedCountChanged();
+    void notifyConnectedClientCountChanged();
 
     /**
      * this method is used to notify the controller the beginning of the last round of the match

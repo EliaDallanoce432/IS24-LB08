@@ -101,7 +101,7 @@ public class Player {
      */
     public void setReady(boolean ready) {
         isReady = ready;
-        game.gameObserver.notifyReady();
+        game.getGameObserver().notifyReady();
     }
     /**
      * sets the starter-card orientation chosen by the player and notifies the GameObserver
@@ -109,7 +109,7 @@ public class Player {
      */
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
         this.starterCardOrientationSelected = starterCardOrientationSelected;
-        game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
+        game.getGameObserver().notifyStarterCardAndSecretObjectiveSelected();
     }
 
     /**
@@ -118,9 +118,9 @@ public class Player {
     private void initializeHand() {
         hand.clear();
         try {
-            addToHand((ResourceCard) game.resourceCardDeck.directDraw());
-            addToHand((ResourceCard) game.resourceCardDeck.directDraw());
-            addToHand((GoldCard) game.goldCardDeck.directDraw());
+            addToHand((ResourceCard) game.getResourceCardDeck().directDraw());
+            addToHand((ResourceCard) game.getResourceCardDeck().directDraw());
+            addToHand((GoldCard) game.getGoldCardDeck().directDraw());
             System.out.println("hand for player " + this.getToken() + ": " + hand);
         } catch (FullHandException | EmptyDeckException ignored) {
         }
@@ -132,7 +132,7 @@ public class Player {
      */
     public void setScore(int newScore) {
         this.score = newScore;
-        game.gameObserver.notifyLastRound();
+        game.getGameObserver().notifyLastRound();
     }
 
     /**
@@ -150,7 +150,7 @@ public class Player {
     public void setSecretObjective(ObjectiveCard objectiveCard) {
         if(this.secretObjective != null) return;
         this.secretObjective = objectiveCard;
-        game.gameObserver.notifyStarterCardAndSecretObjectiveSelected();
+        game.getGameObserver().notifyStarterCardAndSecretObjectiveSelected();
     }
 
     /**
@@ -211,8 +211,8 @@ public class Player {
      */
     public void calculateFinalScore() {
         increaseScore(secretObjective.getEarnedPoints(getGamefield()));
-        increaseScore(game.commonObjectives.get(0).getEarnedPoints(getGamefield()));
-        increaseScore(game.commonObjectives.get(1).getEarnedPoints(getGamefield()));
+        increaseScore(game.getCommonObjectives().get(0).getEarnedPoints(getGamefield()));
+        increaseScore(game.getCommonObjectives().get(1).getEarnedPoints(getGamefield()));
     }
 
     /**

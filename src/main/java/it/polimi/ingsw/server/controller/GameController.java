@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.server.lobby.Lobby;
-import it.polimi.ingsw.network.ServerNetworkObserverInterface;
+import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.card.*;
@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameController implements Runnable, ServerNetworkObserverInterface, GameObserver {
+public class GameController implements Runnable, ServerNetworkObserver, GameObserver {
     private final String gameName;
     private final ArrayList<ClientHandler> clientHandlers;
     private final Lobby lobby;
     private final Game game;
     private final List<Request> requests;
     private boolean running;
-    private final GameControllerRequestExecutor gameControllerRequestExecutor;
+    private final GameRequestHandler gameRequestHandler;
     private final ServerMessageGenerator messageGenerator;
 
     public GameController(Lobby lobby, int numberOfPlayers, String gameName) {
@@ -33,7 +33,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         this.running = true;
         this.game = new Game(numberOfPlayers,this);
         this.messageGenerator = new ServerMessageGenerator(game);
-        this.gameControllerRequestExecutor = new GameControllerRequestExecutor(this, messageGenerator, game);
+        this.gameRequestHandler = new GameRequestHandler(this, messageGenerator, game);
 
         System.out.println(gameName + " is ready");
     }
@@ -41,7 +41,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     public void run() {
         while (running) {
             while (!requests.isEmpty()) {
-                gameControllerRequestExecutor.execute(requests.getFirst());
+                gameRequestHandler.execute(requests.getFirst());
                 requests.removeFirst();
             }
         }
@@ -71,7 +71,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         clientHandlers.add(client);
         client.setGame(this);
         client.setInGame(true);
-        game.players.put(client.getUsername(), new Player(game));
+        game.getPlayersHashMap().put(client.getUsername(), new Player(game));
         System.out.println("player " + client.getUsername() + " joined the game");
     }
 
@@ -82,7 +82,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     public synchronized void leaveGame (ClientHandler client){
         clientHandlers.remove(client);
         game.reinsertToken(getCurrentPlayer(client).getToken());
-        game.players.remove(client.getUsername());
+        game.getPlayersHashMap().remove(client.getUsername());
         client.setGame(null);
         client.setInGame(false);
         System.out.println("player " + client.getUsername() + " left the game");
@@ -90,7 +90,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
             disconnectionDuringGameProcedure();
         }
-        notifyClientConnectedCountChanged();
+        notifyConnectedClientCountChanged();
     }
 
     /**
@@ -99,7 +99,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @return the Player object for the given client, or null if not found.
      */
     public Player getCurrentPlayer(ClientHandler player) {
-        return game.players.get(player.getUsername());
+        return game.getPlayersHashMap().get(player.getUsername());
     }
 
     /**
@@ -121,7 +121,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @return true if it's not the player's turn, false otherwise.
      */
     private boolean isNotTheTurnOf(ClientHandler client) {
-        return game.turnCounter != clientHandlers.indexOf(client);
+        return game.getTurnCounter() != clientHandlers.indexOf(client);
     }
 
     /**
@@ -130,8 +130,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @param client the ClientHandler representing the current player.
      */
     private void passTurn (ClientHandler client) {
-        if(game.turnCounter == game.numberOfPlayers-1) game.turnCounter = 0;
-        else game.turnCounter++;
+        if(game.getTurnCounter() == game.getNumberOfPlayers() -1) game.setTurnCounter(0);
+        else game.setTurnCounter(game.getTurnCounter() + 1);
         getCurrentPlayer(client).clearTurnState();
         broadcast(messageGenerator.turnPlayerUpdateMessage(this));
         notifyEndGame();
@@ -142,7 +142,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @return String the username of the player whose turn it is
      */
     public String getTurnPlayerUsername() {
-        return clientHandlers.get(game.turnCounter).getUsername();
+        return clientHandlers.get(game.getTurnCounter()).getUsername();
     }
 
     /**
@@ -152,7 +152,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
         StarterCard starterCard=null;
         for(Player p : game.getPlayers()) {
             try {
-                starterCard = (StarterCard) game.starterCardDeck.directDraw() ;
+                starterCard = (StarterCard) game.getStarterCardDeck().directDraw() ;
             } catch (EmptyDeckException ignored) {
                 System.out.println(gameName + " has no drawn starter cards");
             }
@@ -167,8 +167,8 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     {
         for (Player p : game.getPlayers()) {
             try {
-                ObjectiveCard cardTemp1 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
-                ObjectiveCard cardTemp2 = ((ObjectiveCard) game.objectiveCardDeck.directDraw());
+                ObjectiveCard cardTemp1 = ((ObjectiveCard) game.getObjectiveCardDeck().directDraw());
+                ObjectiveCard cardTemp2 = ((ObjectiveCard) game.getObjectiveCardDeck().directDraw());
                 p.setDrawnObjectiveCards(new ObjectiveCard[]{cardTemp1, cardTemp2});
             } catch (EmptyDeckException ignored) {
             }
@@ -202,7 +202,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             getCurrentPlayer(client).clearTurnState();
         }
         broadcast(messageGenerator.updatedScoresMessage(this));
-        game.turnCounter = 0;
+        game.setTurnCounter(0);
     }
 
     /**
@@ -243,7 +243,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.directDraw();
+        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -264,7 +264,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.directDraw();
+        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -285,7 +285,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawLeftRevealedCard();
+        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -306,7 +306,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        ResourceCard cardTemp = (ResourceCard) game.resourceCardDeck.drawRightRevealedCard();
+        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -327,7 +327,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawLeftRevealedCard();
+        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -348,7 +348,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             throw new CannotDrawException();
         }
 
-        GoldCard cardTemp = (GoldCard) game.goldCardDeck.drawRightRevealedCard();
+        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
         notifyLastRound();
         passTurn(client);
@@ -360,7 +360,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @param starterCardId starter card id
      * @param facingUp orientation: true if the front is facing up
      */
-    public void chooseStarterCardOrientations (ClientHandler player,int starterCardId, boolean facingUp) {
+    public void chooseStarterCardSide(ClientHandler player, int starterCardId, boolean facingUp) {
         Player currentPlayer = getCurrentPlayer(player);
         if (currentPlayer.getStarterCard().getId() == starterCardId) {
             currentPlayer.place(currentPlayer.getStarterCard(), facingUp);
@@ -397,7 +397,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * This method checks if there are no more players left in the game.
      */
     @Override
-    public void notifyClientConnectedCountChanged() {
+    public void notifyConnectedClientCountChanged() {
         if(clientHandlers.isEmpty()) {
             System.out.println("there are no more players in the game " + game + ": game is closed");
             lobby.closeGame(gameName);
@@ -425,7 +425,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
      * @return true if the number of players in the game equals the maximum number of players allowed, false otherwise.
      */
     private boolean gameIsFull() {
-        return game.players.size() == game.numberOfPlayers;
+        return game.getPlayersHashMap().size() == game.getNumberOfPlayers();
     }
 
     /**
@@ -488,7 +488,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
             }
         }
         
-        if (game.goldCardDeck.isEmpty() && game.resourceCardDeck.isEmpty()) {
+        if (game.getGoldCardDeck().isEmpty() && game.getResourceCardDeck().isEmpty()) {
             game.setGameState(GameState.lastRound);
             broadcast(messageGenerator.lastRoundMessage("decks are empty"));
         }
@@ -502,7 +502,7 @@ public class GameController implements Runnable, ServerNetworkObserverInterface,
     public void notifyEndGame() {
         if(game.getGameState()==GameState.endGame) return;
         if(game.getGameState()!=GameState.lastRound) return;
-        if(game.turnCounter != 0) return;
+        if(game.getTurnCounter() != 0) return;
         game.setGameState(GameState.endGame);
         calculateFinalScore();
     }

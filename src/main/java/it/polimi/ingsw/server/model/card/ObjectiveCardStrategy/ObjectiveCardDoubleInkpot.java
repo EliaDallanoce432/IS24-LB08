@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.ObjectiveCardStrategy;
+package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 

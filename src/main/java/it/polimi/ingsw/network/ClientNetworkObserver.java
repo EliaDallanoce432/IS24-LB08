@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 /**
  * this interface has the functionalities of the client seen from the network perspective
  */
-public interface ClientNetworkObserverInterface {
+public interface ClientNetworkObserver {
 
     /**
      * notifies the client network observer that the connection with the remote host is lost

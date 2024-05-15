@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.deck;
 
 import it.polimi.ingsw.server.model.card.StarterCard;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

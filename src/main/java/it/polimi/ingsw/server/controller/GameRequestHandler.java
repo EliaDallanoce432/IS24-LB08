@@ -6,11 +6,11 @@ import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
-public class GameControllerRequestExecutor {
+public class GameRequestHandler {
     private final GameController gameController;
     private final ServerMessageGenerator messageGenerator;
     private final Game game;
-    public GameControllerRequestExecutor(GameController gameController, ServerMessageGenerator messageGenerator, Game game) {
+    public GameRequestHandler(GameController gameController, ServerMessageGenerator messageGenerator, Game game) {
         this.messageGenerator = messageGenerator;
         this.gameController = gameController;
         this.game = game;
@@ -60,23 +60,23 @@ public class GameControllerRequestExecutor {
      * this method invokes the ready method in the game-controller
      * @param player who sent the request
      */
-    public void ready(ClientHandler player)
+    private void ready(ClientHandler player)
     {
         gameController.ready(player);
     }
 
-    public void chooseStarterCardOrientation(JSONObject message, ClientHandler player) {
+    private void chooseStarterCardOrientation(JSONObject message, ClientHandler player) {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
-        gameController.chooseStarterCardOrientations(player,starterCardId, facingUp);
+        gameController.chooseStarterCardSide(player,starterCardId, facingUp);
     }
 
-    public void chooseSecretObjectiveCard(JSONObject message, ClientHandler player) {
+    private void chooseSecretObjectiveCard(JSONObject message, ClientHandler player) {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
         gameController.chooseSecretObjectiveCard(player, objectiveCardId);
     }
 
-    public void directDrawResourceCard(ClientHandler client) {
+    private void directDrawResourceCard(ClientHandler client) {
         try {
             gameController.directDrawResourceCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
@@ -84,7 +84,7 @@ public class GameControllerRequestExecutor {
         } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
-    public void directDrawGoldCard(ClientHandler client) {
+    private void directDrawGoldCard(ClientHandler client) {
         try {
             gameController.directDrawGoldCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
@@ -93,7 +93,7 @@ public class GameControllerRequestExecutor {
         catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
-    public void drawLeftRevealedResourceCard(ClientHandler client)  {
+    private void drawLeftRevealedResourceCard(ClientHandler client)  {
         try {
             gameController.drawLeftRevealedResourceCard(client);
             client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
@@ -102,7 +102,7 @@ public class GameControllerRequestExecutor {
         catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
-    public void drawRightRevealedResourceCard(ClientHandler player) {
+    private void drawRightRevealedResourceCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedResourceCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
@@ -110,7 +110,7 @@ public class GameControllerRequestExecutor {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
-    public void drawLeftRevealedGoldCard(ClientHandler player) {
+    private void drawLeftRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawLeftRevealedGoldCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
@@ -118,7 +118,7 @@ public class GameControllerRequestExecutor {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
-    public void drawRightRevealedGoldCard(ClientHandler player) {
+    private void drawRightRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedGoldCard(player);
             player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
@@ -126,7 +126,7 @@ public class GameControllerRequestExecutor {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
-    public void place(ClientHandler player, JSONObject message) {
+    private void place(ClientHandler player, JSONObject message) {
         try {
             int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
             int x = Integer.parseInt(message.get("x").toString());
@@ -140,7 +140,7 @@ public class GameControllerRequestExecutor {
         }
     }
 
-    public void leave(ClientHandler player) {
+    private void leave(ClientHandler player) {
         gameController.leaveGame(player);
     }
 
