@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.lobby;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class LobbyMessageGenerator {
@@ -13,10 +15,10 @@ public class LobbyMessageGenerator {
      * @return JSONObject
      */
     public static JSONObject usernameSetMessage(String username) {
-        JSONObject message = new JSONObject();
-        message.put("message", "usernameSet");
-        message.put("username", username);
-        return message;
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "usernameSet");
+        jsonMap.put("username", username);
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -24,9 +26,9 @@ public class LobbyMessageGenerator {
      * @return JSONObject
      */
     public static JSONObject usernameAlreadyTakenMessage() {
-        JSONObject message = new JSONObject();
-        message.put("message", "usernameAlreadyTaken");
-        return message;
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "usernameAlreadyTaken");
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -35,10 +37,10 @@ public class LobbyMessageGenerator {
      * @return JSONObject
      */
     public static JSONObject joinGameMessage(String gameName) {
-        JSONObject message = new JSONObject();
-        message.put("message", "joinGame");
-        message.put("gameName", gameName);
-        return message;
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "joinGame");
+        jsonMap.put("gameName", gameName);
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -46,9 +48,9 @@ public class LobbyMessageGenerator {
      * @return JSONObject
      */
     public static JSONObject createdGameMessage() {
-        JSONObject message = new JSONObject();
-        message.put("message", "gameCreated");
-        return message;
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "gameCreated");
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -56,9 +58,9 @@ public class LobbyMessageGenerator {
      * @return JSONObject
      */
     public static JSONObject gameDoesNotExistMessage() {
-        JSONObject message = new JSONObject();
-        message.put("message", "gameDoesNotExist");
-        return message;
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "gameDoesNotExist");
+        return new JSONObject(jsonMap);
     }
 
     /**

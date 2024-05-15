@@ -6,10 +6,10 @@ import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
-public class LobbyRequestExecutor {
+public class LobbyRequestHandler {
     private final Lobby lobby;
 
-    public LobbyRequestExecutor(Lobby lobby) {
+    public LobbyRequestHandler(Lobby lobby) {
         this.lobby = lobby;
     }
     /**

@@ -20,7 +20,7 @@ public class Lobby implements ServerNetworkObserver {
     private final ArrayList<String> takenUsernames;
     private volatile boolean running;
     private final ExecutorService executorService;
-    private final LobbyRequestExecutor lobbyRequestExecutor;
+    private final LobbyRequestHandler lobbyRequestHandler;
 
     public Lobby(int port) {
         connectedClients = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Lobby implements ServerNetworkObserver {
         takenUsernames = new ArrayList<>();
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
-        lobbyRequestExecutor = new LobbyRequestExecutor(this);
+        lobbyRequestHandler = new LobbyRequestHandler(this);
         ServerWelcomeSocket serverWelcomeSocket = new ServerWelcomeSocket(this, port);
         executorService.submit(serverWelcomeSocket);
         running = true;
@@ -44,7 +44,7 @@ public class Lobby implements ServerNetworkObserver {
     public void startLobby() {
         while (running) {
             while (!requests.isEmpty()) {
-                lobbyRequestExecutor.execute(requests.getFirst());
+                lobbyRequestHandler.execute(requests.getFirst());
                 requests.removeFirst();
             }
         }
