@@ -6,7 +6,6 @@ public final class ViewConstants {
     public static final double CARD_WIDTH = 113;
     public static final double CARD_HEIGHT = 75;
     public static final double SPACING = 10;
-    public static final int HAND_SIZE = 3;
 
     public static final double PANE_WIDTH = 15000;
     public static final double PANE_HEIGHT = 15000;

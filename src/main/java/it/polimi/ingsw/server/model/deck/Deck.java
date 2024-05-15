@@ -4,12 +4,15 @@ import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
+/**
+ * This class represents a general Deck
+ */
 public abstract class Deck {
     protected ArrayList<Card> cards;
 
     /**
-     * returns a card from the deck
-     * @return Card
+     * get first card from the deck
+     * @return Card drawn
      */
     public Card directDraw() throws EmptyDeckException {
         Card drawnCard;
@@ -23,8 +26,8 @@ public abstract class Deck {
     }
 
     /**
-     * returns top card id from the deck
-     * @return int
+     * get top card id from the deck
+     * @return top card id
      */
     public int getTopCardID() {
         if(cards.isEmpty()) {return 0;}
@@ -33,7 +36,7 @@ public abstract class Deck {
 
     /**
      * check if deck is empty
-     * @return boolean
+     * @return true if deck is empty
      */
     public boolean isEmpty() {
         return cards.isEmpty();

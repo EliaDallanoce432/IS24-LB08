@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+/**
+ * This class represents a Resource card
+ */
 public class ResourceCard extends PlaceableCard {
 
     public ResourceCard () {}

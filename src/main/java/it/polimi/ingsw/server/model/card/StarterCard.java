@@ -8,6 +8,9 @@ import it.polimi.ingsw.util.supportclasses.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class represents a Starter card
+ */
 public class StarterCard extends PlaceableCard {
     protected ArrayList<Resource> backCentralResources;
 

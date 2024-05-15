@@ -17,8 +17,8 @@ public class LobbyRequestExecutor {
      * @param request request to be processed
      */
     public void execute(Request request) {
-        JSONObject message = request.getMessage();
-        ClientHandler clientHandler = request.getClient();
+        JSONObject message = request.message();
+        ClientHandler clientHandler = request.client();
         switch (message.get("command").toString()) {
             case "setUsername" -> setUsername(lobby, message, clientHandler);
             case "getAvailableGames" -> getAvailableGames(lobby,clientHandler);

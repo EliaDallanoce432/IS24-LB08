@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class represents Objective card's deck
+ */
 public class ObjectiveCardDeck extends DeckWithRevealedCards {
     public ObjectiveCardDeck() {
         cards = new ArrayList<>();

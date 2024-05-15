@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * This class represents model of the Game
+ */
 public class Game {
     public int numberOfPlayers;
     private GameState gameState;
@@ -59,9 +62,9 @@ public class Game {
     }
 
     /**
-    * this method make the token available again
+    * makes the token available again
     * @param token of the player
-     * */
+     */
     public void reinsertToken(Color token) {
         availableTokens.add(token);
     }

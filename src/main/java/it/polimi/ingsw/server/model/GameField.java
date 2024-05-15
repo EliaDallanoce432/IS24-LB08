@@ -8,6 +8,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class represents the Player's game field
+ */
 public class GameField {
     private final HashMap<String, PlaceableCard> cardsGrid;
     private final Player player;
@@ -92,10 +95,10 @@ public class GameField {
     }
 
     /**
-     * returns card at (x,y) coordinates or null
+     *  gets the card in a particular position on the grid
       * @param x x coordinate on the grid
      * @param y y coordinate on the grid
-     * @return PlaceableCard
+     * @return card at (x,y) coordinates or null
      */
     public PlaceableCard lookAtCoordinates(int x, int y){
         if(x<-40 || y<-40 || x>40 || y>40) return null;
@@ -116,7 +119,7 @@ public class GameField {
      * converts coordinates to string
      * @param x x coordinate
      * @param y y coordinate
-     * @return String
+     * @return coordinates converted to String
      */
     private String coordinatesToString(int x, int y){
         return x + "," + y;
@@ -146,7 +149,6 @@ public class GameField {
 
     /**
      * places the card on the game field
-     *
      * @param card     card that needs to be placed
      * @param facingUp optional value that chooses the side of the card that will be shown
      * @param x        x coordinate on the grid
@@ -169,27 +171,27 @@ public class GameField {
      * checks the placing rules between the new card and the neighbour cards
      * @param x x coordinate
      * @param y y coordinate
-     * @return boolean
+     * @return true if placing is valid
      */
     private boolean followsPlacementRules(int x, int y){
         return isInValidCoordinates(x, y) && hasValidNeighbours(x,y);
     }
 
     /**
-     * check if the card is in valid coordinates, x and y must be both even or both odd
+     * checks if the card is in valid coordinates, x and y must be both even or both odd
      * @param x x coordinate
      * @param y y coordinate
-     * @return boolean
+     * @return true if placing is correct
      * */
     private boolean isInValidCoordinates(int x, int y) {
         return (Math.abs(x)%2==0 && Math.abs(y)%2==0) || (Math.abs(x)%2==1 && Math.abs(y)%2==1);
     }
 
     /**
-     * check if the card has valid corner for placement
+     * checks if the card has valid corner for placement
      * @param neighbourCard placeable neighbourCard
      * @param offset offset of cards
-     * @return boolean
+     * @return true if the card has valid corner for placement
      */
     private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
          switch (offset[0]) {
@@ -214,10 +216,10 @@ public class GameField {
     }
 
     /**
-     * check if the card has valid neighbors for placement
+     * checks if the card has valid neighbors for placement
      * @param x x coordinate
      * @param y y coordinate
-     * @return boolean
+     * @return true if the card has valid neighbors for placement
      */
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
@@ -235,7 +237,7 @@ public class GameField {
     /**
      * checks if the requirements for placing the card are matched
      * @param placeableCard card to check the requirements
-     * @return  boolean
+     * @return true if the requirements for placing the card are matched
      */
     private boolean followsPlacementRequirements (PlaceableCard placeableCard){
 

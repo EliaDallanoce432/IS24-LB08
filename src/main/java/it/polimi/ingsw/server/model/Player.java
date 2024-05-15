@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
 
+/**
+ * This class represents a Player of the Game
+ */
 public class Player {
     private final Color token;
     private int score;
@@ -93,7 +96,7 @@ public class Player {
     }
 
     /**
-     * this method sets the player state to ready and notifies the GameObserver
+     * sets the player state to ready and notifies the GameObserver
      * @param ready is the state of the player
      */
     public void setReady(boolean ready) {
@@ -101,7 +104,7 @@ public class Player {
         game.gameObserver.notifyReady();
     }
     /**
-     * this method sets the starter-card orientation chosen by the player and notifies the GameObserver
+     * sets the starter-card orientation chosen by the player and notifies the GameObserver
      * @param starterCardOrientationSelected is the orientation selected by the player
      */
     public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
@@ -110,7 +113,7 @@ public class Player {
     }
 
     /**
-     * this method adds to the player's hand the first 3 cards of his game
+     * adds to the player's hand the first 3 cards of his game
      */
     private void initializeHand() {
         hand.clear();
@@ -124,7 +127,7 @@ public class Player {
     }
 
     /**
-     * this method updates the player's score and notifies the GameObserver
+     * updates the player's score and notifies the GameObserver
      * @param newScore is the player's updated score
      */
     public void setScore(int newScore) {
@@ -133,7 +136,7 @@ public class Player {
     }
 
     /**
-     * method used to calculate player's final score
+     * calculates player's final score
      * @param amount is the amount of points to be added
      */
     public void increaseScore(int amount) {
@@ -141,7 +144,7 @@ public class Player {
     }
 
     /**
-     * this method sets the secrete objective card chosen by the player
+     * sets the secrete objective card chosen by the player
      * @param objectiveCard chosen by the player at the beginning of the match
      */
     public void setSecretObjective(ObjectiveCard objectiveCard) {
@@ -162,6 +165,7 @@ public class Player {
     /**
      * removes the card from the player's hand
      * @param card card to be taken
+     * @return placeable card deleted
      */
     public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {
         if(!hand.remove(card)) throw new CardNotInHandException();
@@ -169,7 +173,7 @@ public class Player {
     }
 
     /**
-     * this method invokes the place method for the starter card in the player's game-field
+     * invokes the place method for the starter card in the player's game-field
      * @param card is the starter card the player owns
      * @param facingUp is the orientation of the starter card
      */
@@ -179,7 +183,7 @@ public class Player {
     }
 
     /**
-     * this method invokes the place method for a generic placeable card in the player's game-field
+     * invokes the place method for a generic placeable card in the player's game-field
      * @param id that identifies the card
      * @param facingUp is the card's orientation
      * @param x horizontal coordinate
@@ -203,7 +207,7 @@ public class Player {
     }
 
     /**
-     * this method calculates the points given by the secrete objective card and the 2 common objective
+     * calculates the points given by the secrete objective card and the 2 common objective
      */
     public void calculateFinalScore() {
         increaseScore(secretObjective.getEarnedPoints(getGamefield()));
@@ -212,14 +216,14 @@ public class Player {
     }
 
     /**
-     * this method increases the number of completed objective cards
+     * increases the number of completed objective cards
      */
     public void increaseNumOfCompletedObjective () {
         this.numOfCompletedObjectiveCards ++;
     }
 
     /**
-     * this method is used to compare a player's attribute with another player
+     * compares a player's attribute with another player
      * @param other other player in the comparison
      * @return the result of the comparison
      */

@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model.card;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.ObjectiveCardStrategy.*;
 
+/**
+ * This class represents a Objective card
+ */
 public class ObjectiveCard extends Card {
     protected int points;
     protected ObjectiveCardContext context;

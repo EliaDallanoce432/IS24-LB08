@@ -5,6 +5,9 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents Deck with revealed cards
+ */
 public abstract class DeckWithRevealedCards extends Deck{
     protected Card leftRevealedCard;
     protected Card rightRevealedCard;
@@ -21,7 +24,7 @@ public abstract class DeckWithRevealedCards extends Deck{
 
     /**
      * returns the left revealed card on the table
-     * @return Card
+     * @return Card drawn
      */
     public Card drawLeftRevealedCard() {
         Card selectedCard;
@@ -36,7 +39,7 @@ public abstract class DeckWithRevealedCards extends Deck{
 
     /**
      * returns the right revealed card on the table
-     * @return Card
+     * @return Card drawn
      */
     public Card drawRightRevealedCard() {
         Card selectedCard;

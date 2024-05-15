@@ -29,7 +29,7 @@ public class JsonCardsReader {
     }
 
     /**
-     * load resource card from json file
+     * loads resource card from json file
      * @param id unique id that identifies the card
      * @param resourceCard  reference to the card itself
      */
@@ -58,7 +58,7 @@ public class JsonCardsReader {
     }
 
     /**
-     * load gold card from json file
+     * loads gold card from json file
      * @param id unique id that identifies the card
      * @param goldCard  reference to the card itself
      */
@@ -148,7 +148,7 @@ public class JsonCardsReader {
 
 
     /**
-     * load starter card from json file
+     * loads starter card from json file
      * @param id unique id that identifies the card
      * @param starterCard  reference to the card itself
      */

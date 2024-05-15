@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model.card;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+/**
+ * This class represents a placeable card
+ */
 public abstract class PlaceableCard extends Card {
     protected int points;
     protected Resource cardKingdom; //animal, plant, fungi or insect

@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card;
 
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+/**
+ * This class represents a Corner on the card
+ */
 public class Corner {
     protected Resource resource; //resource present in the corner
     protected boolean visible; //true if the corner is visible

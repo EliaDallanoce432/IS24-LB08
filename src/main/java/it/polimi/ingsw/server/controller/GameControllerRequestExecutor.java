@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.controller;
-
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.util.ResponseGenerator;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -24,24 +22,24 @@ public class GameControllerRequestExecutor {
      */
     public void execute (Request request)  {
         if(game.getGameState() == GameState.lastRound) {
-            if(request.getMessage().get("command").equals("directDrawResourceCard") ||
-                request.getMessage().get("command").equals("directDrawGoldCard") ||
-                request.getMessage().get("command").equals("drawLeftResourceCard") ||
-                request.getMessage().get("command").equals("drawRightResourceCard") ||
-                request.getMessage().get("command").equals("drawLeftGoldCard") ||
-                request.getMessage().get("command").equals("drawRightGoldCard")) {
+            if(request.message().get("command").equals("directDrawResourceCard") ||
+                request.message().get("command").equals("directDrawGoldCard") ||
+                request.message().get("command").equals("drawLeftResourceCard") ||
+                request.message().get("command").equals("drawRightResourceCard") ||
+                request.message().get("command").equals("drawLeftGoldCard") ||
+                request.message().get("command").equals("drawRightGoldCard")) {
                 return;
             }
         }
         if(game.getGameState() == GameState.endGame) {
-            if(!request.getMessage().get("command").equals("leave")) {
+            if(!request.message().get("command").equals("leave")) {
                 return;
             }
         }
 
-        JSONObject message = request.getMessage();
+        JSONObject message = request.message();
         System.out.println("executing message: " + message);
-        ClientHandler client = request.getClient();
+        ClientHandler client = request.client();
         switch (message.get("command").toString()) {
             case "ready" -> ready(client);
             case "starterCard" -> chooseStarterCardOrientation(message, client);
@@ -54,7 +52,7 @@ public class GameControllerRequestExecutor {
             case "drawRightGoldCard" -> drawRightRevealedGoldCard(client);
             case "place" -> place(client, message);
             case "leave" -> leave(client);
-            default -> client.send(ResponseGenerator.response("unexpectedCommand"));
+            default -> { /*do nothing */}
         }
     }
 

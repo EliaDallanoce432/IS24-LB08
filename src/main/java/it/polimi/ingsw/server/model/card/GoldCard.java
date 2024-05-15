@@ -7,6 +7,9 @@ import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+/**
+ * This class represents a Gold card
+ */
 public class GoldCard extends PlaceableCard {
     protected GoldCardContext context;
 

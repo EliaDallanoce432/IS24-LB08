@@ -8,6 +8,9 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class represents Resource card's deck
+ */
 public class ResourceCardDeck extends DeckWithRevealedCards {
     public ResourceCardDeck() {
         cards = new ArrayList<>();
