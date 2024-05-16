@@ -69,9 +69,9 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
      * adds the player to the arraylist of players
      * @param client who joined the current game
      */
-    public synchronized void enterGame (ClientHandler client) {
+    public synchronized void enterGame (ClientHandler client) throws GameIsFullException {
         if(gameIsFull()) {
-            //TODO fare qualcosa da decidere con gli altri tipo tirare eccezione
+            throw new GameIsFullException();
         }
         clientHandlers.add(client);
         client.setGame(this);

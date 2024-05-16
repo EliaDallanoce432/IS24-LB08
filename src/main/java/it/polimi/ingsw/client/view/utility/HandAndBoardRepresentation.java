@@ -8,10 +8,12 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 import static java.lang.Math.abs;
@@ -49,9 +51,23 @@ public class HandAndBoardRepresentation {
         centerX = (Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);
         centerY = (Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);
 
+        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/view/background_tile.png")));
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                patternTile,
+                BackgroundRepeat.REPEAT,   // Repeat horizontally
+                BackgroundRepeat.REPEAT,   // Repeat vertically
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT
+        );
+
+
+
 
         boardPane = new Pane();
-        boardPane.setStyle("-fx-background-color: #17914c; -fx-border-color: black; -fx-border-width: 2px;");
+        //boardPane.setStyle("-fx-background-color: #dbd3ad; -fx-border-color: black; -fx-border-width: 2px;");
+        boardPane.setBackground(new Background(backgroundImage));
+
         boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
         scrollPane.setContent(boardPane);
         scrollPane.setHvalue(0.5);

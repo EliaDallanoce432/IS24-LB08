@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
+import it.polimi.ingsw.util.customexceptions.GameIsFullException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
@@ -87,6 +88,8 @@ public class LobbyRequestHandler {
             clientHandler.send(LobbyMessageGenerator.joinGameMessage(gameName));
         } catch (NonExistentGameException e) {
             clientHandler.send(LobbyMessageGenerator.gameDoesNotExistMessage());
+        } catch (GameIsFullException e) {
+            clientHandler.send(LobbyMessageGenerator.gameIsFullMessage());
         }
 
     }

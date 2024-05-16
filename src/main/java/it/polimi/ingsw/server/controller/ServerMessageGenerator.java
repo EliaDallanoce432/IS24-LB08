@@ -21,11 +21,7 @@ public class ServerMessageGenerator {
         this.game = game;
     }
 
-    public JSONObject gameIsFullMessage() {
-        JSONObject message = new JSONObject();
-        //TODO fare il messaggio
-        return message;
-    }
+
 
     /**
      * this message is sent to each player before the beginning of the match so that they can select the starter card orientation and their

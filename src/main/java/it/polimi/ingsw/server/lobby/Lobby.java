@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
+import it.polimi.ingsw.util.customexceptions.GameIsFullException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
 
@@ -134,7 +135,11 @@ public class Lobby implements ServerNetworkObserver {
     public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) {
         GameController newGameController = new GameController(this,numberOfPlayers,gameName);
         availableGames.put(gameName,newGameController);
-        newGameController.enterGame(client);
+        try {
+            newGameController.enterGame(client);
+        } catch (GameIsFullException ignored) {
+
+        }
         Thread thread = new Thread(newGameController);
         thread.start();
     }
@@ -158,10 +163,14 @@ public class Lobby implements ServerNetworkObserver {
      * @param gameName name of the game to join
      * @throws NonExistentGameException exception thrown when the given game name isn't the name of one of the available games to join
      */
-    public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException {
+    public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
         connectedClients.remove(client);
-        availableGames.get(gameName).enterGame(client);
+        try {
+            availableGames.get(gameName).enterGame(client);
+        } catch (GameIsFullException e) {
+            throw e;
+        }
     }
 
     @Override

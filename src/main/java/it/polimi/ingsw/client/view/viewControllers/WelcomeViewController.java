@@ -101,7 +101,7 @@ public class WelcomeViewController extends ViewController {
 
         Platform.runLater(()->{
 
-            System.out.println("User logged in as: " + PlayerModel.getInstance().getUsername());
+            showMessage("User logged in as: " + PlayerModel.getInstance().getUsername());
             // Show other buttons
             joinGameButton.setVisible(true);
             joinGameButton.setOnMouseEntered(mouseEvent -> joinGameButton.setCursor(Cursor.HAND));

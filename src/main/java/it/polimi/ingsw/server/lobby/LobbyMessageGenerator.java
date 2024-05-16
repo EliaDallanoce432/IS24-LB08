@@ -12,6 +12,8 @@ import java.util.Set;
  */
 public class LobbyMessageGenerator {
 
+    //TODO rendere statico o no
+
     /**
      * creates a JSON message to be sent to the client after a successful username setting.
      * @param username username set
@@ -63,6 +65,12 @@ public class LobbyMessageGenerator {
     public static JSONObject gameDoesNotExistMessage() {
         Map<String, String> jsonMap= new HashMap<>();
         jsonMap.put("message", "gameDoesNotExist");
+        return new JSONObject(jsonMap);
+    }
+
+    public static JSONObject gameIsFullMessage() {
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "gameIsFull");
         return new JSONObject(jsonMap);
     }
 

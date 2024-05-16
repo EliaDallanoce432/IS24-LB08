@@ -38,7 +38,7 @@ public class WaitForPlayersViewController extends ViewController {
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
         showMessage("Joining Game...");
-        System.out.println("INITIALIZE: " + ClientStateModel.getInstance().getClientState());
+        //System.out.println("INITIALIZE: " + ClientStateModel.getInstance().getClientState());
 
         Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
 
@@ -48,7 +48,7 @@ public class WaitForPlayersViewController extends ViewController {
     @FXML
     private void goBack() throws IOException {
 
-        if (ClientStateModel.getInstance().getClientState() == ClientState.WAITING_STATE) {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.SETUP_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
 
@@ -78,7 +78,7 @@ public class WaitForPlayersViewController extends ViewController {
         System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
 
         switch (ClientStateModel.getInstance().getClientState()) {
-            case WAITING_STATE -> loadGetReadyScene();
+            case SETUP_STATE -> loadGetReadyScene();
             case ERROR_JOINING_STATE -> loadErrorJoiningScene();
             default -> {
             }
@@ -96,7 +96,7 @@ public class WaitForPlayersViewController extends ViewController {
 
     private void loadErrorJoiningScene(){
         Platform.runLater(()-> {
-            showMessage("The Game Is Full or it does not exist anymore");
+            showMessage("Error while joining: " + ClientStateModel.getInstance().getReason());
             backButton.setVisible(true);
         });
     }
