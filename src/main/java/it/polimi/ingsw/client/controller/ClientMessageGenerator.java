@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.controller;
 
 import org.json.simple.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientMessageGenerator {
     public static JSONObject generateSetUsernameMessage (String Username) {
         JSONObject message = new JSONObject();
@@ -16,34 +19,34 @@ public class ClientMessageGenerator {
         return message;
     }
 
-    public static JSONObject generateSetUpGameMessage (String gamename, int numofplayers) {
+    public static JSONObject generateSetUpGameMessage (String gameName, int numOfPlayers) {
         JSONObject message = new JSONObject();
         message.put("command","setUp");
-        message.put("gameName",gamename);
-        message.put("numOfPlayers",numofplayers);
+        message.put("gameName",gameName);
+        message.put("numOfPlayers",numOfPlayers);
         return message;
     }
 
-    public static JSONObject generateJoinGameMessage (String gamename) {
-        JSONObject message = new JSONObject();
-        message.put("command","join");
-        message.put("gameName",gamename);
-        return message;
+    public static JSONObject generateJoinGameMessage (String gameName) {
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","join");
+        jsonMap.put("gameName",gameName);
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateGetAvailableGamesMessage () {
-        JSONObject message = new JSONObject();
-        message.put("command","getAvailableGames");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","getAvailableGames");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateReadyMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","ready");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","ready");
+        return new JSONObject(jsonMap);
     }
 
-    public static JSONObject generateChosenStarterCardOrientationMessage(int cardId,boolean facingUp) {
+    public static JSONObject generateChosenStarterCardSideMessage(int cardId, boolean facingUp) {
         JSONObject message = new JSONObject();
         message.put("command","starterCard");
         message.put("starterCardId",cardId);
@@ -69,44 +72,44 @@ public class ClientMessageGenerator {
     }
 
     public static JSONObject generateDirectDrawResourceCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","directDrawResourceCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","directDrawResourceCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateDrawLeftResourceCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","drawLeftResourceCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","drawLeftResourceCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateDrawRightResourceCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","drawRightResourceCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","drawRightResourceCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateDirectDrawGoldCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","directDrawGoldCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","directDrawGoldCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateDrawLeftGoldCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","drawLeftGoldCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","drawLeftGoldCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateDrawRightGoldCardMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","drawRightGoldCard");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","drawRightGoldCard");
+        return new JSONObject(jsonMap);
     }
 
     public static JSONObject generateLeaveMessage() {
-        JSONObject message = new JSONObject();
-        message.put("command","leave");
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","leave");
+        return new JSONObject(jsonMap);
     }
 }

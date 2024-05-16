@@ -48,11 +48,11 @@ public class ChooseCardsViewController extends ViewController {
             faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
 
             faceUpCard.setOnMouseClicked( e -> {
-                ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,true);
+                ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId,true);
                 showObjectiveCards();
             });
             faceDownCard.setOnMouseClicked( e -> {
-                ClientController.getInstance().sendChosenStarterCardOrientation(starterCardId,false);
+                ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId,false);
                 showObjectiveCards();
             });
 

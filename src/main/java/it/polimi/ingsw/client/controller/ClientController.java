@@ -83,8 +83,8 @@ public class ClientController implements ClientNetworkObserver {
         clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
     }
 
-    public void sendChosenStarterCardOrientation(int cardId, boolean facingUp) {
-        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardOrientationMessage(cardId,facingUp));
+    public void sendChosenStarterCardSideMessage(int cardId, boolean facingUp) {
+        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardSideMessage(cardId,facingUp));
     }
     
     public void sendChosenSecretObjectiveMessage(int cardId) {
