@@ -3,7 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.network.ping.Pinger;
 import it.polimi.ingsw.network.input.InputHandler;
-import it.polimi.ingsw.network.input.networkInputObserver;
+import it.polimi.ingsw.network.input.NetworkInputObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import org.json.simple.JSONObject;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * this class offers networks functionalities for the client
  */
-public class ClientConnectionManager implements NetworkInterface, networkInputObserver, ConnectionObserver{
+public class ClientConnectionManager implements NetworkInterface {
     private final Socket socket;
     private final PrintWriter out;
     private final InputHandler inputHandler;
