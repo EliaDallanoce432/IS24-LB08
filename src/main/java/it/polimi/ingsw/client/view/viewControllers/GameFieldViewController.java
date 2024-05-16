@@ -49,6 +49,21 @@ public class GameFieldViewController extends ViewController {
     private Pane resourcesPane;
     @FXML
     private Circle startingReference;
+    @FXML
+    private Label plantResLabel;
+    @FXML
+    private Label animalResLabel;
+    @FXML
+    private Label fungiResLabel;
+    @FXML
+    private Label insectResLabel;
+    @FXML
+    private Label featherResLabel;
+    @FXML
+    private Label inkPotResLabel;
+    @FXML
+    private Label scrollResLabel;
+
 
 
     private HandAndBoardRepresentation handAndBoardRepresentation;
@@ -85,6 +100,7 @@ public class GameFieldViewController extends ViewController {
             updateHand();
             updateDecks();
             updateSceneStatus();
+            updatePlayerInfo();
         });
 
     }
@@ -181,6 +197,11 @@ public class GameFieldViewController extends ViewController {
         });
     }
 
+    @Override
+    public void updatePlayerInfo(){
+        Platform.runLater(this::updateResources);
+    }
+
     private void fillPaneWithPattern (Pane pane){
         Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/view/background_tile.png")));
 
@@ -193,6 +214,24 @@ public class GameFieldViewController extends ViewController {
         );
 
         pane.setBackground(new Background(backgroundImage));
+    }
+
+    private void updateResources() {
+
+        PlayerModel playerModel = PlayerModel.getInstance();
+
+        Platform.runLater(()->{
+
+            animalResLabel.setText(playerModel.getAnimalResourceCount() + "");
+            fungiResLabel.setText(playerModel.getFungiResourceCount() + "");
+            insectResLabel.setText(playerModel.getInsectResourceCount() + "");
+            plantResLabel.setText(playerModel.getPlantResourceCount() + "");
+
+            featherResLabel.setText(playerModel.getFeatherCount() + "");
+            scrollResLabel.setText(playerModel.getScrollCount() + "");
+            inkPotResLabel.setText(playerModel.getInkPotCount() + "");
+
+        });
     }
 
 

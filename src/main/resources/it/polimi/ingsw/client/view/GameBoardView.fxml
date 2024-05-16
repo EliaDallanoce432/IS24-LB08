@@ -94,17 +94,17 @@
                         <Font name="Baskerville Old Face" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="140.0" layoutY="135.0" text="0" textFill="#ab9d1d">
+                  <Label fx:id="scrollResLabel" layoutX="140.0" layoutY="135.0" text="0" textFill="#ab9d1d">
                      <font>
                         <Font name="Baskerville Old Face" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="140.0" layoutY="105.0" text="0" textFill="#ab9d1d">
+                  <Label fx:id="inkPotResLabel" layoutX="140.0" layoutY="105.0" text="0" textFill="#ab9d1d">
                      <font>
                         <Font name="Baskerville Old Face" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="140.0" layoutY="74.0" text="0" textFill="#ab9d1d">
+                  <Label fx:id="featherResLabel" layoutX="140.0" layoutY="74.0" text="0" textFill="#ab9d1d">
                      <font>
                         <Font name="Baskerville Old Face" size="18.0" />
                      </font>
@@ -133,7 +133,7 @@
                <effect>
                   <InnerShadow />
                </effect></Button>
-            <Button fx:id="leaveGameButton" layoutX="22.0" layoutY="790.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: a40f0f;" text="🏃🚪" textFill="WHITE">
+            <Button fx:id="leaveGameButton" layoutX="17.0" layoutY="731.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: a40f0f;" text="🏃🚪" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
@@ -152,7 +152,7 @@
                   </Lighting>
                </effect>
             </Label>
-            <Label layoutX="1104.0" layoutY="32.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
+            <Label layoutX="1079.0" layoutY="33.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="20.0" />
                </font>
@@ -167,7 +167,7 @@
                   </Lighting>
                </effect>
             </Label>
-            <Label layoutX="807.0" layoutY="31.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
+            <Label layoutX="807.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="21.0" />
                </font>
@@ -205,7 +205,7 @@
             <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="156.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;" />
             <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" />
             <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="65.0" prefHeight="67.0" prefWidth="230.0" />
-            <HBox fx:id="secretObjectivePane" layoutX="1104.0" layoutY="59.0" prefHeight="75.0" prefWidth="113.0" />
+            <HBox fx:id="secretObjectivePane" layoutX="1079.0" layoutY="61.0" prefHeight="75.0" prefWidth="113.0" />
          </children>
       </Pane>
    </children>

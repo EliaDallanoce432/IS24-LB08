@@ -35,6 +35,10 @@ public class ScoreBoardRepresentation {
         scoreBoardPane.getChildren().clear();
         VBox scoreLabels = new VBox();
 
+        Label titleLabel = new Label("Scoreboard");
+        titleLabel.setFont(Font.font("Baskerville Old Face", FontWeight.BOLD, 20));
+        scoreLabels.getChildren().add(titleLabel);
+
         String clientUsername = PlayerModel.getInstance().getUsername();
         int clientScore = ScoreBoardModel.getInstance().getScore().getOrDefault(clientUsername, 0);
         Label clientLabel = new Label("You: " + clientScore);
@@ -46,7 +50,7 @@ public class ScoreBoardRepresentation {
             if (!username.equals(clientUsername)) {
                 Label label = new Label(username + ": " + score);
                 label.setFont(Font.font("Baskerville Old Face",20));
-                label.setTextFill(Color.WHITE);
+                label.setTextFill(Color.BLACK);
                 scoreLabels.getChildren().add(label);
             }
         });

@@ -245,45 +245,19 @@ public class ServerMessageGenerator {
         return new JSONObject(decks);
     }
 
-    private JSONArray updatedResources(Player player) {
-        JSONArray updatedResources = new JSONArray();
-        Map<String,String> jsonMapFungi= new HashMap<>();
-        Map<String,String> jsonMapPlant= new HashMap<>();
-        Map<String,String> jsonMapAnimal= new HashMap<>();
-        Map<String,String> jsonMapInsect= new HashMap<>();
-        Map<String,String> jsonMapInkPot= new HashMap<>();
-        Map<String,String> jsonMapFeather= new HashMap<>();
-        Map<String,String> jsonMapScroll= new HashMap<>();
+    private JSONObject updatedResources(Player player) {
 
-        jsonMapFungi.put("fungiResources", String.valueOf(player.getGamefield().getFungiCount()));
-        JSONObject fungiResources = new JSONObject(jsonMapFungi);
 
-        jsonMapPlant.put("plantResources", String.valueOf(player.getGamefield().getPlantCount()));
-        JSONObject plantResources = new JSONObject(jsonMapPlant);
+        Map<String,String> jsonMap= new HashMap<>();
 
-        jsonMapAnimal.put("animalResources", String.valueOf(player.getGamefield().getAnimalCount()));
-        JSONObject animalResources = new JSONObject(jsonMapAnimal);
+        jsonMap.put("fungiResources", String.valueOf(player.getGamefield().getFungiCount()));
+        jsonMap.put("plantResources", String.valueOf(player.getGamefield().getPlantCount()));
+        jsonMap.put("animalResources", String.valueOf(player.getGamefield().getAnimalCount()));
+        jsonMap.put("insectResources", String.valueOf(player.getGamefield().getInsectCount()));
+        jsonMap.put("featherCount", String.valueOf(player.getGamefield().getFeatherCount()));
+        jsonMap.put("scrollCount", String.valueOf(player.getGamefield().getScrollCount()));
+        jsonMap.put("inkPotCount", String.valueOf(player.getGamefield().getInkPotCount()));
 
-        jsonMapInsect.put("insectResources", String.valueOf(player.getGamefield().getInsectCount()));
-        JSONObject insectResources = new JSONObject(jsonMapInsect);
-
-        jsonMapFeather.put("featherCount", String.valueOf(player.getGamefield().getFeatherCount()));
-        JSONObject featherCount = new JSONObject(jsonMapFeather);
-
-        jsonMapScroll.put("scrollCount", String.valueOf(player.getGamefield().getScrollCount()));
-        JSONObject scrollCount = new JSONObject(jsonMapScroll);
-
-        jsonMapInkPot.put("inkPotCount", String.valueOf(player.getGamefield().getInkPotCount()));
-        JSONObject inkPotCount = new JSONObject(jsonMapInkPot);
-
-        updatedResources.add(fungiResources);
-        updatedResources.add(plantResources);
-        updatedResources.add(animalResources);
-        updatedResources.add(insectResources);
-        updatedResources.add(scrollCount);
-        updatedResources.add(inkPotCount);
-        updatedResources.add(featherCount);
-
-        return updatedResources;
+        return new JSONObject(jsonMap);
     }
 }

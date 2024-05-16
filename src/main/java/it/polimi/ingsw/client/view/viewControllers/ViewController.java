@@ -28,8 +28,6 @@ public abstract class ViewController {
 
     public void updateObjectives(){}
 
-    public void updateResources(){}
-
     public void showErrorMessage(String message) {}
 
     public void updateSceneStatus(){

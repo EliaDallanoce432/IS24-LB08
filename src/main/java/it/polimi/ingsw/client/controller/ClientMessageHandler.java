@@ -90,7 +90,7 @@ public class ClientMessageHandler {
         ArrayList<CardRepresentation> initialHand = getHandArray((JSONArray) message.get("hand"));
         JSONObject decksJSON = (JSONObject) message.get("decks");
         String firstPlayerUsername = message.get("firstPlayer").toString();
-
+        JSONObject resourcesJSON = (JSONObject) message.get("resources");
         Color token = Color.parseColor(message.get("token").toString());
 
         //updating the model...
@@ -105,6 +105,7 @@ public class ClientMessageHandler {
         HandModel.getIstance().updateCardsInHand(initialHand);
         PlayerModel.getInstance().setToken(token);
         updateDeckModelFromJSON(decksJSON);
+        updateResourcesFromJSON(resourcesJSON);
 
     }
 
@@ -136,8 +137,10 @@ public class ClientMessageHandler {
         HandModel.getIstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
+        JSONObject updatedResources = (JSONObject) message.get("updatedResources");
+        updateResourcesFromJSON(updatedResources);
 
-        //TODO update resources
+
     }
 
     private void cannotPlaceHandler(JSONObject message) {
@@ -225,6 +228,19 @@ public class ClientMessageHandler {
         int goldRight = Integer.parseInt(decksJSON.get("rightRevealedGoldCardID").toString());
 
         DeckModel.getIstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);
+
+    }
+
+    private static void updateResourcesFromJSON( JSONObject updatedResources){
+        PlayerModel.getInstance().setResources(
+                Integer.parseInt(updatedResources.get("animalResources").toString()),
+                Integer.parseInt(updatedResources.get("insectResources").toString()),
+                Integer.parseInt(updatedResources.get("fungiResources").toString()),
+                Integer.parseInt(updatedResources.get("plantResources").toString()),
+                Integer.parseInt(updatedResources.get("featherCount").toString()),
+                Integer.parseInt(updatedResources.get("scrollCount").toString()),
+                Integer.parseInt(updatedResources.get("inkPotCount").toString())
+        );
 
     }
 
