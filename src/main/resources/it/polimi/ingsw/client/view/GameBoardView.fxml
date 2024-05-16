@@ -37,7 +37,7 @@
                <effect>
                   <InnerShadow />
                </effect></Label>
-            <Pane fx:id="resourcesPane" layoutX="807.0" layoutY="353.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 10;">
+            <Pane fx:id="resourcesPane" layoutX="807.0" layoutY="353.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="106.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -202,7 +202,7 @@
                   <Cursor fx:constant="MOVE" />
                </cursor></ScrollPane>
             <Pane fx:id="handPane" layoutX="206.0" layoutY="640.0" prefHeight="131.0" prefWidth="390.0" />
-            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="156.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 10;" />
+            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="156.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;" />
             <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" />
             <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="65.0" prefHeight="67.0" prefWidth="230.0" />
             <HBox fx:id="secretObjectivePane" layoutX="1104.0" layoutY="59.0" prefHeight="75.0" prefWidth="113.0" />

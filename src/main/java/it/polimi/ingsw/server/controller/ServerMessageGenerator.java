@@ -157,8 +157,7 @@ public class ServerMessageGenerator {
      * this message sends to the players their final scores when the game is ended
      * @return the final scores
      */
-    public JSONObject leaderBoardMessage (GameController gameController) {
-        ArrayList<ClientHandler> clientHandlers = gameController.getClientHandlers();
+    public JSONObject leaderBoardMessage (GameController gameController, ArrayList<ClientHandler> clientHandlers) {
         JSONObject message = new JSONObject();
         message.put("message", "leaderBoard");
         if(!clientHandlers.isEmpty()) {

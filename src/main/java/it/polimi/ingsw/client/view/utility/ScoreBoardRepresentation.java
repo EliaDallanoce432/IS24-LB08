@@ -38,20 +38,21 @@ public class ScoreBoardRepresentation {
         String clientUsername = PlayerModel.getInstance().getUsername();
         int clientScore = ScoreBoardModel.getInstance().getScore().getOrDefault(clientUsername, 0);
         Label clientLabel = new Label("You: " + clientScore);
-        clientLabel.setFont(Font.font("Arial", FontWeight.BOLD,30));
+        clientLabel.setFont(Font.font("Baskerville Old Face", FontWeight.BOLD,20));
         clientLabel.setTextFill(Color.BLACK);
-        clientLabel.setLayoutX(10);
         scoreLabels.getChildren().add(clientLabel);
 
         ScoreBoardModel.getInstance().getScore().forEach((username, score) -> {
             if (!username.equals(clientUsername)) {
                 Label label = new Label(username + ": " + score);
-                label.setFont(Font.font("Arial",20));
+                label.setFont(Font.font("Baskerville Old Face",20));
                 label.setTextFill(Color.WHITE);
-                label.setLayoutX(10);
                 scoreLabels.getChildren().add(label);
             }
         });
+
+        scoreLabels.setLayoutX(15);
+        scoreLabels.setLayoutY(15);
 
         scoreBoardPane.getChildren().add(scoreLabels);
     }

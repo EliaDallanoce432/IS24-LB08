@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class ClientStateModelObserver implements ModelObserver{
 
     public ClientStateModelObserver() {
+        System.out.println("added observer: " + this);
         ClientStateModel.getInstance().addObserver(this);
     }
 

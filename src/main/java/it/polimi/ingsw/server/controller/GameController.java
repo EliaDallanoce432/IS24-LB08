@@ -522,7 +522,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             getCurrentPlayer(c).calculateFinalScore();
         }
         sortPlayers(classifiedPlayers);
-        broadcast(messageGenerator.leaderBoardMessage(this));
+        broadcast(messageGenerator.leaderBoardMessage(this , classifiedPlayers));
     }
 
     /**

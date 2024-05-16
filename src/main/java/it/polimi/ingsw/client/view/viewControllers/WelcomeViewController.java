@@ -28,6 +28,8 @@ public class WelcomeViewController extends ViewController {
     private Pane setUsernamePane;
     @FXML
     private Label alertLabel;
+    @FXML
+    private Label errorLabel;
 
     private TextField usernameTextField;
     private Button confirmButton;
@@ -35,17 +37,8 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void initialize() {
 
-        //initializing observers
+        errorLabel.setVisible(false);
 
-        new AvailableGamesModelObserver();
-        new ClientStateModelObserver();
-        new DeckObserver();
-        new GameFieldObserver();
-        new HandObserver();
-        new ObjectivesObserver();
-        new PlayerObserver();
-        new ScoreBoardObserver();
-        new SelectableCardsObserver();
         Platform.runLater(this::updatePlayerInfo);
     }
 
@@ -72,6 +65,8 @@ public class WelcomeViewController extends ViewController {
         exitButton.setVisible(false);
         setUsernameButton.setVisible(false);
 
+        errorLabel.setVisible(true);
+
         // Create and configure username text field
         usernameTextField = new TextField();
         usernameTextField.setPromptText("Enter Username");
@@ -82,18 +77,19 @@ public class WelcomeViewController extends ViewController {
         confirmButton.setOnMouseExited(mouseEvent -> confirmButton.setCursor(Cursor.DEFAULT));
         confirmButton.setLayoutY(100);
         confirmButton.setOnAction(event -> {
-            saveUsername();
+            String username = usernameTextField.getText();
+            if(username.startsWith(" ") || username.endsWith(" ")) {
+                showErrorMessage("Invalid Username");
+
+            }
+            else {
+                ClientController.getInstance().sendSetUsernameMessage(username);
+
+            }
         });
         setUsernamePane.getChildren().add(confirmButton);
 
 
-    }
-
-    private void saveUsername() {
-
-        String username = usernameTextField.getText();
-
-        ClientController.getInstance().sendSetUsernameMessage(username);
     }
 
     @Override
@@ -122,6 +118,7 @@ public class WelcomeViewController extends ViewController {
 
             // Remove the confirm button from the pane
             setUsernamePane.getChildren().remove(confirmButton);
+            errorLabel.setVisible(false);
 
         });
 
@@ -139,8 +136,14 @@ public class WelcomeViewController extends ViewController {
     @Override
     @FXML
     public void showMessage(String message) {
-        alertLabel.setText(message);
+        Platform.runLater(()->alertLabel.setText(message));
 
+    }
+
+    @Override
+    @FXML
+    public void showErrorMessage(String message) {
+        Platform.runLater(()->errorLabel.setText(message));
     }
 
 
