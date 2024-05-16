@@ -7,6 +7,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This class accepts the new client connections
+ */
 public class ServerWelcomeSocket implements Runnable {
     private final ServerSocket serverSocket;
     Lobby lobby;

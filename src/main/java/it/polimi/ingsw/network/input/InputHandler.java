@@ -12,12 +12,12 @@ import java.util.Scanner;
  */
 public class InputHandler implements Runnable {
 
-    private final networkInputObserver socketObserver;
+    private final NetworkInputObserver socketObserver;
     private final Scanner in;
     private final JSONParser parser;
     private volatile boolean running;
 
-    public InputHandler(networkInputObserver socketObserver, Socket socket) {
+    public InputHandler(NetworkInputObserver socketObserver, Socket socket) {
         parser = new JSONParser();
         this.socketObserver = socketObserver;
         try {

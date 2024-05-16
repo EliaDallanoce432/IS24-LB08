@@ -2,7 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.ping.Pinger;
 import it.polimi.ingsw.network.input.InputHandler;
-import it.polimi.ingsw.network.input.networkInputObserver;
+import it.polimi.ingsw.network.input.NetworkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * this class offers network functionalities for the server between the server and the client
  */
-public class ClientHandler implements Runnable, NetworkInterface, networkInputObserver, ConnectionObserver{
+public class ClientHandler implements Runnable, NetworkInterface {
     private final PrintWriter out;
     private final Socket socket;
     private final InputHandler inputHandler;
