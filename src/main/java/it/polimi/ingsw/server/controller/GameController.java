@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This class manages the lifecycle and logic of a game instance. It acts as the central controller
+ *  for the game, coordinating interactions between players, the game engine itself, and the server network layer.
+ */
 public class GameController implements Runnable, ServerNetworkObserver, GameObserver {
     private final String gameName;
     private final ArrayList<ClientHandler> clientHandlers;

@@ -15,14 +15,30 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * This class handles reading card data from JSON files. It provides methods to extract specific information
+ * about card properties based on the JSON structure
+ */
 public class JsonCardsReader {
 
+    /**
+     * extracts the resource type from a JSONObject representing a corner of a card in the JSON data
+     * @param item JSONObject representing the card data.
+     * @param corn String representing the corner
+     * @return `Resource` enum value extracted from the corner data
+     */
     private static Resource getCornerResource(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
         String resource = corner.get("Resource").toString();
         return Resource.StringToResource(resource);
     }
 
+    /**
+     * extracts the attachable flag from a JSONObject representing a corner of a card in the JSON data
+     * @param item JSONObject representing the card data
+     * @param corn String representing the corner
+     * @return True if the "Exist" key in the corner data is true, false otherwise
+     */
     private static boolean getCornerAttachable(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
         return (Boolean) corner.get("Exist");
@@ -32,6 +48,8 @@ public class JsonCardsReader {
      * loads resource card from json file
      * @param id unique id that identifies the card
      * @param resourceCard  reference to the card itself
+     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+     * @throws InvalidIdException If the provided ID is invalid (outside the range of 1-40).
      */
     public static void loadResourceCard(int id, ResourceCard resourceCard) throws CannotOpenJSONException, InvalidIdException {
         if (id < 1 || id > 40) {
@@ -61,6 +79,8 @@ public class JsonCardsReader {
      * loads gold card from json file
      * @param id unique id that identifies the card
      * @param goldCard  reference to the card itself
+     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+     * @throws InvalidIdException If the provided ID is invalid (outside the range of 41-80).
      */
     public static void loadGoldCard(int id, GoldCard goldCard) throws CannotOpenJSONException, InvalidIdException {
         if (id < 41 || id > 80) {
@@ -91,10 +111,10 @@ public class JsonCardsReader {
     }
 
     /**
-     * method access the information of a specific placeable card from the json file and sets the attributes in the card according to what is read on the file
+     * loads generic placeable card information
      * @param placeableCard placeable card to load
-     * @param item reference to the card itself
-     * @param id unique id that identifies the card
+     * @param item JSONObject representing the card data
+     * @param id unique identifier of the card
      */
     private static void loadGenericPlaceableCardInformation(PlaceableCard placeableCard, JSONObject item, int id) {
         placeableCard.setId(id);
@@ -112,9 +132,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * method access the information of a specific gold card from the json file and sets the attributes in the card according to what is read on the file
+     * loads the strategy information for a gold card from a JSONObject
      * @param goldCard gold card to load
-     * @param item reference to the card itself
+     * @param item JSONObject representing the card data
      */
     private static void loadGoldCardStrategy(GoldCard goldCard, JSONObject item)  {
         String strategy = item.get("Strategy").toString();
@@ -128,9 +148,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * method access the information of a specific requirements card from the json file and sets the attributes in the card according to what is read on the file
+     * loads the resource requirements for a gold card from a JSONArray in the JSON data
      * @param goldCard gold card to load
-     * @param requirements reference to the card requirements
+     * @param requirements JSONArray containing the resource requirements data
      */
     private static void loadGoldCardRequirements(GoldCard goldCard, JSONArray requirements) {
         for (int i = 0; i < 4; i++) {
@@ -148,9 +168,11 @@ public class JsonCardsReader {
 
 
     /**
-     * loads starter card from json file
+     * loads starter card information from a JSON file based on the provided card ID
      * @param id unique id that identifies the card
      * @param starterCard  reference to the card itself
+     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+     * @throws InvalidIdException If the provided ID is invalid (outside the range of 81-86).
      */
     public static void loadStarterCard(int id, StarterCard starterCard) throws CannotOpenJSONException, InvalidIdException {
         if (id < 81 || id > 86) {
@@ -177,10 +199,10 @@ public class JsonCardsReader {
     }
 
     /**
-     * method access the information of a specific starter card from the json file and sets the attributes in the card according to what is read on the file
+     * loads resource and corner information for a starter card from a JSONObject.
      * @param starterCard starter card
-     * @param item reference to the card itself
-     * @param id unique id that identifies the card
+     * @param item JSONObject representing the card data
+     * @param id unique identifier of the card
      */
     private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
         List<Resource> backResources = new ArrayList<>();

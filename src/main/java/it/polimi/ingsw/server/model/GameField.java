@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class represents the Player's game field
+ * This class represents a player's game field, which is the grid where they place their cards during the game.
+ * It keeps track of the cards placed on the grid, categorized by type (plant, animal, fungi, insect), as well as resource counts associated with placed cards.
  */
 public class GameField {
     private final HashMap<String, PlaceableCard> cardsGrid;

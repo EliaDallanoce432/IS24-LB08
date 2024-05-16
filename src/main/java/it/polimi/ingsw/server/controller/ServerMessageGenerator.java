@@ -9,6 +9,10 @@ import org.json.simple.JSONObject;
 
 import java.util.*;
 
+/**
+ * This class is responsible for generating JSON messages that are sent to clients throughout the game.
+ * These messages inform players about game state, their hand and deck information, and other relevant game events.
+ */
 public class ServerMessageGenerator {
 
     private final Game game;

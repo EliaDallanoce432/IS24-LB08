@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
 
 /**
- * This class represents a Player of the Game
+ * This class represents a player participating in the game. It manages the player's state,
+ *  including their assigned token color, score, hand of cards, starter card, secret objective,
+ *  drawn objective card choices, and various flags indicating player actions.
  */
 public class Player {
     private final Color token;
@@ -25,7 +27,6 @@ public class Player {
     private boolean starterCardOrientationSelected;
     private boolean alreadyPlaced;
     private int numOfCompletedObjectiveCards;
-    //TODO spostare qui il booleano already placed dal clienthandler
 
     public Player(Game game) {
         this.game = game;

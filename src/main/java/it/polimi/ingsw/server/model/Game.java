@@ -16,7 +16,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * This class represents model of the Game
+ * This class represents the core game model, managing the game state, decks, players, and overall game logic.
+ *  It interacts with other components to receive player actions and update the game state accordingly.
  */
 public class Game {
     private int numberOfPlayers;
