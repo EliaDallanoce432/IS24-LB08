@@ -1,29 +1,32 @@
 package it.polimi.ingsw.server.controller;
 
+/**
+ * This interface defines methods for notifying a game controller about various game events.
+ */
 public interface GameObserver {
 
     /**
-     * this method is used by players to notify they are ready to play
+     * notifies to controller that all players are ready to play
      */
     void notifyReady();
 
     /**
-     * this method is used by players to notify the controller they have completed the initial cards selection
+     * notifies to controller that all  players have completed the initial cards selection
      */
     void notifyStarterCardAndSecretObjectiveSelected();
 
     /**
-     * this method is used to notify the controller the number of connected players changed
+     * notifies to controller the number of connected players changed
      */
     void notifyConnectedClientCountChanged();
 
     /**
-     * this method is used to notify the controller the beginning of the last round of the match
+     * notifies to controller the beginning of the last round of the match
      */
     void notifyLastRound();
 
     /**
-     * this method is used to notify the controller the end of the current game
+     * notifies to controller the end of the current game
      */
     void notifyEndGame();
 

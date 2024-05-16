@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
+/**
+ * This class handles incoming requests from clients related to the game and delegates them to the appropriate methods in the game controller.
+ */
 public class GameRequestHandler {
     private final GameController gameController;
     private final ServerMessageGenerator messageGenerator;
@@ -17,7 +20,7 @@ public class GameRequestHandler {
     }
 
     /**
-     * this method is used to parse the commands received from clients and invokes the specific command they requested
+     * parses the commands received from clients and invokes the specific method in he game controller based on the requested action
      * @param request that is about to be executed
      */
     public void execute (Request request)  {
@@ -36,7 +39,6 @@ public class GameRequestHandler {
                 return;
             }
         }
-
         JSONObject message = request.message();
         System.out.println("executing message: " + message);
         ClientHandler client = request.client();
@@ -57,7 +59,7 @@ public class GameRequestHandler {
     }
 
     /**
-     * this method invokes the ready method in the game-controller
+     * invokes the ready method in the game controller
      * @param player who sent the request
      */
     private void ready(ClientHandler player)
@@ -65,17 +67,31 @@ public class GameRequestHandler {
         gameController.ready(player);
     }
 
+    /**
+     * processes a request from a client to choose the orientation of their starter card.
+     * @param message JSON message containing the starter card ID and facing up information
+     * @param player client handler representing the player who sent the request
+     */
     private void chooseStarterCardOrientation(JSONObject message, ClientHandler player) {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
         gameController.chooseStarterCardSide(player,starterCardId, facingUp);
     }
 
+    /**
+     * processes a request from a client to choose their secret objective card
+     * @param message JSON message containing the objective card ID and facing up information
+     * @param player client handler representing the player who sent the request
+     */
     private void chooseSecretObjectiveCard(JSONObject message, ClientHandler player) {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
         gameController.chooseSecretObjectiveCard(player, objectiveCardId);
     }
 
+    /**
+     * processes a request from a client to directly draw a resource card from the deck
+     * @param client client handler representing the player who sent the request.
+     */
     private void directDrawResourceCard(ClientHandler client) {
         try {
             gameController.directDrawResourceCard(client);
@@ -84,6 +100,10 @@ public class GameRequestHandler {
         } catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
+    /**
+     * processes a request from a client to directly draw a gold card from the deck
+     * @param client client handler representing the player who sent the request.
+     */
     private void directDrawGoldCard(ClientHandler client) {
         try {
             gameController.directDrawGoldCard(client);
@@ -93,6 +113,10 @@ public class GameRequestHandler {
         catch (EmptyDeckException | CannotDrawException | NotYourTurnException | FullHandException ignored) {}
     }
 
+    /**
+     * processes a request from a client to draw the revealed resource card from the left side of the deck
+     * @param client client handler representing the player who sent the request
+     */
     private void drawLeftRevealedResourceCard(ClientHandler client)  {
         try {
             gameController.drawLeftRevealedResourceCard(client);
@@ -102,6 +126,10 @@ public class GameRequestHandler {
         catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
+    /**
+     * processes a request from a client to draw the revealed resource card from the right side of the deck
+     * @param player client handler representing the player who sent the request
+     */
     private void drawRightRevealedResourceCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedResourceCard(player);
@@ -110,6 +138,10 @@ public class GameRequestHandler {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
+    /**
+     * processes a request from a client to draw the revealed gold card from the left side of the deck
+     * @param player client handler representing the player who sent the request
+     */
     private void drawLeftRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawLeftRevealedGoldCard(player);
@@ -118,6 +150,10 @@ public class GameRequestHandler {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
+    /**
+     * processes a request from a client to draw the revealed gold card from the right side of the deck
+     * @param player client handler representing the player who sent the request
+     */
     private void drawRightRevealedGoldCard(ClientHandler player) {
         try {
             gameController.drawRightRevealedGoldCard(player);
@@ -126,6 +162,11 @@ public class GameRequestHandler {
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
+    /**
+     * processes a request from a client to place a card on the board
+     * @param player client handler representing the player who sent the request
+     * @param message JSON message containing information about the card to be placed
+     */
     private void place(ClientHandler player, JSONObject message) {
         try {
             int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
@@ -140,6 +181,10 @@ public class GameRequestHandler {
         }
     }
 
+    /**
+     * processes a request from a client to leave the game
+     * @param player client handler representing the player who sent the request
+     */
     private void leave(ClientHandler player) {
         gameController.leaveGame(player);
     }
