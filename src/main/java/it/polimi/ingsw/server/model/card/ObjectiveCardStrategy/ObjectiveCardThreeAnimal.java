@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to implement the three animal strategy
+ */
 public class ObjectiveCardThreeAnimal implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each triplet of Animal found on the game-field

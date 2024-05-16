@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the diagonal animal strategy
+ */
 public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy {
     private int diagonalAnimalTriplets(GameField gameField, ArrayList<PlaceableCard> animalCards) {
         int triplets = 0;

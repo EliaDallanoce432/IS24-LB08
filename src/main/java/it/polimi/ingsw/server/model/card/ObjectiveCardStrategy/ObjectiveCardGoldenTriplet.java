@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to implement the golden triplet strategy
+ */
 public class ObjectiveCardGoldenTriplet implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each special triplet (Feather, InkPot, Scroll)
