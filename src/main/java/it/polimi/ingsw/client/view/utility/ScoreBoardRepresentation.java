@@ -38,8 +38,9 @@ public class ScoreBoardRepresentation {
         String clientUsername = PlayerModel.getInstance().getUsername();
         int clientScore = ScoreBoardModel.getInstance().getScore().getOrDefault(clientUsername, 0);
         Label clientLabel = new Label("You: " + clientScore);
-        clientLabel.setFont(Font.font("Arial", FontWeight.BOLD,18));
-        clientLabel.setTextFill(Color.WHITE);
+        clientLabel.setFont(Font.font("Arial", FontWeight.BOLD,30));
+        clientLabel.setTextFill(Color.BLACK);
+        clientLabel.setLayoutX(10);
         scoreLabels.getChildren().add(clientLabel);
 
         ScoreBoardModel.getInstance().getScore().forEach((username, score) -> {
@@ -47,6 +48,7 @@ public class ScoreBoardRepresentation {
                 Label label = new Label(username + ": " + score);
                 label.setFont(Font.font("Arial",20));
                 label.setTextFill(Color.WHITE);
+                label.setLayoutX(10);
                 scoreLabels.getChildren().add(label);
             }
         });

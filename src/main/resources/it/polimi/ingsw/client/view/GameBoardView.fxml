@@ -2,6 +2,7 @@
 
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -11,150 +12,200 @@
    <children>
       <Pane layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="850.0" prefWidth="1300.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
          <children>
-            <Pane layoutX="24.0" layoutY="73.0" prefHeight="429.0" prefWidth="750.0">
+            <Pane fx:id="scoreTrackPane" layoutX="1079.0" layoutY="159.0" prefHeight="369.0" prefWidth="193.0">
                <children>
-                  <ImageView fitHeight="437.0" fitWidth="750.0" layoutY="-8.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../view/codex_square.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="550.0" layoutY="578.0" prefHeight="249.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="255.0" fitWidth="200.0" layoutY="-5.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../view/codex_square.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Button fx:id="flipButton" layoutX="22.0" layoutY="574.0" mnemonicParsing="false" onAction="#flipCardsInHand" prefHeight="40.0" prefWidth="60.0" text="🔄">
-               <font>
-                  <Font size="22.0" />
-               </font></Button>
-            <Button fx:id="leaveGameButton" layoutX="22.0" layoutY="790.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" text="🏃🚪">
-               <font>
-                  <Font size="19.0" />
-               </font></Button>
-            <Label layoutX="110.0" layoutY="543.0" prefHeight="25.0" prefWidth="200.0" text="Your Hand" textFill="WHITE">
-               <font>
-                  <Font name="Baskerville Old Face" size="21.0" />
-               </font>
-            </Label>
-            <Label layoutX="1103.0" layoutY="77.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
-               <font>
-                  <Font name="Baskerville Old Face" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="807.0" layoutY="76.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
-               <font>
-                  <Font name="Baskerville Old Face" size="21.0" />
-               </font>
-            </Label>
-            <Label fx:id="alertLabel" alignment="CENTER" layoutX="41.0" layoutY="489.0" prefHeight="46.0" prefWidth="709.0" textAlignment="RIGHT" textFill="WHITE">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="47.0" layoutY="74.0" pannable="true" prefHeight="420.0" prefWidth="703.0" vbarPolicy="NEVER">
-               <cursor>
-                  <Cursor fx:constant="MOVE" />
-               </cursor></ScrollPane>
-            <Pane fx:id="handPane" layoutX="110.0" layoutY="612.0" prefHeight="131.0" prefWidth="391.0" />
-            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="206.0" prefHeight="350.0" prefWidth="230.0" />
-            <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" />
-            <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="113.0" prefHeight="75.0" prefWidth="230.0" />
-            <HBox fx:id="secretObjectivePane" layoutX="1103.0" layoutY="113.0" prefHeight="75.0" prefWidth="113.0" />
-            <Label fx:id="specialAlertsLabel" alignment="CENTER" layoutX="45.0" layoutY="24.0" opacity="0.56" prefHeight="40.0" prefWidth="709.0" style="-fx-background-color: orange;">
-               <font>
-                  <Font name="Baskerville Old Face" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="errorLabel" alignment="CENTER" layoutX="110.0" layoutY="580.0" opacity="0.67" prefHeight="26.0" prefWidth="391.0" style="-fx-background-color: red;" textFill="WHITE">
-               <font>
-                  <Font name="Baskerville Old Face" size="16.0" />
-               </font></Label>
-            <Pane fx:id="scoreTrackPane" layoutX="1072.0" layoutY="219.0" prefHeight="350.0" prefWidth="207.0">
-               <children>
-                  <ImageView fitHeight="328.0" fitWidth="164.0" layoutX="22.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="369.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../view/scoreTrack.png" />
                      </image>
                   </ImageView>
-                  <Circle fx:id="startingReference" fill="DODGERBLUE" layoutX="61.0" layoutY="327.0" opacity="0.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="startingReference" fill="DODGERBLUE" layoutX="52.0" layoutY="338.0" opacity="0.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="561.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/animal.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="561.0" layoutY="653.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/fungi.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="561.0" layoutY="701.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/plant.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="561.0" layoutY="751.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/insect.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="666.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/feather.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="666.0" layoutY="653.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/inkPot.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="666.0" layoutY="707.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../view/Resources_logos/scroll.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="animalResLabel" layoutX="611.0" layoutY="614.0" prefHeight="34.0" prefWidth="41.0" text="0" textFill="#008cff">
+            <Label fx:id="specialAlertsLabel" alignment="CENTER" layoutX="47.0" layoutY="45.0" opacity="0.56" prefHeight="40.0" prefWidth="696.0" style="-fx-background-color: orange; -fx-background-radius: 10;">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Label>
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="204.0" layoutY="606.0" opacity="0.67" prefHeight="25.0" prefWidth="390.0" style="-fx-background-color: red; -fx-background-radius: 10;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="16.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Label>
+            <Pane fx:id="resourcesPane" layoutX="807.0" layoutY="353.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 10;">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="106.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/feather.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="106.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/inkPot.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="26.0" fitWidth="30.0" layoutX="108.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/scroll.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="20.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/insect.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="20.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/plant.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="20.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/fungi.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="20.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../view/Resources_logos/animal.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="animalResLabel" layoutX="50.0" layoutY="129.0" prefHeight="34.0" prefWidth="41.0" text="0" textFill="#008cff">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fungiResLabel" layoutX="49.0" layoutY="105.0" prefHeight="22.0" prefWidth="30.0" text="0" textFill="#f20000">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="plantResLabel" layoutX="49.0" layoutY="48.0" text="0" textFill="#0a8314">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="insectResLabel" layoutX="49.0" layoutY="77.0" text="0" textFill="#ae0479">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="140.0" layoutY="135.0" text="0" textFill="#ab9d1d">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="140.0" layoutY="105.0" text="0" textFill="#ab9d1d">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="140.0" layoutY="74.0" text="0" textFill="#ab9d1d">
+                     <font>
+                        <Font name="Baskerville Old Face" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="14.0" text="Your Resources:">
+                     <font>
+                        <Font name="Baskerville Old Face" size="19.0" />
+                     </font>
+                     <effect>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Label>
+               </children>
+            </Pane>
+            <Button fx:id="flipButton" layoutX="137.0" layoutY="664.0" mnemonicParsing="false" onAction="#flipCardsInHand" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="🔄">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+            <Button fx:id="leaveGameButton" layoutX="22.0" layoutY="790.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: a40f0f;" text="🏃🚪" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+            <Label alignment="CENTER" layoutX="194.0" layoutY="788.0" prefHeight="26.0" prefWidth="464.0" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="21.0" />
+               </font>
+               <effect>
+                  <Lighting bumpInput="$null" diffuseConstant="1.14">
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Label>
+            <Label layoutX="1104.0" layoutY="32.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Label>
+            <Label layoutX="807.0" layoutY="31.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="21.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Label>
+            <Label fx:id="alertLabel" alignment="CENTER" layoutX="44.0" layoutY="528.0" prefHeight="46.0" prefWidth="709.0" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="18.0" />
                </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
             </Label>
-            <Label fx:id="fungiResLabel" layoutX="611.0" layoutY="669.0" text="0" textFill="#f20000">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="plantResLabel" layoutX="611.0" layoutY="718.0" text="0" textFill="#0a8314">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="insectResLabel" layoutX="611.0" layoutY="768.0" text="0" textFill="#ae0479">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="716.0" layoutY="718.0" text="0" textFill="#ab9d1d">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="716.0" layoutY="670.0" text="0" textFill="#ab9d1d">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="716.0" layoutY="623.0" text="0" textFill="#ab9d1d">
-               <font>
-                  <Font name="Baskerville Old Face" size="18.0" />
-               </font>
-            </Label>
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="47.0" layoutY="96.0" pannable="true" prefHeight="438.0" prefWidth="696.0" style="-fx-border-color: #aa9d32; -fx-border-width: 10; -fx-border-radius: 10; -fx-background-radius: 20;" vbarPolicy="NEVER">
+               <cursor>
+                  <Cursor fx:constant="MOVE" />
+               </cursor></ScrollPane>
+            <Pane fx:id="handPane" layoutX="206.0" layoutY="640.0" prefHeight="131.0" prefWidth="390.0" />
+            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="156.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 10;" />
+            <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" />
+            <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="65.0" prefHeight="67.0" prefWidth="230.0" />
+            <HBox fx:id="secretObjectivePane" layoutX="1104.0" layoutY="59.0" prefHeight="75.0" prefWidth="113.0" />
          </children>
       </Pane>
    </children>

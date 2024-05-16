@@ -12,11 +12,12 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class GameFieldViewController extends ViewController {
 
@@ -45,6 +46,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Pane scoreTrackPane;
     @FXML
+    private Pane resourcesPane;
+    @FXML
     private Circle startingReference;
 
 
@@ -70,6 +73,9 @@ public class GameFieldViewController extends ViewController {
 
         specialAlertsLabel.setVisible(false);
         errorLabel.setVisible(false);
+
+        fillPaneWithPattern(resourcesPane);
+        fillPaneWithPattern(scoreBoardPane);
 
         showMessage("Waiting for all players to choose the cards...");
 
@@ -173,6 +179,20 @@ public class GameFieldViewController extends ViewController {
             errorLabel.setText("⚠" + message);
             errorLabel.setVisible(true);
         });
+    }
+
+    private void fillPaneWithPattern (Pane pane){
+        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/view/background_tile.png")));
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                patternTile,
+                BackgroundRepeat.REPEAT,   // Repeat horizontally
+                BackgroundRepeat.REPEAT,   // Repeat vertically
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT
+        );
+
+        pane.setBackground(new Background(backgroundImage));
     }
 
 
