@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
+/**
+ * This class represents the request parser of the exchanged messages
+ */
 public class LobbyRequestHandler {
     private final Lobby lobby;
 
@@ -13,7 +16,7 @@ public class LobbyRequestHandler {
         this.lobby = lobby;
     }
     /**
-     * method handles the incoming request from a client
+     * handles the incoming request from a client
      * @param request request to be processed
      */
     public void execute(Request request) {
@@ -32,7 +35,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * method handles the logic for setting a username for a client
+     * handles the logic for setting a username for a client
      * @param lobby lobby reference
      * @param message json object message
      * @param clientHandler client handler of client
@@ -48,7 +51,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * method retrieves a list of available games from the lobby and sends them to the requesting client
+     * retrieves a list of available games from the lobby and sends them to the requesting client
      * @param lobby lobby reference
      * @param clientHandler client handler of client
      */
@@ -57,7 +60,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * method processes a request to create a new game
+     * processes a request to create a new game
      * @param lobby lobby reference
      * @param message json object message
      * @param clientHandler client handler of client
@@ -72,7 +75,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * method handles a client's request to join a game
+     * handles a client's request to join a game
      * @param lobby lobby reference
      * @param message json object message
      * @param clientHandler client handler of client
@@ -89,7 +92,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * method  removes a client from the lobby when they choose to leave
+     * removes a client from the lobby when they choose to leave
      * @param lobby lobby reference
      * @param clientHandler client handler of client
      */

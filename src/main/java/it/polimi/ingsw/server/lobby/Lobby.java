@@ -12,6 +12,9 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class represents the lobby where players can create or join a game and set their usernames
+ */
 public class Lobby implements ServerNetworkObserver {
 
     private final List<Request> requests;
@@ -39,7 +42,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * this method start the lobby server that continuously processes requests from clients until the server is shut down
+     * starts the lobby server that continuously processes requests from clients until the server is shut down
      */
     public void startLobby() {
         while (running) {
@@ -51,11 +54,10 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * This method adds a new client to the lobby.
+     * adds a new client to the lobby.
      * @param client Client Handler of client
      */
     public void submitNewClient(ClientHandler client) {
-        //TODO prendere quello che ritorna la submit
         executorService.submit(client);
         enterLobby(client);
         setRandomGuestUsername(client);
@@ -63,10 +65,10 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * This method set a random username to submitted client.
+     * sets a random username to submitted client.
      * @param client Client Handler of client
      */
-    private void setRandomGuestUsername(ClientHandler client) {
+    private void setRandomGuestUsername(ClientHandler client){
         boolean usernameNotSet = true;
         while (usernameNotSet) {
             String username = "Guest" + (int) (Math.random() * 100000);
@@ -78,7 +80,7 @@ public class Lobby implements ServerNetworkObserver {
         }
     }
     /**
-     * this method submit a new request from lobby
+     * submits a new request from lobby
      * @param request request of client
      */
     public synchronized void submitNewRequest(Request request) {
@@ -86,7 +88,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * this method adds the client to the lobby's arraylist of connected clients
+     * adds the client to the lobby's arraylist of connected clients
      * @param client client to allow in
      */
     public void enterLobby(ClientHandler client) {
@@ -95,7 +97,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * this method removes the client to the lobby arraylist of clients waiting inside of it
+     * removes the client to the lobby arraylist of clients waiting inside of it
      * @param client client to allow in
      */
     public void leaveLobby(ClientHandler client) {
@@ -125,7 +127,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * this method creates a new game with the requested number of players and assign a name to it
+     * creates a new game with the requested number of players and assign a name to it
      * @param numberOfPlayers number of players that will join
      * @param gameName name to identify the game
      */
@@ -138,7 +140,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * This method removes a game from the list of available games.
+     * removes a game from the list of available games.
      * @param gameName game name available
      */
     public void makeUnavailable(String gameName) {
@@ -151,7 +153,7 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * method allows a client to join a game that is waiting for players
+     * allows a client to join a game that is waiting for players
      * @param client client that wants to join
      * @param gameName name of the game to join
      * @throws NonExistentGameException exception thrown when the given game name isn't the name of one of the available games to join
