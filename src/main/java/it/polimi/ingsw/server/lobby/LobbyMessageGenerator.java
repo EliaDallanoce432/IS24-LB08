@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class represents the generator of messages exchanged between a player and the lobby
+ */
 public class LobbyMessageGenerator {
 
     /**
-     * method creates a JSON message to be sent to the client after a successful username setting.
+     * creates a JSON message to be sent to the client after a successful username setting.
      * @param username username set
-     * @return JSONObject
+     * @return JSON message
      */
     public static JSONObject usernameSetMessage(String username) {
         Map<String, String> jsonMap= new HashMap<>();
@@ -22,8 +25,8 @@ public class LobbyMessageGenerator {
     }
 
     /**
-     * method creates a JSON message to be sent to the client when their chosen username is already in use.
-     * @return JSONObject
+     * creates a JSON message to be sent to the client when their chosen username is already in use.
+     * @return JSON message
      */
     public static JSONObject usernameAlreadyTakenMessage() {
         Map<String, String> jsonMap= new HashMap<>();
@@ -32,9 +35,9 @@ public class LobbyMessageGenerator {
     }
 
     /**
-     * method creates a JSON message to be sent to the client after successfully joining a game.
+     * creates a JSON message to be sent to the client after successfully joining a game.
      * @param gameName game name set
-     * @return JSONObject
+     * @return JSON message
      */
     public static JSONObject joinGameMessage(String gameName) {
         Map<String, String> jsonMap= new HashMap<>();
@@ -44,8 +47,8 @@ public class LobbyMessageGenerator {
     }
 
     /**
-     * method  creates a JSON message to be sent to the client after successfully creating a new game.
-     * @return JSONObject
+     * creates a JSON message to be sent to the client after successfully creating a new game.
+     * @return JSON message
      */
     public static JSONObject createdGameMessage() {
         Map<String, String> jsonMap= new HashMap<>();
@@ -54,8 +57,8 @@ public class LobbyMessageGenerator {
     }
 
     /**
-     * method creates a JSON message to be sent to the client when they try to join a non-existent game.
-     * @return JSONObject
+     * creates a JSON message to be sent to the client when they try to join a non-existent game.
+     * @return JSON message
      */
     public static JSONObject gameDoesNotExistMessage() {
         Map<String, String> jsonMap= new HashMap<>();
@@ -64,9 +67,9 @@ public class LobbyMessageGenerator {
     }
 
     /**
-     * method creates a JSON message containing a list of available games
+     * creates a JSON message containing a list of available games
      * @param gameNames game names available
-     * @return JSONObject
+     * @return JSON message
      */
     public static JSONObject getAvailableGamesMessage(Set<String> gameNames) {
         JSONObject message = new JSONObject();
