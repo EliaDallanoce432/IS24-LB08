@@ -5,13 +5,14 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
 /**
- * This class represents a general Deck
+ * This abstract class represents a general Deck of cards.
  */
 public abstract class Deck {
     protected ArrayList<Card> cards;
 
     /**
-     * get first card from the deck
+     * gets first card and removes it from the deck
+     * @throws EmptyDeckException If the deck is empty when trying to draw a card
      * @return Card drawn
      */
     public Card directDraw() throws EmptyDeckException {
@@ -26,7 +27,7 @@ public abstract class Deck {
     }
 
     /**
-     * get top card id from the deck
+     * gets the id of the card that is currently at the top of the deck.
      * @return top card id
      */
     public int getTopCardID() {
@@ -35,8 +36,8 @@ public abstract class Deck {
     }
 
     /**
-     * check if deck is empty
-     * @return true if deck is empty
+     * checks if deck is empty
+     * @return true if deck is empty, false otherwise
      */
     public boolean isEmpty() {
         return cards.isEmpty();

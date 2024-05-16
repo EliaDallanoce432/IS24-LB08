@@ -30,36 +30,19 @@ public class Corner {
         return true;
     }
 
-    /**
-     * returns the resource value on the corner
-     * @return Resource
-     */
     public Resource getResource() {
         if(this.isAttachable()) return resource;
         else return Resource.none;
     }
 
-    /**
-     * on default is true
-     * attribute set on true if the corner is visible, false if the corner is covered
-     * @param visible new value
-     */
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
 
-    /**
-     * returns true is the corner is on top (visible), false otherwise
-     * @return boolean
-     */
     public boolean isVisible() {
         return visible;
     }
 
-    /**
-     * returns true if the corner is marked on the card and other cards can be connected to it (on top)
-     * @return boolean
-     */
     public boolean isAttachable() {
         return attachable;
     }

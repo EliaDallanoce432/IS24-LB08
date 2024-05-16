@@ -6,7 +6,8 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import java.util.ArrayList;
 
 /**
- * This class represents Deck with revealed cards
+ * This abstract class represents a deck of cards that can have
+ * two cards revealed on the table at a time, one on the left and one on the right.
  */
 public abstract class DeckWithRevealedCards extends Deck{
     protected Card leftRevealedCard;
@@ -23,8 +24,8 @@ public abstract class DeckWithRevealedCards extends Deck{
     }
 
     /**
-     * returns the left revealed card on the table
-     * @return Card drawn
+     * draws the left revealed card from the board and replaces it with the top card
+     * @return Card was drawn
      */
     public Card drawLeftRevealedCard() {
         Card selectedCard;
@@ -38,8 +39,8 @@ public abstract class DeckWithRevealedCards extends Deck{
     }
 
     /**
-     * returns the right revealed card on the table
-     * @return Card drawn
+     * draws the right revealed card from the board and replaces it with the top card
+     * @return Card was drawn
      */
     public Card drawRightRevealedCard() {
         Card selectedCard;

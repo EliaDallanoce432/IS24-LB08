@@ -84,9 +84,9 @@ public class ObjectiveCard extends Card {
     }
 
     /**
-     * method returns the points earned with this objective card
+     * returns the points earned with this objective card
      * @param gameField game field on which the objective has to be checked
-     * @return int
+     * @return score of placement
      */
     public int getEarnedPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField);

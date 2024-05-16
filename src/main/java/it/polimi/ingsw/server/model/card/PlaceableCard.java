@@ -151,8 +151,8 @@ public abstract class PlaceableCard extends Card {
     }
 
     /**
-     * method returns the points received by placing the card
-     * @return int
+     * returns the points received by placing the card
+     * @return score of placement
      */
     public abstract int placementPoints(GameField gameField);
 

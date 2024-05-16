@@ -25,9 +25,9 @@ public class ResourceCard extends PlaceableCard {
     }
 
     /**
-     * method returns the points earned by placing this resource card
+     * returns the points earned by placing this resource card
      * @param gameField game field
-     * @return int
+     * @return score of placement
      */
     public int placementPoints(GameField gameField) {
         return this.getPoints();

@@ -33,9 +33,9 @@ public class GoldCard extends PlaceableCard {
     }
 
     /**
-     * method returns the points earned with this gold card
+     * returns the points earned with this gold card
      * @param gameField game field
-     * @return int
+     * @return score of placement
      */
     public int placementPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField,this);
