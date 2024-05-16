@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model.card.GoldCardStrategy;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.GoldCard;
 
+/**
+ * This class is used to apply the no action strategy on a gold-card
+ */
 public class GoldCardNoActionStrategy implements ConditionStrategy{
 
     /**

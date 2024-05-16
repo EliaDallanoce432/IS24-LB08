@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the Insect-Insect-Animal pattern strategy
+ */
 public class ObjectiveCardJPatternIIA implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each Insect-Insect-Animal pattern

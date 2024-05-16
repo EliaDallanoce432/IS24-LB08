@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to implement the double InkPot strategy
+ */
 public class ObjectiveCardDoubleInkpot implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each couple of InkPot found on the game-field

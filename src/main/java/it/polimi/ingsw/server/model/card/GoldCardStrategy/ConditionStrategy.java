@@ -3,6 +3,10 @@ package it.polimi.ingsw.server.model.card.GoldCardStrategy;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.GoldCard;
 
+/**
+ * This interface contains the method that is going to be implemented for each single strategy
+ * owned by a gold-card
+ */
 public interface ConditionStrategy {
     /**
      * method performs the calculation of the points received by placing the gold-card

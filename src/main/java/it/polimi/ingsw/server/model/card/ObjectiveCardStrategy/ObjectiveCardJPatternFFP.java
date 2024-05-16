@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the Fungi-Fungi-Plant pattern strategy
+ */
 public class ObjectiveCardJPatternFFP implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each Fungi-Fungi-Plant pattern

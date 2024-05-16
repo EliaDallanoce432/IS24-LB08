@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the diagonal insect strategy
+ */
 public class ObjectiveCardDiagonalInsect implements ObjectiveStrategy {
     private int diagonalInsectTriplets(GameField gameField, ArrayList<PlaceableCard> insectCards) {
         int triplets = 0;

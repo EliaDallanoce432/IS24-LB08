@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the diagonal plant strategy
+ */
 public class ObjectiveCardDiagonalPlants implements ObjectiveStrategy {
     private int diagonalPlantTriplets(GameField gameField, ArrayList<PlaceableCard> plantCards) {
         int triplets = 0;

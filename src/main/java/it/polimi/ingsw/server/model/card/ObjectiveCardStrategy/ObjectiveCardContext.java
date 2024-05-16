@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to apply the strategy pattern on the objective cards' method for the final score calculation
+ */
 public class ObjectiveCardContext {
     private final ObjectiveStrategy strategy;
 

@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the Plant-Plant-Insect pattern strategy
+ */
 public class ObjectiveCardJPatternPPI implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each Plant-Plant-Insect pattern

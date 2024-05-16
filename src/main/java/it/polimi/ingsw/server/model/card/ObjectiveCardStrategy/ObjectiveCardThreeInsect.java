@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to implement the three insect strategy
+ */
 public class ObjectiveCardThreeInsect implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each triplet of Insect found on the game-field

@@ -6,6 +6,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to implement the diagonal fungi strategy
+ */
 public class ObjectiveCardDiagonalFungi implements ObjectiveStrategy {
 
     private int diagonalFungiTriplets(GameField gameField, ArrayList<PlaceableCard> fungiCards) {

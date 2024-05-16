@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.GoldCardStrategy;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.GoldCard;
 
+/**
+ * This class is used to apply the strategy pattern on the gold-cards' method for the points calculation
+ */
 public class GoldCardContext {
     private final ConditionStrategy strategy;
 

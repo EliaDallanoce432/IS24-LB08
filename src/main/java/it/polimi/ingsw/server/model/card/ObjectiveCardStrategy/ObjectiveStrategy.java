@@ -5,6 +5,10 @@ import it.polimi.ingsw.server.model.card.PlaceableCard;
 
 import java.util.ArrayList;
 
+/**
+ * This interface contains the method that is going to be implemented for each single strategy
+ * owned by every single objective card
+ */
 public interface ObjectiveStrategy {
     /**
      * method performs the calculation of the points received by fulfilling the objective

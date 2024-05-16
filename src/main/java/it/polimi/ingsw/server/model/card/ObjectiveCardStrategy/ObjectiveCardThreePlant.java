@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
 
+/**
+ * This class is used to implement the three plant strategy
+ */
 public class ObjectiveCardThreePlant implements ObjectiveStrategy {
     /**
      * Used to calculate the amount of points given for each triplet of Plant found on the game-field
