@@ -61,7 +61,7 @@
                <children>
                   <ImageView fitHeight="364.0" fitWidth="220.0" layoutX="11.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../Images/scoreTrack.png" />
+                        <Image url="@../../../../../view/scoreTrack.png" />
                      </image>
                   </ImageView>
                   <Circle fx:id="startingReference" fill="DODGERBLUE" layoutX="61.0" layoutY="327.0" opacity="0.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />

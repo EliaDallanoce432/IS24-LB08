@@ -36,8 +36,8 @@ public class CardRepresentation {
         this.facingUp = isFacingUp;
 
 
-        this.frontCardTexturePath = "/images/cards/front/" + id + ".png";
-        this.backCardTexturePath = "/images/cards/back/" + id + ".png";
+        this.frontCardTexturePath = "/view/cards/front/" + id + ".png";
+        this.backCardTexturePath = "/view/cards/back/" + id + ".png";
 
         Image frontTextureImage = new Image(getClass().getResourceAsStream(frontCardTexturePath));
         Image backTextureImage = new Image(getClass().getResourceAsStream(backCardTexturePath));

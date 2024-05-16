@@ -56,7 +56,7 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonResourceCards.json");
+        InputStream is = classloader.getResourceAsStream("JsonResourceCards.json");
         try (InputStreamReader isr = new InputStreamReader(is)) {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
@@ -87,7 +87,7 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonGoldCards.json");
+        InputStream is = classloader.getResourceAsStream("JsonGoldCards.json");
         try (InputStreamReader isr = new InputStreamReader(is)) {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
@@ -179,7 +179,7 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonStarterCards.json");
+        InputStream is = classloader.getResourceAsStream("JsonStarterCards.json");
         try (InputStreamReader isr = new InputStreamReader(is)) {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
