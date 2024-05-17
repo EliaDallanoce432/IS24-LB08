@@ -11,12 +11,19 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class is responsible for handling incoming JSON messages
+ * from the server. It parses the message content and updates the client's internal models accordingly.
+ */
 public class ClientMessageHandler {
 
+    /**
+     * processes an incoming JSON message from the server
+     * @param message The JSONObject representing the received message.
+     */
     public void execute (JSONObject message) {
 
         System.out.println("executing message: " + message);
-
         switch (message.get("message").toString()) {
 
             //in-lobby messages
@@ -46,32 +53,57 @@ public class ClientMessageHandler {
         }
     }
 
+    /**
+     * updates the client player's username based on the received message
+     * @param message
+     */
     private void updateUsername(JSONObject message) {
         PlayerModel.getInstance().setUsername(message.get("username").toString());
     }
 
+    /**
+     * displays an error message to the user.
+     * @param errorMessage The message to be displayed as the error.
+     */
     private void showError(String errorMessage) {
         StageManager.getViewController().showErrorMessage(errorMessage);
     }
 
+    /**
+     * updates the client's state
+     * @param clientState The new state of the client.
+     */
     private void updateClientState(ClientState clientState) {
         ClientStateModel.getInstance().setClientState(clientState);
     }
 
+    /**
+     * updates the client's state and sets a reason for the state change.
+     * @param clientState The new state of the client.
+     * @param reason The reason for the state change.
+     */
     private void updateClientState(ClientState clientState, String reason) {
         ClientStateModel.getInstance().setClientState(clientState, reason);
     }
 
+    /**
+     * updates the list of available games retrieved from the server
+     * @param message The JSONObject containing the list of games. The message is expected to have a "games" field containing a JSONArray of game names.
+     */
     private void updateAvailableGames(JSONObject message) {
         JSONArray gamesArray = (JSONArray) message.get("games");
         ArrayList<String> games = new ArrayList<>();
-        for (int i = 0; i < gamesArray.size(); i++) {
-            JSONObject gameObj = (JSONObject) gamesArray.get(i);
+        for (Object o : gamesArray) {
+            JSONObject gameObj = (JSONObject) o;
             games.add(gameObj.get("name").toString());
         }
         AvailableGamesModel.getIstance().setGames(games);
     }
 
+    /**
+     * updates the information about selectable cards based on the received message.
+     * @param message The JSONObject containing information about selectable cards. The message is expected to have fields for "starterCardID", "objectiveCardID1", and "objectiveCardID2".
+     */
     private void updateSelectableCards (JSONObject message) {
         int starterCardID = Integer.parseInt(message.get("starterCardID").toString());
         int objectiveCardID1 = Integer.parseInt(message.get("objectiveCardID1").toString());
@@ -80,6 +112,10 @@ public class ClientMessageHandler {
         SelectableCardsModel.getIstance().setSelectableObjectiveCardsId(new int[]{objectiveCardID1, objectiveCardID2});
     }
 
+    /**
+     * updates the client's game state based on the initial game board information received from the server.
+     * @param message The JSONObject containing the initial game board state information.
+     */
     private void updateInitialBoardState (JSONObject message) {
 
         //parsing the message...
@@ -109,6 +145,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * updates the client's deck information based on the received message.
+     * @param message The JSONObject containing the updated deck information.
+     */
     private void updateDecks(JSONObject message) {
         //parsing the message...
         JSONObject updatedDecks = (JSONObject) message.get("updatedDecks");
@@ -116,6 +156,10 @@ public class ClientMessageHandler {
         updateDeckModelFromJSON(updatedDecks);
     }
 
+    /**
+     * updates the client's hand with the new cards received from the server.
+     * @param message The JSONObject containing the updated hand information.
+     */
     private void updateHand(JSONObject message) {
 
         //parsing the message...
