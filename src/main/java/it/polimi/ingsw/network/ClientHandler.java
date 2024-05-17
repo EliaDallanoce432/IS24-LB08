@@ -2,7 +2,6 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.ping.Pinger;
 import it.polimi.ingsw.network.input.InputHandler;
-import it.polimi.ingsw.network.input.NetworkInputObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.supportclasses.Request;

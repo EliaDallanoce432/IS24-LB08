@@ -28,11 +28,11 @@ public class ClientMessageGenerator {
      * @return a JSONObject representing the "setUp" message.
      */
     public static JSONObject generateSetUpGameMessage (String gameName, int numOfPlayers) {
-        JSONObject message = new JSONObject();
-        message.put("command","setUp");
-        message.put("gameName",gameName);
-        message.put("numOfPlayers",numOfPlayers);
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","setUp");
+        jsonMap.put("gameName",gameName);
+        jsonMap.put("numOfPlayers",String.valueOf(numOfPlayers));
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -73,11 +73,11 @@ public class ClientMessageGenerator {
      * @return a JSONObject representing the "starterCard" message.
      */
     public static JSONObject generateChosenStarterCardSideMessage(int cardId, boolean facingUp) {
-        JSONObject message = new JSONObject();
-        message.put("command","starterCard");
-        message.put("starterCardId",cardId);
-        message.put("facingUp",facingUp);
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","starterCard");
+        jsonMap.put("starterCardId",String.valueOf(cardId));
+        jsonMap.put("facingUp", String.valueOf(facingUp));
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -86,10 +86,10 @@ public class ClientMessageGenerator {
      * @return a JSONObject representing the "objectiveCard" message.
      */
     public static JSONObject generateChosenSecretObjectiveMessage(int id) {
-        JSONObject message = new JSONObject();
-        message.put("command","objectiveCard");
-        message.put("objectiveCardId",id);
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","objectiveCard");
+        jsonMap.put("objectiveCardId", String.valueOf(id));
+        return new JSONObject(jsonMap);
     }
 
     /**
@@ -101,13 +101,13 @@ public class ClientMessageGenerator {
      * @return a JSONObject representing the "place" message.
      */
     public static JSONObject generatePlaceMessage(int cardId, int x, int y, boolean facingUp) {
-        JSONObject message = new JSONObject();
-        message.put("command","place");
-        message.put("placeableCardId",cardId);
-        message.put("x",x);
-        message.put("y",y);
-        message.put("facingUp",facingUp);
-        return message;
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("command","place");
+        jsonMap.put("placeableCardId",String.valueOf(cardId));
+        jsonMap.put("x", String.valueOf(x));
+        jsonMap.put("y", String.valueOf(y));
+        jsonMap.put("facingUp", String.valueOf(facingUp));
+        return new JSONObject(jsonMap);
     }
     /**
      * generates a JSON message object to be sent to the server requesting to draw a resource card directly from the resource deck.

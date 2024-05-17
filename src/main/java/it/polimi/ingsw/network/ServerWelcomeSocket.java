@@ -20,7 +20,7 @@ public class ServerWelcomeSocket implements Runnable {
         this.lobby = lobby;
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("Server ready at: " + InetAddress.getLocalHost());
+            System.out.println("Server ready at: " + InetAddress.getLocalHost() + " on port: " + port);
         } catch (IOException e) {
             throw new CannotOpenWelcomeSocket();
         }

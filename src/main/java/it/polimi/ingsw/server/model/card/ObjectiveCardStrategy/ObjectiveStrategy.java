@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 
 import it.polimi.ingsw.server.model.GameField;
-import it.polimi.ingsw.server.model.card.PlaceableCard;
-
-import java.util.ArrayList;
 
 /**
  * This interface contains the method that is going to be implemented for each single strategy

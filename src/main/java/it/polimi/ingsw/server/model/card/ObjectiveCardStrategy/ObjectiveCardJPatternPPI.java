@@ -15,7 +15,7 @@ public class ObjectiveCardJPatternPPI implements ObjectiveStrategy {
      * found on the game-field
      * @param pointsOnTheCard points multiplier written on the card
      * @param gamefield game-field on which the objective has to be checked
-     * @return
+     * @return the amount of calculated points
      */
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         int num_jpattern=0;

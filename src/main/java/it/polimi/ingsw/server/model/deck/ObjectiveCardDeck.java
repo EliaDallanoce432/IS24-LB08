@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.model.deck;
 
 import it.polimi.ingsw.server.model.card.ObjectiveCard;
-import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

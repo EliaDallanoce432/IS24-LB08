@@ -47,7 +47,7 @@ public class StarterCard extends PlaceableCard {
 
     @Override
     public boolean equals(Object obj) {
-        StarterCard other = (StarterCard) obj;
+        if(!(obj instanceof StarterCard other)) return false;
         if(this.getBackCentralResources().size() != other.getBackCentralResources().size()) return false;
         ArrayList<Resource> otherBackCentralResources = new ArrayList<>(other.getBackCentralResources());
         ArrayList<Resource> thisBackCentralResources = new ArrayList<>(this.getBackCentralResources());

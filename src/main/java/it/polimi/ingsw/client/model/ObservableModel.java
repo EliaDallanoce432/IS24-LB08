@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.observers.ModelObserver;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ public abstract class ObservableModel {
     private final List<ModelObserver> observers;
 
     public ObservableModel() {
-        observers = new ArrayList<ModelObserver>();
+        observers = new ArrayList<>();
     }
 
     public synchronized void addObserver(ModelObserver observer) {

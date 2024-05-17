@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.utility.CardRepresentation;
-
 import java.util.ArrayList;
 
 public class HandModel extends ObservableModel {
 
-    private ArrayList<CardRepresentation> cardsInHand = new ArrayList<>();
+    private ArrayList<CardRepresentation> cardsInHand;
 
     private static HandModel instance;
 

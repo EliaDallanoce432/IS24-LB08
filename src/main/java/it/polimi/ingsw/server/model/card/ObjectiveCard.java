@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.ObjectiveCardStrategy.*;
 
 /**
- * This class represents a Objective card
+ * This class represents an Objective card
  */
 public class ObjectiveCard extends Card {
     protected int points;

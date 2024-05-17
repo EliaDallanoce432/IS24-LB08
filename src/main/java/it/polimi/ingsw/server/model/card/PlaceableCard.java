@@ -158,8 +158,7 @@ public abstract class PlaceableCard extends Card {
 
     @Override
     public boolean equals(Object obj) {
-        PlaceableCard card = (PlaceableCard) obj;
-
+        if(!(obj instanceof PlaceableCard card)) return false;
         if(this.id!=card.id) return false;
         else if (this.cardKingdom != card.cardKingdom) return false;
         else if (this.facingUp != card.facingUp) return false;

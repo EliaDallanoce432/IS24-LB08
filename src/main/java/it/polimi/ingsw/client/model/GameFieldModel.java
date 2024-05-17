@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.client.view.utility.CardRepresentation;
-
 import java.util.ArrayList;
 
 public class GameFieldModel extends ObservableModel {

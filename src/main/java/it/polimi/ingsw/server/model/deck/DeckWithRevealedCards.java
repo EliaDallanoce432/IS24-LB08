@@ -3,8 +3,6 @@ package it.polimi.ingsw.server.model.deck;
 import it.polimi.ingsw.server.model.card.Card;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
-import java.util.ArrayList;
-
 /**
  * This abstract class represents a deck of cards that can have
  * two cards revealed on the table at a time, one on the left and one on the right.

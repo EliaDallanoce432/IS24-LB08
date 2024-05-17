@@ -55,7 +55,7 @@ public class ClientMessageHandler {
 
     /**
      * updates the client player's username based on the received message
-     * @param message
+     * @param message The message containing the updated username
      */
     private void updateUsername(JSONObject message) {
         PlayerModel.getInstance().setUsername(message.get("username").toString());
@@ -260,8 +260,8 @@ public class ClientMessageHandler {
     private static ArrayList<CardRepresentation> getHandArray(JSONArray jsonArray){
         ArrayList<CardRepresentation> hand = new ArrayList<>();
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            CardRepresentation vCard = new CardRepresentation(Integer.parseInt(jsonArray.get(i).toString()),true);
+        for (Object o : jsonArray) {
+            CardRepresentation vCard = new CardRepresentation(Integer.parseInt(o.toString()), true);
             hand.add(vCard);
         }
 
@@ -276,11 +276,11 @@ public class ClientMessageHandler {
     private static ArrayList<CardRepresentation> getPlacementHistoryArray(JSONArray jsonArray){
         ArrayList<CardRepresentation> placementHistory = new ArrayList<>();
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject obj = (JSONObject) jsonArray.get(i);
+        for (Object o : jsonArray) {
+            JSONObject obj = (JSONObject) o;
             int cardId = Integer.parseInt(obj.get("cardID").toString());
             boolean faceUp = Boolean.parseBoolean(obj.get("facingUp").toString());
-            CardRepresentation vCard = new CardRepresentation(cardId,faceUp);
+            CardRepresentation vCard = new CardRepresentation(cardId, faceUp);
             vCard.setX(Integer.parseInt(obj.get("x").toString()));
             vCard.setY(Integer.parseInt(obj.get("y").toString()));
             placementHistory.addLast(vCard);

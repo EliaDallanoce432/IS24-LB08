@@ -3,7 +3,6 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.network.ping.Pinger;
 import it.polimi.ingsw.network.input.InputHandler;
-import it.polimi.ingsw.network.input.NetworkInputObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import org.json.simple.JSONObject;
 import java.io.IOException;

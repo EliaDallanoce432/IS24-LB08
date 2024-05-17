@@ -17,10 +17,6 @@ public class Codex {
         this.lobby = lobby;
     }
 
-    public ClientController getClientController() {
-        return clientController;
-    }
-
     public void setClientController(ClientController clientController) {
         this.clientController = clientController;
     }
@@ -32,23 +28,23 @@ public class Codex {
         }
         else {
             int port = 12345;
-            if(args[0].equals("server") && args.length == 2) {
-                port = Integer.parseInt(args[1]);
+            if(args[0].equals("server")) {
+                if(args.length == 2) {
+                    port = Integer.parseInt(args[1]);
+                }
+                try {
+                    codex.setLobby(new Lobby(port));
+                    codex.getLobby().startLobby();
+                } catch (CannotOpenWelcomeSocket e) {
+                    System.out.println("The server could not start the welcome socket at port " + port);
+                    codex.shutdown();
+                }
             }
             else {
                 System.out.println("unexpected arguments");
                 codex.shutdown();
-                return;
-            }
-            try {
-                codex.setLobby(new Lobby(port));
-                codex.getLobby().startLobby();
-            } catch (CannotOpenWelcomeSocket e) {
-                System.out.println("The server could not start the welcome socket at port " + port);
-                codex.shutdown();
             }
         }
-
     }
 
     public void shutdown() {

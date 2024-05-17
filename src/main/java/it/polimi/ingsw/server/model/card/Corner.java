@@ -22,11 +22,11 @@ public class Corner {
 
     @Override
     public boolean equals(Object obj) {
-        Corner other = (Corner) obj;
-        if (this.resource != other.resource) return false;
-        if (this.attached != other.attached) return false;
-        if (this.attachable != other.attachable) return false;
-        if (this.visible != other.visible) return false;
+        if(!(obj instanceof Corner other)) {return false;}
+        else if (this.resource != other.resource) return false;
+        else if (this.attached != other.attached) return false;
+        else if (this.attachable != other.attachable) return false;
+        else if (this.visible != other.visible) return false;
         return true;
     }
 

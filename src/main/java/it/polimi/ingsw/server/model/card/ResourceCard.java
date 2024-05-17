@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
-import it.polimi.ingsw.util.supportclasses.Resource;
 
 /**
  * This class represents a Resource card
