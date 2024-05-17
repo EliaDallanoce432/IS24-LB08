@@ -171,6 +171,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message containing all of the information used to update the player's game-field
+     * @param message containing all the necessary information
+     */
     private void updateGameField(JSONObject message){
 
         ArrayList<CardRepresentation> placementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
@@ -187,6 +191,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message informing the player of an incorrect placement
+     * @param message containing he reason why the placement failed
+     */
     private void cannotPlaceHandler(JSONObject message) {
         HandModel.getInstance().rollback();
         GameFieldModel.getInstance().rollback(); //reloads the last update of the model
@@ -194,6 +202,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message containing the information about the updated turn
+     * @param message containing the updated turn
+     */
     private void updateTurnPlayer (JSONObject message){
 
         String currentTurnPlayer = message.get("player").toString();
@@ -206,6 +218,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message containing players' updated scores
+     * @param message containing the information about players' scores
+     */
     private void updateScores(JSONObject message) {
 
         HashMap<String, Integer> scores = new HashMap<>();
@@ -218,6 +234,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message that updates the leaderboard
+     * @param message containing the final results
+     */
     private void updateLeaderboard(JSONObject message) {
         ArrayList<JSONObject> leaderboard = new ArrayList<>();
 
@@ -230,12 +250,13 @@ public class ClientMessageHandler {
         ClientStateModel.getInstance().setClientState(ClientState.END_GAME_STATE);
     }
 
-
-
-
-
     //Utility methods
 
+    /**
+     * processes the message containing a player's hand
+     * @param jsonArray contains the cards in a player's hand
+     * @return an arraylist containing the player's hand
+     */
     private static ArrayList<CardRepresentation> getHandArray(JSONArray jsonArray){
         ArrayList<CardRepresentation> hand = new ArrayList<>();
 
@@ -247,6 +268,11 @@ public class ClientMessageHandler {
         return hand;
     }
 
+    /**
+     * processes the message containing players' placement history
+     * @param jsonArray contains the information about player's placement history
+     * @return an arraylist containing the placement history
+     */
     private static ArrayList<CardRepresentation> getPlacementHistoryArray(JSONArray jsonArray){
         ArrayList<CardRepresentation> placementHistory = new ArrayList<>();
 
@@ -263,6 +289,10 @@ public class ClientMessageHandler {
         return placementHistory;
     }
 
+    /**
+     * processes the message containing the updated drawable cards
+     * @param decksJSON JSONObject containing the information about the drawable cards
+     */
     private static void updateDeckModelFromJSON (JSONObject decksJSON){
         int resTop = Integer.parseInt(decksJSON.get("topDeckResourceCardID").toString());
         int goldTop = Integer.parseInt(decksJSON.get("topDeckGoldCardID").toString());
@@ -275,6 +305,10 @@ public class ClientMessageHandler {
 
     }
 
+    /**
+     * processes the message containing all the updated resources on the player's game-field
+     * @param updatedResources JSONObject containing the information about the updated resources
+     */
     private static void updateResourcesFromJSON( JSONObject updatedResources){
         PlayerModel.getInstance().setResources(
                 Integer.parseInt(updatedResources.get("animalResources").toString()),
