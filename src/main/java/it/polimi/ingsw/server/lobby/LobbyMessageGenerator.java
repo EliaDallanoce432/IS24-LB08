@@ -12,8 +12,6 @@ import java.util.Set;
  */
 public class LobbyMessageGenerator {
 
-    //TODO rendere statico o no
-
     /**
      * creates a JSON message to be sent to the client after a successful username setting.
      * @param username username set

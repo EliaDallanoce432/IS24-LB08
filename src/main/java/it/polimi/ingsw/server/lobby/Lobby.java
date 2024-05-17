@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
+import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
 import it.polimi.ingsw.util.customexceptions.GameIsFullException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -26,14 +27,15 @@ public class Lobby implements ServerNetworkObserver {
     private final ExecutorService executorService;
     private final LobbyRequestHandler lobbyRequestHandler;
 
-    public Lobby(int port) {
+    public Lobby(int port) throws CannotOpenWelcomeSocket {
         connectedClients = new ArrayList<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestHandler = new LobbyRequestHandler(this);
-        ServerWelcomeSocket serverWelcomeSocket = new ServerWelcomeSocket(this, port);
+        ServerWelcomeSocket serverWelcomeSocket;
+        serverWelcomeSocket = new ServerWelcomeSocket(this, port);
         executorService.submit(serverWelcomeSocket);
         running = true;
     }
@@ -154,7 +156,6 @@ public class Lobby implements ServerNetworkObserver {
 
     public void closeGame(String gameName) {
         makeUnavailable(gameName);
-        //TODO gestire la chiusura della partita
     }
 
     /**
@@ -166,11 +167,7 @@ public class Lobby implements ServerNetworkObserver {
     public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
         connectedClients.remove(client);
-        try {
-            availableGames.get(gameName).enterGame(client);
-        } catch (GameIsFullException e) {
-            throw e;
-        }
+        availableGames.get(gameName).enterGame(client);
     }
 
     @Override
@@ -180,7 +177,6 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     public void shutdown() {
-        //TODO comunicare a tutti i client ancora connessi che il server sta chiudendo
         running = false;
     }
 }

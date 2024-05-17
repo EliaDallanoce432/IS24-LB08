@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,14 +16,13 @@ public class ServerWelcomeSocket implements Runnable {
     Lobby lobby;
     boolean running;
 
-    public ServerWelcomeSocket(Lobby lobby, int port) {
+    public ServerWelcomeSocket(Lobby lobby, int port) throws CannotOpenWelcomeSocket {
         this.lobby = lobby;
         try {
             serverSocket = new ServerSocket(port);
             System.out.println("Server ready at: " + InetAddress.getLocalHost());
         } catch (IOException e) {
-            //TODO lanciare eccezione se non si apre la accept socket
-            throw new RuntimeException(e);
+            throw new CannotOpenWelcomeSocket();
         }
         running = true;
     }

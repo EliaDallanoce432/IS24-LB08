@@ -23,7 +23,7 @@ public class InputHandler implements Runnable {
         try {
             in = new Scanner(socket.getInputStream());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); //should not happen
         }
         running = true;
     }
@@ -39,8 +39,7 @@ public class InputHandler implements Runnable {
                     }
                 }
             } catch (ParseException e) {
-                //TODO gestire meglio l'eccezione
-                throw new RuntimeException(e);
+                throw new RuntimeException(e); //should not happen
             }
         }
     }

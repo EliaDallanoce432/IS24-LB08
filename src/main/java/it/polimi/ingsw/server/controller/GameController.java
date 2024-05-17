@@ -484,7 +484,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     public void notifyLastRound() {
         if(game.getGameState() != GameState.playing) return;
         for (ClientHandler clientHandler : clientHandlers) {
-            if (getCurrentPlayer(clientHandler).getScore() >= 3) {
+            //TODO rimettere a 20 o far specificare il punteggio da raggiungere quando si crea la partita
+            if (getCurrentPlayer(clientHandler).getScore() >= 5) {
                 game.setGameState(GameState.lastRound);
                 broadcast(messageGenerator.lastRoundMessage("player " + clientHandler.getUsername() + " has 20 or more points"));
                 return;
