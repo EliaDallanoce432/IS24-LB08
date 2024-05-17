@@ -137,7 +137,7 @@ public class ClientController implements ClientNetworkObserver {
      */
     public void sendChosenSecretObjectiveMessage(int cardId) {
         clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId));
-        ObjectivesModel.getIstance().setSecretObjectiveId(cardId);
+        ObjectivesModel.getInstance().setSecretObjectiveId(cardId);
     }
 
     /**

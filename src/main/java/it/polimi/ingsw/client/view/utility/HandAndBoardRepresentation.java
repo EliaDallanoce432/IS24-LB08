@@ -227,7 +227,7 @@ public class HandAndBoardRepresentation {
 
     public void loadFromPlacementHistory (){
 
-        ArrayList<CardRepresentation> placementHistory = GameFieldModel.getIstance().getPlacementHistory();
+        ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
 
         boardPane.getChildren().clear();
 
@@ -257,7 +257,7 @@ public class HandAndBoardRepresentation {
 
         double currentX = SPACING;
 
-        for(CardRepresentation v: HandModel.getIstance().getCardsInHand()){
+        for(CardRepresentation v: HandModel.getInstance().getCardsInHand()){
 
             Rectangle cardNode = v.getCard();
             cardNode.setLayoutX(currentX);

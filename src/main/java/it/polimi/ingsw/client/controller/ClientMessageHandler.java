@@ -69,15 +69,15 @@ public class ClientMessageHandler {
             JSONObject gameObj = (JSONObject) gamesArray.get(i);
             games.add(gameObj.get("name").toString());
         }
-        AvailableGamesModel.getIstance().setGames(games);
+        AvailableGamesModel.getInstance().setGames(games);
     }
 
     private void updateSelectableCards (JSONObject message) {
         int starterCardID = Integer.parseInt(message.get("starterCardID").toString());
         int objectiveCardID1 = Integer.parseInt(message.get("objectiveCardID1").toString());
         int objectiveCardID2 = Integer.parseInt(message.get("objectiveCardID2").toString());
-        SelectableCardsModel.getIstance().setStarterCardId(starterCardID);
-        SelectableCardsModel.getIstance().setSelectableObjectiveCardsId(new int[]{objectiveCardID1, objectiveCardID2});
+        SelectableCardsModel.getInstance().setStarterCardId(starterCardID);
+        SelectableCardsModel.getInstance().setSelectableObjectiveCardsId(new int[]{objectiveCardID1, objectiveCardID2});
     }
 
     private void updateInitialBoardState (JSONObject message) {
@@ -99,10 +99,10 @@ public class ClientMessageHandler {
         }
         else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
         PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
-        ObjectivesModel.getIstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
-        ObjectivesModel.getIstance().setSecretObjectiveId(secretObjectiveCardID);
-        GameFieldModel.getIstance().updatePlacementHistory(initialPlacementHistory);
-        HandModel.getIstance().updateCardsInHand(initialHand);
+        ObjectivesModel.getInstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
+        ObjectivesModel.getInstance().setSecretObjectiveId(secretObjectiveCardID);
+        GameFieldModel.getInstance().updatePlacementHistory(initialPlacementHistory);
+        HandModel.getInstance().updateCardsInHand(initialHand);
         PlayerModel.getInstance().setToken(token);
         updateDeckModelFromJSON(decksJSON);
         updateResourcesFromJSON(resourcesJSON);
@@ -123,7 +123,7 @@ public class ClientMessageHandler {
 
 
         //updating the model...
-        HandModel.getIstance().updateCardsInHand(updatedHand);
+        HandModel.getInstance().updateCardsInHand(updatedHand);
 
     }
 
@@ -132,9 +132,9 @@ public class ClientMessageHandler {
         ArrayList<CardRepresentation> placementHistory = getPlacementHistoryArray((JSONArray) message.get("placementHistory"));
         ArrayList<CardRepresentation> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
-        GameFieldModel.getIstance().updatePlacementHistory(placementHistory);
+        GameFieldModel.getInstance().updatePlacementHistory(placementHistory);
         if (ClientStateModel.getInstance().getClientState() != ClientState.LAST_TURN_STATE) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
-        HandModel.getIstance().updateCardsInHand(updatedHand);
+        HandModel.getInstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
         JSONObject updatedResources = (JSONObject) message.get("updatedResources");
@@ -144,8 +144,8 @@ public class ClientMessageHandler {
     }
 
     private void cannotPlaceHandler(JSONObject message) {
-        HandModel.getIstance().rollback();
-        GameFieldModel.getIstance().rollback(); //reloads the last update of the model
+        HandModel.getInstance().rollback();
+        GameFieldModel.getInstance().rollback(); //reloads the last update of the model
         showError(message.get("reason").toString());
 
     }
@@ -227,7 +227,7 @@ public class ClientMessageHandler {
         int resRight = Integer.parseInt(decksJSON.get("rightRevealedResourceCardID").toString());
         int goldRight = Integer.parseInt(decksJSON.get("rightRevealedGoldCardID").toString());
 
-        DeckModel.getIstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);
+        DeckModel.getInstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);
 
     }
 

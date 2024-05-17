@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class HandObserver implements ModelObserver{
 
     public HandObserver() {
-        HandModel.getIstance().addObserver(this);
+        HandModel.getInstance().addObserver(this);
     }
 
     @Override

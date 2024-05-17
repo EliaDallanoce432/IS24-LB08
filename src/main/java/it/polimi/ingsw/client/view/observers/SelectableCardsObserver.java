@@ -7,7 +7,7 @@ import javafx.application.Platform;
 public class SelectableCardsObserver implements ModelObserver{
 
     public SelectableCardsObserver() {
-        SelectableCardsModel.getIstance().addObserver(this);
+        SelectableCardsModel.getInstance().addObserver(this);
     }
 
     @Override

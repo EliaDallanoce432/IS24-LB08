@@ -77,7 +77,7 @@ public class JoinGameViewController extends ViewController {
     public void updateAvailableGames(){
         Platform.runLater(()->{
             availableGamesComboBox.getItems().clear();
-            availableGamesComboBox.getItems().addAll(AvailableGamesModel.getIstance().getGames());
+            availableGamesComboBox.getItems().addAll(AvailableGamesModel.getInstance().getGames());
         });
     }
 }

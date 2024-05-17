@@ -20,7 +20,7 @@ public class GameRequestHandler {
     }
 
     /**
-     * parses the commands received from clients and invokes the specific method in he game controller based on the requested action
+     * parses the commands received from clients and invokes the specific method in the game controller based on the requested action
      * @param request that is about to be executed
      */
     public void execute (Request request)  {
@@ -34,7 +34,7 @@ public class GameRequestHandler {
                 return;
             }
         }
-        if(game.getGameState() == GameState.endGame) {
+        if(game.getGameState() == GameState.endGame || game.getGameState() == GameState.aClientDisconnected) {
             if(!request.message().get("command").equals("leave")) {
                 return;
             }

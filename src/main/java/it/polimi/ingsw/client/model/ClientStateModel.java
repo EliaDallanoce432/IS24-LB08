@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.model;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 
 public class ClientStateModel extends ObservableModel{
-    private static ClientStateModel istance;
+    private static ClientStateModel instance;
     private String reason;
 
     private ClientState clientState = ClientState.WELCOME_STATE;
@@ -11,8 +11,8 @@ public class ClientStateModel extends ObservableModel{
 
     public static ClientStateModel getInstance(){
 
-        if (istance==null) istance = new ClientStateModel();
-        return istance;
+        if (instance ==null) instance = new ClientStateModel();
+        return instance;
 
     }
 

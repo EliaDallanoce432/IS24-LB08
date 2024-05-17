@@ -4,7 +4,7 @@ import it.polimi.ingsw.util.supportclasses.Color;
 
 public class PlayerModel extends ObservableModel {
 
-    private static PlayerModel istance;
+    private static PlayerModel instance;
     private String username;
     private String turnPlayer;
     private Color token;
@@ -19,8 +19,8 @@ public class PlayerModel extends ObservableModel {
 
     public static PlayerModel getInstance(){
 
-        if (istance==null) istance = new PlayerModel();
-        return istance;
+        if (instance ==null) instance = new PlayerModel();
+        return instance;
 
     }
 

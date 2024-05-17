@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class AvailableGamesModel extends ObservableModel{
 
-    private static AvailableGamesModel istance;
+    private static AvailableGamesModel instance;
 
     private ArrayList<String> games;
 
 
-    public static AvailableGamesModel getIstance(){
+    public static AvailableGamesModel getInstance(){
 
-        if (istance==null) istance = new AvailableGamesModel();
-        return istance;
+        if (instance ==null) instance = new AvailableGamesModel();
+        return instance;
 
     }
 

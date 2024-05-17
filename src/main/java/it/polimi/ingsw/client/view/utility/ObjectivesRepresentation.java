@@ -29,7 +29,7 @@ public class ObjectivesRepresentation {
 
     public void loadCommonObjectives (){
 
-        int[] commonObjIds = ObjectivesModel.getIstance().getCommonObjectives();
+        int[] commonObjIds = ObjectivesModel.getInstance().getCommonObjectives();
         commonObjectivesPane.getChildren().clear();
 
         CardRepresentation cardRepresentation = new CardRepresentation(commonObjIds[0], true);
@@ -44,7 +44,7 @@ public class ObjectivesRepresentation {
      */
 
     public void loadSecretObjective (){
-        int ObjectiveCardId = ObjectivesModel.getIstance().getSecretObjectiveId();
+        int ObjectiveCardId = ObjectivesModel.getInstance().getSecretObjectiveId();
         secretObjectivePane.getChildren().clear();
 
         CardRepresentation cardRepresentation = new CardRepresentation(ObjectiveCardId, true);
