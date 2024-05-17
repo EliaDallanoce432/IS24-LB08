@@ -46,7 +46,7 @@ public class StageManager {
         }
         currentView = loader.getController();
         StackPane stackPane = new StackPane();
-        ImageView backgroundImageView = loadBackground("/view/wood_background2.jpg");
+        ImageView backgroundImageView = loadBackground("/Images/wood_background2.jpg");
         stackPane.getChildren().add(backgroundImageView);
         stackPane.getChildren().add(root);
         backgroundImageView.fitWidthProperty().bind(stackPane.widthProperty());

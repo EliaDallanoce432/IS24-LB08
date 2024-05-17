@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.model;
 
+/**
+ * This class represents an ObservableModel that keeps track of selectable cards in a game, specifically the starter card and selectable objective cards
+ */
 public class SelectableCardsModel extends ObservableModel{
 
     private static SelectableCardsModel instance;
@@ -7,7 +10,10 @@ public class SelectableCardsModel extends ObservableModel{
     private int starterCardId;
     private int[] selectableObjectiveCardsId;
 
-
+    /**
+     * returns the singleton instance of SelectableCardsModel
+     * @return  The singleton instance of SelectableCardsModel
+     */
     public static SelectableCardsModel getInstance(){
 
         if (instance ==null) instance = new SelectableCardsModel();

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.model;
 
+/**
+ * This class represents an ObservableModel that keeps track of the current DeckModel
+ */
 public class DeckModel extends ObservableModel{
 
     private int resourceDeckTopCardId;
@@ -11,6 +14,10 @@ public class DeckModel extends ObservableModel{
 
     private static DeckModel instance;
 
+    /**
+     * returns the singleton instance of DeckModel
+     * @return The singleton instance of DeckModel
+     */
     public static DeckModel getInstance(){
 
         if (instance ==null) instance = new DeckModel();
@@ -42,6 +49,15 @@ public class DeckModel extends ObservableModel{
         return goldDeckRightCardId;
     }
 
+    /**
+     * updates the deck information for both the resource deck and the gold deck and notifies any registered observers that the data has changed.
+     * @param resourceDeckTopCardId The identifier for the card in the top position of the resource deck.
+     * @param resourceDeckLeftCardId The identifier for the card in the left position of the resource deck.
+     * @param resourceDeckRightCardId The identifier for the card in the right position of the resource deck.
+     * @param goldTopCardId The identifier for the card in the top position of the gold deck.
+     * @param goldLeftCardId The identifier for the card in the left position of the gold deck.
+     * @param goldRightCardId The identifier for the card in the right position of the gold deck.
+     */
     public void updateDecks(int resourceDeckTopCardId, int resourceDeckLeftCardId, int resourceDeckRightCardId, int goldTopCardId, int goldLeftCardId, int goldRightCardId) {
         this.resourceDeckTopCardId = resourceDeckTopCardId;
         this.resourceDeckLeftCardId = resourceDeckLeftCardId;

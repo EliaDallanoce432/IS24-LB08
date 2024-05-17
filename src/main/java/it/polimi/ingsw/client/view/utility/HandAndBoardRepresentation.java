@@ -51,7 +51,7 @@ public class HandAndBoardRepresentation {
         centerX = (Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);
         centerY = (Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);
 
-        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/view/background_tile.png")));
+        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/background_tile.png")));
 
         BackgroundImage backgroundImage = new BackgroundImage(
                 patternTile,

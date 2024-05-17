@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.model;
 
+/**
+ * This class represents an ObservableModel that keeps track of the objectives in a game, including both secret and common objectives
+ */
 public class ObjectivesModel extends ObservableModel{
 
     private static ObjectivesModel instance;
@@ -15,7 +18,10 @@ public class ObjectivesModel extends ObservableModel{
         this.secretObjectiveId = secretObjectiveId;
     }
 
-
+    /**
+     * returns the singleton instance of ObjectivesModel
+     * @return The singleton instance of ObjectivesModel
+     */
     public static ObjectivesModel getInstance(){
 
         if (instance ==null) instance = new ObjectivesModel();
@@ -26,8 +32,6 @@ public class ObjectivesModel extends ObservableModel{
     private ObjectivesModel(){
         commonObjectives = new int[2];
     }
-
-
 
 
     public int[] getCommonObjectives() {

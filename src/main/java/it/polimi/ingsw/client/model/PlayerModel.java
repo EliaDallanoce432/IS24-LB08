@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.model;
 
 import it.polimi.ingsw.util.supportclasses.Color;
 
+/**
+ * This class represents an ObservableModel that keeps track of player information in a game
+ */
 public class PlayerModel extends ObservableModel {
 
     private static PlayerModel instance;
@@ -32,7 +35,6 @@ public class PlayerModel extends ObservableModel {
     public String getTurnPlayer(){return turnPlayer;}
 
     public void setTurnPlayer(String turnPlayer){this.turnPlayer = turnPlayer;}
-
 
     public String getUsername() {
         return username;

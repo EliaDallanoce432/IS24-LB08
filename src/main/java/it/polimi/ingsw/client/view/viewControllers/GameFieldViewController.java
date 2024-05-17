@@ -203,7 +203,7 @@ public class GameFieldViewController extends ViewController {
     }
 
     private void fillPaneWithPattern (Pane pane){
-        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/view/background_tile.png")));
+        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/background_tile.png")));
 
         BackgroundImage backgroundImage = new BackgroundImage(
                 patternTile,
