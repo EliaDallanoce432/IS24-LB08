@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 /**
- * This class represents an ObservableModel that keeps track of selectable cards in a game, specifically the starter card and selectable objective cards
+ * This class represents an ObservableModel that keeps track of the selectable starter card and objective cards in the game setup phase.
  */
 public class SelectableCardsModel extends ObservableModel{
 

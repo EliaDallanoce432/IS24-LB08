@@ -39,6 +39,7 @@ public class ChooseCardsViewController extends ViewController {
     @Override
     public void updateSelectableCards() {
 
+        Platform.runLater(() -> {
 
             showMessage("Choose the starter card side:");
 
@@ -65,6 +66,8 @@ public class ChooseCardsViewController extends ViewController {
             });
 
             cardBox.getChildren().addAll(faceUpCard, faceDownCard);
+
+        });
 
     }
 

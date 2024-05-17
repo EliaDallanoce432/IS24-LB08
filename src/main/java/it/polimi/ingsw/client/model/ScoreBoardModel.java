@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class represents an ObservableModel that keeps track of the scoreboard information in a game
+ * This class represents an ObservableModel that keeps track of the scoreboard, resources and final leaderboard information in a game
  */
 public class ScoreBoardModel extends ObservableModel{
 
