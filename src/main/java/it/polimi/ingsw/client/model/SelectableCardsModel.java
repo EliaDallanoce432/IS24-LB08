@@ -2,16 +2,16 @@ package it.polimi.ingsw.client.model;
 
 public class SelectableCardsModel extends ObservableModel{
 
-    private static SelectableCardsModel istance;
+    private static SelectableCardsModel instance;
 
     private int starterCardId;
     private int[] selectableObjectiveCardsId;
 
 
-    public static SelectableCardsModel getIstance(){
+    public static SelectableCardsModel getInstance(){
 
-        if (istance==null) istance = new SelectableCardsModel();
-        return istance;
+        if (instance ==null) instance = new SelectableCardsModel();
+        return instance;
 
     }
 

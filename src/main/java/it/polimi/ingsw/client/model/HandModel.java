@@ -8,12 +8,12 @@ public class HandModel extends ObservableModel {
 
     private ArrayList<CardRepresentation> cardsInHand = new ArrayList<>();
 
-    private static HandModel istance;
+    private static HandModel instance;
 
-    public static HandModel getIstance(){
+    public static HandModel getInstance(){
 
-        if (istance==null) istance = new HandModel();
-        return istance;
+        if (instance ==null) instance = new HandModel();
+        return instance;
 
     }
 

@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class ObjectivesObserver implements ModelObserver{
 
     public ObjectivesObserver() {
-        ObjectivesModel.getIstance().addObserver(this);
+        ObjectivesModel.getInstance().addObserver(this);
     }
 
 

@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.view.StageManager;
 public class DeckObserver implements ModelObserver {
 
     public DeckObserver() {
-        DeckModel.getIstance().addObserver(this);
+        DeckModel.getInstance().addObserver(this);
     }
 
 

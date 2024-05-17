@@ -9,12 +9,12 @@ public class DeckModel extends ObservableModel{
     private int goldDeckLeftCardId;
     private int goldDeckRightCardId;
 
-    private static DeckModel istance;
+    private static DeckModel instance;
 
-    public static DeckModel getIstance(){
+    public static DeckModel getInstance(){
 
-        if (istance==null) istance = new DeckModel();
-        return istance;
+        if (instance ==null) instance = new DeckModel();
+        return instance;
 
     }
 

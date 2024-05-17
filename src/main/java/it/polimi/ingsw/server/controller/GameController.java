@@ -10,10 +10,8 @@ import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.GameState;
 import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -529,19 +527,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
      * sorts players by score and completed objectives
      */
     private void sortPlayers(ArrayList<ClientHandler> clients) {
-        clients.sort((c1, c2) -> {
-            return getCurrentPlayer(c1).compareTo(getCurrentPlayer(c2));
-        });
+        clients.sort((c1, c2) -> getCurrentPlayer(c1).compareTo(getCurrentPlayer(c2)));
     }
 
 }
-
-
-
-//    private void broadcast(JSONObject message, ClientHandler  disconnectedPlayer) {
-//        for (ClientHandler player : clients) {
-//            if(player == disconnectedPlayer) continue;
-//            player.send(message);
-//        }
-//    }
-

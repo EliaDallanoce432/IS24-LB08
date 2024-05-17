@@ -34,7 +34,7 @@ public class ChooseCardsViewController extends ViewController {
 
             showMessage("Choose the starter card side:");
 
-            int starterCardId = SelectableCardsModel.getIstance().getStarterCardId();
+            int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
 
             CardRepresentation starterCard = new CardRepresentation(starterCardId,true);
             Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
@@ -67,7 +67,7 @@ public class ChooseCardsViewController extends ViewController {
 
         showMessage("Choose an objective card:");
 
-        int[] ids = SelectableCardsModel.getIstance().getSelectableObjectiveCardsId();
+        int[] ids = SelectableCardsModel.getInstance().getSelectableObjectiveCardsId();
 
         CardRepresentation objectiveCard1 = new CardRepresentation(ids[0],true);
         Rectangle card1 = objectiveCard1.getCard(CHOOSE_CARDS_SCALE);

@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public class GameFieldModel extends ObservableModel {
 
-    private static GameFieldModel istance;
+    private static GameFieldModel instance;
 
     private ArrayList<CardRepresentation> placementHistory;
 
-    public static GameFieldModel getIstance(){
+    public static GameFieldModel getInstance(){
 
-        if (istance==null) istance = new GameFieldModel();
-        return istance;
+        if (instance ==null) instance = new GameFieldModel();
+        return instance;
 
     }
 

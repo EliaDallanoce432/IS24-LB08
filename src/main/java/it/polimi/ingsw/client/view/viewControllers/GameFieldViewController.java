@@ -110,7 +110,7 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private void flipCardsInHand() {
 
-        HandModel.getIstance().flipCardsInHand();
+        HandModel.getInstance().flipCardsInHand();
 
     }
 

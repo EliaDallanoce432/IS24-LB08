@@ -33,7 +33,7 @@ public class DecksRepresentation {
 
         decksPane.getChildren().clear();
 
-        DeckModel deckModel = DeckModel.getIstance();
+        DeckModel deckModel = DeckModel.getInstance();
 
         showDeckWithRevealedCards("resourceDeck",0, SPACING, deckModel.getResourceDeckTopCardId(),
                 deckModel.getResourceDeckLeftCardId(), deckModel.getResourceDeckRightCardId());
