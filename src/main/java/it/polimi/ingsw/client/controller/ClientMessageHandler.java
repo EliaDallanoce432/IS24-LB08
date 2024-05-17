@@ -253,7 +253,7 @@ public class ClientMessageHandler {
     //Utility methods
 
     /**
-     * processes the message containing a player's hand
+     * converts the JSON object containing the hand into an ArrayList
      * @param jsonArray contains the cards in a player's hand
      * @return an arraylist containing the player's hand
      */
@@ -269,7 +269,7 @@ public class ClientMessageHandler {
     }
 
     /**
-     * processes the message containing players' placement history
+     * converts the JSON object containing the PlacementHistory into an ArrayList
      * @param jsonArray contains the information about player's placement history
      * @return an arraylist containing the placement history
      */
@@ -290,7 +290,7 @@ public class ClientMessageHandler {
     }
 
     /**
-     * processes the message containing the updated drawable cards
+     * updates the model of the decks from the given JSON
      * @param decksJSON JSONObject containing the information about the drawable cards
      */
     private static void updateDeckModelFromJSON (JSONObject decksJSON){
@@ -306,11 +306,11 @@ public class ClientMessageHandler {
     }
 
     /**
-     * processes the message containing all the updated resources on the player's game-field
+     * updates the resources in the playerModel from the gievn JSON
      * @param updatedResources JSONObject containing the information about the updated resources
      */
     private static void updateResourcesFromJSON( JSONObject updatedResources){
-        PlayerModel.getInstance().setResources(
+        ScoreBoardModel.getInstance().setResources(
                 Integer.parseInt(updatedResources.get("animalResources").toString()),
                 Integer.parseInt(updatedResources.get("insectResources").toString()),
                 Integer.parseInt(updatedResources.get("fungiResources").toString()),
@@ -321,6 +321,12 @@ public class ClientMessageHandler {
         );
 
     }
+
+    /**
+     * adds an element to an arrayList only if it's not null
+     * @param list the list to add the object to
+     * @param obj the object to be added
+     */
 
     private void addIfNotNull(ArrayList<JSONObject> list, Object obj) {
         if (obj != null ) {

@@ -13,6 +13,9 @@ import javafx.scene.shape.Rectangle;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
+/**
+ * This class is the controller of the scene where the player chooses the starter and objective cards.
+ */
 public class ChooseCardsViewController extends ViewController {
 
     @FXML
@@ -21,13 +24,18 @@ public class ChooseCardsViewController extends ViewController {
     @FXML
     private Pane cardBox;
 
+    /**
+     * Initializes the scene.
+     */
+
     @FXML
     public void initialize() {
         showMessage("Waiting for all players to be ready...");
     }
 
-
-
+    /**
+     * Shows the starter card to be chosen by the player.
+     */
     @Override
     public void updateSelectableCards() {
 
@@ -60,9 +68,9 @@ public class ChooseCardsViewController extends ViewController {
 
     }
 
-
-
-
+    /**
+     * Shows the objective cards to be chosen by the player.
+     */
     public void showObjectiveCards() {
 
         showMessage("Choose an objective card:");
@@ -96,6 +104,11 @@ public class ChooseCardsViewController extends ViewController {
 
         cardBox.getChildren().addAll(card1, card2);
     }
+
+    /**
+     * Shows a message in the alertLabel.
+     * @param message message to be shown
+     */
 
     @Override
     public void showMessage(String message){

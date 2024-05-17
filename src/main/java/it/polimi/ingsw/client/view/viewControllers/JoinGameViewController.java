@@ -11,30 +11,24 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 
+/**
+ * This class is the controller of the "Join Game" scene.
+ */
 public class JoinGameViewController extends ViewController {
 
-
-
-    @FXML
-    private Button backButton;
 
     @FXML
     private Label alertLabel;
 
     @FXML
-    private Button okButton;
-
-    @FXML
-    private Button refreshButton;
-
-    @FXML
     private ComboBox<String> availableGamesComboBox;
     private String selectedGame;
 
+    /**
+     * Initializes the scene.
+     */
     @FXML
     public void initialize() {
-
-
         availableGamesComboBox.setOnAction(event -> {
             selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected game: " + selectedGame);
@@ -42,42 +36,45 @@ public class JoinGameViewController extends ViewController {
 
     }
 
+    /**
+     * Loads the Main Menu scene.
+     */
     @FXML
-    private void goBack() throws IOException {
-
+    private void goBack() {
         StageManager.loadWelcomeScene();
     }
 
+    /**
+     * If the player has selected a game, sends a JoinGame message, then loads the "Waiting for players" scene.
+     */
     @FXML
-    private void okPressed() throws IOException {
+    private void okPressed() {
 
         if(selectedGame == null){
             alertLabel.setText("Please select a game first");
         }
         else {
-
             ClientController.getInstance().sendJoinGameMessage(selectedGame);
             StageManager.loadWaitForPlayersScene();
-
-
         }
-
-
     }
 
-
-    @FXML
-    private void refresh()  {
-        availableGamesComboBox.getItems().clear();
-        ClientController.getInstance().sendGetAvailableGamesMessage();
-    }
-
-
+    /**
+     * Updates the currently available games to join.
+     */
     @Override
     public void updateAvailableGames(){
         Platform.runLater(()->{
             availableGamesComboBox.getItems().clear();
             availableGamesComboBox.getItems().addAll(AvailableGamesModel.getInstance().getGames());
         });
+    }
+
+    /**
+     * Sends a "getAvailableGames" message.
+     */
+    @FXML
+    private void refresh(){
+        ClientController.getInstance().sendGetAvailableGamesMessage();
     }
 }

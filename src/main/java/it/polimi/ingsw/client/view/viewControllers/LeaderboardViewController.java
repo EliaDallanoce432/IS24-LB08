@@ -15,6 +15,9 @@ import org.json.simple.JSONObject;
 
 import java.util.Objects;
 
+/**
+ * This class is the controller of the Final leaderboard Scene.
+ */
 public class LeaderboardViewController extends ViewController {
 
     @FXML
@@ -25,6 +28,18 @@ public class LeaderboardViewController extends ViewController {
 
     private String[] positions;
 
+    /**
+     * Initializes the scene.
+     */
+    @FXML
+    private void initialize() {
+        positions = new String[]{"1st", "2nd", "3rd", "4th"};
+        Platform.runLater(this::updateScoreBoard);
+    }
+
+    /**
+     * Loads the Main Menu Scene, sends a LeaveGame message and updates the ClientState.
+     */
     @FXML
     private void backToMainScreen(){
 
@@ -34,13 +49,9 @@ public class LeaderboardViewController extends ViewController {
 
     }
 
-    @FXML
-    private void initialize() {
-        positions = new String[]{"1st", "2nd", "3rd", "4th"};
-        Platform.runLater(this::updateScoreBoard);
-    }
-
-
+    /**
+     * Loads and shows in the GUI the updated Leaderboard from the ScoreBoard Model.
+     */
     @Override
     public void updateScoreBoard(){
 

@@ -14,6 +14,11 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+
+/**
+ * This class is the controller for the Main Menu Scene.
+ */
+
 public class WelcomeViewController extends ViewController {
 
     @FXML
@@ -34,6 +39,9 @@ public class WelcomeViewController extends ViewController {
     private TextField usernameTextField;
     private Button confirmButton;
 
+    /**
+     * Initializes the scene.
+     */
     @FXML
     private void initialize() {
 
@@ -43,19 +51,28 @@ public class WelcomeViewController extends ViewController {
     }
 
 
-
+    /**
+     * Loads the "Join Game" scene.
+     */
     @FXML
-    private void joinGame() throws IOException {
-
+    private void joinGame(){
         StageManager.loadJoinGameScene();
     }
 
+    /**
+     * Loads the "Create Game" scene.
+     */
     @FXML
-    private void createGame() throws IOException {
+    private void createGame(){
         StageManager.loadCreateGameScene();
 
     }
 
+    /**
+     * Loads the text box and buttons to set a new username.
+     * It also checks that the given name is valid (No spaces at the beginning/end and no empty name) before sending
+     * a "setUsername" message.
+     */
     @FXML
     private void setUsername() throws IOException {
 
@@ -78,7 +95,7 @@ public class WelcomeViewController extends ViewController {
         confirmButton.setLayoutY(100);
         confirmButton.setOnAction(event -> {
             String username = usernameTextField.getText();
-            if(username.startsWith(" ") || username.endsWith(" ")) {
+            if(username.startsWith(" ") || username.endsWith(" ") || username.isEmpty()) {
                 showErrorMessage("Invalid Username");
 
             }
@@ -89,9 +106,11 @@ public class WelcomeViewController extends ViewController {
         });
         setUsernamePane.getChildren().add(confirmButton);
 
-
     }
 
+    /**
+     * Unloads the setUsername text Box and buttons and loads the updated username on the screen.
+     */
     @Override
     public void updatePlayerInfo(){
 
@@ -126,13 +145,20 @@ public class WelcomeViewController extends ViewController {
 
     }
 
+    /**
+     * Closes the GUI and shuts down the ClientController.
+     */
     @FXML
-    private void exit() throws IOException {
+    private void exit(){
         ClientController.getInstance().sendLeaveMessage();
         ClientController.getInstance().shutdown();
         StageManager.getCurrentStage().close();
     }
 
+    /**
+     * Shows a message in the alertLabel.
+     * @param message the message to be shown
+     */
     @Override
     @FXML
     public void showMessage(String message) {
@@ -140,6 +166,10 @@ public class WelcomeViewController extends ViewController {
 
     }
 
+    /**
+     * Shows a error message in the error message label.
+     * @param message the message to be shown
+     */
     @Override
     @FXML
     public void showErrorMessage(String message) {

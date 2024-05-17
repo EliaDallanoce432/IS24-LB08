@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 
+/**
+ * This class controls the "Waiting for players" Scene.
+ */
 public class WaitForPlayersViewController extends ViewController {
 
     @FXML
@@ -28,6 +31,9 @@ public class WaitForPlayersViewController extends ViewController {
     private ChoiceBox<String> availableGamesChoiceBox;
     private String selectedGame;
 
+    /**
+     * Initializes the scene.
+     */
     @FXML
     public void initialize() {
 
@@ -38,54 +44,67 @@ public class WaitForPlayersViewController extends ViewController {
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
         showMessage("Joining Game...");
-        //System.out.println("INITIALIZE: " + ClientStateModel.getInstance().getClientState());
 
         Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
 
 
     }
 
+    /**
+     * Loads the Main Menu scene and sends a "Leave" message if the player had already successfully joined the game.
+     */
     @FXML
-    private void goBack() throws IOException {
+    private void goBack(){
 
         if (ClientStateModel.getInstance().getClientState() == ClientState.SETUP_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
-
         StageManager.loadWelcomeScene();
     }
 
+    /**
+     * Sends a "Ready" message and loads the "ChooseCards" scene.
+     */
     @FXML
-    private void readyPressed() throws IOException {
-
-        System.out.println("Ready");
+    private void readyPressed(){
 
         ClientController.getInstance().sendReadyMessage();
-
         StageManager.loadChooseCardsScene();
-
 
     }
 
+    /**
+     * Shows a message in the alertLabel.
+     * @param message the message to be shown
+     */
     @FXML
     public void showMessage(String message){
         alertLabel.setText(message);
     }
 
+    /**
+     * Updates the scene status in the GUI accordingly to the current ClientStateModel.
+     */
     @Override
     public void updateSceneStatus(){
 
         System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
-
-        switch (ClientStateModel.getInstance().getClientState()) {
-            case SETUP_STATE -> loadGetReadyScene();
-            case ERROR_JOINING_STATE -> loadErrorJoiningScene();
-            default -> {
+        Platform.runLater(()-> {
+            switch (ClientStateModel.getInstance().getClientState()) {
+                case SETUP_STATE -> loadGetReadyScene();
+                case ERROR_JOINING_STATE -> loadErrorJoiningScene();
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {
+                }
             }
-        }
+        });
 
     }
 
+    /**
+     * Loads the "Ready" and "Back" buttons if the player has successfully joined the lobby
+     */
     private void loadGetReadyScene(){
         Platform.runLater(()-> {
             showMessage("Waiting for other players to join...");
@@ -94,6 +113,9 @@ public class WaitForPlayersViewController extends ViewController {
         });
     }
 
+    /**
+     * Loads the "Back" button and shows an error message if something went wrong while trying to join the lobby.
+     */
     private void loadErrorJoiningScene(){
         Platform.runLater(()-> {
             showMessage("Error while joining: " + ClientStateModel.getInstance().getReason());

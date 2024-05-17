@@ -11,6 +11,10 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
+/**
+ * This class is the controller of the scene where the player creates a new game.
+ */
+
 public class CreateGameViewController extends ViewController {
 
     @FXML
@@ -28,6 +32,9 @@ public class CreateGameViewController extends ViewController {
     @FXML
     private ChoiceBox<String> numberOfPlayersChoiceBox;
 
+    /**
+     * Initializes the scene.
+     */
 
     @FXML
     public void initialize() {
@@ -48,14 +55,22 @@ public class CreateGameViewController extends ViewController {
         });
     }
 
+    /**
+     * Loads the Main Menu scene.
+     */
+
     @FXML
-    private void goBack() throws IOException {
+    private void goBack(){
 
         StageManager.loadWelcomeScene();
     }
 
+    /**
+     * Checks the given game Name and sends setupGame message. Otherwise, displays error in the alertLabel.
+     */
+
     @FXML
-    private void okPressed() throws IOException {
+    private void okPressed() {
         String gameName = gameNameField.getText();
         int numberOfPlayers = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
 

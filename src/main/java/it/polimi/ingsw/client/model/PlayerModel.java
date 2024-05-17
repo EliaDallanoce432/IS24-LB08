@@ -12,13 +12,7 @@ public class PlayerModel extends ObservableModel {
     private String turnPlayer;
     private Color token;
 
-    private int insectResourceCount;
-    private int animalResourceCount;
-    private int fungiResourceCount;
-    private int plantResourceCount;
-    private int featherCount;
-    private int scrollCount;
-    private int inkPotCount;
+
 
     public static PlayerModel getInstance(){
 
@@ -54,44 +48,5 @@ public class PlayerModel extends ObservableModel {
         notifyObservers();
     }
 
-    public void setResources (int animalResourceCount, int insectResourceCount,
-                              int fungiResourceCount, int plantResourceCount, int featherCount,
-                              int scrollCount, int inkPotCount) {
-        this.animalResourceCount = animalResourceCount;
-        this.insectResourceCount = insectResourceCount;
-        this.fungiResourceCount = fungiResourceCount;
-        this.plantResourceCount = plantResourceCount;
-        this.featherCount = featherCount;
-        this.scrollCount = scrollCount;
-        this.inkPotCount = inkPotCount;
-        notifyObservers();
-    }
 
-    public int getInsectResourceCount() {
-        return insectResourceCount;
-    }
-
-    public int getAnimalResourceCount() {
-        return animalResourceCount;
-    }
-
-    public int getFungiResourceCount() {
-        return fungiResourceCount;
-    }
-
-    public int getPlantResourceCount() {
-        return plantResourceCount;
-    }
-
-    public int getFeatherCount() {
-        return featherCount;
-    }
-
-    public int getScrollCount() {
-        return scrollCount;
-    }
-
-    public int getInkPotCount() {
-        return inkPotCount;
-    }
 }

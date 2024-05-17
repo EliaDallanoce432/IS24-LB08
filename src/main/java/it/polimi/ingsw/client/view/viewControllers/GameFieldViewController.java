@@ -19,7 +19,15 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * This class controls the GUI scene of the game board.
+ * It initializes and updates various elements of the scene such as the game board, objectives,
+ * scoreboards, the player's hand, and other UI components.
+ */
 public class GameFieldViewController extends ViewController {
+
+
+    //FXML Nodes
 
     @FXML
     private Pane handPane;
@@ -72,6 +80,10 @@ public class GameFieldViewController extends ViewController {
     private ObjectivesRepresentation objectivesRepresentation;
     private ScoreTrackRepresentation scoreTrackRepresentation;
 
+    /**
+     * initializes the Panes, the relative representation utility classes and fills the panes with the patterns.
+     */
+
     @FXML
     private void initialize() {
 
@@ -94,19 +106,13 @@ public class GameFieldViewController extends ViewController {
 
         showMessage("Waiting for all players to choose the cards...");
 
-        Platform.runLater(() -> {
-            updateGameBoard();
-            updateObjectives();
-            updateHand();
-            updateDecks();
-            updateSceneStatus();
-            updatePlayerInfo();
-        });
+
 
     }
 
-
-
+    /**
+     * Updates the HandModel so that the cards get flipped.
+     */
     @FXML
     private void flipCardsInHand() {
 
@@ -114,22 +120,28 @@ public class GameFieldViewController extends ViewController {
 
     }
 
+    /**
+     * Loads the Main Menu and sends a "leaveGame" message.
+     */
     @FXML
-    private void leaveGame() throws IOException {
-
-        System.out.println("leaving game");
+    private void leaveGame(){
         ClientController.getInstance().sendLeaveMessage();
         ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
         StageManager.loadWelcomeScene();
     }
 
-
+    /**
+     * Loads from the model the current placementHistory array and shows it.
+     */
     @Override
     public void updateGameBoard(){
         Platform.runLater(()-> handAndBoardRepresentation.loadFromPlacementHistory());
 
     }
 
+    /**
+     * Loads from the model the current common and secret objectives and shows them in the GUI.
+     */
     @Override
     public void updateObjectives(){
         Platform.runLater(()->{
@@ -138,19 +150,34 @@ public class GameFieldViewController extends ViewController {
         });
     }
 
+    /**
+     * Loads from the model the current top cards of the decks and shows them in the GUI.
+     */
     @Override
     public void updateDecks(){
         Platform.runLater(()-> decksRepresentation.loadDecks());
     }
 
+    /**
+     * Loads from the model the current hand of the Player and shows it in the GUI.
+     */
     @Override
     public void updateHand(){
         Platform.runLater(()-> handAndBoardRepresentation.loadHand());
     }
 
+    /**
+     * Loads form the model the updated scores and resources and shows them in the GUI.
+     */
     @Override
-    public void updateScoreBoard(){Platform.runLater(() -> scoreBoardRepresentation.updateScores());}
+    public void updateScoreBoard(){Platform.runLater(() -> {
+        scoreBoardRepresentation.updateScores();
+        Platform.runLater(this::updateResources);
+    });}
 
+    /**
+     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+     */
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
@@ -177,11 +204,19 @@ public class GameFieldViewController extends ViewController {
 
     }
 
+    /**
+     * Shows a message in the label
+     * @param message the message to be shown
+     */
     @Override
     public void showMessage(String message){
         Platform.runLater(()-> alertLabel.setText(message));
     }
 
+    /**
+     * Shows a message in the "special alerts" label
+     * @param message the message to be shown
+     */
     public void showSpecialMessage(String message){
         Platform.runLater(() -> {
             specialAlertsLabel.setText(message);
@@ -189,6 +224,10 @@ public class GameFieldViewController extends ViewController {
         });
     }
 
+    /**
+     * Shows an error message in the error label
+     * @param message the message to be shown
+     */
     @Override
     public void showErrorMessage(String message){
         Platform.runLater(() -> {
@@ -197,11 +236,12 @@ public class GameFieldViewController extends ViewController {
         });
     }
 
-    @Override
-    public void updatePlayerInfo(){
-        Platform.runLater(this::updateResources);
-    }
 
+
+    /**
+     * Fills a given pane with a textured tile
+     * @param pane the Pane to be filled
+     */
     private void fillPaneWithPattern (Pane pane){
         Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/background_tile.png")));
 
@@ -216,20 +256,24 @@ public class GameFieldViewController extends ViewController {
         pane.setBackground(new Background(backgroundImage));
     }
 
+    /**
+     * Loads and shows the resources from the scoreBoardModel
+     */
+
     private void updateResources() {
 
-        PlayerModel playerModel = PlayerModel.getInstance();
+        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
 
         Platform.runLater(()->{
 
-            animalResLabel.setText(playerModel.getAnimalResourceCount() + "");
-            fungiResLabel.setText(playerModel.getFungiResourceCount() + "");
-            insectResLabel.setText(playerModel.getInsectResourceCount() + "");
-            plantResLabel.setText(playerModel.getPlantResourceCount() + "");
+            animalResLabel.setText(scoreBoardModel.getAnimalResourceCount() + "");
+            fungiResLabel.setText(scoreBoardModel.getFungiResourceCount() + "");
+            insectResLabel.setText(scoreBoardModel.getInsectResourceCount() + "");
+            plantResLabel.setText(scoreBoardModel.getPlantResourceCount() + "");
 
-            featherResLabel.setText(playerModel.getFeatherCount() + "");
-            scrollResLabel.setText(playerModel.getScrollCount() + "");
-            inkPotResLabel.setText(playerModel.getInkPotCount() + "");
+            featherResLabel.setText(scoreBoardModel.getFeatherCount() + "");
+            scrollResLabel.setText(scoreBoardModel.getScrollCount() + "");
+            inkPotResLabel.setText(scoreBoardModel.getInkPotCount() + "");
 
         });
     }
