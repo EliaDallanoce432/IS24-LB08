@@ -27,6 +27,6 @@ public class SelectableCardsObserver implements ModelObserver{
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateSelectableCards();
+        Platform.runLater(() -> StageManager.getViewController().updateSelectableCards());
     }
 }

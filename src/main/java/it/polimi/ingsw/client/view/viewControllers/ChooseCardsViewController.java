@@ -39,35 +39,34 @@ public class ChooseCardsViewController extends ViewController {
     @Override
     public void updateSelectableCards() {
 
-        Platform.runLater(() -> {
 
-            showMessage("Choose the starter card side:");
+        showMessage("Choose the starter card side:");
 
-            int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
+        int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
 
-            CardRepresentation starterCard = new CardRepresentation(starterCardId,true);
-            Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
-            starterCard.flip();
-            Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
+        CardRepresentation starterCard = new CardRepresentation(starterCardId, true);
+        Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
+        starterCard.flip();
+        Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
 
-            faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
-            faceUpCard.setOnMouseEntered(mouseEvent -> faceUpCard.setCursor(Cursor.HAND));
-            faceUpCard.setOnMouseExited(mouseEvent -> faceUpCard.setCursor(Cursor.DEFAULT));
-            faceDownCard.setOnMouseEntered(mouseEvent -> faceDownCard.setCursor(Cursor.HAND));
-            faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
+        faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
+        faceUpCard.setOnMouseEntered(mouseEvent -> faceUpCard.setCursor(Cursor.HAND));
+        faceUpCard.setOnMouseExited(mouseEvent -> faceUpCard.setCursor(Cursor.DEFAULT));
+        faceDownCard.setOnMouseEntered(mouseEvent -> faceDownCard.setCursor(Cursor.HAND));
+        faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
 
-            faceUpCard.setOnMouseClicked( e -> {
-                ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId,true);
-                showObjectiveCards();
-            });
-            faceDownCard.setOnMouseClicked( e -> {
-                ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId,false);
-                showObjectiveCards();
-            });
-
-            cardBox.getChildren().addAll(faceUpCard, faceDownCard);
-
+        faceUpCard.setOnMouseClicked(e -> {
+            ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, true);
+            showObjectiveCards();
         });
+        faceDownCard.setOnMouseClicked(e -> {
+            ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, false);
+            showObjectiveCards();
+        });
+
+        cardBox.getChildren().addAll(faceUpCard, faceDownCard);
+
+
 
     }
 
