@@ -133,7 +133,7 @@
                <effect>
                   <InnerShadow />
                </effect></Button>
-            <Button fx:id="leaveGameButton" layoutX="17.0" layoutY="731.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: a40f0f;" text="🏃🚪" textFill="WHITE">
+            <Button fx:id="leaveGameButton" layoutX="17.0" layoutY="720.0" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: a40f0f;" text="🏃🚪" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
@@ -203,7 +203,7 @@
                </cursor></ScrollPane>
             <Pane fx:id="handPane" layoutX="206.0" layoutY="640.0" prefHeight="131.0" prefWidth="390.0" />
             <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="199.0" prefHeight="144.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;" />
-            <Pane fx:id="decksPane" layoutX="814.0" layoutY="606.0" prefHeight="175.0" prefWidth="447.0" />
+            <Pane fx:id="decksPane" layoutX="814.0" layoutY="566.0" prefHeight="175.0" prefWidth="447.0" />
             <HBox fx:id="commonObjectivesPane" layoutX="809.0" layoutY="112.0" prefHeight="81.0" prefWidth="230.0" />
             <HBox fx:id="secretObjectivePane" layoutX="1079.0" layoutY="112.0" prefHeight="81.0" prefWidth="113.0" />
          </children>
