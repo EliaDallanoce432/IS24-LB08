@@ -26,6 +26,6 @@ public class PlayerObserver implements ModelObserver {
      */
     @Override
     public void update() {
-        StageManager.getViewController().updatePlayerInfo();
+        StageManager.getCurrentViewController().updatePlayerInfo();
     }
 }

@@ -26,6 +26,6 @@ public class DeckObserver implements ModelObserver {
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateDecks();
+        StageManager.getCurrentViewController().updateDecks();
     }
 }

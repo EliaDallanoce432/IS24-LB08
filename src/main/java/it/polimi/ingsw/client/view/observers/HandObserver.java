@@ -25,6 +25,6 @@ public class HandObserver implements ModelObserver{
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateHand();
+        StageManager.getCurrentViewController().updateHand();
     }
 }

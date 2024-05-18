@@ -26,6 +26,6 @@ public class ScoreBoardObserver implements ModelObserver {
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateScoreBoard();
+        StageManager.getCurrentViewController().updateScoreBoard();
     }
 }

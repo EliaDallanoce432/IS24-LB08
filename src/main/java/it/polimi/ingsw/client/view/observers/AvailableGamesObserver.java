@@ -26,6 +26,6 @@ public class AvailableGamesObserver implements ModelObserver {
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateAvailableGames();
+        StageManager.getCurrentViewController().updateAvailableGames();
     }
 }

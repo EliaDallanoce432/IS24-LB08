@@ -27,6 +27,6 @@ public class ObjectivesObserver implements ModelObserver{
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateObjectives();
+        StageManager.getCurrentViewController().updateObjectives();
     }
 }

@@ -66,7 +66,7 @@ public class ClientMessageHandler {
      * @param errorMessage The message to be displayed as the error.
      */
     private void showError(String errorMessage) {
-        StageManager.getViewController().showErrorMessage(errorMessage);
+        StageManager.getCurrentViewController().showErrorMessage(errorMessage);
     }
 
     /**

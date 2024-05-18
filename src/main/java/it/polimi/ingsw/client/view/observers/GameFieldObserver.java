@@ -27,6 +27,6 @@ public class GameFieldObserver implements ModelObserver {
      */
     @Override
     public void update() {
-        StageManager.getViewController().updateGameBoard();
+        StageManager.getCurrentViewController().updateGameBoard();
     }
 }
