@@ -16,8 +16,8 @@ public class CardRepresentation {
     private String backCardTexturePath;
     private int id;
     private boolean facingUp;
-    Rectangle cardFront;
-    Rectangle cardBack;
+    private Rectangle cardFront;
+    private Rectangle cardBack;
 
 
     //only used in placementHistory array to memorize coordinates

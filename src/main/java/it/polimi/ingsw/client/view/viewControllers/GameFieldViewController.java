@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -147,7 +146,7 @@ public class GameFieldViewController extends ViewController {
      */
     @Override
     public void updateGameBoard(){
-        Platform.runLater(()-> handAndBoardRepresentation.loadFromPlacementHistory());
+        Platform.runLater(()-> handAndBoardRepresentation.loadBoardFromPlacementHistory());
 
     }
 

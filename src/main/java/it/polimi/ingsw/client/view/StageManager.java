@@ -15,7 +15,7 @@ import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 public class StageManager {
 
     private static Stage currentStage;
-    private static ViewController currentView;
+    private static ViewController currentViewController;
 
     public static void setCurrentStage(Stage currentStage) {
         StageManager.currentStage = currentStage;
@@ -26,7 +26,7 @@ public class StageManager {
     }
 
     public static ViewController getViewController() {
-        return currentView;
+        return currentViewController;
     }
 
     private static ImageView loadBackground(String path){
@@ -44,7 +44,7 @@ public class StageManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        currentView = loader.getController();
+        currentViewController = loader.getController();
         StackPane stackPane = new StackPane();
         ImageView backgroundImageView = loadBackground("/Images/Backgrounds/wood_background.jpg");
         stackPane.getChildren().add(backgroundImageView);

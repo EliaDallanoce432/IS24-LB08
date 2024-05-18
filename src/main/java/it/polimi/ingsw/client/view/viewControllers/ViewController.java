@@ -13,11 +13,16 @@ public abstract class ViewController {
 
     /**
      * Shows a message in the GUI.
-     * @param message
+     * @param message the message to be shown
      */
     public void showMessage(String message) {
         System.out.println(message);
     }
+
+    /**
+     * Shows an error message in the GUI.
+     */
+    public void showErrorMessage(String message) {}
 
     /**
      * Updates the available games in the GUI.
@@ -59,10 +64,6 @@ public abstract class ViewController {
      */
     public void updateObjectives(){}
 
-    /**
-     * Shows an error message in the GUI.
-     */
-    public void showErrorMessage(String message) {}
 
     /**
      * Updates the scene status in the GUI accordingly to the current ClientStateModel.

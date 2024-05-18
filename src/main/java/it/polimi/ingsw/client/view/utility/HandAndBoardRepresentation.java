@@ -82,10 +82,10 @@ public class HandAndBoardRepresentation {
      * It also makes the card snap to certain coordinates when released, so that the card is correctly placed on the corner of the
      * card on the field.
      * @param card Card node to be made draggable and droppable
-     * @param vCard Reference to the associated CardRepresentation
+     * @param cardRepresentation Reference to the associated CardRepresentation
      */
 
-    public void makeDraggableAndDroppable(Node card, CardRepresentation vCard) {
+    public void makeDraggableAndDroppable(Node card, CardRepresentation cardRepresentation) {
 
         card.setOnMouseEntered(mouseEvent -> card.setCursor(Cursor.OPEN_HAND));
 
@@ -147,7 +147,7 @@ public class HandAndBoardRepresentation {
                 int relX = absoluteToRelativeX(snapX);
                 int relY = absoluteToRelativeY(snapY);
 
-                ClientController.getInstance().sendPlaceMessage(vCard.getId(), relX, relY, vCard.isFacingUp());
+                ClientController.getInstance().sendPlaceMessage(cardRepresentation.getId(), relX, relY, cardRepresentation.isFacingUp());
             }
 
 
@@ -225,7 +225,7 @@ public class HandAndBoardRepresentation {
      * Loads the gameboard from the placementHistory in the GameFieldModel
      */
 
-    public void loadFromPlacementHistory (){
+    public void loadBoardFromPlacementHistory(){
 
         ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
 

@@ -27,9 +27,6 @@ public class WaitForPlayersViewController extends ViewController {
     @FXML
     private Button readyButton;
 
-    @FXML
-    private ChoiceBox<String> availableGamesChoiceBox;
-    private String selectedGame;
 
     /**
      * Initializes the scene.
