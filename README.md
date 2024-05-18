@@ -46,7 +46,7 @@ This is done to separate internal representations of information from the ways i
 
 ### Documentation
 
-- UML: link_uml
+- UML: [UML](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/UML)
 - Javadoc: link_javadoc
 
 
