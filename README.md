@@ -10,11 +10,12 @@
 
 | Feature | Status |
 |--|--|
-| UML | Updating... |
+| UML | Done✅ |
+| JavaDoc | Done✅ |
 | Model | Done✅ |
 | Network | Done✅ |
 | Controller| Done✅ | 
-| GUI | work in progress...⌛ |
+| GUI |  Done✅ |
 | TUI | work in progress...⌛ |
 | Persistence | ❌ |
 | Multiple games | Done✅ |
