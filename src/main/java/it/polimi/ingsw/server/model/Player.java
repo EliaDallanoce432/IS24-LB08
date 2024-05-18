@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.*;
-import it.polimi.ingsw.util.supportclasses.Color;
+import it.polimi.ingsw.util.supportclasses.Token;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
  *  drawn objective card choices, and various flags indicating player actions.
  */
 public class Player {
-    private final Color token;
+    private final Token token;
     private int score;
     private final Game game;
     private final GameField gamefield;
@@ -70,7 +70,7 @@ public class Player {
         return starterCardOrientationSelected;
     }
 
-    public Color getToken() {
+    public Token getToken() {
         return token;
     }
 

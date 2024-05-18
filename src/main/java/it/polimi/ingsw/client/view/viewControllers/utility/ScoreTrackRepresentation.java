@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.utility;
+package it.polimi.ingsw.client.view.viewControllers.utility;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.ObjectivesModel;
+import it.polimi.ingsw.client.view.ClientGUI;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;

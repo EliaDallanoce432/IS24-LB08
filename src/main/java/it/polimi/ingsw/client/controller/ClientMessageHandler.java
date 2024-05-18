@@ -2,9 +2,9 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.util.supportclasses.ClientState;
-import it.polimi.ingsw.util.supportclasses.Color;
+import it.polimi.ingsw.util.supportclasses.Token;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -127,7 +127,7 @@ public class ClientMessageHandler {
         JSONObject decksJSON = (JSONObject) message.get("decks");
         String firstPlayerUsername = message.get("firstPlayer").toString();
         JSONObject resourcesJSON = (JSONObject) message.get("resources");
-        Color token = Color.parseColor(message.get("token").toString());
+        Token token = Token.parseColor(message.get("token").toString());
 
         //updating the model...
         if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.utility;
+package it.polimi.ingsw.client.view.viewControllers.utility;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.DeckModel;

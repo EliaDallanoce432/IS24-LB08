@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.util.supportclasses.Color;
+import it.polimi.ingsw.util.supportclasses.Token;
 
 /**
  * This class represents an ObservableModel that keeps track of player information in a game
@@ -10,7 +10,7 @@ public class PlayerModel extends ObservableModel {
     private static PlayerModel instance;
     private String username;
     private String turnPlayer;
-    private Color token;
+    private Token token;
     private boolean lastTurn;
 
 
@@ -40,11 +40,11 @@ public class PlayerModel extends ObservableModel {
         notifyObservers();
     }
 
-    public Color getToken() {
+    public Token getToken() {
         return token;
     }
 
-    public void setToken(Color token) {
+    public void setToken(Token token) {
         this.token = token;
         notifyObservers();
     }

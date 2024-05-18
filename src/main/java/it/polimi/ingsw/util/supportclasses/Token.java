@@ -1,6 +1,6 @@
 package it.polimi.ingsw.util.supportclasses;
 
-public enum Color {
+public enum Token {
     red, yellow, blue, green, black;
 
     @Override
@@ -14,7 +14,7 @@ public enum Color {
         };
     }
 
-    public static Color parseColor(String color) {
+    public static Token parseColor(String color) {
         return switch (color) {
             case "red" -> red;
             case "yellow" -> yellow;

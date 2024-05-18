@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.deck.ObjectiveCardDeck;
 import it.polimi.ingsw.server.model.deck.ResourceCardDeck;
 import it.polimi.ingsw.server.model.deck.StarterCardDeck;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
-import it.polimi.ingsw.util.supportclasses.Color;
+import it.polimi.ingsw.util.supportclasses.Token;
 import it.polimi.ingsw.util.supportclasses.GameState;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class Game {
     private final HashMap<String, Player> players;
 
     private GameObserver gameObserver;
-    private final ArrayList<Color> availableTokens;
+    private final ArrayList<Token> availableTokens;
 
     public Game(int numberOfPlayers, GameObserver gameObserver) {
         this.setNumberOfPlayers(numberOfPlayers);
@@ -42,7 +42,7 @@ public class Game {
         goldCardDeck = new GoldCardDeck();
         starterCardDeck = new StarterCardDeck();
         commonObjectives = new ArrayList<>();
-        availableTokens = new ArrayList<>(Arrays.asList(Color.red,Color.yellow,Color.green,Color.blue));
+        availableTokens = new ArrayList<>(Arrays.asList(Token.red, Token.yellow, Token.green, Token.blue));
         try {
             commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());
             commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());
@@ -57,7 +57,7 @@ public class Game {
 
     public void setGameState(GameState gamestate) {this.gameState = gamestate;}
 
-    public Color getRandomToken() {
+    public Token getRandomToken() {
         Collections.shuffle(getAvailableTokens());
         return getAvailableTokens().removeFirst();
     }
@@ -72,7 +72,7 @@ public class Game {
     * makes the token available again
     * @param token of the player
      */
-    public void reinsertToken(Color token) {
+    public void reinsertToken(Token token) {
         getAvailableTokens().add(token);
     }
 
@@ -121,7 +121,7 @@ public class Game {
         this.gameObserver = gameObserver;
     }
 
-    public ArrayList<Color> getAvailableTokens() {
+    public ArrayList<Token> getAvailableTokens() {
         return availableTokens;
     }
 

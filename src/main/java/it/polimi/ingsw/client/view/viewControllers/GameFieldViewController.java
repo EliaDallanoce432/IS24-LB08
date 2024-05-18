@@ -3,8 +3,8 @@ package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.utility.*;
 import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.viewControllers.utility.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

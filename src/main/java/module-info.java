@@ -10,10 +10,10 @@ module LB08 {
     exports it.polimi.ingsw.client.view;
     exports it.polimi.ingsw;
     exports it.polimi.ingsw.client.view.viewControllers;
-    exports it.polimi.ingsw.client.view.utility;
+    exports it.polimi.ingsw.client.view.viewControllers.utility;
 
     opens it.polimi.ingsw.client.view;
     opens it.polimi.ingsw.client.controller to javafx.fxml;
     opens it.polimi.ingsw.client.view.viewControllers;
-    opens it.polimi.ingsw.client.view.utility;
+    opens it.polimi.ingsw.client.view.viewControllers.utility;
 }
