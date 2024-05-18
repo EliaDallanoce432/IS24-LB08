@@ -135,7 +135,7 @@ public class StageManager {
      * Loads the GameBoard scene.
      */
     public static void loadGameBoardScene() {
-        StackPane stackPane = createScrollableStackPane("GameBoardView.fxml");
+        StackPane stackPane = createStackPaneWithBackground("GameBoardView.fxml");
         stackPane.prefWidthProperty().bind(currentStage.widthProperty());
         stackPane.prefHeightProperty().bind(currentStage.heightProperty());
         showScene(new Scene(stackPane));

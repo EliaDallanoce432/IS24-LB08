@@ -12,9 +12,9 @@
    <children>
       <Pane layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="850.0" prefWidth="1300.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
          <children>
-            <Pane fx:id="scoreTrackPane" layoutX="1079.0" layoutY="159.0" prefHeight="369.0" prefWidth="193.0">
+            <Pane fx:id="scoreTrackPane" layoutX="1079.0" layoutY="199.0" prefHeight="333.0" prefWidth="170.0">
                <children>
-                  <ImageView fitHeight="369.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="369.0" fitWidth="169.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../Images/scoreTrack.png" />
                      </image>
@@ -22,7 +22,7 @@
                   <Circle fx:id="startingReference" fill="DODGERBLUE" layoutX="52.0" layoutY="338.0" opacity="0.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
-            <Label fx:id="specialAlertsLabel" alignment="CENTER" layoutX="47.0" layoutY="45.0" opacity="0.56" prefHeight="40.0" prefWidth="696.0" style="-fx-background-color: orange; -fx-background-radius: 10;">
+            <Label fx:id="specialAlertsLabel" alignment="CENTER" layoutX="47.0" layoutY="66.0" opacity="0.56" prefHeight="46.0" prefWidth="696.0" style="-fx-background-color: orange; -fx-background-radius: 10;">
                <font>
                   <Font name="Baskerville Old Face" size="20.0" />
                </font>
@@ -152,7 +152,7 @@
                   </Lighting>
                </effect>
             </Label>
-            <Label layoutX="1079.0" layoutY="33.0" prefHeight="25.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
+            <Label layoutX="1079.0" layoutY="69.0" prefHeight="40.0" prefWidth="144.0" text="Secret Objective" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="20.0" />
                </font>
@@ -167,7 +167,7 @@
                   </Lighting>
                </effect>
             </Label>
-            <Label layoutX="807.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
+            <Label layoutX="809.0" layoutY="66.0" prefHeight="46.0" prefWidth="200.0" text="Common Objectives" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="21.0" />
                </font>
@@ -182,7 +182,7 @@
                   </Lighting>
                </effect>
             </Label>
-            <Label fx:id="alertLabel" alignment="CENTER" layoutX="44.0" layoutY="528.0" prefHeight="46.0" prefWidth="709.0" textAlignment="RIGHT" textFill="WHITE">
+            <Label fx:id="alertLabel" alignment="CENTER" layoutX="53.0" layoutY="549.0" prefHeight="46.0" prefWidth="696.0" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="Baskerville Old Face" size="18.0" />
                </font>
@@ -197,15 +197,15 @@
                   </Lighting>
                </effect>
             </Label>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="47.0" layoutY="96.0" pannable="true" prefHeight="438.0" prefWidth="696.0" style="-fx-border-color: #aa9d32; -fx-border-width: 10; -fx-border-radius: 10; -fx-background-radius: 20;" vbarPolicy="NEVER">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="47.0" layoutY="121.0" pannable="true" prefHeight="413.0" prefWidth="696.0" style="-fx-border-color: #aa9d32; -fx-border-width: 10; -fx-border-radius: 10; -fx-background-radius: 20;" vbarPolicy="NEVER">
                <cursor>
                   <Cursor fx:constant="MOVE" />
                </cursor></ScrollPane>
             <Pane fx:id="handPane" layoutX="206.0" layoutY="640.0" prefHeight="131.0" prefWidth="390.0" />
-            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="156.0" prefHeight="175.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;" />
-            <Pane fx:id="decksPane" layoutX="807.0" layoutY="576.0" prefHeight="175.0" prefWidth="450.0" />
-            <HBox fx:id="commonObjectivesPane" layoutX="807.0" layoutY="65.0" prefHeight="67.0" prefWidth="230.0" />
-            <HBox fx:id="secretObjectivePane" layoutX="1079.0" layoutY="61.0" prefHeight="75.0" prefWidth="113.0" />
+            <Pane fx:id="scoreBoardPane" layoutX="807.0" layoutY="199.0" prefHeight="144.0" prefWidth="230.0" style="-fx-border-color: #aa9d32; -fx-border-width: 7; -fx-border-radius: 5;" />
+            <Pane fx:id="decksPane" layoutX="814.0" layoutY="606.0" prefHeight="175.0" prefWidth="447.0" />
+            <HBox fx:id="commonObjectivesPane" layoutX="809.0" layoutY="112.0" prefHeight="81.0" prefWidth="230.0" />
+            <HBox fx:id="secretObjectivePane" layoutX="1079.0" layoutY="112.0" prefHeight="81.0" prefWidth="113.0" />
          </children>
       </Pane>
    </children>
