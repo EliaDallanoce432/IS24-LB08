@@ -46,7 +46,7 @@ public class ClientMessageHandler {
             case "turnPlayerUpdate" -> updateTurnPlayer(message);
             case "updatedScores" -> updateScores(message);
             case "closingGame" -> updateClientState(ClientState.KICKED_STATE);
-            case "lastRound" -> updateClientState(ClientState.LAST_TURN_STATE, message.get("reason").toString());
+            case "lastRound" -> handleLastRound(message);
             case "leaderBoard" -> updateLeaderboard(message);
             default -> { //do nothing
             }
@@ -172,7 +172,7 @@ public class ClientMessageHandler {
     }
 
     /**
-     * processes the message containing all of the information used to update the player's game-field
+     * processes the message containing all the information used to update the player's game-field
      * @param message containing all the necessary information
      */
     private void updateGameField(JSONObject message){
@@ -181,7 +181,7 @@ public class ClientMessageHandler {
         ArrayList<CardRepresentation> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
         GameFieldModel.getInstance().updatePlacementHistory(placementHistory);
-        if (ClientStateModel.getInstance().getClientState() != ClientState.LAST_TURN_STATE) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
+        if (!PlayerModel.getInstance().isLastTurn()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getInstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
@@ -232,6 +232,11 @@ public class ClientMessageHandler {
         }
         ScoreBoardModel.getInstance().setScores(scores);
 
+    }
+
+    private void handleLastRound(JSONObject message){
+        updateClientState(ClientState.LAST_TURN_STATE, message.get("reason").toString());
+        PlayerModel.getInstance().setLastTurn(true);
     }
 
     /**
@@ -306,7 +311,7 @@ public class ClientMessageHandler {
     }
 
     /**
-     * updates the resources in the playerModel from the gievn JSON
+     * updates the resources in the playerModel from the given JSON
      * @param updatedResources JSONObject containing the information about the updated resources
      */
     private static void updateResourcesFromJSON( JSONObject updatedResources){

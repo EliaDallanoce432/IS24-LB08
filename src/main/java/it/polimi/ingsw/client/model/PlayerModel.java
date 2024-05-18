@@ -11,6 +11,7 @@ public class PlayerModel extends ObservableModel {
     private String username;
     private String turnPlayer;
     private Color token;
+    private boolean lastTurn;
 
 
 
@@ -48,5 +49,11 @@ public class PlayerModel extends ObservableModel {
         notifyObservers();
     }
 
+    public boolean isLastTurn() {
+        return lastTurn;
+    }
 
+    public void setLastTurn(boolean lastTurn) {
+        this.lastTurn = lastTurn;
+    }
 }

@@ -32,10 +32,15 @@ public class ObjectivesRepresentation {
         int[] commonObjIds = ObjectivesModel.getInstance().getCommonObjectives();
         commonObjectivesPane.getChildren().clear();
 
-        CardRepresentation cardRepresentation = new CardRepresentation(commonObjIds[0], true);
-        commonObjectivesPane.getChildren().add(cardRepresentation.getCard());
-        cardRepresentation = new CardRepresentation(commonObjIds[1], true);
-        commonObjectivesPane.getChildren().add(cardRepresentation.getCard());
+        if(commonObjIds[0] != 0){
+            CardRepresentation cardRepresentation = new CardRepresentation(commonObjIds[0], true);
+            commonObjectivesPane.getChildren().add(cardRepresentation.getCard());
+        }
+
+        if(commonObjIds[1] != 0){
+            CardRepresentation cardRepresentation = new CardRepresentation(commonObjIds[1], true);
+            commonObjectivesPane.getChildren().add(cardRepresentation.getCard());
+        }
 
     }
 

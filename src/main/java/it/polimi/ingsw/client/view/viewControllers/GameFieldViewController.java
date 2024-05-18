@@ -81,7 +81,9 @@ public class GameFieldViewController extends ViewController {
     private ScoreTrackRepresentation scoreTrackRepresentation;
 
     /**
-     * initializes the Panes, the relative representation utility classes and fills the panes with the patterns.
+     * Initializes the Panes, the relative representation utility classes and fills the panes with the pattern.
+     * It also performs an additional update of all the UI elements, in case the observer updates the scene before it's
+     * loaded.
      */
 
     @FXML
@@ -105,6 +107,16 @@ public class GameFieldViewController extends ViewController {
         fillPaneWithPattern(scoreBoardPane);
 
         showMessage("Waiting for all players to choose the cards...");
+
+        Platform.runLater(() -> {
+            updateGameBoard();
+            updateObjectives();
+            updateHand();
+            updateDecks();
+            updateSceneStatus();
+            updatePlayerInfo();
+            updateScoreBoard();
+        });
 
 
 
