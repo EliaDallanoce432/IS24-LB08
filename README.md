@@ -1,6 +1,6 @@
 # Codex -  Project Software Engineering 2024
 ![codex](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Images/codex_logo.png)
-#### Group members 
+#### Team work 
 [Simone Pizzelli](https://github.com/SimonePizzelli) <br>
 [Elia Dallanoce](https://github.com/EliaDallanoce432) <br>
 [Marco Pedretti](https://github.com/10736964) <br>
@@ -21,6 +21,7 @@
 | Multiple games | Done✅ |
 | Connection resilience | ❌ |
 | Chat | ❌ |
+| Docker | work in progress...⌛ |
 
 ### Introduction
 ...
