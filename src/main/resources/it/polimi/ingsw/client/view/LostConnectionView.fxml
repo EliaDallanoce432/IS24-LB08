@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.LostConnectionViewController">
     <children>
-        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: dbd3bc; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="exitButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
-                <Label fx:id="alertLabel" layoutX="94.0" layoutY="64.0" prefHeight="286.0" prefWidth="498.0" text="Lost Connection With the Server." textFill="WHITE">
+                <Button fx:id="exitButton" layoutX="19.0" layoutY="343.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Exit">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+                <Label fx:id="alertLabel" alignment="CENTER" layoutX="51.0" layoutY="57.0" prefHeight="286.0" prefWidth="498.0" text="Lost Connection With the Server.">
                     <font>
-                        <Font size="26.0" />
+                        <Font name="Baskerville Old Face" size="30.0" />
                     </font>
                 </Label>
             </children>

@@ -128,7 +128,7 @@
             </Pane>
             <Button fx:id="flipButton" layoutX="137.0" layoutY="664.0" mnemonicParsing="false" onAction="#flipCardsInHand" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="🔄">
                <font>
-                  <Font size="22.0" />
+                  <Font name="Baskerville Old Face" size="22.0" />
                </font>
                <effect>
                   <InnerShadow />

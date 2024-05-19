@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.KickedFromGameViewController">
     <children>
-        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: dbd3bc; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#backToMainScreen" text="Back to Main Screen" />
-                <Label fx:id="alertLabel" layoutX="94.0" layoutY="64.0" prefHeight="252.0" prefWidth="384.0" text="One Player has left or lost connection. The game was ended." textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                <Button layoutX="14.0" layoutY="340.0" mnemonicParsing="false" onAction="#backToMainScreen" prefHeight="44.0" prefWidth="225.0" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Back to Main Screen">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+                <Label fx:id="alertLabel" alignment="CENTER" layoutX="20.0" layoutY="142.0" prefHeight="117.0" prefWidth="561.0" text="One player has left or lost connection. The game was closed." textOverrun="CLIP">
                     <font>
-                        <Font size="14.0" />
+                        <Font name="Baskerville Old Face" size="22.0" />
                     </font>
                 </Label>
             </children>

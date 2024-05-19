@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.JoinGameViewController">
     <children>
-        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #17914c; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: dbd3bc; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="okButton" layoutX="540.0" layoutY="361.0" mnemonicParsing="false" onAction="#okPressed" text="OK" />
-                <Button fx:id="backButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-                <Label layoutX="29.0" layoutY="44.0" text="Available Games:" textFill="WHITE">
+                <Button fx:id="okButton" layoutX="522.0" layoutY="345.0" mnemonicParsing="false" onAction="#okPressed" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="OK">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+                <Button fx:id="backButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Back">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+                <Label layoutX="34.0" layoutY="147.0" text="Available Games:">
                     <font>
-                        <Font size="19.0" />
+                        <Font name="Baskerville Old Face" size="23.0" />
                     </font>
                 </Label>
                     <Label fx:id="alertLabel" layoutX="196.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
-            <ComboBox fx:id="availableGamesComboBox" layoutX="34.0" layoutY="99.0" onMouseClicked="#refresh" prefHeight="25.0" prefWidth="483.0" />
+            <ComboBox fx:id="availableGamesComboBox" layoutX="34.0" layoutY="188.0" onMouseClicked="#refresh" prefHeight="25.0" prefWidth="533.0" style="-fx-background-radius: 10; -fx-background-color: dbd3ad;">
+               <effect>
+                  <InnerShadow />
+               </effect></ComboBox>
+            <Label layoutX="226.0" layoutY="36.0" text="Join a Game">
+               <font>
+                  <Font name="Baskerville Old Face" size="30.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
     </children>

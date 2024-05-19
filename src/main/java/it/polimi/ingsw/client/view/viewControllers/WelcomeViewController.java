@@ -35,9 +35,11 @@ public class WelcomeViewController extends ViewController {
     private Label alertLabel;
     @FXML
     private Label errorLabel;
-
-    private TextField usernameTextField;
-    private Button confirmButton;
+    @FXML
+    private Button confirmUsernameButton;
+    @FXML
+    private TextField setUsernameTextField;
+;
 
     /**
      * Initializes the scene.
@@ -46,6 +48,8 @@ public class WelcomeViewController extends ViewController {
     private void initialize() {
 
         errorLabel.setVisible(false);
+        setUsernameTextField.setVisible(false);
+        confirmUsernameButton.setVisible(false);
 
         Platform.runLater(this::updatePlayerInfo);
     }
@@ -74,7 +78,7 @@ public class WelcomeViewController extends ViewController {
      * a "setUsername" message.
      */
     @FXML
-    private void setUsername() throws IOException {
+    private void setUsername() {
 
 
         joinGameButton.setVisible(false);
@@ -82,29 +86,23 @@ public class WelcomeViewController extends ViewController {
         exitButton.setVisible(false);
         setUsernameButton.setVisible(false);
 
-        errorLabel.setVisible(true);
 
-        // Create and configure username text field
-        usernameTextField = new TextField();
-        usernameTextField.setPromptText("Enter Username");
-        setUsernamePane.getChildren().add(usernameTextField);
+        setUsernameTextField.setVisible(true);
+        confirmUsernameButton.setVisible(true);
 
-        confirmButton = new Button("Confirm");
-        confirmButton.setOnMouseEntered(mouseEvent -> confirmButton.setCursor(Cursor.HAND));
-        confirmButton.setOnMouseExited(mouseEvent -> confirmButton.setCursor(Cursor.DEFAULT));
-        confirmButton.setLayoutY(100);
-        confirmButton.setOnAction(event -> {
-            String username = usernameTextField.getText();
+
+        confirmUsernameButton.setOnAction(event -> {
+            String username = setUsernameTextField.getText();
             if(username.startsWith(" ") || username.endsWith(" ") || username.isEmpty()) {
                 showErrorMessage("Invalid Username");
-
+                errorLabel.setVisible(true);
             }
             else {
                 ClientController.getInstance().sendSetUsernameMessage(username);
 
             }
         });
-        setUsernamePane.getChildren().add(confirmButton);
+
 
     }
 
@@ -131,12 +129,8 @@ public class WelcomeViewController extends ViewController {
             setUsernameButton.setOnMouseEntered(mouseEvent -> setUsernameButton.setCursor(Cursor.HAND));
             setUsernameButton.setOnMouseExited(mouseEvent -> setUsernameButton.setCursor(Cursor.DEFAULT));
 
-            // Clear the text field and remove it from the pane
-            if(usernameTextField!=null) usernameTextField.clear();
-            setUsernamePane.getChildren().remove(usernameTextField);
-
-            // Remove the confirm button from the pane
-            setUsernamePane.getChildren().remove(confirmButton);
+            setUsernameTextField.setVisible(false);
+            confirmUsernameButton.setVisible(false);
             errorLabel.setVisible(false);
 
         });
@@ -173,7 +167,11 @@ public class WelcomeViewController extends ViewController {
     @Override
     @FXML
     public void showErrorMessage(String message) {
-        Platform.runLater(()->errorLabel.setText(message));
+
+        Platform.runLater(()->{
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+        });
     }
 
 
