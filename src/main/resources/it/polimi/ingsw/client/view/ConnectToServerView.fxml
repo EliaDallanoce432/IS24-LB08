@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.viewControllers.ConnectToServerViewController">
+    <children>
+        <Pane layoutX="245.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: dbd3bc; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="okButton" layoutX="522.0" layoutY="345.0" mnemonicParsing="false" onAction="#okPressed" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="OK">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+                <Button fx:id="exitButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Exit">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
+            <TextField fx:id="ipTextField" layoutX="34.0" layoutY="147.0" prefHeight="28.0" prefWidth="218.0" promptText="Leave blank for &quot;localhost&quot;" style="-fx-background-radius: 10;" />
+            <Label layoutX="34.0" layoutY="113.0" prefHeight="25.0" prefWidth="218.0" text="Server Address:">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Label>
+            <Label layoutX="34.0" layoutY="200.0" text="Server Port:">
+               <font>
+                  <Font name="Baskerville Old Face" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="alertLabel" layoutX="281.0" layoutY="134.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+            <Label layoutX="195.0" layoutY="36.0" text="Connect to server">
+               <font>
+                  <Font name="Baskerville Old Face" size="30.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Label>
+            <TextField fx:id="portTextField" layoutX="34.0" layoutY="234.0" prefHeight="25.0" prefWidth="218.0" promptText="Leave blank for &quot;12345&quot;" style="-fx-background-radius: 10;" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

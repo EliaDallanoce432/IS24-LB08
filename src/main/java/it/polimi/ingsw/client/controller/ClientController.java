@@ -20,7 +20,7 @@ public class ClientController implements ClientNetworkObserver {
     private final ClientMessageHandler clientMessageHandler;
     private static ClientController instance;
 
-    public static ClientController getInstance(String serverAddress, int serverPort) {
+    public static ClientController getInstance(String serverAddress, int serverPort) throws ServerUnreachableException {
         if (instance == null) instance = new ClientController(serverAddress, serverPort);
         return instance;
     }
@@ -30,20 +30,22 @@ public class ClientController implements ClientNetworkObserver {
      * `ClientController` exists throughout the application
      * @return The singleton instance
      */
-    public static ClientController getInstance(){
-        if (instance == null) instance = new ClientController("localhost", 12345); //should not happen !
+    public static ClientController getInstance() {
+        if (instance == null) {
+            try {
+                instance = new ClientController("localhost", 12345); //should not happen !
+            } catch (ServerUnreachableException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return instance;
     }
 
-    public ClientController (String serverAddress, int serverPort)  {
+    public ClientController (String serverAddress, int serverPort) throws ServerUnreachableException {
         clientMessageHandler = new ClientMessageHandler();
-        try {
-            clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
-            instance = this;
-        } catch (ServerUnreachableException e) {
-            notifyConnectionLoss();
-        }
-        startGui();
+
+        clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);
+        instance = this;
     }
 
     /**
@@ -59,9 +61,9 @@ public class ClientController implements ClientNetworkObserver {
     /**
      * launches the GUI of the application
      */
-    public void startGui() {
-        Application.launch(ClientGUI.class);
-    }
+//    public void startGui() {
+//        Application.launch(ClientGUI.class);
+//    }
 
     /**
      * updates the client state to reflect the loss and displays a message. Called when a network connection loss is detected

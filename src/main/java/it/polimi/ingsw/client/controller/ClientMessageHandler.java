@@ -27,7 +27,7 @@ public class ClientMessageHandler {
         switch (message.get("message").toString()) {
 
             //in-lobby messages
-
+            case "joinedLobby" -> updateClientState(ClientState.WELCOME_STATE);
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
             case "gameCreated", "joinGame" -> updateClientState(ClientState.SETUP_STATE);

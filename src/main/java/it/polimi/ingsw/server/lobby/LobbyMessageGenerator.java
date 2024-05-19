@@ -13,6 +13,16 @@ import java.util.Set;
 public class LobbyMessageGenerator {
 
     /**
+     * creates a message to be sent after a successful join in a lobby.
+     * @return JSON message
+     */
+    public static JSONObject joinedLobbyMessage() {
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "joinedLobby");
+        return new JSONObject(jsonMap);
+    }
+
+    /**
      * creates a JSON message to be sent to the client after a successful username setting.
      * @param username username set
      * @return JSON message

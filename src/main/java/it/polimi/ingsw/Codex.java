@@ -1,8 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.view.ClientGUI;
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
+import javafx.application.Application;
 
 public class Codex {
 
@@ -23,8 +25,14 @@ public class Codex {
 
     public static void main(String[] args) {
         Codex codex = new Codex();
-        if(args.length == 0) {
-            codex.setClientController(ClientController.getInstance("localhost", 12345));
+        if(args[0].equals("client")) {
+            if (args.length == 1) {
+                Application.launch(ClientGUI.class);
+            }
+            else if (args[1].equals("--cli")) {
+                //TODO start CLI
+            }
+            else System.out.println("unexpected argument");
         }
         else {
             int port = 12345;

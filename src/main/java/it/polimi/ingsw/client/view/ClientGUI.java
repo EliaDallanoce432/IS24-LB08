@@ -32,8 +32,8 @@ public class ClientGUI extends Application {
         new SelectableCardsObserver();
 
         StageManager.setCurrentStage(primaryStage);
-        StageManager.loadWelcomeScene();
-        primaryStage.setTitle("Codex - Game Demo");
+        StageManager.loadTitleScreenScene();
+        primaryStage.setTitle("Codex");
     }
 
 }

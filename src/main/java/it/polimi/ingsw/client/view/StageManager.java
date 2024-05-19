@@ -128,7 +128,19 @@ public class StageManager {
         return rootPane;
     }
 
+    public static void loadTitleScreenScene() {
+        StackPane stackPane = createStackPaneWithBackground("TitleScreenView.fxml");
+        currentStage.setWidth(SCENE_WIDTH);
+        currentStage.setHeight(SCENE_HEIGHT);
+        showScene(new Scene(stackPane));
+    }
 
+    public static void loadConnectToServerScene() {
+        StackPane stackPane = createStackPaneWithBackground("ConnectToServerView.fxml");
+        currentStage.setWidth(SCENE_WIDTH);
+        currentStage.setHeight(SCENE_HEIGHT);
+        showScene(new Scene(stackPane));
+    }
 
 
     /**

@@ -97,6 +97,7 @@ public class Lobby implements ServerNetworkObserver {
     public void enterLobby(ClientHandler client) {
         connectedClients.add(client);
         System.out.println("client connected successfully to the lobby");
+        client.send(LobbyMessageGenerator.joinedLobbyMessage());
     }
 
     /**
