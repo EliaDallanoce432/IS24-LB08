@@ -1,8 +1,9 @@
 package it.polimi.ingsw.client.view.viewControllers;
 
-import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 
 
 /**
@@ -11,12 +12,21 @@ import javafx.fxml.FXML;
 
 public class TitleScreenViewController extends ViewController {
 
+    @FXML
+    private Button playButton;
+
+    @FXML
+    private Button exitButton;
 
     /**
      * Initializes the scene.
      */
     @FXML
     private void initialize() {
+        playButton.setOnMouseEntered(mouseEvent -> playButton.setCursor(Cursor.HAND));
+        playButton.setOnMouseExited(mouseEvent -> playButton.setCursor(Cursor.DEFAULT));
+        exitButton.setOnMouseEntered(mouseEvent -> exitButton.setCursor(Cursor.HAND));
+        exitButton.setOnMouseExited(mouseEvent -> exitButton.setCursor(Cursor.DEFAULT));
     }
 
     /**
