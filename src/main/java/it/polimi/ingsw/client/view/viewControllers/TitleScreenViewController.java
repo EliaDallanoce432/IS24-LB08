@@ -11,22 +11,12 @@ import javafx.scene.control.Button;
  */
 
 public class TitleScreenViewController extends ViewController {
-
-    @FXML
-    private Button playButton;
-
-    @FXML
-    private Button exitButton;
-
     /**
      * Initializes the scene.
      */
     @FXML
     private void initialize() {
-        playButton.setOnMouseEntered(mouseEvent -> playButton.setCursor(Cursor.HAND));
-        playButton.setOnMouseExited(mouseEvent -> playButton.setCursor(Cursor.DEFAULT));
-        exitButton.setOnMouseEntered(mouseEvent -> exitButton.setCursor(Cursor.HAND));
-        exitButton.setOnMouseExited(mouseEvent -> exitButton.setCursor(Cursor.DEFAULT));
+
     }
 
     /**

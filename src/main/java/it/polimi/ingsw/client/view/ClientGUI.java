@@ -2,7 +2,11 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.InputStream;
 
 /**
  * This class is the primary application class responsible for
@@ -19,7 +23,6 @@ public class ClientGUI extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
         //initializing observers
         new AvailableGamesObserver();
         new ClientStateObserver();
@@ -30,7 +33,10 @@ public class ClientGUI extends Application {
         new PlayerObserver();
         new ScoreBoardObserver();
         new SelectableCardsObserver();
-
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("Images/codex_logo_crop.png");
+        assert is != null;
+        primaryStage.getIcons().add(new Image(is));
         StageManager.setCurrentStage(primaryStage);
         StageManager.loadTitleScreenScene();
         primaryStage.setTitle("Codex");

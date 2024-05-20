@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -15,14 +16,20 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
                 <Button fx:id="backButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Back">
                <font>
                   <Font name="Baskerville Old Face" size="22.0" />
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
                 <Label layoutX="34.0" layoutY="147.0" text="Available Games:">
                     <font>
                         <Font name="Baskerville Old Face" size="23.0" />

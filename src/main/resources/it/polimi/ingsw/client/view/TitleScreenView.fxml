@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -21,14 +22,20 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Button fx:id="exitButton" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Exit">
                <font>
                   <Font name="Baskerville Old Face" size="20.0" />
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </Pane>
    </children>
