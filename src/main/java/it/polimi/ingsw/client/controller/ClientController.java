@@ -2,12 +2,10 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.ObjectivesModel;
-import it.polimi.ingsw.client.view.ClientGUI;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
-import javafx.application.Application;
 import javafx.application.Platform;
 import org.json.simple.JSONObject;
 
@@ -16,7 +14,7 @@ import org.json.simple.JSONObject;
  */
 public class ClientController implements ClientNetworkObserver {
 
-    private ClientConnectionManager clientConnectionManager;
+    private final ClientConnectionManager clientConnectionManager;
     private final ClientMessageHandler clientMessageHandler;
     private static ClientController instance;
 
@@ -58,9 +56,9 @@ public class ClientController implements ClientNetworkObserver {
         clientMessageHandler.execute(message);
     }
 
-    /**
-     * launches the GUI of the application
-     */
+//    /**
+//     * launches the GUI of the application
+//     */
 //    public void startGui() {
 //        Application.launch(ClientGUI.class);
 //    }
