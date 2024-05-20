@@ -4,6 +4,7 @@ module LB08 {
     requires javafx.graphics;
     requires json.simple;
     requires org.controlsfx.controls;
+    requires java.desktop;
 
     exports it.polimi.ingsw;
     exports it.polimi.ingsw.server.lobby;

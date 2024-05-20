@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.IOException;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
@@ -75,59 +77,6 @@ public class StageManager {
         return stackPane;
     }
 
-    /**
-     * Creates a StackPane with a background image, loads the specified FXML and puts it in a ScrollPane.
-     *
-     * @param fxmlPath the path to the FXML file to be loaded
-     * @return a StackPane containing the background image and loaded FXML content
-     */
-    private static StackPane createScrollableStackPane(String fxmlPath) {
-        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));
-        Parent root;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        currentViewController = loader.getController();
-
-        // Create a StackPane to hold the content and the background
-        StackPane contentPane = new StackPane();
-        ImageView backgroundImageView = loadBackground("/Images/Backgrounds/wood_background.jpg");
-        contentPane.getChildren().addAll(backgroundImageView, root);
-
-        // Bind the size of the background image to the size of the content
-        backgroundImageView.fitWidthProperty().bind(contentPane.widthProperty());
-        backgroundImageView.fitHeightProperty().bind(contentPane.heightProperty());
-
-        // Set the preferred size of the contentPane based on the root's preferred size
-        double preferredWidth = root.prefWidth(-1);
-        double preferredHeight = root.prefHeight(-1);
-        contentPane.setPrefSize(preferredWidth, preferredHeight);
-        contentPane.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        contentPane.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-
-        // Create a ScrollPane and set it to fit the content
-        ScrollPane scrollPane = new ScrollPane(contentPane);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-
-        // Set the preferred viewport size of the scrollPane
-        scrollPane.setPrefViewportWidth(preferredWidth);
-        scrollPane.setPrefViewportHeight(preferredHeight);
-
-        // Create a root StackPane to hold the ScrollPane
-        StackPane rootPane = new StackPane(scrollPane);
-
-        // Set the stage size to match the content size and set maximum size
-        currentStage.setWidth(preferredWidth);
-        currentStage.setHeight(preferredHeight);
-        currentStage.setMaxWidth(preferredWidth);
-        currentStage.setMaxHeight(preferredHeight);
-
-        return rootPane;
-    }
-
     public static void loadTitleScreenScene() {
         StackPane stackPane = createStackPaneWithBackground("TitleScreenView.fxml");
         currentStage.setWidth(SCENE_WIDTH);
@@ -150,7 +99,27 @@ public class StageManager {
         StackPane stackPane = createStackPaneWithBackground("GameBoardView.fxml");
         stackPane.prefWidthProperty().bind(currentStage.widthProperty());
         stackPane.prefHeightProperty().bind(currentStage.heightProperty());
+        //centerStage(currentStage);
         showScene(new Scene(stackPane));
+    }
+    private static void centerStage(Stage stage)
+    {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        //GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        double anchorX, anchorY;
+//        double screenWidth=graphicsEnvironment.getDefaultScreenDevice().getDisplayMode().getWidth();
+//        double screenHeight=graphicsEnvironment.getDefaultScreenDevice().getDisplayMode().getHeight();
+        if(screenSize.getWidth()<=currentStage.getWidth() || screenSize.getHeight()<=currentStage.getHeight())
+        {
+            anchorX=0;
+            anchorY=0;
+        }
+        else {
+            anchorX = (screenSize.getWidth() - currentStage.getWidth()) / 2;
+            anchorY = (screenSize.getHeight() - currentStage.getHeight()) / 2;
+        }
+        stage.setX(anchorX);
+        stage.setY(anchorY);
     }
 
     /**
