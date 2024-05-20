@@ -66,6 +66,13 @@ public class LobbyMessageGenerator {
         return new JSONObject(jsonMap);
     }
 
+    public static JSONObject cannotCreateGameMessage(String reason) {
+        Map<String, String> jsonMap= new HashMap<>();
+        jsonMap.put("message", "cannotCreateGame");
+        jsonMap.put("reason", reason);
+        return new JSONObject(jsonMap);
+    }
+
     /**
      * creates a JSON message to be sent to the client when they try to join a non-existent game.
      * @return JSON message

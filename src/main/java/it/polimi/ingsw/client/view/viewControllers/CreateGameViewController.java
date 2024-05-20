@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.view.StageManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -32,6 +34,9 @@ public class CreateGameViewController extends ViewController {
     @FXML
     private ChoiceBox<String> numberOfPlayersChoiceBox;
 
+    @FXML
+    private Label errorLabel;
+
     /**
      * Initializes the scene.
      */
@@ -43,6 +48,9 @@ public class CreateGameViewController extends ViewController {
         okButton.setOnMouseExited(mouseEvent -> okButton.setCursor(Cursor.DEFAULT));
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
+
+        errorLabel.setVisible(false);
+        gameNameField.setOnMouseClicked(mouseEvent -> {errorLabel.setVisible(false);});
 
         gameNameField.setPromptText("Game Name Here");
 
@@ -88,12 +96,25 @@ public class CreateGameViewController extends ViewController {
 
             ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
 
-            StageManager.loadWaitForPlayersScene();
-
-
         }
-
-
     }
 
+    @Override
+    public void updateSceneStatus() {
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case SETUP_STATE -> StageManager.loadWaitForPlayersScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Platform.runLater(()->{
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+        });
+    }
 }

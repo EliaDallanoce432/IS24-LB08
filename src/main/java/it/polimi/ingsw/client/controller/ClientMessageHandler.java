@@ -31,6 +31,7 @@ public class ClientMessageHandler {
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
             case "gameCreated", "joinGame" -> updateClientState(ClientState.SETUP_STATE);
+            case "cannotCreateGame" -> showError(message.get("reason").toString());
             case "gameDoesNotExist" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game does not exist");
             case "gameIsFull" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game is full");
             case "availableGames" -> updateAvailableGames(message);

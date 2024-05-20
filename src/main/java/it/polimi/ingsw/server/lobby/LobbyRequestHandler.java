@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
+import it.polimi.ingsw.util.customexceptions.CannotCreateGameException;
 import it.polimi.ingsw.util.customexceptions.GameIsFullException;
 import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -70,9 +71,12 @@ public class LobbyRequestHandler {
         int numberOfPlayers = Integer.parseInt(message.get("numOfPlayers").toString());
         String gameName = message.get("gameName").toString();
 
-        lobby.setupNewGame(numberOfPlayers,gameName,clientHandler);
-        clientHandler.send(LobbyMessageGenerator.createdGameMessage());
-
+        try {
+            lobby.setupNewGame(numberOfPlayers,gameName,clientHandler);
+            clientHandler.send(LobbyMessageGenerator.createdGameMessage());
+        } catch (CannotCreateGameException e) {
+            clientHandler.send(LobbyMessageGenerator.cannotCreateGameMessage(e.getMessage()));
+        }
     }
 
     /**
