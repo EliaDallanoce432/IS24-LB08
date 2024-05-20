@@ -56,8 +56,10 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonResourceCards.json");
-        try (InputStreamReader isr = new InputStreamReader(is)) {
+        InputStream is = classloader.getResourceAsStream("JsonResourceCards.json");
+        assert is != null;
+        InputStreamReader isr = new InputStreamReader(is);
+        try {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
@@ -87,8 +89,10 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonGoldCards.json");
-        try (InputStreamReader isr = new InputStreamReader(is)) {
+        InputStream is = classloader.getResourceAsStream("JsonGoldCards.json");
+        assert is != null;
+        InputStreamReader isr = new InputStreamReader(is);
+        try {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
@@ -179,8 +183,10 @@ public class JsonCardsReader {
             throw new InvalidIdException("invalid id: "+ id);
         }
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("Json/JsonStarterCards.json");
-        try (InputStreamReader isr = new InputStreamReader(is)) {
+        InputStream is = classloader.getResourceAsStream("JsonStarterCards.json");
+        assert is != null;
+        InputStreamReader isr = new InputStreamReader(is);
+        try {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);
             JSONArray dataArray = (JSONArray) jsonObject.get("data");
