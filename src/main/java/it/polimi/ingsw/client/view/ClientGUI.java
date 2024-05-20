@@ -39,7 +39,7 @@ public class ClientGUI extends Application {
         primaryStage.getIcons().add(new Image(is));
         StageManager.setCurrentStage(primaryStage);
         StageManager.loadTitleScreenScene();
-        primaryStage.setTitle("Codex");
+        primaryStage.setTitle("Codex Naturalis");
     }
 
 }

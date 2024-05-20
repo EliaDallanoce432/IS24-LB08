@@ -1,0 +1,1 @@
+java -jar .\LB08.jar server
