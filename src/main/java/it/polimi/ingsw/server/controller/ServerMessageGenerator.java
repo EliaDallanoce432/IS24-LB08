@@ -135,6 +135,7 @@ public class ServerMessageGenerator {
             JSONObject client = new JSONObject();
             client.put("username", clientHandler.getUsername());
             client.put("score", String.valueOf(gameController.getCurrentPlayer(clientHandler).getScore()));
+            client.put("token", String.valueOf(gameController.getCurrentPlayer(clientHandler).getToken()));
             scores.add(client);
         }
         message.put("updatedScores", scores);

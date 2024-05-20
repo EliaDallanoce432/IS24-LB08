@@ -4,10 +4,8 @@ import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
-import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
-import it.polimi.ingsw.util.customexceptions.GameIsFullException;
-import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Request;
 
 import java.util.*;
@@ -21,6 +19,7 @@ public class Lobby implements ServerNetworkObserver {
 
     private final List<Request> requests;
     private final ArrayList<ClientHandler> connectedClients;
+    private final HashMap<String, GameController> games;
     private final HashMap<String, GameController> availableGames;
     private final ArrayList<String> takenUsernames;
     private volatile boolean running;
@@ -29,6 +28,7 @@ public class Lobby implements ServerNetworkObserver {
 
     public Lobby(int port) throws CannotOpenWelcomeSocket {
         connectedClients = new ArrayList<>();
+        games = new HashMap<>();
         availableGames = new HashMap<>();
         takenUsernames = new ArrayList<>();
         requests = Collections.synchronizedList(new ArrayList<>());
@@ -135,13 +135,15 @@ public class Lobby implements ServerNetworkObserver {
      * @param numberOfPlayers number of players that will join
      * @param gameName name to identify the game
      */
-    public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) {
+    public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) throws CannotCreateGameException {
+        if(gameName == null) throw new CannotCreateGameException("Invalid name!");
+        if(games.containsKey(gameName)) throw new CannotCreateGameException("Game name already taken!");
         GameController newGameController = new GameController(this,numberOfPlayers,gameName);
+        games.put(gameName, newGameController);
         availableGames.put(gameName,newGameController);
         try {
             newGameController.enterGame(client);
         } catch (GameIsFullException ignored) {
-
         }
         Thread thread = new Thread(newGameController);
         thread.start();
@@ -157,6 +159,7 @@ public class Lobby implements ServerNetworkObserver {
 
     public void closeGame(String gameName) {
         makeUnavailable(gameName);
+        games.remove(gameName);
     }
 
     /**

@@ -64,6 +64,11 @@
                   </Lighting>
                </effect>
             </Label>
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="274.0" layoutY="149.0" opacity="0.5" prefHeight="25.0" prefWidth="179.0" style="-fx-background-color: red; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
     </children>
