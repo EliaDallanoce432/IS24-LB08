@@ -12,10 +12,8 @@ public abstract class TerminalInputReader implements Runnable {
     public void run() {
         while (running) {
             try {
-                if (scanner.hasNextLine()) {
                     System.out.print("> ");
                     commandParser.parse(scanner.nextLine());
-                }
             }
             catch (NoSuchElementException e) {
                 System.out.println("Error reading input. Please try again.");

@@ -6,6 +6,8 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColors;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ClientCLI {
@@ -27,12 +29,31 @@ public class ClientCLI {
         try {
             ClientController.getInstance(address, port);
             printWelcomeMessage();
+            printMenu();
         } catch (ServerUnreachableException e) {
             System.out.println("Could not connect to server. Try again.");
         }
 
         clientTerminalInputThread.start();
     }
+
+    private void printMenu()
+    {
+        Map<String, String> menuOptions = new HashMap<>();
+        menuOptions.put("setUsername", "--Set your username");
+        menuOptions.put("join", "--Join to a game");
+        menuOptions.put("create", "--Create a game");
+        menuOptions.put("quit", "--Quit");
+        Menu menu = new Menu(menuOptions);
+        menu.displayMenu();
+        //String choice = menu.getUserChoice();
+//            if (choice.equals("quit")) {
+//                break;
+//            }
+
+        //}
+    }
+
     private String getServerAddress(String defaultValue) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert server IP address (default: '" + defaultValue + "'):");
