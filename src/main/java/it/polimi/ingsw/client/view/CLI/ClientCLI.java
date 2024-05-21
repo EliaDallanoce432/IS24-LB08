@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import it.polimi.ingsw.util.supportclasses.ConsoleColors;
 
@@ -33,7 +34,7 @@ public class ClientCLI {
         } catch (ServerUnreachableException e) {
             System.out.println("Could not connect to server. Try again.");
         }
-
+        StageManager.enableCLIMode();
         clientTerminalInputThread.start();
     }
 
@@ -43,15 +44,9 @@ public class ClientCLI {
         menuOptions.put("setUsername", "--Set your username");
         menuOptions.put("join", "--Join to a game");
         menuOptions.put("create", "--Create a game");
-        menuOptions.put("quit", "--Quit");
+        menuOptions.put("exit", "--Close the game");
         Menu menu = new Menu(menuOptions);
         menu.displayMenu();
-        //String choice = menu.getUserChoice();
-//            if (choice.equals("quit")) {
-//                break;
-//            }
-
-        //}
     }
 
     private String getServerAddress(String defaultValue) {

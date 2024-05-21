@@ -50,7 +50,7 @@ public class WaitForPlayersViewController extends ViewController {
     @FXML
     private void goBack(){
 
-        if (ClientStateModel.getInstance().getClientState() == ClientState.SETUP_STATE) {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
         StageManager.loadWelcomeScene();
@@ -85,7 +85,7 @@ public class WaitForPlayersViewController extends ViewController {
         System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
-                case SETUP_STATE -> loadGetReadyScene();
+                case GAME_SETUP_STATE -> loadGetReadyScene();
                 case ERROR_JOINING_STATE -> loadErrorJoiningScene();
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();

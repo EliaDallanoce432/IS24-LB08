@@ -43,7 +43,7 @@ public class LeaderboardViewController extends ViewController {
 
         StageManager.loadWelcomeScene();
         ClientController.getInstance().sendLeaveMessage();
-        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
 
     }
 

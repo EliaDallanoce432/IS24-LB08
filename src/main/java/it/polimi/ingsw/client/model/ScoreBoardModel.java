@@ -95,4 +95,16 @@ public class ScoreBoardModel extends ObservableModel{
         return inkPotCount;
     }
 
+    public void clear(){
+        insectResourceCount = 0;
+        animalResourceCount = 0;
+        fungiResourceCount = 0;
+        plantResourceCount = 0;
+        featherCount = 0;
+        scrollCount = 0;
+        inkPotCount = 0;
+        if (scores != null) scores.clear();
+        if (leaderboard!= null) leaderboard.clear();
+    }
+
 }

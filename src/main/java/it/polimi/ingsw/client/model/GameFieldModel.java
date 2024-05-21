@@ -44,4 +44,11 @@ public class GameFieldModel extends ObservableModel {
     public void rollback(){
         notifyObservers();
     }
+
+    /**
+     * Resets the placementHistory array.
+     */
+    public void clear(){
+        placementHistory.clear();
+    }
 }

@@ -9,7 +9,7 @@ public class ClientStateModel extends ObservableModel{
     private static ClientStateModel instance;
     private String reason;
 
-    private ClientState clientState = ClientState.WELCOME_STATE;
+    private ClientState clientState = ClientState.LOBBY_STATE;
 
     /**
      * returns the singleton instance of ClientStateModel
@@ -27,14 +27,13 @@ public class ClientStateModel extends ObservableModel{
     }
 
     public void setClientState(ClientState clientState) {
-        this.clientState = clientState;
+        if (this.clientState != ClientState.LOST_CONNECTION_STATE) this.clientState = clientState;
         notifyObservers();
     }
 
     public void setClientState(ClientState clientState , String reason) {
-        this.clientState = clientState;
         this.reason = reason;
-        notifyObservers();
+        setClientState(clientState);
     }
 
     public String getReason(){

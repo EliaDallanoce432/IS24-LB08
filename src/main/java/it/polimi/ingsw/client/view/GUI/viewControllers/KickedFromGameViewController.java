@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers;
 
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.util.supportclasses.ClientState;
@@ -16,7 +17,8 @@ public class KickedFromGameViewController extends ViewController{
      */
     @FXML
     private void backToMainScreen(){
-        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
+        ClientController.getInstance().resetModels();
         StageManager.loadWelcomeScene();
     }
 }

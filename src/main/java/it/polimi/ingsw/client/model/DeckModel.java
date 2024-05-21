@@ -67,4 +67,17 @@ public class DeckModel extends ObservableModel{
         this.goldDeckRightCardId = goldRightCardId;
         notifyObservers();
     }
+
+    /**
+     * Resets the Deck Model.
+     */
+
+    public void clear(){
+        resourceDeckTopCardId = 0;
+        resourceDeckLeftCardId = 0;
+        resourceDeckRightCardId = 0;
+        goldDeckTopCardId = 0;
+        goldDeckLeftCardId = 0;
+        goldDeckRightCardId = 0;
+    }
 }

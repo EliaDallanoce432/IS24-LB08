@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.controller;
 
-import it.polimi.ingsw.client.model.ClientStateModel;
-import it.polimi.ingsw.client.model.ObjectivesModel;
+import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.network.ClientConnectionManager;
 import it.polimi.ingsw.network.ClientNetworkObserver;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
@@ -56,12 +55,20 @@ public class ClientController implements ClientNetworkObserver {
         clientMessageHandler.execute(message);
     }
 
-//    /**
-//     * launches the GUI of the application
-//     */
-//    public void startGui() {
-//        Application.launch(ClientGUI.class);
-//    }
+
+    /**
+     * resets all the client models to their initial state.
+     */
+    public void resetModels(){
+        DeckModel.getInstance().clear();
+        ObjectivesModel.getInstance().clear();
+        GameFieldModel.getInstance().clear();
+        HandModel.getInstance().clear();
+        PlayerModel.getInstance().clear();
+        ScoreBoardModel.getInstance().clear();
+        SelectableCardsModel.getInstance().clear();
+    }
+
 
     /**
      * updates the client state to reflect the loss and displays a message. Called when a network connection loss is detected

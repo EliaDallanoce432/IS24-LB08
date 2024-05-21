@@ -84,7 +84,7 @@ public class ConnectToServerViewController extends ViewController {
     public void updateSceneStatus(){
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
-                case WELCOME_STATE -> StageManager.loadWelcomeScene();
+                case LOBBY_STATE -> StageManager.loadWelcomeScene();
                 default -> {}
             }
         });

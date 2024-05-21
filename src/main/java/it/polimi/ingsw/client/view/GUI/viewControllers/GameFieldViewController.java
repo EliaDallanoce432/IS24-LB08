@@ -137,7 +137,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private void leaveGame(){
         ClientController.getInstance().sendLeaveMessage();
-        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
+        ClientController.getInstance().resetModels();
         StageManager.loadWelcomeScene();
     }
 
@@ -205,7 +206,7 @@ public class GameFieldViewController extends ViewController {
                     showMessage("Please Draw a Card from the decks!");
                     decksRepresentation.loadDecks();
                 }
-                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case KICKED_STATE,LOBBY_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 case LAST_TURN_STATE -> showSpecialMessage(" It's the last turn! " + ClientStateModel.getInstance().getReason() + "!" );
                 case END_GAME_STATE -> StageManager.loadLeaderboardScene();

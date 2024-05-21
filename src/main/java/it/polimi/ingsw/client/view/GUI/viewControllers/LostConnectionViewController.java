@@ -14,6 +14,7 @@ public class LostConnectionViewController extends ViewController {
      */
     @FXML
     private void exit(){
+        ClientController.getInstance().resetModels();
         StageManager.getCurrentStage().close();
         ClientController.getInstance().shutdown();
     }

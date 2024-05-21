@@ -101,7 +101,7 @@ public class CreateGameViewController extends ViewController {
     public void updateSceneStatus() {
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
-                case SETUP_STATE -> StageManager.loadWaitForPlayersScene();
+                case GAME_SETUP_STATE -> StageManager.loadWaitForPlayersScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}
             }

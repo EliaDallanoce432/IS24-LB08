@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.view.CLI.CLIViewController;
 import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,6 +36,14 @@ public class StageManager {
 
     public static ViewController getCurrentViewController() {
         return currentViewController;
+    }
+
+    /**
+     * Sets a new instance of CLIViewController as currentViewController.
+     */
+
+    public static void enableCLIMode() {
+        currentViewController = new CLIViewController();
     }
 
     /**

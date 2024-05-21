@@ -39,4 +39,16 @@ public class SelectableCardsModel extends ObservableModel{
     public int getStarterCardId() {
         return starterCardId;
     }
+
+    /**
+     * Resets the Selectable Cards Model.
+     */
+
+    public void clear(){
+        starterCardId = 0;
+        selectableObjectiveCardsId[0] = 0;
+        selectableObjectiveCardsId[1] = 0;
+    }
+
+
 }

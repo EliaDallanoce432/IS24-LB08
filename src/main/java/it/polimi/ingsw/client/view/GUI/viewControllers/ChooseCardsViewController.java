@@ -30,7 +30,10 @@ public class ChooseCardsViewController extends ViewController {
 
     @FXML
     public void initialize() {
+
         showMessage("Waiting for all players to be ready...");
+
+        Platform.runLater(this::updateSelectableCards);
     }
 
     /**
@@ -39,32 +42,41 @@ public class ChooseCardsViewController extends ViewController {
     @Override
     public void updateSelectableCards() {
 
+        Platform.runLater(()->{
 
-        showMessage("Choose the starter card side:");
+            if(SelectableCardsModel.getInstance().getStarterCardId()!= 0) {
 
-        int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
+                showMessage("Choose the starter card side:");
 
-        CardRepresentation starterCard = new CardRepresentation(starterCardId, true);
-        Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
-        starterCard.flip();
-        Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
+                int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
 
-        faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
-        faceUpCard.setOnMouseEntered(mouseEvent -> faceUpCard.setCursor(Cursor.HAND));
-        faceUpCard.setOnMouseExited(mouseEvent -> faceUpCard.setCursor(Cursor.DEFAULT));
-        faceDownCard.setOnMouseEntered(mouseEvent -> faceDownCard.setCursor(Cursor.HAND));
-        faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
+                CardRepresentation starterCard = new CardRepresentation(starterCardId, true);
+                Rectangle faceUpCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
+                starterCard.flip();
+                Rectangle faceDownCard = starterCard.getCard(CHOOSE_CARDS_SCALE);
 
-        faceUpCard.setOnMouseClicked(e -> {
-            ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, true);
-            showObjectiveCards();
+                faceDownCard.setLayoutX((CARD_WIDTH * CHOOSE_CARDS_SCALE) + CHOOSE_CARDS_OFFSET);
+                faceUpCard.setOnMouseEntered(mouseEvent -> faceUpCard.setCursor(Cursor.HAND));
+                faceUpCard.setOnMouseExited(mouseEvent -> faceUpCard.setCursor(Cursor.DEFAULT));
+                faceDownCard.setOnMouseEntered(mouseEvent -> faceDownCard.setCursor(Cursor.HAND));
+                faceDownCard.setOnMouseExited(mouseEvent -> faceDownCard.setCursor(Cursor.DEFAULT));
+
+                faceUpCard.setOnMouseClicked(e -> {
+                    ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, true);
+                    showObjectiveCards();
+                });
+                faceDownCard.setOnMouseClicked(e -> {
+                    ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, false);
+                    showObjectiveCards();
+                });
+
+                cardBox.getChildren().addAll(faceUpCard, faceDownCard);
+            }
         });
-        faceDownCard.setOnMouseClicked(e -> {
-            ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardId, false);
-            showObjectiveCards();
-        });
 
-        cardBox.getChildren().addAll(faceUpCard, faceDownCard);
+
+
+
 
 
 

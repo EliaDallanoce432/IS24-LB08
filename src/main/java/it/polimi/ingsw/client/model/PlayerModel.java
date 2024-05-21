@@ -56,4 +56,11 @@ public class PlayerModel extends ObservableModel {
     public void setLastTurn(boolean lastTurn) {
         this.lastTurn = lastTurn;
     }
+
+    /**
+     * Resets the LastTurn attribute to false.
+     */
+    public void clear(){
+        lastTurn = false;
+    }
 }

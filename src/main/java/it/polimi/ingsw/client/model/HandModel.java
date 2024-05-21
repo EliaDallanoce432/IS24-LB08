@@ -40,7 +40,7 @@ public class HandModel extends ObservableModel {
     }
 
     /**
-     *  triggers notification to registered observers without modifying the hand state
+     * triggers notification to registered observers without modifying the hand state
      */
     public void rollback(){
         notifyObservers();
@@ -54,6 +54,13 @@ public class HandModel extends ObservableModel {
             card.flip();
         }
         notifyObservers();
+    }
+
+    /**
+     * Resets the Hand Model.
+     */
+    public void clear(){
+        cardsInHand.clear();
     }
 
 
