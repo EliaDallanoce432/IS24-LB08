@@ -21,6 +21,7 @@ public class ClientTerminalParser implements CommandParser {
             case "enterGame" -> enterGame(tokens);
             case "setReady" -> setReady();
             case "selectStarterCard" -> selectStarterCardOrientation(tokens);
+            case "selectSecreteObjective" -> selectSecretObjective(tokens);
         }
     }
 
@@ -69,7 +70,12 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     private void selectSecretObjective (String[] tokens) {
-        if
+        if (tokens.length == 2) {
+            ClientController.getInstance().sendChosenSecretObjectiveMessage(Integer.parseInt(tokens[1]));
+        }
+        else {
+            //TODO parse error
+        }
     }
 
 }
