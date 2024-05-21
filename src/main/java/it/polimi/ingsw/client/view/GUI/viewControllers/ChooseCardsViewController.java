@@ -74,12 +74,6 @@ public class ChooseCardsViewController extends ViewController {
             }
         });
 
-
-
-
-
-
-
     }
 
     /**
