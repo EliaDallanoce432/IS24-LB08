@@ -2,52 +2,82 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
+import it.polimi.ingsw.util.supportclasses.ConsoleColors;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class ClientCLI {
-    private static ClientCLI instance;
-    private ClientTerminalInputReader clientTerminalInputReader;
-    private Thread clientTerminalInputThread;
+    private static final ClientCLI instance = new ClientCLI();
+    private final ClientTerminalInputReader clientTerminalInputReader;
+    private final Thread clientTerminalInputThread;
 
-    public void start() {
-        getIPAndPort();
+    public ClientCLI() {
         clientTerminalInputReader = new ClientTerminalInputReader();
         clientTerminalInputThread = new Thread(clientTerminalInputReader);
-        clientTerminalInputThread.start();
     }
 
     public static ClientCLI getInstance() {
-        if(instance == null) {
-            instance = new ClientCLI();
-            return instance;
+        return instance;
+    }
+    public void start() {
+        String address = getServerAddress("localhost");
+        int port = getServerPort(12345);
+        try {
+            ClientController.getInstance(address, port);
+            printWelcomeMessage();
+        } catch (ServerUnreachableException e) {
+            System.out.println("Could not connect to server. Try again.");
         }
-        else return instance;
+
+        clientTerminalInputThread.start();
+    }
+    private String getServerAddress(String defaultValue) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Insert server IP address (default: '" + defaultValue + "'):");
+        String address = scanner.nextLine().trim();
+        return address.isEmpty() ? defaultValue : address;
     }
 
-    private static void getIPAndPort() {
+    private int getServerPort(int defaultValue) {
         Scanner scanner = new Scanner(System.in);
-        boolean connected = false;
+        System.out.println("Insert server port (default: '" + defaultValue + "'):");
+        String portString = scanner.nextLine().trim();
+        try {
+            return portString.isEmpty() ? defaultValue : Integer.parseInt(portString);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid port number. Using default: " + defaultValue);
+            return defaultValue;
+        }
+    }
 
-        while (!connected) {
-            System.out.println("Insert server IP address (default: 'localhost'):");
-            String address = scanner.nextLine();
-            if (address.equals("")) address = "localhost";
-            System.out.println("Insert server port (default: '12345'):");
-            String port = scanner.nextLine();
-            if (port.equals("")) port = "12345";
-            try {
-                ClientController.getInstance(address, Integer.parseInt(port));
-                connected = true;
-                System.out.println("Connected successfully to the Lobby!");
-            } catch (ServerUnreachableException e) {
-                System.out.println("could not connect to server, try again");
+    private void printWelcomeMessage() {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("Codex_logo.txt");
+        if (is != null) {
+            try (Scanner sc = new Scanner(is)) {
+                clearConsole();
+                while (sc.hasNextLine()) {
+                    System.out.println(ConsoleColors.GREEN + sc.nextLine() + ConsoleColors.RESET);
+                }
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
+        System.out.println("Welcome to Codex!");
+    }
+    private static void clearConsole() throws IOException, InterruptedException{
+        String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } else {
+            Runtime.getRuntime().exec("clear");
+        }
     }
 
-
     public void shutdown() {
+        clientTerminalInputReader.shutdown();
         ClientController.getInstance().shutdown();
     }
 }
