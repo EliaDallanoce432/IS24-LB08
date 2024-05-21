@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.view.ServerView;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Request;
 
@@ -22,9 +22,12 @@ public class Lobby implements ServerNetworkObserver {
     private final HashMap<String, GameController> games;
     private final HashMap<String, GameController> availableGames;
     private final ArrayList<String> takenUsernames;
+    private boolean welcomeSocketIsRunning = false;
+    private int welcomeSocketPort;
     private volatile boolean running;
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
     private final LobbyRequestHandler lobbyRequestHandler;
+    private final ServerView serverView;
 
     public Lobby(int port) throws CannotOpenWelcomeSocket {
         connectedClients = new ArrayList<>();
@@ -34,10 +37,24 @@ public class Lobby implements ServerNetworkObserver {
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestHandler = new LobbyRequestHandler(this);
-        ServerWelcomeSocket serverWelcomeSocket;
-        serverWelcomeSocket = new ServerWelcomeSocket(this, port);
-        executorService.submit(serverWelcomeSocket);
+        serverView = ServerView.getInstance(this);
+//        ServerWelcomeSocket serverWelcomeSocket;
+//        serverWelcomeSocket = new ServerWelcomeSocket(this, port);
+ //       executorService.submit(serverWelcomeSocket);
         running = true;
+        System.out.println("Server started");
+        System.out.println("Type 'help' to see possible commands.");
+    }
+
+    public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
+        if (!welcomeSocketIsRunning) {
+            ServerWelcomeSocket serverWelcomeSocket;
+            serverWelcomeSocket = new ServerWelcomeSocket(this, port);
+            executorService.submit(serverWelcomeSocket);
+            welcomeSocketPort = port;
+            welcomeSocketIsRunning = true;
+        }
+        else throw new WelcomeSocketIsAlreadyOpenException(String.valueOf(welcomeSocketPort));
     }
 
     public Set<String> getAvailableGames() {
@@ -182,5 +199,7 @@ public class Lobby implements ServerNetworkObserver {
 
     public void shutdown() {
         running = false;
+        executorService.shutdown();
+        System.exit(0);
     }
 }

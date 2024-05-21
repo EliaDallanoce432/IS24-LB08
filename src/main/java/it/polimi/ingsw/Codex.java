@@ -84,7 +84,6 @@ public class Codex {
     private void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
         if(clientController != null) { clientController.shutdown(); }
-
     }
 
     private static void getIPAndPort() {
