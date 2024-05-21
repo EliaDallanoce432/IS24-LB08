@@ -54,7 +54,7 @@ public class JoinGameViewController extends ViewController {
             alertLabel.setText("Please select a game first");
         }
         else {
-            ClientController.getInstance().sendJoinGameMessage(selectedGame);
+            ClientController.getInstance().sendJoinGameMessage(selectedGame.substring(0,selectedGame.length()-8));
             StageManager.loadWaitForPlayersScene();
         }
     }

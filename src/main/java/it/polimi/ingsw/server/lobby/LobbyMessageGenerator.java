@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.lobby;
 
+import it.polimi.ingsw.server.controller.GameController;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -91,16 +92,17 @@ public class LobbyMessageGenerator {
 
     /**
      * creates a JSON message containing a list of available games
-     * @param gameNames game names available
+     * @param availableGames available games for joining
      * @return JSON message
      */
-    public static JSONObject getAvailableGamesMessage(Set<String> gameNames) {
+    public static JSONObject getAvailableGamesMessage(HashMap<String, GameController> availableGames) {
         JSONObject message = new JSONObject();
         message.put("message", "availableGames");
         JSONArray games = new JSONArray();
-        for (String gameName : gameNames) {
+        for (String availableGameName : availableGames.keySet()) {
             JSONObject game = new JSONObject();
-            game.put("name", gameName);
+            game.put("name", availableGameName);
+            game.put("playersInGame", String.valueOf("(" + availableGames.get(availableGameName).getClientHandlers().size() + "/" + availableGames.get(availableGameName).getNumberOfPlayers() + ")"));
             games.add(game);
         }
         message.put("games", games);

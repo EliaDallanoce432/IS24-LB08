@@ -40,8 +40,8 @@ public class Lobby implements ServerNetworkObserver {
         running = true;
     }
 
-    public Set<String> getAvailableGames() {
-        return availableGames.keySet();
+    public HashMap<String, GameController> getAvailableGames() {
+        return availableGames;
     }
 
     /**

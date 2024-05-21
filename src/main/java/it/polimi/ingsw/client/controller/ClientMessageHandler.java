@@ -93,10 +93,10 @@ public class ClientMessageHandler {
      */
     private void updateAvailableGames(JSONObject message) {
         JSONArray gamesArray = (JSONArray) message.get("games");
-        ArrayList<String> games = new ArrayList<>();
+        HashMap<String,String> games = new HashMap<>();
         for (Object o : gamesArray) {
             JSONObject gameObj = (JSONObject) o;
-            games.add(gameObj.get("name").toString());
+            games.put(gameObj.get("name").toString(),gameObj.get("playersInGame").toString());
         }
         AvailableGamesModel.getInstance().setGames(games);
     }

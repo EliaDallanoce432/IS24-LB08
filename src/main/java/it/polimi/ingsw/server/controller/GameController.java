@@ -63,6 +63,10 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         return clientHandlers;
     }
 
+    public int getNumberOfPlayers() {
+        return game.getNumberOfPlayers();
+    }
+
     /**
      * adds the player to the arraylist of players
      * @param client who joined the current game
