@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.Token;
 import org.json.simple.JSONArray;

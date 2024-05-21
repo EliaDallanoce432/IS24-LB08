@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.observers.ModelObserver;
+import it.polimi.ingsw.client.view.GUI.observers.ModelObserver;
 import java.util.ArrayList;
 import java.util.List;
 
