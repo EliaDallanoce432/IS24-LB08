@@ -18,7 +18,5 @@ module LB08 {
     exports it.polimi.ingsw.network;
     exports it.polimi.ingsw.util.customexceptions;
     exports it.polimi.ingsw.util.supportclasses;
-
-    opens it.polimi.ingsw.server.model.json;
-    opens it.polimi.ingsw.server.model.deck;
+    exports it.polimi.ingsw.util.cli;
 }
