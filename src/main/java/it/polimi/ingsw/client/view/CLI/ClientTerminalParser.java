@@ -15,13 +15,14 @@ public class ClientTerminalParser implements CommandParser {
             case "help", "?" -> help();
             case "setUsername" -> updateUsername(tokens);
             case "exit" -> ClientController.getInstance().shutdown();
-            case "create" -> createGame(tokens);
-            case "join" -> joinGame(tokens);
-            case "viewAvailableGames", "vAG" -> getAvailableGames(tokens);
-            case "enter" -> enterGame(tokens);
+            case "createGame" -> createGame();
+            case "getAvailableGames" -> getAvailableGames();
+            case "joinGame" -> joinGame(tokens);
+            case "enterGame" -> enterGame(tokens);
+            case "setReady" -> setReady();
+            case "selectStarterCard" -> selectStarterCardOrientation(tokens);
         }
     }
-
 
     private void updateUsername(String[] tokens) {
         if (tokens.length == 2) {
@@ -34,15 +35,11 @@ public class ClientTerminalParser implements CommandParser {
     private void help() {
         //TODO stampare help
     }
-    private void createGame(String[] tokens) {
-        if (tokens.length == 3) {
-            ClientController.getInstance().sendSetUpGameMessage(tokens[1], Integer.parseInt(tokens[2]));
-        }
-        else {
-            //TODO parse error
-        }
+    private void createGame() {
+
     }
-    private void getAvailableGames(String[] tokens) {
+
+    private void getAvailableGames () {
         ClientController.getInstance().sendGetAvailableGamesMessage();
     }
 
@@ -56,6 +53,23 @@ public class ClientTerminalParser implements CommandParser {
         else {
             //TODO parse error
         }
+    }
+
+    private void setReady() {
+        ClientController.getInstance().sendReadyMessage();
+    }
+
+    private void selectStarterCardOrientation(String[] tokens) {
+        if (tokens.length == 3) {
+            ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), Boolean.parseBoolean(tokens[2]));
+        }
+        else {
+            //TODO parse error
+        }
+    }
+
+    private void selectSecretObjective (String[] tokens) {
+        if
     }
 
 }
