@@ -4,10 +4,9 @@ import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.view.ServerView;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Request;
-
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
