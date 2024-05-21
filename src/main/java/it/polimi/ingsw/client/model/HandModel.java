@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import java.util.ArrayList;
 
 /**

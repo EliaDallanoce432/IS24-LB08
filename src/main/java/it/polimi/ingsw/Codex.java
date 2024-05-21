@@ -1,10 +1,15 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.view.CLI.ClientTerminalParser;
 import it.polimi.ingsw.client.view.ClientGUI;
 import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.util.cli.TerminalInputReader;
 import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
+import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
 import javafx.application.Application;
+
+import java.util.Scanner;
 
 public class Codex {
 
@@ -32,7 +37,7 @@ public class Codex {
             if (args.length == 1) {
                 Application.launch(ClientGUI.class);
             } else if (args[1].equals("--cli")) {
-                //TODO start CLI
+                getIPAndPort();
             } else
                 System.out.println("unexpected argument: " + args[1]);
         } else if (args[0].equals("server")) {
@@ -79,6 +84,32 @@ public class Codex {
     private void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
         if(clientController != null) { clientController.shutdown(); }
+
+    }
+
+    private static void getIPAndPort() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        boolean connected = false;
+
+        while (!connected) {
+            System.out.println("Insert server IP address (default: 'localhost'):");
+            String address = scanner.nextLine();
+            if (address.equals("")) address = "localhost";
+            System.out.println("Insert server port (default: '12345'):");
+            String port = scanner.nextLine();
+            if (port.equals("")) port = "12345";
+            try {
+                ClientController.getInstance(address, Integer.parseInt(port));
+                connected = true;
+                System.out.println("Connected successfully to the Lobby!");
+                TerminalInputReader inputReader = new TerminalInputReader(new ClientTerminalParser());
+            } catch (ServerUnreachableException e) {
+                System.out.println("could not connect to server, try again");
+            }
+        }
+
 
     }
 }

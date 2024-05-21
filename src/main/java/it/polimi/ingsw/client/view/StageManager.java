@@ -1,13 +1,11 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.view.viewControllers.ViewController;
+import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
