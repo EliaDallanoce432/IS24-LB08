@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
-import it.polimi.ingsw.util.supportclasses.ConsoleColors;
+import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +76,7 @@ public class ClientCLI {
             try (Scanner sc = new Scanner(is)) {
                 clearConsole();
                 while (sc.hasNextLine()) {
-                    System.out.println(ConsoleColors.GREEN + sc.nextLine() + ConsoleColors.RESET);
+                    System.out.println(ConsoleColor.GREEN + sc.nextLine() + ConsoleColor.RESET);
                 }
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);

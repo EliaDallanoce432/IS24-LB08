@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 
+import java.util.Objects;
+
 public class ClientTerminalParser implements CommandParser {
 
 
@@ -164,10 +166,27 @@ public class ClientTerminalParser implements CommandParser {
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {
             try {
-                Printer.printCard(Integer.parseInt(tokens[1]));
+                Printer.printCard(Integer.parseInt(tokens[1]),true);
             } catch (InvalidIdException e) {
                 Printer.printMessage("Error: unrecognized card ID.");
             }
+        }
+        else if (tokens.length == 3) {
+            if (Objects.equals(tokens[2], "front")){
+                try {
+                    Printer.printCard(Integer.parseInt(tokens[1]), true);
+                } catch (InvalidIdException e) {
+                    Printer.printMessage("Error: unrecognized card ID.");
+                }
+            }
+            else if (Objects.equals(tokens[2], "back")){
+                try {
+                    Printer.printCard(Integer.parseInt(tokens[1]), false);
+                } catch (InvalidIdException e) {
+                    Printer.printMessage("Error: unrecognized card ID.");
+                }
+            }
+
         }
         else System.out.println("Error: Invalid number of arguments");
     }

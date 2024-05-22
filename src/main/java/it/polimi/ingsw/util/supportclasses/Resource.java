@@ -17,32 +17,34 @@ public enum Resource {
         };
     }
 
+    /**
+     * Converts the resource in the relative colored symbol representation for the CLI.
+     * @return the symbol to be printed
+     */
+
     public String toSymbol() {
         return switch (this) {
-            case fungi -> "F";
-            case animal -> "A";
-            case plant -> "P";
-            case insect -> "I";
-            case scroll -> "s";
-            case inkPot -> "i";
-            case feather -> "f";
+            case fungi -> ConsoleColor.RED +  "F" + ConsoleColor.RESET;
+            case animal -> ConsoleColor.CYAN + "A" + ConsoleColor.RESET;
+            case plant -> ConsoleColor.GREEN + "P" + ConsoleColor.RESET;
+            case insect -> ConsoleColor.PURPLE +  "I" + ConsoleColor.RESET;
+            case scroll -> ConsoleColor.YELLOW + "s" + ConsoleColor.RESET;
+            case inkPot -> ConsoleColor.YELLOW  + "i" + ConsoleColor.RESET;
+            case feather -> ConsoleColor.YELLOW  + "f" + ConsoleColor.RESET;
             case none -> " ";
             default -> "";
         };
     }
 
-//    public String toEmoji() {
-//        return switch (this) {
-//            case fungi -> Character.toString(0x1F344);
-//            case animal -> Character.toString(0x1F43A);
-//            case plant -> Character.toString(0x1F43A);
-//            case insect -> Character.toString(0x1F43A);
-//            case scroll -> Character.toString(0x1F43A);
-//            case inkPot -> Character.toString(0x1F43A);
-//            case feather -> Character.toString(0x1F43A);
-//            case none -> " ";
-//            default -> "";
-//        };
-//    }
+    public String toColor(){
+        return switch (this) {
+            case fungi -> ConsoleColor.RED;
+            case animal -> ConsoleColor.CYAN;
+            case plant -> ConsoleColor.GREEN;
+            case insect -> ConsoleColor.PURPLE;
+            case scroll, inkPot, feather -> ConsoleColor.YELLOW;
+            case none -> null;
+        };
+    }
 
 }
