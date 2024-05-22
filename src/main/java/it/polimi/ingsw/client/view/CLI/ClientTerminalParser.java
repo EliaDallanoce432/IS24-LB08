@@ -1,13 +1,8 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
-import it.polimi.ingsw.server.lobby.LobbyRequestHandler;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
-
-import java.io.PrintWriter;
 
 public class ClientTerminalParser implements CommandParser {
 
@@ -15,31 +10,43 @@ public class ClientTerminalParser implements CommandParser {
     @Override
     public void parse(String command) {
         String[] tokens = command.split("\\s+");
+        tokens[0] = tokens[0].toLowerCase();
         switch (tokens[0]) {
-            case "help", "?" -> help();
-            case "setUsername" -> updateUsername(tokens);
-            case "exit" -> ClientController.getInstance().shutdown();
-            case "createGame" -> createGame(tokens);
-            case "getAvailableGames" -> getAvailableGames();
+            case "help","h","?" -> help();
+            case "setusername","su" -> updateUsername(tokens);
+            case "exit" -> ClientController.getInstance().shutdownForCLI();
+            case "create", "c" -> createGame(tokens);
+            case "availablegames", "ag" -> getAvailableGames();
             case "info" -> getInfo(tokens);
-            case "joinGame" -> joinGame(tokens);
-            case "enterGame" -> enterGame(tokens);
-            case "setReady" -> setReady();
-            case "selectStarterCard" -> selectStarterCardOrientation(tokens);
-            case "selectSecreteObjective" -> selectSecretObjective(tokens);
-            case "place" -> place(tokens);
-            case "directDrawResource" -> directDrawResource();
-            case "drawLeftResource" -> drawLeftResource();
-            case "drawRightResource" -> drawRightResource();
-            case "directDrawGold" -> directDrawGold();
-            case "drawLeftGold" -> drawLeftGold();
-            case "drawRightGold" -> drawRightGold();
-            default -> invalidCommand("Error: Unknown command:" +command);
+            case "join", "j" -> joinGame(tokens);
+            case "enter", "eg" -> enterGame(tokens);
+            case "ready", "r" -> setReady();
+            case "starterside","ss" -> selectStarterCardOrientation(tokens);
+            case "secretobjective", "so" -> selectSecretObjective(tokens);
+            case "place", "p" -> place(tokens);
+            case "directdrawresource", "ddr" -> directDrawResource();
+            case "drawleftresource", "dlr" -> drawLeftResource();
+            case "drawrightresource", "drr" -> drawRightResource();
+            case "directdrawgold", "ddg" -> directDrawGold();
+            case "drawleftgold", "dlg" -> drawLeftGold();
+            case "drawrightgold", "drg" -> drawRightGold();
+            case "leave" -> leave();
+            default -> {
+                System.out.println("Unknown command");
+                System.out.println("Type 'help' for more information.");
+                System.out.println();
+            }
         }
     }
-    private void invalidCommand(String messageError) {
-        System.out.println(messageError);
+    private void parseError(String messageError) {
+        System.out.println("Unexpected arguments: " + messageError);
+        System.out.println();
     }
+    private void parseError() {
+        System.out.println("Unexpected arguments");
+        System.out.println();
+    }
+
 
 
     private void updateUsername(String[] tokens) {
@@ -48,10 +55,10 @@ public class ClientTerminalParser implements CommandParser {
                 ClientController.getInstance().sendSetUsernameMessage(tokens[1]);
             }
             else
-                invalidCommand("Error: Invalid username");
+                parseError("invalid username");
         }
         else {
-            invalidCommand("Error: Invalid number of arguments");
+            parseError();
         }
     }
     private void help() {
@@ -59,14 +66,16 @@ public class ClientTerminalParser implements CommandParser {
     }
     private void createGame(String[] tokens) {
         if (tokens.length==3) {
-            if(!tokens[1].contains(" ") && Integer.parseInt(tokens[2])>=2 && Integer.parseInt(tokens[2])<=4)
+            if(!tokens[1].contains(" ") && Integer.parseInt(tokens[2])>=2 && Integer.parseInt(tokens[2])<=4) {
                 ClientController.getInstance().sendSetUpGameMessage(tokens[1], Integer.parseInt(tokens[2]));
-            else
-                invalidCommand("Error: Invalid parameters");
+            }
+            else {
+                parseError("invalid parameters");
+            }
         }
-        else
-            invalidCommand("Error: Invalid number of arguments");
-
+        else {
+            parseError();
+        }
     }
 
     private void getAvailableGames () {
@@ -81,17 +90,16 @@ public class ClientTerminalParser implements CommandParser {
             //else
               //  invalidCommand("Error: Invalid game selected");
         }
-        else
-            invalidCommand("Error: Invalid number of arguments");
-
-
+        else {
+            parseError();
+        }
     }
     private void enterGame(String[] tokens) {
         if (tokens.length == 2) {
             ClientController.getInstance().sendJoinGameMessage(tokens[1]);
         }
         else {
-            //TODO parse error
+            parseError();
         }
     }
 
@@ -104,7 +112,7 @@ public class ClientTerminalParser implements CommandParser {
             ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), Boolean.parseBoolean(tokens[2]));
         }
         else {
-            //TODO parse error
+            parseError();
         }
     }
 
@@ -113,7 +121,7 @@ public class ClientTerminalParser implements CommandParser {
             ClientController.getInstance().sendChosenSecretObjectiveMessage(Integer.parseInt(tokens[1]));
         }
         else {
-            //TODO parse error
+            parseError();
         }
     }
 
@@ -122,7 +130,7 @@ public class ClientTerminalParser implements CommandParser {
             ClientController.getInstance().sendPlaceMessage(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Boolean.parseBoolean(tokens[4]));
         }
         else {
-            //TODO parse error
+            parseError();
         }
     }
 
@@ -150,6 +158,8 @@ public class ClientTerminalParser implements CommandParser {
     private void drawRightGold() {
         ClientController.getInstance().sendDrawRightGoldCardMessage();
     }
+
+    private void leave() {}
 
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {

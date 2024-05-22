@@ -142,7 +142,7 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void exit(){
         ClientController.getInstance().sendLeaveMessage();
-        ClientController.getInstance().shutdown();
+        ClientController.getInstance().shutdownForGUI();
         StageManager.getCurrentStage().close();
     }
 

@@ -95,6 +95,6 @@ public class ClientCLI {
 
     public void shutdown() {
         clientTerminalInputReader.shutdown();
-        ClientController.getInstance().shutdown();
+        ClientController.getInstance().shutdownForGUI();
     }
 }

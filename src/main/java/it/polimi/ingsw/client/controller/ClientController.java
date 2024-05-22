@@ -203,9 +203,14 @@ public class ClientController implements ClientNetworkObserver {
     /**
      * shuts down the client application gracefully
      */
-    public void shutdown() {
+    public void shutdownForGUI() {
         clientConnectionManager.shutdown();
         Platform.exit();
+        System.exit(0);
+    }
+
+    public void shutdownForCLI() {
+        clientConnectionManager.shutdown();
         System.exit(0);
     }
 }

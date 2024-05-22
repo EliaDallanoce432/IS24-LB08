@@ -30,4 +30,19 @@ public enum Resource {
             default -> "";
         };
     }
+
+//    public String toEmoji() {
+//        return switch (this) {
+//            case fungi -> Character.toString(0x1F344);
+//            case animal -> Character.toString(0x1F43A);
+//            case plant -> Character.toString(0x1F43A);
+//            case insect -> Character.toString(0x1F43A);
+//            case scroll -> Character.toString(0x1F43A);
+//            case inkPot -> Character.toString(0x1F43A);
+//            case feather -> Character.toString(0x1F43A);
+//            case none -> " ";
+//            default -> "";
+//        };
+//    }
+
 }

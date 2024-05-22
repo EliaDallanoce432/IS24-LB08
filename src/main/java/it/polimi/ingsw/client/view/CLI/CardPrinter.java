@@ -65,7 +65,7 @@ public class CardPrinter {
         }
     }
 
-    public void drawTopLeftCorner(String content) {
+    public void drawTopLeftCorner(String emoji) {
         matrix[cornerHeight][0] = "├";
 
         for (int i = 1; i < cornerWidth; i++) {
@@ -81,13 +81,14 @@ public class CardPrinter {
         }
 
         // Place the emoji in the top left corner and adjust surrounding characters
-        if (content.length() > 1) {
-            // Handle emoji that take more than one character space
-            matrix[cornerHeight / 2][cornerWidth / 2] = content.substring(0, 1);
-            matrix[cornerHeight / 2][cornerWidth / 2 + 1] = content.substring(1, 2);
-        } else {
-            matrix[cornerHeight / 2][cornerWidth / 2] = content;
-        }
+//        if (content.length() > 1) {
+//            // Handle emoji that take more than one character space
+//            matrix[cornerHeight / 2][cornerWidth / 2] = "🐸";
+//            matrix[cornerHeight / 2][cornerWidth / 2 + 1] = content.substring(1, 2);
+//        } else {
+//            matrix[cornerHeight / 2][cornerWidth / 2] = "🐸";
+//        }
+        matrix[cornerHeight/2][cornerWidth/2] = emoji;
     }
 
     public void drawTopRightCorner(String emoji) {
@@ -108,16 +109,17 @@ public class CardPrinter {
         }
 
         // Place the emoji in the top right corner and adjust surrounding characters
-        if (emoji.length() > 1) {
-            // Handle emoji that take more than one character space
-            matrix[cornerHeight / 2][width - cornerWidth / 2 - 1] = emoji.substring(0, 1);
-            matrix[cornerHeight / 2][width - cornerWidth / 2] = emoji.substring(1, 2);
-        } else {
-            matrix[cornerHeight / 2][width - cornerWidth / 2] = emoji;
-        }
+//        if (emoji.length() > 1) {
+//            // Handle emoji that take more than one character space
+//            matrix[cornerHeight / 2][cornerWidth / 2] = emoji;
+////            matrix[cornerHeight / 2][cornerWidth / 2 + 1] = content.substring(1, 2);
+//        } else {
+//            matrix[cornerHeight / 2][width - cornerWidth / 2] = emoji;
+//        }
+        matrix[cornerHeight/2][width -  (cornerWidth/2) - 1] = emoji;
     }
 
-    public void drawBottomLeftCorner(String content) {
+    public void drawBottomLeftCorner(String emoji) {
         int bottomRow = height - cornerHeight - 1;
 
         matrix[bottomRow][0] = "├";
@@ -135,16 +137,17 @@ public class CardPrinter {
         }
 
         // Place the emoji in the bottom left corner and adjust surrounding characters
-        if (content.length() > 1) {
-            // Handle emoji that take more than one character space
-            matrix[height - cornerHeight / 2 - 1][cornerWidth / 2] = content.substring(0, 1);
-            matrix[height - cornerHeight / 2 - 1][cornerWidth / 2 + 1] = content.substring(1, 2);
-        } else {
-            matrix[height - cornerHeight / 2 - 1][cornerWidth / 2] = content;
-        }
+//        if (content.length() > 1) {
+//            // Handle emoji that take more than one character space
+//            matrix[cornerHeight / 2][cornerWidth / 2] = content;
+////            matrix[cornerHeight / 2][cornerWidth / 2 + 1] = content.substring(1, 2);
+//        } else {
+//            matrix[height - cornerHeight / 2 - 1][cornerWidth / 2] = content;
+//        }
+        matrix[height - (cornerHeight/2) - 1][cornerWidth/2] = emoji;
     }
 
-    public void drawBottomRightCorner(String content) {
+    public void drawBottomRightCorner(String emoji) {
         int bottomRow = height - cornerHeight - 1;
         int rightCol = width - cornerWidth - 1;
 
@@ -163,12 +166,13 @@ public class CardPrinter {
         }
 
         // Place the emoji in the bottom right corner and adjust surrounding characters
-        if (content.length() > 1) {
-            // Handle emoji that take more than one character space
-            matrix[height - cornerHeight / 2 - 1][width - cornerWidth / 2 - 1] = content.substring(0, 1);
-            matrix[height - cornerHeight / 2 - 1][width - cornerWidth / 2] = content.substring(1, 2);
-        } else {
-            matrix[height - cornerHeight / 2 - 1][width - cornerWidth / 2 - 1] = content;
-        }
+//        if (content.length() > 1) {
+//            // Handle emoji that take more than one character space
+//            matrix[cornerHeight / 2][cornerWidth / 2] = content;
+////            matrix[cornerHeight / 2][cornerWidth / 2 + 1] = content.substring(1, 2);
+//        } else {
+//            matrix[height - cornerHeight / 2 - 1][width - cornerWidth / 2 - 1] = content;
+//        }
+        matrix[height - (cornerHeight/2) - 1][width -  (cornerWidth/2) - 1] = emoji;
     }
 }
