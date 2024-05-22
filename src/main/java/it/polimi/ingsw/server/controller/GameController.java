@@ -50,6 +50,10 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
+    public String getGameName() {
+        return gameName;
+    }
+
     @Override
     public void submitNewRequest(Request request) {
         requests.addLast(request);

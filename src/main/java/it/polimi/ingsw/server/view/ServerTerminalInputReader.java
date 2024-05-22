@@ -12,10 +12,7 @@ public class ServerTerminalInputReader extends TerminalInputReader {
     public static ServerTerminalInputReader getInstance() {
         if(instance == null) {
             instance = new ServerTerminalInputReader();
-            return instance;
         }
-        else return instance;
+        return instance;
     }
-
-
 }

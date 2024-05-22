@@ -24,11 +24,10 @@ public class Lobby implements ServerNetworkObserver {
     private boolean welcomeSocketIsRunning = false;
     private int welcomeSocketPort;
     private volatile boolean running;
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
     private final LobbyRequestHandler lobbyRequestHandler;
-    private final ServerView serverView;
 
-    public Lobby(int port) throws CannotOpenWelcomeSocket {
+    public Lobby() {
         connectedClients = new ArrayList<>();
         games = new HashMap<>();
         availableGames = new HashMap<>();
@@ -36,13 +35,12 @@ public class Lobby implements ServerNetworkObserver {
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestHandler = new LobbyRequestHandler(this);
-        serverView = ServerView.getInstance(this);
-//        ServerWelcomeSocket serverWelcomeSocket;
-//        serverWelcomeSocket = new ServerWelcomeSocket(this, port);
- //       executorService.submit(serverWelcomeSocket);
+        ServerView.getInstance(this);
         running = true;
-        System.out.println("Server started");
-        System.out.println("Type 'help' to see possible commands.");
+        System.out.println("Lobby started");
+        System.out.println("Set a port for the server with 'setPort' command.");
+        System.out.println("Type 'help' for more information.");
+        System.out.println();
     }
 
     public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
@@ -58,6 +56,18 @@ public class Lobby implements ServerNetworkObserver {
 
     public HashMap<String, GameController> getAvailableGames() {
         return availableGames;
+    }
+
+    public HashMap<String, GameController> getGames() {
+        return games;
+    }
+
+    public ArrayList<ClientHandler> getConnectedClients() {
+        return connectedClients;
+    }
+
+    public int getWelcomeSocketPort() {
+        return welcomeSocketPort;
     }
 
     /**
