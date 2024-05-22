@@ -49,6 +49,8 @@ public class GameFieldModel extends ObservableModel {
      * Resets the placementHistory array.
      */
     public void clear(){
-        placementHistory.clear();
+        if (placementHistory != null) {
+            placementHistory.clear();
+        }
     }
 }

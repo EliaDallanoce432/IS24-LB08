@@ -7,6 +7,7 @@ public class ServerTerminalParser implements CommandParser {
     @Override
     public void parse(String command) {
         String[] tokens = command.split("\\s+");
+        tokens[0] = tokens[0].toLowerCase();
         switch (tokens[0]) {
             case "help": {
                 if (tokens.length == 1) {
@@ -15,7 +16,20 @@ public class ServerTerminalParser implements CommandParser {
                 else ServerView.getInstance().parseError();
                 break;
             }
-            case "setPort": {
+            case "echo": {
+                tokens[1] = tokens[1].toLowerCase();
+                if (tokens.length == 2) {
+                    if (tokens[1].equals("on")) {
+                        ServerView.getInstance().setEcho(true);
+                    } else if (tokens[1].equals("off")) {
+                        ServerView.getInstance().setEcho(false);
+                    }
+                    else ServerView.getInstance().parseError();
+                }
+                else ServerView.getInstance().parseError();
+                break;
+            }
+            case "setport": {
                 if (tokens.length == 1) {
                     ServerView.getInstance().setPort(12345);
                 }

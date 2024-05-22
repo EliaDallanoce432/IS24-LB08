@@ -60,7 +60,9 @@ public class HandModel extends ObservableModel {
      * Resets the Hand Model.
      */
     public void clear(){
-        cardsInHand.clear();
+        if (cardsInHand != null) {
+            cardsInHand.clear();
+        }
     }
 
 

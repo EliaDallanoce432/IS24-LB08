@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.view;
 import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
-import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
 import it.polimi.ingsw.util.customexceptions.WelcomeSocketIsAlreadyOpenException;
 
@@ -34,9 +33,25 @@ public class ServerView {
 
     public void printHelp() {
         System.out.println("Available commands:");
-        System.out.println("setPort [port number]: allows you to set the port where the server is listening on (leave [port number] to set it on the default port 12345");
-        System.out.println("shutdown: allows you to shutdown the server");
+        System.out.println("setport [port number]: allows you to set the port where the server is listening on (leave [port number] to set it on the default port 12345)");
+        System.out.println("echo [on/off]: enables or disables the verbose prints from the server at every relevant event (from the lobby and games too)");
+        System.out.println("clients: shows the currently connected clients to the server");
+        System.out.println("games: shows the current running games");
+        System.out.println("games --info [game name]: shows the specific infos of the specified game");
+        System.out.println("shutdown: shuts down the server");
         System.out.println();
+    }
+
+    public void setEcho(boolean echo) {
+        if(echo) {
+            lobby.echoOn();
+            System.out.println("Echo enabled");
+        }
+        else {
+            lobby.echoOff();
+            System.out.println("Echo disabled");
+            System.out.println();
+        }
     }
 
     public void setPort(int port) {
@@ -59,13 +74,19 @@ public class ServerView {
     }
 
     public void showConnectedClients() {
-        for (ClientHandler client : lobby.getConnectedClients()) {
-            System.out.println(client.getUsername());
-            System.out.println(client.getInetAddress());
-            if (client.isInGame()) System.out.println("Playing in '" + client.getGameController().getGameName() + "'");
-            else System.out.println("In the lobby");
-            System.out.println();
+        System.out.println("Connected clients:");
+        System.out.println();
+        if (!lobby.getConnectedClients().isEmpty()) {
+            for (ClientHandler client : lobby.getConnectedClients()) {
+                System.out.println(client.getUsername());
+                System.out.println(client.getInetAddress());
+                if (client.isInGame()) System.out.println("Playing in '" + client.getGameController().getGameName() + "'");
+                else System.out.println("In the lobby");
+                System.out.println();
+            }
         }
+        else System.out.println("none");
+        System.out.println();
     }
 
     public void showGames() {
@@ -90,7 +111,7 @@ public class ServerView {
 
     private void printGameWaitingForPlayers(String gameName) {
         GameController gameController = lobby.getAvailableGames().get(gameName);
-        System.out.println(gameName + " - " + "(" + gameController.getClientHandlers().size() + gameController.getNumberOfPlayers() + ")");
+        System.out.println(gameName + " - " + "(" + gameController.getClientHandlers().size() + "/" + gameController.getNumberOfPlayers() + ")");
     }
 
     private void quickPrintGameInProgress(String gameName) {

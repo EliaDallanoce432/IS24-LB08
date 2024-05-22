@@ -23,6 +23,7 @@ public class ScoreBoardModel extends ObservableModel{
 
     public ScoreBoardModel() {
         scores = new HashMap<>();
+        leaderboard = new ArrayList<>();
     }
 
     public static ScoreBoardModel getInstance(){

@@ -23,7 +23,7 @@ class ObjectiveCardDiagonalInsectTest {
 
     @BeforeAll
     static void setUpBeforeClass() {
-        controller = new GameController(null,4,"test");
+        controller = new GameController(null,4,"test", false);
         game = controller.getGame();
         objectiveCard = new ObjectiveCard(90);
     }

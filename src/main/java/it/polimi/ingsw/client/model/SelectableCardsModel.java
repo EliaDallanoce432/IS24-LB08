@@ -46,8 +46,10 @@ public class SelectableCardsModel extends ObservableModel{
 
     public void clear(){
         this.starterCardId = 0;
-        this.selectableObjectiveCardsId[0] = 0;
-        this.selectableObjectiveCardsId[1] = 0;
+        if (selectableObjectiveCardsId != null) {
+            this.selectableObjectiveCardsId[0] = 0;
+            this.selectableObjectiveCardsId[1] = 0;
+        }
     }
 
 

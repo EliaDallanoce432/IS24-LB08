@@ -23,9 +23,10 @@ public class Lobby implements ServerNetworkObserver {
     private final ArrayList<String> takenUsernames;
     private boolean welcomeSocketIsRunning = false;
     private int welcomeSocketPort;
-    private volatile boolean running;
     private final ExecutorService executorService;
     private final LobbyRequestHandler lobbyRequestHandler;
+    private boolean echo;
+    private volatile boolean running;
 
     public Lobby() {
         connectedClients = new ArrayList<>();
@@ -36,8 +37,10 @@ public class Lobby implements ServerNetworkObserver {
         executorService = Executors.newCachedThreadPool();
         lobbyRequestHandler = new LobbyRequestHandler(this);
         ServerView.getInstance(this);
+        echo = false;
         running = true;
         System.out.println("Lobby started");
+        System.out.println("Echo: off");
         System.out.println("Set a port for the server with 'setPort' command.");
         System.out.println("Type 'help' for more information.");
         System.out.println();
@@ -68,6 +71,21 @@ public class Lobby implements ServerNetworkObserver {
 
     public int getWelcomeSocketPort() {
         return welcomeSocketPort;
+    }
+
+    public void echoOff() {
+        echo = false;
+        for(GameController gameController : games.values()) {
+            gameController.echoOff();
+        }
+        System.out.println();
+    }
+
+    public void echoOn() {
+        echo = true;
+        for(GameController gameController : games.values()) {
+            gameController.echoOn();
+        }
     }
 
     /**
@@ -122,7 +140,11 @@ public class Lobby implements ServerNetworkObserver {
      */
     public void enterLobby(ClientHandler client) {
         connectedClients.add(client);
-        System.out.println("client connected successfully to the lobby");
+        if (echo) {
+            String username = "";
+            if(client.getUsername() != null){ username = client.getUsername() + " "; }
+            System.out.println("Client "+username+ " connected to the lobby");
+        }
         client.send(LobbyMessageGenerator.joinedLobbyMessage());
     }
 
@@ -133,7 +155,9 @@ public class Lobby implements ServerNetworkObserver {
     public void leaveLobby(ClientHandler client) {
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
-        System.out.println("client " + client.getUsername() + " left the lobby");
+        if (echo) {
+            System.out.println("Client " + client.getUsername() + " left the lobby");
+        }
         client.shutdown();
     }
 
@@ -148,8 +172,12 @@ public class Lobby implements ServerNetworkObserver {
             takenUsernames.remove(client.getUsername()); //the client had already a registered username, so now it's going to be changed
         }
         if (!takenUsernames.contains(username)) {
+            String oldUsername = client.getUsername();
             takenUsernames.add(username);
             client.setUsername(username);
+            if(echo) {
+                System.out.println("Client '" + oldUsername + "' changed their username to '" + username +"'");
+            }
         }
         else {
             throw new AlreadyTakenUsernameException();
@@ -164,7 +192,7 @@ public class Lobby implements ServerNetworkObserver {
     public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) throws CannotCreateGameException {
         if(gameName == null) throw new CannotCreateGameException("Invalid name!");
         if(games.containsKey(gameName)) throw new CannotCreateGameException("Game name already taken!");
-        GameController newGameController = new GameController(this,numberOfPlayers,gameName);
+        GameController newGameController = new GameController(this,numberOfPlayers,gameName, echo);
         games.put(gameName, newGameController);
         availableGames.put(gameName,newGameController);
         try {
@@ -202,7 +230,9 @@ public class Lobby implements ServerNetworkObserver {
 
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
-        System.out.println("client" + clientHandler.getUsername() + " lost connection");
+        if (echo) {
+            System.out.println("Client" + clientHandler.getUsername() + " lost connection");
+        }
         leaveLobby(clientHandler);
     }
 

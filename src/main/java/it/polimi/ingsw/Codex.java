@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.CLI.ClientCLI;
 import it.polimi.ingsw.client.view.ClientGUI;
 import it.polimi.ingsw.server.lobby.Lobby;
@@ -9,7 +8,6 @@ import javafx.application.Application;
 public class Codex {
 
     private Lobby lobby;
-    private ClientController clientController;
 
     public Lobby getLobby() {
         return lobby;
@@ -17,10 +15,6 @@ public class Codex {
 
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
-    }
-
-    public void setClientController(ClientController clientController) {
-        this.clientController = clientController;
     }
 
     public static void main(String[] args) {
@@ -71,7 +65,6 @@ public class Codex {
 
     private void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
-        if(clientController != null) { clientController.shutdown(); }
     }
 
 
