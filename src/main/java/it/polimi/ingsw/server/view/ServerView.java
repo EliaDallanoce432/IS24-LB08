@@ -101,7 +101,7 @@ public class ServerView {
         System.out.println("Games in progress:");
         System.out.println();
         if (lobby.getAvailableGames().size() < lobby.getGames().size()) {
-            for (String gameName : lobby.getAvailableGames().keySet()) {
+            for (String gameName : lobby.getGames().keySet()) {
                 if (lobby.getAvailableGames().containsKey(gameName)) continue;
                 quickPrintGameInProgress(gameName);
             }
@@ -115,8 +115,8 @@ public class ServerView {
     }
 
     private void quickPrintGameInProgress(String gameName) {
-        GameController gameController = lobby.getAvailableGames().get(gameName);
-        System.out.println(gameName + " - " + gameController.getNumberOfPlayers() + "players");
+        GameController gameController = lobby.getGames().get(gameName);
+        System.out.println(gameName + " - " + gameController.getNumberOfPlayers() + " players");
     }
 
     private void fullInfoPrintGameInProgress(String gameName) {

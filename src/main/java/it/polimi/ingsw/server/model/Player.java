@@ -34,7 +34,6 @@ public class Player {
         this.score = 0;
         this.gamefield = new GameField(this);
         this.hand = new ArrayList<>();
-        initializeHand();
         this.starterCard = null;
         this.secretObjective = null;
         this.drawnObjectiveCards = new ObjectiveCard[2];
@@ -116,7 +115,7 @@ public class Player {
     /**
      * adds to the player's hand the first 3 cards of his game
      */
-    private void initializeHand() {
+    public void initializeHand() {
         hand.clear();
         try {
             addToHand((ResourceCard) game.getResourceCardDeck().directDraw());
@@ -159,7 +158,7 @@ public class Player {
      */
     public void addToHand(PlaceableCard card) throws FullHandException {
         if (this.hand.size() >= MAX_HAND_SIZE) throw new FullHandException();
-        else hand.add(card);
+        hand.add(card);
     }
 
     /**
@@ -169,7 +168,7 @@ public class Player {
      */
     public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {
         if(!hand.remove(card)) throw new CardNotInHandException();
-        else return card;
+        return card;
     }
 
     /**

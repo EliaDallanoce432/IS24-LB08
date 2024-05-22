@@ -139,11 +139,13 @@ public class Lobby implements ServerNetworkObserver {
      * @param client client to allow in
      */
     public void enterLobby(ClientHandler client) {
-        connectedClients.add(client);
+        if(!connectedClients.contains(client)) {
+            connectedClients.add(client);
+        }
         if (echo) {
             String username = "";
             if(client.getUsername() != null){ username = client.getUsername() + " "; }
-            System.out.println("Client "+username+ " connected to the lobby");
+            System.out.println("Client "+username+ " is now in the lobby");
         }
         client.send(LobbyMessageGenerator.joinedLobbyMessage());
     }
@@ -176,7 +178,9 @@ public class Lobby implements ServerNetworkObserver {
             takenUsernames.add(username);
             client.setUsername(username);
             if(echo) {
-                System.out.println("Client '" + oldUsername + "' changed their username to '" + username +"'");
+                if (oldUsername != null) {
+                    System.out.println("Client '" + oldUsername + "' changed their username to '" + username +"'");
+                }
             }
         }
         else {
@@ -196,9 +200,8 @@ public class Lobby implements ServerNetworkObserver {
         games.put(gameName, newGameController);
         availableGames.put(gameName,newGameController);
         try {
-            newGameController.enterGame(client);
-        } catch (GameIsFullException ignored) {
-        }
+            joinGame(client, gameName);
+        } catch (NonExistentGameException | GameIsFullException ignored) {}
         Thread thread = new Thread(newGameController);
         thread.start();
     }
@@ -224,7 +227,6 @@ public class Lobby implements ServerNetworkObserver {
      */
     public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
-        connectedClients.remove(client);
         availableGames.get(gameName).enterGame(client);
     }
 

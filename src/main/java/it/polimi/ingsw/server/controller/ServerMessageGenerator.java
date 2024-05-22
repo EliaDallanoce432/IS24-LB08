@@ -213,7 +213,6 @@ public class ServerMessageGenerator {
 
     private JSONArray updatedPlacementHistory(Player player) {
         JSONArray placementHistory = new JSONArray();
-        System.out.println(player.getGamefield().getPlacementHistory());
         for(PlaceableCard placeableCard : player.getGamefield().getPlacementHistory()) {
             Map<String,String> jsonMap = new HashMap<>();
             jsonMap.put("cardID", String.valueOf(placeableCard.getId()));
@@ -229,7 +228,6 @@ public class ServerMessageGenerator {
     private JSONArray updatedHand(Player player) {
         JSONArray handArray = new JSONArray();
         for(PlaceableCard cardInHand : player.getHand()){
-            System.out.println(cardInHand.getId());
             handArray.add(String.valueOf(cardInHand.getId()));
         }
         return handArray;

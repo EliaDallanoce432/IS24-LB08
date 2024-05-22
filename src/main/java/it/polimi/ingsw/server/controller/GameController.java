@@ -41,7 +41,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         this.gameRequestHandler = new GameRequestHandler(this, messageGenerator, game);
 
         if (echo) {
-            System.out.println("Game" + gameName + " is ready to receive players");
+            System.out.println("Game " + gameName + " is ready to receive players");
         }
     }
 
@@ -216,14 +216,20 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
      */
     public synchronized void ready(ClientHandler player){
         getCurrentPlayer(player).setReady(true);
+        if(echo) System.out.println("In game " + gameName + "player " + player.getUsername() + " is ready");
     }
 
     /**
      * communicates to players the game is about to start and sends their cards
      */
     public void startGame () {
-        //shuffle i client handlers per scegliere l'ordine del turno
+        //shuffles the client handlers to decide the round player sequence randomly
         Collections.shuffle(clientHandlers);
+        //initializes the hand of each player
+        for(Player p : game.getPlayers()) {
+            p.initializeHand();
+        }
+        //sends the starting messages to each player
         for (ClientHandler client : clientHandlers) {
             client.send(messageGenerator.startGameMessage(this, getCurrentPlayer(client)));
             getCurrentPlayer(client).clearTurnState();
@@ -444,7 +450,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     public void notifyConnectedClientCountChanged() {
         if(clientHandlers.isEmpty()) {
             if (echo) {
-                System.out.println("There are no more players in the game " + game + ": game is closed");
+                System.out.println("There are no more players in the game " + gameName + ": game is closed");
             }
             lobby.closeGame(gameName);
             running = false;
@@ -549,7 +555,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         if (game.getGoldCardDeck().isEmpty() && game.getResourceCardDeck().isEmpty()) {
             game.setGameState(GameState.lastRound);
             reason = "decks are empty";
-            broadcast(messageGenerator.lastRoundMessage("decks are empty"));
+            broadcast(messageGenerator.lastRoundMessage(reason));
             if(echo) {
                 System.out.println("Game " + gameName + " is at the last round because " + reason);
             }
