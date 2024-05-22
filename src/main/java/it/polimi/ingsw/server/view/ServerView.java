@@ -34,6 +34,7 @@ public class ServerView {
     public void printHelp() {
         System.out.println("Available commands:");
         System.out.println("setport [port number]: allows you to set the port where the server is listening on (leave [port number] to set it on the default port 12345)");
+        System.out.println("port: shows you on what port the server is listening to" );
         System.out.println("echo [on/off]: enables or disables the verbose prints from the server at every relevant event (from the lobby and games too)");
         System.out.println("clients: shows the currently connected clients to the server");
         System.out.println("games: shows the current running games");
@@ -55,6 +56,11 @@ public class ServerView {
     }
 
     public void setPort(int port) {
+        if(port < 1 || port > 65535) {
+            System.out.println("Port must be between 1 and 65535!");
+            System.out.println();
+            return;
+        }
         try {
             lobby.initializeWelcomeSocket(port);
         } catch (CannotOpenWelcomeSocket e) {
@@ -124,14 +130,16 @@ public class ServerView {
         System.out.println(gameName + " - " + gameController.getNumberOfPlayers() + " players");
         System.out.println("Players:");
         for (ClientHandler client : gameController.getClientHandlers()) {
-            System.out.println(client.getUsername() + " has " + gameController.getCurrentPlayer(client).getScore());
+            System.out.println(client.getUsername() + " has " + gameController.getCurrentPlayer(client).getScore() + " points");
         }
         System.out.println("Currently it's the turn of: " + gameController.getTurnPlayerUsername());
+        System.out.println();
     }
 
     public void showGameInfo(String gameName) {
         if (!lobby.getGames().containsKey(gameName)) {
             System.out.println("Game '" + gameName + "' not found.");
+            System.out.println();
             return;
         }
         if(lobby.getAvailableGames().containsKey(gameName)) printGameWaitingForPlayers(gameName);

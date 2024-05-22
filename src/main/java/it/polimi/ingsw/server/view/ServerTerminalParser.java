@@ -34,7 +34,12 @@ public class ServerTerminalParser implements CommandParser {
                     ServerView.getInstance().setPort(12345);
                 }
                 else if (tokens.length == 2) {
-                    ServerView.getInstance().setPort(Integer.parseInt(tokens[1]));
+                    try {
+                        ServerView.getInstance().setPort(Integer.parseInt(tokens[1]));
+                    } catch (NumberFormatException e) {
+                        System.out.println("The port number provided isn't an integer!");
+                        System.out.println();
+                    }
                 }
                 else ServerView.getInstance().parseError();
                 break;
