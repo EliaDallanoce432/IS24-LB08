@@ -60,6 +60,7 @@ public class CLIViewController extends ViewController {
     public void updatePlayerInfo() {
         if(ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE){
             Printer.printMessage("User logged in as: " + PlayerModel.getInstance().getUsername());
+            System.out.println();
         }
     }
 

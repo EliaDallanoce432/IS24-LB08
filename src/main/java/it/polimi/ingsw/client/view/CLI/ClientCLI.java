@@ -42,29 +42,30 @@ public class ClientCLI {
     private void printMenu()
     {
         Map<String, String> menuOptions = new HashMap<>();
-        menuOptions.put("setUsername", "--Set your username");
-        menuOptions.put("join", "--Join to a game");
-        menuOptions.put("create", "--Create a game");
-        menuOptions.put("exit", "--Close the game");
+        menuOptions.put("setusername <username> | su <username>", "Set your username");
+        menuOptions.put("join <gameName> | j <gameName>", "Join to a game");
+        menuOptions.put("create <gameName> <players(2-4)> | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+        menuOptions.put("availablegames | ag", "View all available games");
+        menuOptions.put("quit | q", "Exit from Codex");
         Menu menu = new Menu(menuOptions);
         menu.displayMenu();
     }
 
     private String getServerAddress(String defaultValue) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert server IP address (default: '" + defaultValue + "'):");
+        System.out.println("Insert server IP address (press Enter for set default IP: " + defaultValue +")");
         String address = scanner.nextLine().trim();
         return address.isEmpty() ? defaultValue : address;
     }
 
     private int getServerPort(int defaultValue) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert server port (default: '" + defaultValue + "'):");
+        System.out.println("Insert server port (press Enter for set default port: " + defaultValue +")");
         String portString = scanner.nextLine().trim();
         try {
             return portString.isEmpty() ? defaultValue : Integer.parseInt(portString);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid port number. Using default: " + defaultValue);
+            System.out.println("Invalid port number. Using default port: " + defaultValue);
             return defaultValue;
         }
     }
@@ -82,7 +83,6 @@ public class ClientCLI {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("Welcome to Codex!");
     }
     private static void clearConsole() throws IOException, InterruptedException{
         String os = System.getProperty("os.name");

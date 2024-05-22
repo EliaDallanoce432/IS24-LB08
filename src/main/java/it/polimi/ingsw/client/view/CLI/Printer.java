@@ -7,9 +7,9 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 public class Printer {
 
     public static void printMessage(String message) {
-        System.out.println("--------------------------");
+        System.out.println("-----------------------------------------");
         System.out.println(message);
-        System.out.println("--------------------------");
+        System.out.println("-----------------------------------------");
     }
 
     public static void printCard(int id, boolean facingUp) throws InvalidIdException {

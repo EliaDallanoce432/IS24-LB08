@@ -16,12 +16,11 @@ public class ClientTerminalParser implements CommandParser {
         switch (tokens[0]) {
             case "help","h","?" -> help();
             case "setusername","su" -> updateUsername(tokens);
-            case "exit" -> ClientController.getInstance().shutdownForCLI();
+            case "quit", "q" -> ClientController.getInstance().shutdownForCLI();
             case "create", "c" -> createGame(tokens);
             case "availablegames", "ag" -> getAvailableGames();
             case "info" -> getInfo(tokens);
             case "join", "j" -> joinGame(tokens);
-            case "enter", "eg" -> enterGame(tokens);
             case "ready", "r" -> setReady();
             case "starterside","ss" -> selectStarterCardOrientation(tokens);
             case "secretobjective", "so" -> selectSecretObjective(tokens);
@@ -32,7 +31,6 @@ public class ClientTerminalParser implements CommandParser {
             case "directdrawgold", "ddg" -> directDrawGold();
             case "drawleftgold", "dlg" -> drawLeftGold();
             case "drawrightgold", "drg" -> drawRightGold();
-            case "leave" -> leave();
             default -> {
                 System.out.println("Unknown command");
                 System.out.println("Type 'help' for more information.");
@@ -96,14 +94,6 @@ public class ClientTerminalParser implements CommandParser {
             parseError();
         }
     }
-    private void enterGame(String[] tokens) {
-        if (tokens.length == 2) {
-            ClientController.getInstance().sendJoinGameMessage(tokens[1]);
-        }
-        else {
-            parseError();
-        }
-    }
 
     private void setReady() {
         ClientController.getInstance().sendReadyMessage();
@@ -161,7 +151,6 @@ public class ClientTerminalParser implements CommandParser {
         ClientController.getInstance().sendDrawRightGoldCardMessage();
     }
 
-    private void leave() {}
 
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {
