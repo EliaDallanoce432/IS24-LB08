@@ -25,12 +25,8 @@ public class SelectableCardsModel extends ObservableModel{
         return selectableObjectiveCardsId;
     }
 
-    public void setStarterCardId(int starterCardId) {
+    public void setSelectableCardsId(int starterCardId, int[] objectiveCardsId) {
         this.starterCardId = starterCardId;
-        notifyObservers();
-    }
-
-    public void setSelectableObjectiveCardsId(int[] objectiveCardsId) {
         this.selectableObjectiveCardsId = objectiveCardsId;
         notifyObservers();
     }

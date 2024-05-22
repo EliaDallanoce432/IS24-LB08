@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 
@@ -22,7 +23,7 @@ public class ClientTerminalParser implements CommandParser {
             case "info" -> getInfo(tokens);
             case "join", "j" -> joinGame(tokens);
             case "ready", "r" -> setReady();
-            case "starterside","ss" -> selectStarterCardOrientation(tokens);
+            case "startercard","sc" -> selectStarterCardOrientation(tokens);
             case "secretobjective", "so" -> selectSecretObjective(tokens);
             case "place", "p" -> place(tokens);
             case "directdrawresource", "ddr" -> directDrawResource();
@@ -96,12 +97,21 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     private void setReady() {
+        Printer.printMessage("You are ready! - waiting for all the players to get ready...");
         ClientController.getInstance().sendReadyMessage();
     }
 
     private void selectStarterCardOrientation(String[] tokens) {
         if (tokens.length == 3) {
-            ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), Boolean.parseBoolean(tokens[2]));
+            if(Objects.equals(tokens[2], "left")) {
+                ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), true);
+                notify();
+            }
+            else if(Objects.equals(tokens[2], "right")) {
+                ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), false);
+                notify();
+            }
+            else parseError("invalid parameters");
         }
         else {
             parseError();
@@ -110,7 +120,14 @@ public class ClientTerminalParser implements CommandParser {
 
     private void selectSecretObjective (String[] tokens) {
         if (tokens.length == 2) {
-            ClientController.getInstance().sendChosenSecretObjectiveMessage(Integer.parseInt(tokens[1]));
+            SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();
+            int objectiveId = Integer.parseInt(tokens[1]);
+            if(objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[0] || objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[1]) {
+                ClientController.getInstance().sendChosenSecretObjectiveMessage(Integer.parseInt(tokens[1]));
+            }
+            else {
+                parseError("This ID is not valid");
+            }
         }
         else {
             parseError();
@@ -155,7 +172,7 @@ public class ClientTerminalParser implements CommandParser {
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {
             try {
-                Printer.printCard(Integer.parseInt(tokens[1]),true);
+                Printer.printCardInfo(Integer.parseInt(tokens[1]),true);
             } catch (InvalidIdException e) {
                 Printer.printMessage("Error: unrecognized card ID.");
             }
@@ -163,14 +180,14 @@ public class ClientTerminalParser implements CommandParser {
         else if (tokens.length == 3) {
             if (Objects.equals(tokens[2], "front")){
                 try {
-                    Printer.printCard(Integer.parseInt(tokens[1]), true);
+                    Printer.printCardInfo(Integer.parseInt(tokens[1]), true);
                 } catch (InvalidIdException e) {
                     Printer.printMessage("Error: unrecognized card ID.");
                 }
             }
             else if (Objects.equals(tokens[2], "back")){
                 try {
-                    Printer.printCard(Integer.parseInt(tokens[1]), false);
+                    Printer.printCardInfo(Integer.parseInt(tokens[1]), false);
                 } catch (InvalidIdException e) {
                     Printer.printMessage("Error: unrecognized card ID.");
                 }

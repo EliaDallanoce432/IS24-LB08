@@ -2,6 +2,7 @@ package it.polimi.ingsw.util.supportclasses;
 
 public final class ViewConstants {
 
+    //GUI CONSTANTS
 
     public static final double CARD_WIDTH = 113;
     public static final double CARD_HEIGHT = 75;
@@ -23,4 +24,12 @@ public final class ViewConstants {
     public static final double CHOOSE_CARDS_SCALE = 1.5;
     public static final int BLANK_CARDS_NUMBER = 4;
     public static final double BLANK_CARDS_OFFSET = 4;
+
+    //CLI CONSTANTS
+
+    public static final int CLI_CARD_HEIGHT = 10;
+    public static final int CLI_CARD_WIDTH = 40;
+
+    public static final int CLI_CORNER_HEIGHT = 4;
+    public static final int CLI_CORNER_WIDTH = 10;
 }

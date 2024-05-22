@@ -109,8 +109,7 @@ public class ClientMessageHandler {
         int starterCardID = Integer.parseInt(message.get("starterCardID").toString());
         int objectiveCardID1 = Integer.parseInt(message.get("objectiveCardID1").toString());
         int objectiveCardID2 = Integer.parseInt(message.get("objectiveCardID2").toString());
-        SelectableCardsModel.getInstance().setStarterCardId(starterCardID);
-        SelectableCardsModel.getInstance().setSelectableObjectiveCardsId(new int[]{objectiveCardID1, objectiveCardID2});
+        SelectableCardsModel.getInstance().setSelectableCardsId(starterCardID,new int[]{objectiveCardID1, objectiveCardID2});
     }
 
     /**
