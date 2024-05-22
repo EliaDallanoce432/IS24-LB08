@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.lobby.LobbyRequestHandler;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.util.cli.CommandParser;
+import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+
+import java.io.PrintWriter;
 
 public class ClientTerminalParser implements CommandParser {
 
@@ -18,6 +21,7 @@ public class ClientTerminalParser implements CommandParser {
             case "exit" -> ClientController.getInstance().shutdown();
             case "createGame" -> createGame(tokens);
             case "getAvailableGames" -> getAvailableGames();
+            case "info" -> getInfo(tokens);
             case "joinGame" -> joinGame(tokens);
             case "enterGame" -> enterGame(tokens);
             case "setReady" -> setReady();
@@ -122,6 +126,7 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+
     private void directDrawResource() {
         ClientController.getInstance().sendDirectDrawResourceCardMessage();
     }
@@ -144,5 +149,16 @@ public class ClientTerminalParser implements CommandParser {
 
     private void drawRightGold() {
         ClientController.getInstance().sendDrawRightGoldCardMessage();
+    }
+
+    private void getInfo (String[] tokens) {
+        if (tokens.length == 2) {
+            try {
+                Printer.printCard(Integer.parseInt(tokens[1]));
+            } catch (InvalidIdException e) {
+                Printer.printMessage("Error: unrecognized card ID.");
+            }
+        }
+        else System.out.println("Error: Invalid number of arguments");
     }
 }

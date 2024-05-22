@@ -16,4 +16,18 @@ public enum Resource {
             default -> Resource.none;
         };
     }
+
+    public String toEmoji() {
+        return switch (this) {
+            case fungi -> "🍄";
+            case animal -> "🐺";
+            case plant -> "🌿";
+            case insect -> "🦋";
+            case scroll -> "📜";
+            case inkPot -> "🧴";
+            case feather -> "𓆰";
+            case none -> " ";
+            default -> "";
+        };
+    }
 }

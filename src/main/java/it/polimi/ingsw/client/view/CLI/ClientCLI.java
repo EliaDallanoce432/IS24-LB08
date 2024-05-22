@@ -32,7 +32,8 @@ public class ClientCLI {
             printWelcomeMessage();
             printMenu();
         } catch (ServerUnreachableException e) {
-            System.out.println("Could not connect to server. Try again.");
+            System.out.println("Could not connect to server.");
+            System.exit(1);
         }
         StageManager.enableCLIMode();
         clientTerminalInputThread.start();
