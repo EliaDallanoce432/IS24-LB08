@@ -17,15 +17,15 @@ public enum Resource {
         };
     }
 
-    public String toEmoji() {
+    public String toSymbol() {
         return switch (this) {
-            case fungi -> "🍄";
-            case animal -> "🐺";
-            case plant -> "🌿";
-            case insect -> "🦋";
-            case scroll -> "📜";
-            case inkPot -> "🧴";
-            case feather -> "𓆰";
+            case fungi -> "F";
+            case animal -> "A";
+            case plant -> "P";
+            case insect -> "I";
+            case scroll -> "s";
+            case inkPot -> "i";
+            case feather -> "f";
             case none -> " ";
             default -> "";
         };

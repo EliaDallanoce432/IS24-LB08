@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.server.model.card.*;
-import it.polimi.ingsw.server.model.json.JsonCardsReader;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 
 public class Printer {
@@ -45,16 +44,25 @@ public class Printer {
 
         cardPrinter.printCard();
 
+        System.out.println("\"F\": fungi |" +
+                "\"A\": animal |" +
+                "\"P\": plant |" +
+                "\"I\": insect |" +
+                "\"s\": scroll |" +
+                "\"i\": inkPot |" +
+                "\"f\": feather |"
+        );
+
     }
 
     private static void drawCorners(CardPrinter cardPrinter, Corner topLeftCorner, Corner topRightCorner, Corner bottomRightCorner, Corner bottomLeftCorner) {
         if (topLeftCorner.isAttachable())
-            cardPrinter.drawTopLeftCorner(topLeftCorner.getResource().toEmoji());
+            cardPrinter.drawTopLeftCorner(topLeftCorner.getResource().toSymbol());
         if (topRightCorner.isAttachable())
-            cardPrinter.drawTopRightCorner(topRightCorner.getResource().toEmoji());
+            cardPrinter.drawTopRightCorner(topRightCorner.getResource().toSymbol());
         if (bottomRightCorner.isAttachable())
-            cardPrinter.drawBottomRightCorner(bottomRightCorner.getResource().toEmoji());
+            cardPrinter.drawBottomRightCorner(bottomRightCorner.getResource().toSymbol());
         if (bottomLeftCorner.isAttachable())
-            cardPrinter.drawBottomLeftCorner(bottomLeftCorner.getResource().toEmoji());
+            cardPrinter.drawBottomLeftCorner(bottomLeftCorner.getResource().toSymbol());
     }
 }
