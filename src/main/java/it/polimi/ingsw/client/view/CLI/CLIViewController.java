@@ -15,6 +15,8 @@ import it.polimi.ingsw.util.supportclasses.ClientState;
 
 import java.util.Scanner;
 
+import static it.polimi.ingsw.util.supportclasses.ClientState.PLACING_STATE;
+
 public class CLIViewController extends ViewController {
 
     public CLIViewController() {
@@ -47,18 +49,10 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void updateDecks() {
-        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
-            Printer.printDeckInfo();
-            Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
-                    "type 'info [cardId]' to see more information about the cards");
-        }
-
     }
 
     @Override
     public void updateGameBoard() {
-        Printer.printMessage("Your updated Game Board:");
-        Printer.printGameBoard();
     }
 
     @Override
@@ -96,12 +90,31 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void updateSceneStatus() {
-        /*StageManager stage =
-        if(){
-            Printer.printMessage( + "created successfully!");
-            System.out.println();
-        }
+        ClientState clientState = ClientStateModel.getInstance().getClientState();
 
-         */
+        switch (clientState) {
+            case PLACING_STATE -> {
+                Printer.printMessage("Please place a card!");
+                Printer.printGameBoard();
+                //TODO print hand
+            }
+            case DRAWING_STATE -> {
+                Printer.printMessage("Your updated Game Board:");
+                Printer.printGameBoard();
+                Printer.printDeckInfo();
+                Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
+                        "type 'info [cardId]' to see more information about the cards");
+            }
+            case NOT_PLAYING_STATE -> {
+                Printer.printMessage("Waiting for" + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
+            }
+            case LOST_CONNECTION_STATE -> {
+                Printer.printMessage("ERROR: Lost connection to the server, closing the game.");
+                System.exit(0);
+            }
+            case KICKED_STATE -> {
+                Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.");
+            }
+        }
     }
 }

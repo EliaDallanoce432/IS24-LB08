@@ -59,10 +59,10 @@ public class Printer {
     public static void printGameBoard(){
         ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
 
-        int negativeXBound = 0;
-        int positiveXBound = 0;
-        int negativeYBound = 0;
-        int positiveYBound = 0;
+        int negativeXBound = -3;
+        int positiveXBound = 3;
+        int negativeYBound = -3;
+        int positiveYBound = 3;
 
         for(CardRepresentation cardRepresentation : placementHistory){
             if (cardRepresentation.getX() > positiveXBound) positiveXBound = cardRepresentation.getX();
@@ -75,25 +75,28 @@ public class Printer {
         int height = positiveYBound - negativeYBound;
 
         String[][] gameField = new String[width][height];
-        CardPrinter cardPrinter = new CardPrinter(0,0,0,0);
 
         for(CardRepresentation cardRepresentation : placementHistory){
-            int matrixX = cardRepresentation.getX() + width/2;
-            int matrixY = cardRepresentation.getY() + height/2;
+            int matrixX = width/2 + cardRepresentation.getX();
+            int matrixY = height/2 - cardRepresentation.getY();
 
             int cardId = cardRepresentation.getId();
+            String cardColor;
 
-            try {
-                cardPrinter.loadCardRepresentation(cardId,true);
-            } catch (InvalidIdException e) {
-                System.out.println("can't load card representation");
+            if(cardId > 0 && cardId <= 40){
+               cardColor = new ResourceCard(cardId).getCardKingdom().toColor();
             }
-            String cardColor = cardPrinter.getCardColor();
+            else if(cardId > 40 && cardId <= 80){
+                cardColor = new GoldCard(cardId).getCardKingdom().toColor();
+            }
+            else cardColor = ConsoleColor.WHITE;
+
+
             String faceUpstate;
             if(cardRepresentation.isFacingUp()) faceUpstate = "F";
             else faceUpstate = "B";
 
-            gameField[matrixX][matrixY] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET;
+            gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET;
         }
 
         printMatrix(gameField);
@@ -116,7 +119,7 @@ public class Printer {
     public static void printMatrix(String[][] matrix) {
         for (String[] strings : matrix) {
             for (int j = 0; j < strings.length; j++) {
-                System.out.print(strings[j]);
+                if (strings[j] != null) System.out.print(strings[j]);
                 if (j < strings.length - 1) {
                     System.out.print("\t");
                 }
