@@ -131,9 +131,9 @@ public class ClientMessageHandler {
 
         //updating the model...
         if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
-            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
+            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
         }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
         PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getInstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getInstance().setSecretObjectiveId(secretObjectiveCardID);
@@ -212,9 +212,9 @@ public class ClientMessageHandler {
 
         PlayerModel.getInstance().setTurnPlayer(currentTurnPlayer);
         if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {
-            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
+            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
         }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
 
     }
 

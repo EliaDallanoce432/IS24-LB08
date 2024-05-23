@@ -1,10 +1,14 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
+import it.polimi.ingsw.client.model.GameFieldModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.GUI.observers.*;
 import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
+import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.server.lobby.Lobby;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
@@ -92,6 +96,12 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void updateSceneStatus() {
+        /*StageManager stage =
+        if(){
+            Printer.printMessage( + "created successfully!");
+            System.out.println();
+        }
 
+         */
     }
 }

@@ -8,6 +8,8 @@ import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ClientTerminalParser implements CommandParser {
@@ -20,7 +22,7 @@ public class ClientTerminalParser implements CommandParser {
         switch (tokens[0]) {
             case "help","h","?" -> help();
             case "setusername","su" -> updateUsername(tokens);
-            case "leave", "le" -> leave();
+            case "leave", "l" -> leave();
             case "quit", "q" -> ClientController.getInstance().shutdownForCLI();
             case "create", "c" -> createGame(tokens);
             case "availablegames", "ag" -> getAvailableGames();
@@ -47,8 +49,6 @@ public class ClientTerminalParser implements CommandParser {
         System.out.println();
     }
 
-
-
     private void updateUsername(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if(tokens.length == 2) {
@@ -69,7 +69,58 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
     private void help() {
-        //TODO stampare help
+        Map<String, String> commands  = new HashMap<>();
+        switch (ClientStateModel.getInstance().getClientState())
+        {
+            case ClientState.LOBBY_STATE -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.GAME_SETUP_STATE -> {
+                commands.put("ready | r", "Set you are ready to play");
+                commands.put("availablegames | ag", "View all available games");
+                commands.put("startercard | sc <cardId> <front/back>", "Choose a starter card and its side");
+                commands.put("secretobjective | so <cardId>", "Choose a secret objective");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.DRAWING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");;
+                commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.PLACING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");;
+                commands.put("draw | d <1-6>", "Draw a game into a player");;
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.NOT_PLACING_STATE, ClientState.LAST_TURN_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
+                commands.put("draw | d <1-6>", "Draw a game into a player");;
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.END_GAME_STATE -> {
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            default -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("quit | q", "Exit from Codex");
+            }
+        }
+        for (Map.Entry<String, String> entry : commands.entrySet()) {
+            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
+            System.out.println();
+        }
     }
     private void createGame(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
@@ -176,7 +227,7 @@ public class ClientTerminalParser implements CommandParser {
 
     private void place(String[] tokens) {
 
-        if (ClientStateModel.getInstance().getClientState() == ClientState.PLAYING_STATE) {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {
             if (tokens.length == 5) {
                 ClientController.getInstance().sendPlaceMessage(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Boolean.parseBoolean(tokens[4]));
             }
@@ -187,7 +238,7 @@ public class ClientTerminalParser implements CommandParser {
         else {
             System.out.println("Unexpected command");
 
-            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {
+            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLACING_STATE) {
                 System.out.println("Not your turn");
             } else if (ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
                 System.out.println("You have already placed, draw a card");
@@ -214,9 +265,9 @@ public class ClientTerminalParser implements CommandParser {
         else {
             System.out.println("Unexpected command");
 
-            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {
+            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLACING_STATE) {
                 System.out.println("Not your turn");
-            } else if (ClientStateModel.getInstance().getClientState() == ClientState.PLAYING_STATE) {
+            } else if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {
                 System.out.println("You have to place a card first");
             }
             else System.out.println("You're not playing right now");

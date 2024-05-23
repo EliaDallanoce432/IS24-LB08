@@ -12,7 +12,7 @@ public class Menu {
     public void displayMenu() {
         System.out.println(MENU_HEADER);
         for (Map.Entry<String, String> entry : options.entrySet()) {
-            System.out.printf("%-70s %-20s", entry.getKey(), entry.getValue());
+            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
             System.out.println();
         }
         System.out.println("Enter your choice: ");
