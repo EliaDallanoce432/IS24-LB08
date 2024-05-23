@@ -122,6 +122,16 @@ public class GameFieldViewController extends ViewController {
     }
 
     /**
+     * Center the visual of game field (scrollPane)
+     */
+    @FXML
+    private void centerVisual()
+    {
+        scrollPane.setHvalue(0.5);
+        scrollPane.setVvalue(0.5);
+    }
+
+    /**
      * Updates the HandModel so that the cards get flipped.
      */
     @FXML
