@@ -76,12 +76,12 @@ public class CLIViewController extends ViewController {
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
 
-        try {
-            Printer.printSelectableCards(starterCardID, true, starterCardID, false);
-            Printer.printSelectableCards(objectivesID[0],true, objectivesID[1],true);
-        } catch (InvalidIdException e) {
-            System.out.println("Internal Server error: " + e.getMessage());
-        }
+//        try {
+//            Printer.printSelectableCards(starterCardID, true, starterCardID, false);
+//            Printer.printSelectableCards(objectivesID[0],true, objectivesID[1],true);
+//        } catch (InvalidIdException e) {
+//            System.out.println("Internal Server error: " + e.getMessage());
+//        }
         Printer.printMessage("Please select the orientation of the starter card and your secret objective before beginning.");
         Printer.printMessage("To select the starter card orientation, type 'sc left' or 'sc right'.");
         Printer.printMessage("To select a secret objective, type 'so <" + objectivesID[0] + ">' or 'so <" + objectivesID[1] + ">'.");

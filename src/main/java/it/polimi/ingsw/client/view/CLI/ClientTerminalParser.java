@@ -1,9 +1,12 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.AvailableGamesModel;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 
 import java.util.Objects;
 
@@ -17,6 +20,7 @@ public class ClientTerminalParser implements CommandParser {
         switch (tokens[0]) {
             case "help","h","?" -> help();
             case "setusername","su" -> updateUsername(tokens);
+            case "leave", "le" -> leave();
             case "quit", "q" -> ClientController.getInstance().shutdownForCLI();
             case "create", "c" -> createGame(tokens);
             case "availablegames", "ag" -> getAvailableGames();
@@ -86,14 +90,15 @@ public class ClientTerminalParser implements CommandParser {
     private void joinGame(String[] tokens) {
         if (tokens.length == 2)
         {
-            //if (tokens[1]) //TODO controllare che è contenuto in availabesgames
+            if (AvailableGamesModel.getInstance().getGames().contains(tokens[1])) {
                 ClientController.getInstance().sendJoinGameMessage(tokens[1]);
-            //else
-              //  invalidCommand("Error: Invalid game selected");
+            }
+            else {
+                parseError("Game doesn't exist");
+            }
         }
-        else {
-            parseError();
-        }
+
+        else parseError("Unexpected arguments");
     }
 
     private void setReady() {
@@ -105,16 +110,14 @@ public class ClientTerminalParser implements CommandParser {
         if (tokens.length == 3) {
             if(Objects.equals(tokens[2], "left")) {
                 ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), true);
-                notify();
             }
             else if(Objects.equals(tokens[2], "right")) {
                 ClientController.getInstance().sendChosenStarterCardSideMessage(Integer.parseInt(tokens[1]), false);
-                notify();
             }
             else parseError("invalid parameters");
         }
         else {
-            parseError();
+            parseError("Unexpected arguments");
         }
     }
 
@@ -130,7 +133,7 @@ public class ClientTerminalParser implements CommandParser {
             }
         }
         else {
-            parseError();
+            parseError("Unexpected arguments");
         }
     }
 
@@ -139,35 +142,38 @@ public class ClientTerminalParser implements CommandParser {
             ClientController.getInstance().sendPlaceMessage(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Boolean.parseBoolean(tokens[4]));
         }
         else {
-            parseError();
+            parseError("Unexpected arguments");
         }
     }
 
 
     private void directDrawResource() {
-        ClientController.getInstance().sendDirectDrawResourceCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) ClientController.getInstance().sendDirectDrawResourceCardMessage();
     }
 
     private void drawLeftResource() {
-        ClientController.getInstance().sendDrawLeftResourceCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) ClientController.getInstance().sendDrawLeftResourceCardMessage();
     }
 
     private void drawRightResource() {
-        ClientController.getInstance().sendDrawRightResourceCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE)ClientController.getInstance().sendDrawRightResourceCardMessage();
     }
 
     private void directDrawGold() {
-        ClientController.getInstance().sendDirectDrawGoldCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) ClientController.getInstance().sendDirectDrawGoldCardMessage();
     }
 
     private void drawLeftGold() {
-        ClientController.getInstance().sendDrawLeftGoldCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) ClientController.getInstance().sendDrawLeftGoldCardMessage();
     }
 
     private void drawRightGold() {
-        ClientController.getInstance().sendDrawRightGoldCardMessage();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) ClientController.getInstance().sendDrawRightGoldCardMessage();
     }
 
+    private void leave() {
+        ClientController.getInstance().sendLeaveMessage();
+    }
 
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {
