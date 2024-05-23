@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.view;
 
 import it.polimi.ingsw.util.cli.CommandParser;
 
+/**
+ * This class parses the commands imparted to the server by the user through the terminal.
+ */
 public class ServerTerminalParser implements CommandParser {
 
     @Override

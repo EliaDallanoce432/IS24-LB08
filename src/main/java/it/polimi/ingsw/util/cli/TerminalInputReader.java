@@ -3,6 +3,9 @@ package it.polimi.ingsw.util.cli;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class represents a reader that is always ready to take inputs from the terminal
+ */
 public abstract class TerminalInputReader implements Runnable {
     protected CommandParser commandParser;
     protected boolean running = true;
@@ -21,6 +24,9 @@ public abstract class TerminalInputReader implements Runnable {
         }
     }
 
+    /**
+     * Terminates the TerminalInputReader execution
+     */
     public void shutdown() {
         running = false;
         scanner.close();

@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
 import it.polimi.ingsw.util.customexceptions.WelcomeSocketIsAlreadyOpenException;
 
+/**
+ * This class manages the retrieval of data from the server or setting options in the server and displays them to the user through the terminal.
+ * It implements the singleton pattern.
+ */
 public class ServerView {
     private static ServerView instance;
     private final ServerTerminalInputReader serverTerminalInputReader;
@@ -31,6 +35,9 @@ public class ServerView {
         return instance;
     }
 
+    /**
+     * Shows on the terminal the available commands for the user
+     */
     public void printHelp() {
         System.out.println("Available commands:");
         System.out.println("setport [port number]: allows you to set the port where the server is listening on (leave [port number] to set it on the default port 12345)");
@@ -43,6 +50,11 @@ public class ServerView {
         System.out.println();
     }
 
+    /**
+     * Allows the user to enable or disable the echo functionality of the server.
+     * The echo functionality makes the server log on the terminal every activity that has just been performed, either from the lobby or the games.
+     * @param echo If set to true it enables the echo functionality. When set to false it disables the functionality.
+     */
     public void setEcho(boolean echo) {
         if(echo) {
             lobby.echoOn();
@@ -55,6 +67,10 @@ public class ServerView {
         }
     }
 
+    /**
+     * Allows the user to set the port used by the server to accept new connections with the clients.
+     * @param port The integer value of the port. It must bew between 1 and 65535.
+     */
     public void setPort(int port) {
         if(port < 1 || port > 65535) {
             System.out.println("Port must be between 1 and 65535!");
@@ -74,11 +90,17 @@ public class ServerView {
         }
     }
 
+    /**
+     * Allows the user to know the port that is currently used for accepting by the server to accept new connections with the clients.
+     */
     public void showPort() {
         System.out.println("The server is listening on port: " + lobby.getWelcomeSocketPort());
         System.out.println();
     }
 
+    /**
+     * Shows to the user the clients currently connected to the server and where they are (in the lobby or in a game)
+     */
     public void showConnectedClients() {
         System.out.println("Connected clients:");
         System.out.println();
@@ -95,6 +117,9 @@ public class ServerView {
         System.out.println();
     }
 
+    /**
+     * Shows to the user the games that are currently open/running.
+     */
     public void showGames() {
         System.out.println("Games waiting for players to join:");
         System.out.println();
@@ -136,6 +161,10 @@ public class ServerView {
         System.out.println();
     }
 
+    /**
+     * Shows to the users more detailed info about a specified game (if such information is available).
+     * @param gameName The name of the game of which to display more info.
+     */
     public void showGameInfo(String gameName) {
         if (!lobby.getGames().containsKey(gameName)) {
             System.out.println("Game '" + gameName + "' not found.");
@@ -146,12 +175,18 @@ public class ServerView {
         else fullInfoPrintGameInProgress(gameName);
     }
 
+    /**
+     * Lets the user know that a parsing error has occurred.
+     */
     public void parseError() {
         System.out.println("Unexpected command or arguments");
-        System.out.println("Try 'help' for more information.");
+        System.out.println("Try 'help' for more information about the available commands.");
         System.out.println();
     }
 
+    /**
+     * Executes the needed cleanups before shutting down the server
+     */
     public void shutdown() {
         System.out.println("Shutting down the server...");
         serverTerminalInputReader.shutdown();
