@@ -5,6 +5,8 @@ import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
+import java.util.ArrayList;
+
 public class CardPrinter {
 
     private final int width;
@@ -34,10 +36,10 @@ public class CardPrinter {
             System.out.println("//RESOURCE CARD #" + id);
 
             ResourceCard resourceCard = new ResourceCard(id);
-            resourceCard.setFacingUp(resourceCard.isFacingUp());
+            resourceCard.setFacingUp(facingUp);
 
             setCardColor(resourceCard.getCardKingdom().toColor());
-            if (!resourceCard.isFacingUp()) setContent(resourceCard.getCardKingdom().toSymbol(),1);
+            if (!resourceCard.isFacingUp()) setCenterResources(resourceCard.getCardKingdom().toSymbol());
 
             drawCorners(resourceCard.getTopLeftCorner(), resourceCard.getTopRightCorner(), resourceCard.getBottomRightCorner(), resourceCard.getBottomLeftCorner());
 
@@ -49,15 +51,15 @@ public class CardPrinter {
             System.out.println("\n//GOLD CARD #" + id);
 
             GoldCard goldCard = new GoldCard(id);
-            goldCard.setFacingUp(goldCard.isFacingUp());
+            goldCard.setFacingUp(facingUp);
 
             setCardColor(goldCard.getCardKingdom().toColor());
-            if (!goldCard.isFacingUp()) setContent(goldCard.getCardKingdom().toSymbol(),1);
+            if (!goldCard.isFacingUp()) setCenterResources(goldCard.getCardKingdom().toSymbol());
 
             drawCorners(goldCard.getTopLeftCorner(), goldCard.getTopRightCorner(), goldCard.getBottomRightCorner(), goldCard.getBottomLeftCorner());
 
 
-            if (!facingUp) setContent(goldCard.getCardKingdom().toSymbol(), 1);
+            if (!facingUp) setCenterResources(goldCard.getCardKingdom().toSymbol());
 
 
             if (facingUp) {
@@ -73,22 +75,17 @@ public class CardPrinter {
             System.out.println("\n//STARTER CARD #" + id);
 
             StarterCard starterCard = new StarterCard(id);
+            starterCard.setFacingUp(facingUp);
 
-            starterCard.setFacingUp(starterCard.isFacingUp());
             if(starterCard.getCardKingdom()!=null) {
                 setCardColor(starterCard.getCardKingdom().toColor());
-                if (!starterCard.isFacingUp()) setContent(starterCard.getCardKingdom().toSymbol(),1);
+                if (!starterCard.isFacingUp()) setCenterResources(starterCard.getCardKingdom().toSymbol());
             }
             drawCorners(starterCard.getTopLeftCorner(), starterCard.getTopRightCorner(), starterCard.getBottomRightCorner(), starterCard.getBottomLeftCorner());
 
 
-            if (!facingUp) {
-                StringBuilder centralResources = new StringBuilder();
-                for (Resource r : starterCard.getBackCentralResources()) {
-                    centralResources.append(r.toSymbol());
-                }
-                setContent(centralResources.toString(), starterCard.getBackCentralResources().size());
-            }
+            if (!facingUp) setCenterResources(starterCard.getBackCentralResources());
+
 
 
         } else {
@@ -135,12 +132,27 @@ public class CardPrinter {
         cardMatrix[height - 1][width - 1] =cardColor +  "┘" + ConsoleColor.RESET; ;
     }
 
-    public void setContent(String content, int contentLength) {
-        // Place content in the center of the card
+    public void setCenterResources(String content) {
         int contentStartRow = height / 2;
-        int contentStartCol = (width - contentLength) / 2;
+        int contentStartCol = width / 2 ;
 
         cardMatrix[contentStartRow][contentStartCol] = content;
+
+    }
+
+    public void setCenterResources(ArrayList<Resource> content) {
+        int contentStartRow = height / 2;
+        int contentStartCol;
+
+        if (content.size()>1) contentStartCol = (width - content.size()) / 2;
+        else contentStartCol = width/2;
+
+        int i=0;
+        for(Resource r : content){
+            cardMatrix[contentStartRow][contentStartCol+i] = r.toSymbol();
+            i++;
+        }
+
 
     }
 

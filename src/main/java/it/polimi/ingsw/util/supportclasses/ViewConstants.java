@@ -27,9 +27,9 @@ public final class ViewConstants {
 
     //CLI CONSTANTS
 
-    public static final int CLI_CARD_HEIGHT = 10;
-    public static final int CLI_CARD_WIDTH = 40;
+    public static final int CLI_CARD_HEIGHT = 6;
+    public static final int CLI_CARD_WIDTH = 21;
 
-    public static final int CLI_CORNER_HEIGHT = 4;
-    public static final int CLI_CORNER_WIDTH = 10;
+    public static final int CLI_CORNER_HEIGHT = 2;
+    public static final int CLI_CORNER_WIDTH = 5;
 }
