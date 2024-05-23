@@ -53,7 +53,8 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void updateGameBoard() {
-        super.updateGameBoard();
+        Printer.printMessage("Your updated Game Board:");
+        Printer.printGameBoard();
     }
 
     @Override

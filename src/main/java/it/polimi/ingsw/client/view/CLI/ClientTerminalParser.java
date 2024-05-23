@@ -103,17 +103,11 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     private void joinGame(String[] tokens) {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
-            if (tokens.length == 2)
-            {
-                if (AvailableGamesModel.getInstance().getGames().contains(tokens[1])) {
-                    ClientController.getInstance().sendJoinGameMessage(tokens[1]);
-                }
-                else {
-                    parseError("Game doesn't exist");
-                }
-            }
 
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
+            if (tokens.length == 2) {
+                ClientController.getInstance().sendJoinGameMessage(tokens[1]);
+            }
             else parseError();
         }
         else {

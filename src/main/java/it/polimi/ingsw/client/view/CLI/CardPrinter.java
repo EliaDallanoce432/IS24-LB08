@@ -15,6 +15,10 @@ public class CardPrinter {
     private final int cornerWidth;
     private final String[][] cardMatrix;
 
+    private String cardColor;
+
+
+
     public CardPrinter(int width, int height, int cornerHeight, int cornerWidth) {
         this.width = width;
         this.height = height;
@@ -22,6 +26,10 @@ public class CardPrinter {
         this.cornerWidth = cornerWidth;
         this.cardMatrix = new String[height][width];
         setCardColor(ConsoleColor.WHITE);
+    }
+
+    public String getCardColor() {
+        return cardColor;
     }
 
     public String[][] getCardMatrix() {
@@ -106,6 +114,9 @@ public class CardPrinter {
 
 
     public void setCardColor(String cardColor) {
+
+        this.cardColor = cardColor;
+
         // Fill the matrix with spaces
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -129,7 +140,7 @@ public class CardPrinter {
         cardMatrix[0][0] = cardColor + "┌" + ConsoleColor.RESET;
         cardMatrix[0][width - 1] = cardColor + "┐" + ConsoleColor.RESET;
         cardMatrix[height - 1][0] =cardColor +  "└" + ConsoleColor.RESET;
-        cardMatrix[height - 1][width - 1] =cardColor +  "┘" + ConsoleColor.RESET; ;
+        cardMatrix[height - 1][width - 1] =cardColor +  "┘" + ConsoleColor.RESET;
     }
 
     public void setCenterResources(String content) {

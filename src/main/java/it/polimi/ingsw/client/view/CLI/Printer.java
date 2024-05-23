@@ -1,9 +1,14 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.model.DeckModel;
+import it.polimi.ingsw.client.model.GameFieldModel;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
+
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
@@ -51,6 +56,51 @@ public class Printer {
         System.out.println();
     }
 
+    public static void printGameBoard(){
+        ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
+
+        int negativeXBound = 0;
+        int positiveXBound = 0;
+        int negativeYBound = 0;
+        int positiveYBound = 0;
+
+        for(CardRepresentation cardRepresentation : placementHistory){
+            if (cardRepresentation.getX() > positiveXBound) positiveXBound = cardRepresentation.getX();
+            if (cardRepresentation.getX() < negativeXBound) negativeXBound = cardRepresentation.getX();
+            if (cardRepresentation.getY() > positiveYBound) positiveYBound = cardRepresentation.getY();
+            if (cardRepresentation.getY() < negativeYBound) negativeYBound = cardRepresentation.getY();
+        }
+
+        int width = positiveXBound - negativeXBound;
+        int height = positiveYBound - negativeYBound;
+
+        String[][] gameField = new String[width][height];
+        CardPrinter cardPrinter = new CardPrinter(0,0,0,0);
+
+        for(CardRepresentation cardRepresentation : placementHistory){
+            int matrixX = cardRepresentation.getX() + width/2;
+            int matrixY = cardRepresentation.getY() + height/2;
+
+            int cardId = cardRepresentation.getId();
+
+            try {
+                cardPrinter.loadCardRepresentation(cardId,true);
+            } catch (InvalidIdException e) {
+                System.out.println("can't load card representation");
+            }
+            String cardColor = cardPrinter.getCardColor();
+            String faceUpstate;
+            if(cardRepresentation.isFacingUp()) faceUpstate = "F";
+            else faceUpstate = "B";
+
+            gameField[matrixX][matrixY] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET;
+        }
+
+        printMatrix(gameField);
+
+
+    }
+
     public static void printGuide() {
         System.out.println(
                         Resource.fungi.toSymbol() + ": fungi | " +
@@ -61,6 +111,18 @@ public class Printer {
                         Resource.inkPot.toSymbol() + ": inkPot | " +
                         Resource.feather.toSymbol() + ": feather"
         );
+    }
+
+    public static void printMatrix(String[][] matrix) {
+        for (String[] strings : matrix) {
+            for (int j = 0; j < strings.length; j++) {
+                System.out.print(strings[j]);
+                if (j < strings.length - 1) {
+                    System.out.print("\t");
+                }
+            }
+            System.out.println();
+        }
     }
 
 
