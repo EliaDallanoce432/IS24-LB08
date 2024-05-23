@@ -10,7 +10,9 @@ import it.polimi.ingsw.util.customexceptions.InvalidIdException;
  */
 public class ResourceCard extends PlaceableCard {
 
-    public ResourceCard () {}
+    public ResourceCard () {
+        // for testing purpose only
+    }
     public ResourceCard(int id) {
         try {
             JsonCardsReader.loadResourceCard(id, this);

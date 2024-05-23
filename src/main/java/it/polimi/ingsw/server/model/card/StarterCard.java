@@ -14,7 +14,9 @@ import java.util.Collections;
 public class StarterCard extends PlaceableCard {
     protected ArrayList<Resource> backCentralResources;
 
-    public StarterCard() {}
+    public StarterCard() {
+        // for testing purpose only
+    }
     public StarterCard(int id) {
         try {
             JsonCardsReader.loadStarterCard(id,this);
