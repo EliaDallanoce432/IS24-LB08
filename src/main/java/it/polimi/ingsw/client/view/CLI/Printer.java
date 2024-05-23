@@ -10,9 +10,9 @@ import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 public class Printer {
 
     public static void printMessage(String message) {
-        System.out.println("-----------------------------------------");
+        System.out.println("-------------------------------------------------------------");
         System.out.println(message);
-        System.out.println("-----------------------------------------");
+        System.out.println("-------------------------------------------------------------");
     }
 
     public static void printCardInfo(int id, boolean facingUp) throws InvalidIdException {

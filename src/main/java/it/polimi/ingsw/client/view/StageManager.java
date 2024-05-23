@@ -188,6 +188,7 @@ public class StageManager {
         StackPane stackPane = createStackPaneWithBackground("KickedFromGameView.fxml");
         currentStage.setWidth(SCENE_WIDTH);
         currentStage.setHeight(SCENE_HEIGHT);
+        currentStage.centerOnScreen();
         showScene(new Scene(stackPane));
     }
 

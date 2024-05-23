@@ -42,9 +42,9 @@ public class ClientCLI {
     private void printMenu()
     {
         Map<String, String> menuOptions = new HashMap<>();
-        menuOptions.put("setusername <username> | su <username>", "Set your username");
-        menuOptions.put("join <gameName> | j <gameName>", "Join to a game");
-        menuOptions.put("create <gameName> <players(2-4)> | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+        menuOptions.put("setusername | su <username>", "Set your username");
+        menuOptions.put("join | j <gameName>", "Join to a game");
+        menuOptions.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
         menuOptions.put("availablegames | ag", "View all available games");
         menuOptions.put("quit | q", "Exit from Codex");
         Menu menu = new Menu(menuOptions);
