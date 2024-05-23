@@ -43,7 +43,12 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void updateDecks() {
-        super.updateDecks();
+        if(ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
+            Printer.printDeckInfo();
+            Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
+                    "type 'info [cardId]' to see more information about the cards");
+        }
+
     }
 
     @Override
@@ -76,21 +81,13 @@ public class CLIViewController extends ViewController {
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
 
-//        try {
-//            Printer.printSelectableCards(starterCardID, true, starterCardID, false);
-//            Printer.printSelectableCards(objectivesID[0],true, objectivesID[1],true);
-//        } catch (InvalidIdException e) {
-//            System.out.println("Internal Server error: " + e.getMessage());
-//        }
-        Printer.printMessage("Please select the orientation of the starter card and your secret objective before beginning.");
-        Printer.printMessage("To select the starter card orientation, type 'sc left' or 'sc right'.");
-        Printer.printMessage("To select a secret objective, type 'so <" + objectivesID[0] + ">' or 'so <" + objectivesID[1] + ">'.");
+
+        Printer.printMessage("Your starter card ID is #" + starterCardID + " and you can choose your secret objective between these two #"+ objectivesID[0] + " #" +objectivesID[1] + "\n" +
+                "Please select the orientation of the starter card and your secret objective before beginning. \n " +
+                "To select the starter card orientation, type 'sc front' or 'sc back'.\n " +
+                "To select a secret objective, type 'so " + objectivesID[0] + "' or 'so " + objectivesID[1] + "'.");
     }
 
-    @Override
-    public void updateObjectives() {
-        super.updateObjectives();
-    }
 
     @Override
     public void updateSceneStatus() {

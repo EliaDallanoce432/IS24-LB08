@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.CLI;
 
+import it.polimi.ingsw.client.model.DeckModel;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.Resource;
@@ -32,9 +33,23 @@ public class Printer {
         printMatricesHorizontally(cardPrinter1.getCardMatrix(), cardPrinter2.getCardMatrix());
     }
 
+    public static void printDeckInfo () {
+        DeckModel deckModel = DeckModel.getInstance();
+        int resourceDeckTopCardId = deckModel.getResourceDeckTopCardId();
+        int resourceDeckLeftCardId = deckModel.getResourceDeckLeftCardId();
+        int resourceDeckRightCardId= deckModel.getResourceDeckRightCardId();
+        int goldDeckTopCardId = deckModel.getGoldDeckTopCardId();
+        int goldDeckLeftCardId = deckModel.getGoldDeckLeftCardId();
+        int goldDeckRightCardId = deckModel.getGoldDeckRightCardId();
 
-
-
+        System.out.println("1) Resource deck top card: " +  new ResourceCard(resourceDeckTopCardId).getCardKingdom().toSymbol());
+        System.out.println("2) Left revealed resource card: #"+ resourceDeckLeftCardId + " ("+ new ResourceCard(resourceDeckLeftCardId).getCardKingdom().toSymbol() +")");
+        System.out.println("3) Right revealed resource card: #"+ resourceDeckRightCardId + " ("+ new ResourceCard(resourceDeckRightCardId).getCardKingdom().toSymbol() +")");
+        System.out.println("4) Gold deck top card: " +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol());
+        System.out.println("5) Left revealed gold card: #"+ goldDeckLeftCardId + " ("+ new GoldCard(goldDeckLeftCardId).getCardKingdom().toSymbol() +")");
+        System.out.println("6) Right revealed gold card: #"+ goldDeckRightCardId + " ("+ new GoldCard(goldDeckRightCardId).getCardKingdom().toSymbol() +")");
+        System.out.println();
+    }
 
     public static void printGuide() {
         System.out.println(
