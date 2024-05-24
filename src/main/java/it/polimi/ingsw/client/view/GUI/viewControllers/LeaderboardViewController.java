@@ -85,4 +85,17 @@ public class LeaderboardViewController extends ViewController {
 
 
     }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+
+    }
 }

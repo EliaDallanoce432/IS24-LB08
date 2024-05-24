@@ -61,6 +61,20 @@ public class Printer {
         }
     }
 
+    /**
+     *
+     */
+
+    public static void printAvailableGames() {
+        AvailableGamesModel availableGamesModel = AvailableGamesModel.getInstance();
+        System.out.println("-------------------------------------------------------------");
+        for (String s :availableGamesModel.getGames()){
+            System.out.println(s);
+        }
+        System.out.println("-------------------------------------------------------------");
+
+    }
+
 
     /**
      * Displays the main menu options along with their descriptions.
@@ -135,29 +149,34 @@ public class Printer {
             if (cardRepresentation.getY() < negativeYBound) negativeYBound = cardRepresentation.getY() - 1;
         }
 
-        int width = positiveXBound - negativeXBound;
-        int height = positiveYBound - negativeYBound;
+        int width = (positiveXBound - negativeXBound) + 2 ;
+        int height = (positiveYBound - negativeYBound) + 2;
 
-        String[][] gameField = new String[height+2][width+2];
+        String[][] gameField = new String[height][width];
+
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                gameField[i][j] = ConsoleColor.BLACK + "|" + ConsoleColor.RESET;
+//            }
+//        }
+
 
         for(CardRepresentation cardRepresentation : placementHistory){
-            int matrixX = width/2 + cardRepresentation.getX();
-            int matrixY = height/2 - cardRepresentation.getY();
+            int column = width/2 + cardRepresentation.getX() - width%2;
+            int row = height/2 - cardRepresentation.getY() - width%2;
 
             int cardId = cardRepresentation.getId();
             String cardColor = getColor(cardId);
 
 
             String faceUpstate;
-            if(cardRepresentation.isFacingUp()) faceUpstate = "FT";
-            else faceUpstate = "BK";
+            if(cardRepresentation.isFacingUp()) faceUpstate = "FRONT";
+            else faceUpstate = "BACK";
 
-            gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET + "\t";
+            gameField[row][column] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET ;
         }
 
         printMatrix(gameField);
-
-
     }
 
 
@@ -171,7 +190,7 @@ public class Printer {
         StringBuilder handString  = new StringBuilder("Your Hand: ");
 
         for (CardRepresentation c : handArray){
-            handString.append("|#" + getColor(c.getId()) + c.getId() + ConsoleColor.RESET +  "| " );
+            handString.append("|#").append(getColor(c.getId())).append(c.getId()).append(ConsoleColor.RESET).append("| ");
         }
 
         Printer.printMessage(handString.toString());
@@ -257,11 +276,21 @@ public class Printer {
     }
 
     private static void printMatrix(String[][] matrix) {
-        for (String[] strings : matrix) {
-            for (int j = 0; j < strings.length; j++) {
-                if (strings[j] != null) System.out.print(strings[j]);
-                if (j < strings.length - 1) {
-                    System.out.print("");
+        // Determine the maximum width needed for any cell
+        String widthSample = "|#45(FRONT)|";
+        int maxWidth = widthSample.length();
+
+        // Print the matrix with formatted columns
+        for (String[] row : matrix) {
+            for (int j = 0; j < row.length; j++) {
+                if (row[j] != null) {
+                    // Use printf to format the output with a fixed width
+                    System.out.printf("%-" + maxWidth + "s", row[j]);
+                } else {
+                    System.out.printf("%-" + maxWidth + "s", "");
+                }
+                if (j < row.length - 1) {
+                    System.out.print(" "); // Use a single space to separate columns
                 }
             }
             System.out.println();

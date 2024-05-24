@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
@@ -123,6 +124,19 @@ public class ChooseCardsViewController extends ViewController {
 
         Platform.runLater(()->{
             alertLabel.setText(message);
+        });
+
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
         });
 
     }

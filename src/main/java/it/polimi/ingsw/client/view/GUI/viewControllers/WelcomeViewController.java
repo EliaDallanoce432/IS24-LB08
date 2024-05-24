@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
@@ -169,6 +170,18 @@ public class WelcomeViewController extends ViewController {
             errorLabel.setText(message);
             errorLabel.setVisible(true);
         });
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+
     }
 
 

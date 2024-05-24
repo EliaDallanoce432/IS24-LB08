@@ -49,32 +49,10 @@ public class CLIViewController extends ViewController {
      */
     @Override
     public void updateAvailableGames() {
-
+        Printer.printMessage("Available Games: ", ConsoleColor.YELLOW);
+        Printer.printAvailableGames();
     }
 
-    @Override
-    public void updateDecks() {
-    }
-
-    @Override
-    public void updateGameBoard() {
-    }
-
-    /**
-     * Calls the superclass implementation of 'updateScoreBoard'
-     */
-    @Override
-    public void updateScoreBoard() {
-        super.updateScoreBoard();
-    }
-
-    /**
-     * Calls the superclass implementation Calls the superclass implementation of 'updateHand'
-     */
-    @Override
-    public void updateHand() {
-        super.updateHand();
-    }
 
     /**
      * Prints the logged-in username if the client is in the LOBBY_STATE.

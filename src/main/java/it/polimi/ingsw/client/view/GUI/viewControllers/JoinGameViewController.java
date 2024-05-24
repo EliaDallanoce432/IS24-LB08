@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.AvailableGamesModel;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -74,5 +75,18 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void refresh(){
         ClientController.getInstance().sendGetAvailableGamesMessage();
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+
     }
 }
