@@ -19,4 +19,5 @@ module LB08 {
     exports it.polimi.ingsw.util.customexceptions;
     exports it.polimi.ingsw.util.supportclasses;
     exports it.polimi.ingsw.util.cli;
+    exports it.polimi.ingsw.client.view.GUI;
 }

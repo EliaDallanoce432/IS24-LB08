@@ -1,15 +1,17 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.client.model.DeckModel;
-import it.polimi.ingsw.client.model.GameFieldModel;
-import it.polimi.ingsw.client.model.HandModel;
+import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
-import it.polimi.ingsw.server.model.card.*;
+import it.polimi.ingsw.server.model.card.GoldCard;
+import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
@@ -130,6 +132,58 @@ public class Printer {
 
     }
 
+    public static void printResources(){
+        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
+        Printer.printMessage("Your resources:" +
+                Resource.fungi.toSymbol() + ": " + scoreBoardModel.getFungiResourceCount() + " | " +
+                Resource.animal.toSymbol() + ": " + scoreBoardModel.getAnimalResourceCount() + " | " +
+                Resource.insect.toSymbol() + ": " + scoreBoardModel.getInsectResourceCount() + " | " +
+                Resource.plant.toSymbol() + ": " + scoreBoardModel.getPlantResourceCount() + " |"
+        );
+    }
+
+    public static void printLeaderboard(){
+        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
+        String[] positions = new String[]{"1st", "2nd", "3rd", "4th"};
+        String result = "";
+
+        int pos_index = 0;
+
+        for(JSONObject obj : scoreBoardModel.getLeaderboard()){
+
+            System.out.println( positions[pos_index] + " - " + obj.get("username").toString() + ": " + obj.get("score").toString() + " Points (" + obj.get("solvedObjectives").toString() + " solved Objectives)" );
+
+
+
+            if(obj.get("username").toString().equals(PlayerModel.getInstance().getUsername())){
+
+                if(pos_index == 0){
+                    result = "You Won";
+                }
+                else {
+                    result = "You came in " + positions[pos_index] + " place!";
+                }
+            }
+
+            pos_index++;
+        }
+
+        Printer.printMessage(result,ConsoleColor.YELLOW);
+    }
+
+    public static void printScores(){
+        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
+        HashMap<String,Integer> scores = scoreBoardModel.getScore();
+
+        for(String username : scores.keySet()){
+
+            if (Objects.equals(PlayerModel.getInstance().getUsername(), username))
+                System.out.println("You: " + scores.get(username));
+
+            else System.out.println(username + ": " + scores.get(username));
+
+        }
+    }
     public static void printMatrix(String[][] matrix) {
         for (String[] strings : matrix) {
             for (int j = 0; j < strings.length; j++) {
@@ -141,6 +195,7 @@ public class Printer {
             System.out.println();
         }
     }
+
 
 
     private static void printMatricesHorizontally(String[][] matrix1, String[][] matrix2) {

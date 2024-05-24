@@ -101,7 +101,7 @@ public class ClientTerminalParser implements CommandParser {
                 commands.put("leave | l", "Leave the game");
                 commands.put("quit | q", "Exit from Codex");
             }
-            case ClientState.NOT_PLACING_STATE, ClientState.LAST_TURN_STATE -> {
+            case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
                 commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
                 commands.put("draw | d <1-6>", "Draw a game into a player");;
@@ -295,7 +295,7 @@ public class ClientTerminalParser implements CommandParser {
         else {
             System.out.println("Unexpected command");
 
-            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLACING_STATE) {
+            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {
                 System.out.println("Not your turn");
             } else if (ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
                 System.out.println("You have already placed, draw a card");
@@ -331,7 +331,7 @@ public class ClientTerminalParser implements CommandParser {
         else {
             System.out.println("Unexpected command");
 
-            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLACING_STATE) {
+            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {
                 System.out.println("Not your turn");
             } else if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {
                 System.out.println("You have to place a card first");

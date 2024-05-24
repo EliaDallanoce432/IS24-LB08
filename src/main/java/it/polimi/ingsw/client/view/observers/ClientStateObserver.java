@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.observers;
+package it.polimi.ingsw.client.view.observers;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.view.StageManager;

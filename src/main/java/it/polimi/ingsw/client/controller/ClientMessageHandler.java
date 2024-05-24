@@ -23,7 +23,7 @@ public class ClientMessageHandler {
      */
     public void execute (JSONObject message) {
 
-        System.out.println("executing message: " + message);
+        //System.out.println("executing message: " + message);
         switch (message.get("message").toString()) {
 
             //in-lobby messages
@@ -142,7 +142,7 @@ public class ClientMessageHandler {
         if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
             ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
         }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
     }
 
     /**
@@ -216,7 +216,7 @@ public class ClientMessageHandler {
         if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {
             ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
         }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
 
     }
 

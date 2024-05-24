@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.observers;
+package it.polimi.ingsw.client.view.observers;
 
 /**
  * This interface should be implemented by any class that

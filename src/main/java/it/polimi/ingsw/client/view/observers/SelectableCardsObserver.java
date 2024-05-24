@@ -1,8 +1,7 @@
-package it.polimi.ingsw.client.view.GUI.observers;
+package it.polimi.ingsw.client.view.observers;
 
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
-import javafx.application.Platform;
 
 /**
  * This class implements the ModelObserver interface

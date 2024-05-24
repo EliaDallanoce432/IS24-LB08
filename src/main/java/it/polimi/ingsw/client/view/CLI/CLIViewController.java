@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.GUI.observers.*;
 import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
+import it.polimi.ingsw.client.view.observers.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 
@@ -88,6 +89,7 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
                 Printer.printGuide();
+                Printer.printResources();
                 Printer.printHand();
                 Printer.printMessage("To place a card, type 'place <cardId> <orientation> <targetCardId> <position>'");
             }
@@ -95,13 +97,22 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("Your updated Game Board:", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
                 Printer.printGuide();
+                Printer.printResources();
                 Printer.printMessage("Now please draw a card from the decks", ConsoleColor.YELLOW);
                 Printer.printDeckInfo();
                 Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
                         "type 'info [cardId]' to see more information about the cards");
             }
-            case NOT_PLACING_STATE -> {
+            case NOT_PLAYING_STATE -> {
+                Printer.printScores();
                 Printer.printMessage("Waiting for" + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
+            }
+            case LAST_TURN_STATE -> {
+                Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
+            }
+            case END_GAME_STATE -> {
+                Printer.printLeaderboard();
+                Printer.printMessage("type 'leave' to go back to the lobby.");
             }
             case LOST_CONNECTION_STATE -> {
                 Printer.printMessage("ERROR: Lost connection to the server, closing the game.", ConsoleColor.RED);
