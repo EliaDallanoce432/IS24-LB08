@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.model.DeckModel;
 import it.polimi.ingsw.client.model.GameFieldModel;
+import it.polimi.ingsw.client.model.HandModel;
 import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
@@ -17,6 +18,12 @@ public class Printer {
     public static void printMessage(String message) {
         System.out.println("-------------------------------------------------------------");
         System.out.println(message);
+        System.out.println("-------------------------------------------------------------");
+    }
+
+    public static void printMessage(String message, String textColor) {
+        System.out.println("-------------------------------------------------------------");
+        System.out.println(textColor + message + ConsoleColor.RESET);
         System.out.println("-------------------------------------------------------------");
     }
 
@@ -47,10 +54,10 @@ public class Printer {
         int goldDeckLeftCardId = deckModel.getGoldDeckLeftCardId();
         int goldDeckRightCardId = deckModel.getGoldDeckRightCardId();
 
-        System.out.println("1) Resource deck top card: " +  new ResourceCard(resourceDeckTopCardId).getCardKingdom().toSymbol());
+        System.out.println("1) Resource deck top card: #?? (" +  new ResourceCard(resourceDeckTopCardId).getCardKingdom().toSymbol() + ")");
         System.out.println("2) Left revealed resource card: #"+ resourceDeckLeftCardId + " ("+ new ResourceCard(resourceDeckLeftCardId).getCardKingdom().toSymbol() +")");
         System.out.println("3) Right revealed resource card: #"+ resourceDeckRightCardId + " ("+ new ResourceCard(resourceDeckRightCardId).getCardKingdom().toSymbol() +")");
-        System.out.println("4) Gold deck top card: " +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol());
+        System.out.println("4) Gold deck top card: #?? (" +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol() + ")");
         System.out.println("5) Left revealed gold card: #"+ goldDeckLeftCardId + " ("+ new GoldCard(goldDeckLeftCardId).getCardKingdom().toSymbol() +")");
         System.out.println("6) Right revealed gold card: #"+ goldDeckRightCardId + " ("+ new GoldCard(goldDeckRightCardId).getCardKingdom().toSymbol() +")");
         System.out.println();
@@ -81,20 +88,12 @@ public class Printer {
             int matrixY = height/2 - cardRepresentation.getY();
 
             int cardId = cardRepresentation.getId();
-            String cardColor;
-
-            if(cardId > 0 && cardId <= 40){
-               cardColor = new ResourceCard(cardId).getCardKingdom().toColor();
-            }
-            else if(cardId > 40 && cardId <= 80){
-                cardColor = new GoldCard(cardId).getCardKingdom().toColor();
-            }
-            else cardColor = ConsoleColor.WHITE;
+            String cardColor = getColor(cardId);
 
 
             String faceUpstate;
-            if(cardRepresentation.isFacingUp()) faceUpstate = "F";
-            else faceUpstate = "B";
+            if(cardRepresentation.isFacingUp()) faceUpstate = "FRONT";
+            else faceUpstate = "BACK";
 
             gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET;
         }
@@ -103,6 +102,18 @@ public class Printer {
 
 
     }
+
+    public static void printHand(){
+        ArrayList<CardRepresentation> handArray = HandModel.getInstance().getCardsInHand();
+        StringBuilder handString  = new StringBuilder("Your Hand: ");
+
+        for (CardRepresentation c : handArray){
+            handString.append("|#" + getColor(c.getId()) + c.getId() + ConsoleColor.RESET +  "| " );
+        }
+
+        Printer.printMessage(handString.toString());
+    }
+
 
     public static void printGuide() {
         System.out.println(
@@ -114,6 +125,9 @@ public class Printer {
                         Resource.inkPot.toSymbol() + ": inkPot | " +
                         Resource.feather.toSymbol() + ": feather"
         );
+        System.out.println("(FRONT): the card is placed face up on the field.");
+        System.out.println("(BACK): the card is placed face down on the field.");
+
     }
 
     public static void printMatrix(String[][] matrix) {
@@ -151,5 +165,18 @@ public class Printer {
 
             System.out.println();
         }
+    }
+
+    private static String getColor(int id){
+        String cardColor;
+        if(id > 0 && id <= 40){
+            cardColor = new ResourceCard(id).getCardKingdom().toColor();
+        }
+        else if(id > 40 && id <= 80){
+            cardColor = new GoldCard(id).getCardKingdom().toColor();
+        }
+        else cardColor = ConsoleColor.WHITE;
+
+        return cardColor;
     }
 }

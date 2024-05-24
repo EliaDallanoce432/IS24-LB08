@@ -1,21 +1,12 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.model.ClientStateModel;
-import it.polimi.ingsw.client.model.GameFieldModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.GUI.observers.*;
 import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
-import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.server.lobby.Lobby;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.card.StarterCard;
-import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
-
-import java.util.Scanner;
-
-import static it.polimi.ingsw.util.supportclasses.ClientState.PLACING_STATE;
+import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 
 public class CLIViewController extends ViewController {
 
@@ -39,7 +30,7 @@ public class CLIViewController extends ViewController {
 
     @Override
     public void showErrorMessage(String message) {
-        Printer.printMessage("ERROR: " + message);
+        Printer.printMessage("ERROR: " + message , ConsoleColor.RED);
     }
 
     @Override
@@ -94,13 +85,17 @@ public class CLIViewController extends ViewController {
 
         switch (clientState) {
             case PLACING_STATE -> {
-                Printer.printMessage("Please place a card!");
+                Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
-                //TODO print hand
+                Printer.printGuide();
+                Printer.printHand();
+                Printer.printMessage("To place a card, type 'place <cardId> <orientation> <targetCardId> <position>'");
             }
             case DRAWING_STATE -> {
-                Printer.printMessage("Your updated Game Board:");
+                Printer.printMessage("Your updated Game Board:", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
+                Printer.printGuide();
+                Printer.printMessage("Now please draw a card from the decks", ConsoleColor.YELLOW);
                 Printer.printDeckInfo();
                 Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
                         "type 'info [cardId]' to see more information about the cards");
@@ -109,11 +104,11 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("Waiting for" + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
             }
             case LOST_CONNECTION_STATE -> {
-                Printer.printMessage("ERROR: Lost connection to the server, closing the game.");
+                Printer.printMessage("ERROR: Lost connection to the server, closing the game.", ConsoleColor.RED);
                 System.exit(0);
             }
             case KICKED_STATE -> {
-                Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.");
+                Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.", ConsoleColor.RED);
             }
         }
     }

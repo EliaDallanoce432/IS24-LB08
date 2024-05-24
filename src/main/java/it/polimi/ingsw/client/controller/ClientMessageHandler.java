@@ -130,10 +130,7 @@ public class ClientMessageHandler {
         Token token = Token.parseColor(message.get("token").toString());
 
         //updating the model...
-        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
-            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
-        }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
+
         PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getInstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getInstance().setSecretObjectiveId(secretObjectiveCardID);
@@ -142,7 +139,10 @@ public class ClientMessageHandler {
         PlayerModel.getInstance().setToken(token);
         updateDeckModelFromJSON(decksJSON);
         updateResourcesFromJSON(resourcesJSON);
-
+        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
+            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
+        }
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLACING_STATE);
     }
 
     /**
@@ -181,12 +181,14 @@ public class ClientMessageHandler {
         ArrayList<CardRepresentation> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
         GameFieldModel.getInstance().updatePlacementHistory(placementHistory);
-        if (!PlayerModel.getInstance().isLastTurn()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getInstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
         JSONObject updatedResources = (JSONObject) message.get("updatedResources");
         updateResourcesFromJSON(updatedResources);
+
+        if (!PlayerModel.getInstance().isLastTurn()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
+
 
 
     }
