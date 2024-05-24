@@ -8,6 +8,9 @@ import it.polimi.ingsw.client.view.observers.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 
+/**
+ * This class is responsible for handling UI updates in the Command-Line Interface (CLI) for the Codex game client.
+ */
 public class CLIViewController extends ViewController {
 
     public CLIViewController() {
@@ -23,16 +26,27 @@ public class CLIViewController extends ViewController {
         new SelectableCardsObserver();
     }
 
+    /**
+     * Prints a message to the console using the `Printer` class.
+     * @param message The message to display.
+     */
     @Override
     public void showMessage(String message) {
         Printer.printMessage(message);
     }
 
+    /**
+     * Prints an error message to the console in red using the `Printer` class.
+     * @param message The error message to display.
+     */
     @Override
     public void showErrorMessage(String message) {
         Printer.printMessage("ERROR: " + message , ConsoleColor.RED);
     }
 
+    /**
+     * Calls the superclass implementation (likely for generic handling) but might have additional logic specific to CLI updates.
+     */
     @Override
     public void updateAvailableGames() {
         super.updateAvailableGames();
@@ -46,16 +60,25 @@ public class CLIViewController extends ViewController {
     public void updateGameBoard() {
     }
 
+    /**
+     * Calls the superclass implementation of 'updateScoreBoard'
+     */
     @Override
     public void updateScoreBoard() {
         super.updateScoreBoard();
     }
 
+    /**
+     * Calls the superclass implementation Calls the superclass implementation of 'updateHand'
+     */
     @Override
     public void updateHand() {
         super.updateHand();
     }
 
+    /**
+     * Prints the logged-in username if the client is in the LOBBY_STATE.
+     */
     @Override
     public void updatePlayerInfo() {
         if(ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE){
@@ -63,15 +86,16 @@ public class CLIViewController extends ViewController {
             System.out.println();
         }
     }
-
+    /**
+     * Prints information about the starter card ID and selectable objective card IDs to the console.
+     * Also provides instructions for selecting starter card orientation and secret objective.
+     */
     @Override
     public void updateSelectableCards() {
 
         SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
-
-
         Printer.printMessage("Your starter card ID is #" + starterCardID + " and you can choose your secret objective between these two #"+ objectivesID[0] + " #" +objectivesID[1] + "\n" +
                 "Please select the orientation of the starter card and your secret objective before beginning. \n " +
                 "To select the starter card orientation, type 'sc front' or 'sc back'.\n " +
@@ -79,10 +103,12 @@ public class CLIViewController extends ViewController {
     }
 
 
+    /**
+     * Prints game state-specific messages and prompts to the console based on the current `ClientState`.
+     */
     @Override
     public void updateSceneStatus() {
         ClientState clientState = ClientStateModel.getInstance().getClientState();
-
         switch (clientState) {
             case GAME_SETUP_STATE -> {
                 Printer.printMessage(ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW);

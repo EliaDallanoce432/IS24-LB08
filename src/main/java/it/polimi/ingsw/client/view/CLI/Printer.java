@@ -15,20 +15,38 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
+/**
+ *  This class provides a variety of methods for printing information to the console.
+ */
 public class Printer {
 
+    /**
+     * Prints a message to the console with a border.
+     * @param message The message to print.
+     */
     public static void printMessage(String message) {
         System.out.println("-------------------------------------------------------------");
         System.out.println(message);
         System.out.println("-------------------------------------------------------------");
     }
 
+    /**
+     * Prints a message to the console with a border and a specified text color.
+     * @param message The message to print.
+     * @param textColor The ANSI escape code for the desired text color.
+     */
     public static void printMessage(String message, String textColor) {
         System.out.println("-------------------------------------------------------------");
         System.out.println(textColor + message + ConsoleColor.RESET);
         System.out.println("-------------------------------------------------------------");
     }
 
+    /**
+     * Prints the card information for a single card, including its ID and facing state.
+     * @param id The ID of the card to print.
+     * @param facingUp True if the card is facing up, false otherwise.
+     * @throws InvalidIdException If the provided card ID is invalid.
+     */
     public static void printCardInfo(int id, boolean facingUp) throws InvalidIdException {
 
         CardPrinter cardPrinter = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
@@ -47,6 +65,9 @@ public class Printer {
         printMatricesHorizontally(cardPrinter1.getCardMatrix(), cardPrinter2.getCardMatrix());
     }
 
+    /**
+     * Prints information about the top card and the two revealed cards from both the resource deck and the gold deck.
+     */
     public static void printDeckInfo () {
         DeckModel deckModel = DeckModel.getInstance();
         int resourceDeckTopCardId = deckModel.getResourceDeckTopCardId();
@@ -65,6 +86,9 @@ public class Printer {
         System.out.println();
     }
 
+    /**
+     * Prints information about the game board.
+     */
     public static void printGameBoard(){
         ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
 
@@ -105,6 +129,9 @@ public class Printer {
 
     }
 
+    /**
+     * Prints information about the cards hand.
+     */
     public static void printHand(){
         ArrayList<CardRepresentation> handArray = HandModel.getInstance().getCardsInHand();
         StringBuilder handString  = new StringBuilder("Your Hand: ");
@@ -116,7 +143,9 @@ public class Printer {
         Printer.printMessage(handString.toString());
     }
 
-
+    /**
+     * Prints a guide to the resource symbols used in the game.
+     */
     public static void printGuide() {
         System.out.println(
                         Resource.fungi.toSymbol() + ": fungi | " +
@@ -132,6 +161,9 @@ public class Printer {
 
     }
 
+    /**
+     * Prints the player's current resource counts.
+     */
     public static void printResources(){
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
         Printer.printMessage("Your resources:" +
@@ -142,6 +174,10 @@ public class Printer {
         );
     }
 
+    /**
+     * Prints the leaderboard showing usernames, scores, and solved objectives.
+     * Highlights the player's position in the leaderboard.
+     */
     public static void printLeaderboard(){
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
         String[] positions = new String[]{"1st", "2nd", "3rd", "4th"};
@@ -152,8 +188,6 @@ public class Printer {
         for(JSONObject obj : scoreBoardModel.getLeaderboard()){
 
             System.out.println( positions[pos_index] + " - " + obj.get("username").toString() + ": " + obj.get("score").toString() + " Points (" + obj.get("solvedObjectives").toString() + " solved Objectives)" );
-
-
 
             if(obj.get("username").toString().equals(PlayerModel.getInstance().getUsername())){
 
@@ -171,6 +205,9 @@ public class Printer {
         Printer.printMessage(result,ConsoleColor.YELLOW);
     }
 
+    /**
+     * Prints the scores of all players.
+     */
     public static void printScores(){
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
         HashMap<String,Integer> scores = scoreBoardModel.getScore();
@@ -197,21 +234,22 @@ public class Printer {
     }
 
 
-
+    /**
+     * Prints two matrices of strings side-by-side on the console, aligning them horizontally.
+     * @param matrix1 The first matrix to print.
+     * @param matrix2 The second matrix to print.
+     */
     private static void printMatricesHorizontally(String[][] matrix1, String[][] matrix2) {
 
         int rows1 = matrix1.length;
         int rows2 = matrix2.length;
-
         if (rows1 != rows2) {
             return;
         }
-
         for (int i = 0; i < rows1; i++) {
             for (int j = 0; j < matrix1[i].length; j++) {
                 System.out.print(matrix1[i][j]);
             }
-
             System.out.print("\t\t");
 
             for (int j = 0; j < matrix2[i].length; j++) {
@@ -222,6 +260,11 @@ public class Printer {
         }
     }
 
+/**
+ * Gets the ANSI escape code for the color corresponding to a card's kingdom based on its ID.
+ * @param id The ID of the card.
+ * @return The ANSI escape code for the card's kingdom color, or white if the ID is invalid.
+ */
     private static String getColor(int id){
         String cardColor;
         if(id > 0 && id <= 40){

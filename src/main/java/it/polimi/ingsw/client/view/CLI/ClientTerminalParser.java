@@ -15,9 +15,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * This class is responsible for parsing user commands entered the Codex game client's CLI.
+ */
 public class ClientTerminalParser implements CommandParser {
 
-
+    /**
+     * Parses a user command entered the CLI.
+     * @param command The user-entered command string.
+     */
     @Override
     public void parse(String command) {
         String[] tokens = command.split("\\s+");
@@ -277,8 +283,8 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     /**
-     * Parses the place command required by the client.
-     * @param tokens array of strings containing the parameters needed to execute the command.
+     * Handles the "place" command for placing cards in the game.
+     * @param tokens The tokens parsed from the user command.
      */
     private void place(String[] tokens) {
 
@@ -356,6 +362,13 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Searches for a card with a specific ID within a list of card representations.
+     * @param cards The list of card representations to search.
+     * @param searchedId The ID of the card to search for.
+     * @return The `CardRepresentation` object if the card is found, otherwise throws a `RuntimeException`.
+     * @throws RuntimeException If no card with the specified ID is found in the list.
+     */
     private CardRepresentation searchCardId(ArrayList<CardRepresentation> cards, int searchedId) throws RuntimeException {
         for(CardRepresentation card : cards) {
             if(card.getId() == searchedId) {

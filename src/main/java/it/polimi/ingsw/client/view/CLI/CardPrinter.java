@@ -7,6 +7,10 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for generating a text-based representation of a Card object for the Codex game client CLI.
+ *  * It creates a two-dimensional character array representing the card's layout and populates it with symbols and borders based on the card's type and orientation.
+ */
 public class CardPrinter {
 
     private final int width;
@@ -16,8 +20,6 @@ public class CardPrinter {
     private final String[][] cardMatrix;
 
     private String cardColor;
-
-
 
     public CardPrinter(int width, int height, int cornerHeight, int cornerWidth) {
         this.width = width;
@@ -36,6 +38,12 @@ public class CardPrinter {
         return cardMatrix;
     }
 
+    /**
+     * Loads the card representation based on the provided ID and facing orientation.
+     * @param id The ID of the card to be printed.
+     * @param facingUp True if the card should be printed face-up, False for face-down.
+     * @throws InvalidIdException If the provided ID is invalid.
+     */
     public void loadCardRepresentation(int id, boolean facingUp) throws InvalidIdException {
         if (id <= 0 || id > 102) {
             throw new InvalidIdException("Invalid ID");
@@ -91,11 +99,7 @@ public class CardPrinter {
             }
             drawCorners(starterCard.getTopLeftCorner(), starterCard.getTopRightCorner(), starterCard.getBottomRightCorner(), starterCard.getBottomLeftCorner());
 
-
             if (!facingUp) setCenterResources(starterCard.getBackCentralResources());
-
-
-
         } else {
 
             System.out.println("\n//OBJECTIVE CARD #" + id);
@@ -104,15 +108,13 @@ public class CardPrinter {
 
             //TODO scrivere info delle objective cards
 
-
         }
     }
 
-
-
-
-
-
+    /**
+     * Sets the card's border and background color.
+     * @param cardColor The color string to be used for the card's borders and background.
+     */
     public void setCardColor(String cardColor) {
 
         this.cardColor = cardColor;
@@ -143,30 +145,34 @@ public class CardPrinter {
         cardMatrix[height - 1][width - 1] =cardColor +  "┘" + ConsoleColor.RESET;
     }
 
+    /**
+     * Sets the central area of the card to display resources or other content.
+     * @param content The string representing the content to be displayed in the center of the card.
+     */
     public void setCenterResources(String content) {
         int contentStartRow = height / 2;
         int contentStartCol = width / 2 ;
-
         cardMatrix[contentStartRow][contentStartCol] = content;
-
     }
 
+    /**
+     * Sets the central area of the card to display multiple resources.
+     * @param content The `ArrayList` of `Resource` objects representing the resources to be displayed in the center of the card.
+     */
     public void setCenterResources(ArrayList<Resource> content) {
         int contentStartRow = height / 2;
         int contentStartCol;
-
         if (content.size()>1) contentStartCol = (width - content.size()) / 2;
         else contentStartCol = width/2;
-
         int i=0;
         for(Resource r : content){
             cardMatrix[contentStartRow][contentStartCol+i] = r.toSymbol();
             i++;
         }
-
-
     }
-
+    /**
+     * Prints the text-based representation of the card to the console.
+     */
     public void printCard() {
         for (String[] row : cardMatrix) {
             for (String element : row) {
@@ -176,7 +182,13 @@ public class CardPrinter {
         }
     }
 
-
+    /**
+     * Draws the corners of the card.
+     * @param topLeftCorner The `Corner` object representing the top-left corner of the card.
+     * @param topRightCorner The `Corner` object representing the top-right corner of the card.
+     * @param bottomRightCorner The `Corner` object representing the bottom-right corner of the card.
+     * @param bottomLeftCorner The `Corner` object representing the bottom-left corner of the card.
+     */
     private void drawCorners(Corner topLeftCorner, Corner topRightCorner, Corner bottomRightCorner, Corner bottomLeftCorner) {
         if (topLeftCorner.isAttachable())
             drawTopLeftCorner(topLeftCorner.getResource().toSymbol());
@@ -188,7 +200,10 @@ public class CardPrinter {
             drawBottomLeftCorner(bottomLeftCorner.getResource().toSymbol());
     }
 
-
+    /**
+     * Draws the top-left corner of the card.
+     * @param emoji The resource symbol to be displayed in the corner.
+     */
     public void drawTopLeftCorner(String emoji) {
         cardMatrix[cornerHeight][0] = "├";
 
@@ -206,6 +221,11 @@ public class CardPrinter {
         cardMatrix[cornerHeight/2][cornerWidth/2] = emoji;
     }
 
+    /**
+     * Draws the top-right corner of the card.
+     *
+     * @param emoji The resource symbol to be displayed in the corner.
+     */
     public void drawTopRightCorner(String emoji) {
         int rightCol = width - cornerWidth - 1;
 
@@ -225,6 +245,10 @@ public class CardPrinter {
         cardMatrix[cornerHeight/2][width -  (cornerWidth/2) - 1] = emoji;
     }
 
+    /**
+     * Draws the bottom-left corner of the card.
+     * @param emoji The resource symbol to be displayed in the corner.
+     */
     public void drawBottomLeftCorner(String emoji) {
         int bottomRow = height - cornerHeight - 1;
 
@@ -243,7 +267,10 @@ public class CardPrinter {
         }
         cardMatrix[height - (cornerHeight/2) - 1][cornerWidth/2] = emoji;
     }
-
+    /**
+     * Draws the bottom-right corner of the card.
+     * @param emoji The resource symbol to be displayed in the corner.
+     */
     public void drawBottomRightCorner(String emoji) {
         int bottomRow = height - cornerHeight - 1;
         int rightCol = width - cornerWidth - 1;
