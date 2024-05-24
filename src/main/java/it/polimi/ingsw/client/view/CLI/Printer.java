@@ -83,7 +83,7 @@ public class Printer {
         int width = positiveXBound - negativeXBound;
         int height = positiveYBound - negativeYBound;
 
-        String[][] gameField = new String[height][width];
+        String[][] gameField = new String[height+2][width+2];
 
         for(CardRepresentation cardRepresentation : placementHistory){
             int matrixX = width/2 + cardRepresentation.getX();
