@@ -39,7 +39,6 @@ public class ServerView {
      * Shows on the terminal the available commands for the user
      */
     public void printHelp() {
-        System.out.println("Available commands:");
         System.out.println("┌────────────────────────┬────────────────────────────────────────────────────────┐");
         System.out.println("│      commands          │                       Description                      │");
         System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
