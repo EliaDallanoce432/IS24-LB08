@@ -2,11 +2,15 @@ package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
+import it.polimi.ingsw.client.model.GameFieldModel;
+import it.polimi.ingsw.client.model.HandModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -87,7 +91,7 @@ public class ClientTerminalParser implements CommandParser {
             }
             case ClientState.DRAWING_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");;
-                commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
+                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
                 commands.put("leave | l", "Leave the game");
                 commands.put("quit | q", "Exit from Codex");
             }
@@ -229,7 +233,55 @@ public class ClientTerminalParser implements CommandParser {
 
         if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {
             if (tokens.length == 5) {
-                ClientController.getInstance().sendPlaceMessage(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Boolean.parseBoolean(tokens[4]));
+                int cardId = 0;
+                int targetId = 0;
+                try {
+                    cardId = Integer.parseInt(tokens[1]);
+                    targetId = Integer.parseInt(tokens[3]);
+                } catch (NumberFormatException e) {
+                    parseError();
+                }
+                try {
+                    searchCardId(HandModel.getInstance().getCardsInHand(), cardId);
+                } catch (RuntimeException e) {
+                    parseError("You don't have the #" + cardId + " card in your hand");
+                }
+                boolean facingUp = false;
+                if(tokens[2].equals("front")) facingUp = true;
+                else if(!tokens[2].equals("back")) {
+                    parseError();
+                    return;
+                }
+                CardRepresentation targetCard;
+                try {
+                    targetCard = searchCardId(GameFieldModel.getInstance().getPlacementHistory(), targetId);
+                } catch (RuntimeException e) {
+                    parseError("the target card is not on your field");
+                    return;
+                }
+                int x = 0;
+                int y = 0;
+                switch (tokens[4]) {
+                    case "topleft", "tl" -> {
+                        x = targetCard.getX() - 1;
+                        y = targetCard.getY() + 1;
+                    }
+                    case "topright", "tr" -> {
+                        x = targetCard.getX() + 1;
+                        y = targetCard.getY() + 1;
+                    }
+                    case "bottomleft", "bl" -> {
+                        x = targetCard.getX() - 1;
+                        y = targetCard.getY() - 1;
+                    }
+                    case "bottomright", "br" -> {
+                        x = targetCard.getX() + 1;
+                        y = targetCard.getY() -1;
+                    }
+                    default -> parseError("the position argument is not correct");
+                }
+
+                ClientController.getInstance().sendPlaceMessage(cardId,x,y,facingUp);
             }
             else {
                 parseError("Unexpected arguments");
@@ -246,6 +298,15 @@ public class ClientTerminalParser implements CommandParser {
             else System.out.println("You're not playing right now");
             System.out.println();
         }
+    }
+
+    private CardRepresentation searchCardId(ArrayList<CardRepresentation> cards, int searchedId) throws RuntimeException {
+        for(CardRepresentation card : cards) {
+            if(card.getId() == searchedId) {
+                return card;
+            }
+        }
+        throw new RuntimeException();
     }
 
 
