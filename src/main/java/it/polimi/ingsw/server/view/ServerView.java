@@ -40,13 +40,23 @@ public class ServerView {
      */
     public void printHelp() {
         System.out.println("Available commands:");
-        System.out.println("setport [port number]: allows you to set the port where the server is listening on (leave [port number] to set it on the default port 12345)");
-        System.out.println("port: shows you on what port the server is listening to" );
-        System.out.println("echo [on/off]: enables or disables the verbose prints from the server at every relevant event (from the lobby and games too)");
-        System.out.println("clients: shows the currently connected clients to the server");
-        System.out.println("games: shows the current running games");
-        System.out.println("games --info [game name]: shows the specific infos of the specified game");
-        System.out.println("shutdown: shuts down the server");
+        System.out.println("┌────────────────────────┬────────────────────────────────────────────────────────┐");
+        System.out.println("│      commands          │                       Description                      │");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ setport <port>         │", "Run Server at set port (default port 12345)            │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ port                   │", "Shows the current listening port                       │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ clients                │", "Shows the currently connected clients                  │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ games                  │", "Shows the current running games                        │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ games --info  <game>   │", "Shows the info of the specific game                    │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ echo <on/off>          │", "Enables or disables the verbose prints from the server │\n");
+        System.out.println("├────────────────────────┴────────────────────────────────────────────────────────┤");
+        System.out.printf("%-20s %-36s", "│ shutdown               │", "shuts down the server                                  │\n");
+        System.out.println("└────────────────────────┴────────────────────────────────────────────────────────┘");
         System.out.println();
     }
 

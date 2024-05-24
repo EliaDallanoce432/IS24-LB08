@@ -105,7 +105,7 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
                         "type 'info [cardId]' to see more information about the cards");
             }
-            case NOT_PLAYING_STATE -> {
+            case NOT_PLACING_STATE -> {
                 Printer.printMessage("Waiting for" + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
             }
             case LOST_CONNECTION_STATE -> {

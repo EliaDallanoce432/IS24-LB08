@@ -30,7 +30,6 @@ public class Codex {
             } else
                 System.out.println("unexpected argument: " + args[1]);
         } else if (args[0].equals("server")) {
-//            int port = handleServerArguments(args);
             codex.setLobby(new Lobby());
             codex.getLobby().startLobby();
         } else {
@@ -41,10 +40,16 @@ public class Codex {
 
     private static void printUsageMessage() {
         System.out.println("Wrong arguments. Please specify one of these options:");
-        System.out.println("server (run Server)");
-//        System.out.println("server <port> (run Server at specific port)");
-        System.out.println("client (open default GUI)");
-        System.out.println("client --cli (open CLI)");
+        System.out.println("┌───────────────────┬───────────────────────────┐");
+        System.out.println("│      Options      │        Description        │");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-20s", "│ server            │", "Open Server configuration │\n");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-15s", "│ client            │", "Run GUI                   │\n");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-15s", "│ client --cli      │", "Run CLI                   │\n");
+        System.out.println("└───────────────────┴───────────────────────────┘");
+        System.out.println();
     }
 
 //    private static int handleServerArguments(String[] args) {
