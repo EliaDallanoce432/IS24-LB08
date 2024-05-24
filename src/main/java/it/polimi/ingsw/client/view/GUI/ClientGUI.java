@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.GUI.observers.*;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Application;
