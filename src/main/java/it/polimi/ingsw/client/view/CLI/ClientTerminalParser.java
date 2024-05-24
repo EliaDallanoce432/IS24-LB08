@@ -245,6 +245,7 @@ public class ClientTerminalParser implements CommandParser {
                     searchCardId(HandModel.getInstance().getCardsInHand(), cardId);
                 } catch (RuntimeException e) {
                     parseError("You don't have the #" + cardId + " card in your hand");
+                    return;
                 }
                 boolean facingUp = false;
                 if(tokens[2].equals("front")) facingUp = true;
@@ -278,13 +279,17 @@ public class ClientTerminalParser implements CommandParser {
                         x = targetCard.getX() + 1;
                         y = targetCard.getY() -1;
                     }
-                    default -> parseError("the position argument is not correct");
+                    default -> {
+                        parseError("the position argument is not correct");
+                        return;
+                    }
                 }
 
                 ClientController.getInstance().sendPlaceMessage(cardId,x,y,facingUp);
             }
             else {
                 parseError("Unexpected arguments");
+
             }
         }
         else {
