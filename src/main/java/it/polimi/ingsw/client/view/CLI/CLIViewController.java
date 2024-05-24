@@ -95,16 +95,16 @@ public class CLIViewController extends ViewController {
             case PLACING_STATE -> {
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
-                Printer.printGuide();
                 Printer.printResources();
+                Printer.printGuide();
                 Printer.printHand();
                 Printer.printMessage("To place a card, type 'place <cardId> <orientation> <targetCardId> <position>'");
             }
             case DRAWING_STATE -> {
                 Printer.printMessage("Your updated Game Board:", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
-                Printer.printGuide();
                 Printer.printResources();
+                Printer.printGuide();
                 Printer.printMessage("Now please draw a card from the decks", ConsoleColor.YELLOW);
                 Printer.printDeckInfo();
                 Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +

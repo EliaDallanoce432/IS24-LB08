@@ -154,11 +154,11 @@ public class Printer {
 
         String[][] gameField = new String[height][width];
 
-//        for (int i = 0; i < height; i++) {
-//            for (int j = 0; j < width; j++) {
-//                gameField[i][j] = ConsoleColor.BLACK + "|" + ConsoleColor.RESET;
-//            }
-//        }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                gameField[i][j] = ConsoleColor.BLACK + "|_______|" + ConsoleColor.RESET;
+            }
+        }
 
 
         for(CardRepresentation cardRepresentation : placementHistory){
@@ -170,7 +170,7 @@ public class Printer {
 
 
             String faceUpstate;
-            if(cardRepresentation.isFacingUp()) faceUpstate = "FRONT";
+            if(cardRepresentation.isFacingUp()) faceUpstate = "FRNT";
             else faceUpstate = "BACK";
 
             gameField[row][column] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET ;
@@ -209,8 +209,8 @@ public class Printer {
                         Resource.inkPot.toSymbol() + ": inkPot | " +
                         Resource.feather.toSymbol() + ": feather"
         );
-        System.out.println("(FT): the card is placed face up on the field.");
-        System.out.println("(BK): the card is placed face down on the field.");
+        System.out.println("(FRNT): the FRONT of the card is showing on the field.");
+        System.out.println("(BACK): the BACK of the card is showing on the field.");
 
     }
 
@@ -276,22 +276,11 @@ public class Printer {
     }
 
     private static void printMatrix(String[][] matrix) {
-        // Determine the maximum width needed for any cell
-        String widthSample = "|#45(FRONT)|";
-        int maxWidth = widthSample.length();
-
-        // Print the matrix with formatted columns
-        for (String[] row : matrix) {
-            for (int j = 0; j < row.length; j++) {
-                if (row[j] != null) {
-                    // Use printf to format the output with a fixed width
-                    System.out.printf("%-" + maxWidth + "s", row[j]);
-                } else {
-                    System.out.printf("%-" + maxWidth + "s", "");
-                }
-                if (j < row.length - 1) {
-                    System.out.print(" "); // Use a single space to separate columns
-                }
+        for (String[] strings : matrix) {
+            for (String string : strings) {
+                if (string != null) {
+                    System.out.printf(string);
+                } else System.out.print("\t");
             }
             System.out.println();
         }
