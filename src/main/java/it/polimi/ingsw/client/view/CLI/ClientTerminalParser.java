@@ -36,6 +36,11 @@ public class ClientTerminalParser implements CommandParser {
             case "secretobjective", "so" -> selectSecretObjective(tokens);
             case "place", "p" -> place(tokens);
             case "draw", "d" -> draw(tokens);
+            case "board" -> showBoard();
+            case "hand" -> showHand();
+            case "score" -> showScore();
+            case "guide" -> showGuide();
+            case "decks" -> showDecks();
             default -> {
                 System.out.println("Unknown command");
                 System.out.println("Type 'help' for more information.");
@@ -43,15 +48,28 @@ public class ClientTerminalParser implements CommandParser {
             }
         }
     }
+
+    /**
+     * Sends an error message to the client when the received command is invalid.
+     * @param messageError message containing the reason of the failure.
+     */
     private void parseError(String messageError) {
         System.out.println("Unexpected arguments: " + messageError);
         System.out.println();
     }
+
+    /**
+     * Sends an error message to the client when the received command is invalid.
+     */
     private void parseError() {
         System.out.println("Unexpected arguments");
         System.out.println();
     }
 
+    /**
+     * Parses the setUsername command required by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void updateUsername(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if(tokens.length == 2) {
@@ -71,6 +89,11 @@ public class ClientTerminalParser implements CommandParser {
             System.out.println();
         }
     }
+
+    /**
+     * Parses the help command required by the client and shows him
+     * all the possible commands he can send.
+     */
     private void help() {
         Map<String, String> commands  = new HashMap<>();
         switch (ClientStateModel.getInstance().getClientState())
@@ -90,21 +113,21 @@ public class ClientTerminalParser implements CommandParser {
                 commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.DRAWING_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");;
+                commands.put("info | i <cardId>", "View information of a card");
                 commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
                 commands.put("leave | l", "Leave the game");
                 commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.PLACING_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");;
-                commands.put("draw | d <1-6>", "Draw a game into a player");;
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("draw | d <1-6>", "Draw a game into a player");
                 commands.put("leave | l", "Leave the game");
                 commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
                 commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
-                commands.put("draw | d <1-6>", "Draw a game into a player");;
+                commands.put("draw | d <1-6>", "Draw a game into a player");
                 commands.put("leave | l", "Leave the game");
                 commands.put("quit | q", "Exit from Codex");
             }
@@ -125,6 +148,11 @@ public class ClientTerminalParser implements CommandParser {
             System.out.println();
         }
     }
+
+    /**
+     * Parses the createGame command required by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void createGame(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if (tokens.length==3) {
@@ -146,6 +174,10 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the getAvailableGames required by the client and shows him
+     * all the possible games he can join.
+     */
     private void getAvailableGames () {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE)
             ClientController.getInstance().sendGetAvailableGamesMessage();
@@ -156,6 +188,10 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the joinGame command required by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void joinGame(String[] tokens) {
 
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
@@ -171,6 +207,9 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the setReady command required by the client.
+     */
     private void setReady() {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             Printer.printMessage("You are ready! - waiting for all the players to get ready...");
@@ -183,6 +222,10 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the selectStarterCardOrientation command required by the client
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void selectStarterCardOrientation(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             int starterCardID = SelectableCardsModel.getInstance().getStarterCardId();
@@ -206,6 +249,10 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the selectSecreteObjective command required by the client
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void selectSecretObjective (String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             if (tokens.length == 2) {
@@ -229,6 +276,10 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the place command required by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void place(String[] tokens) {
 
         if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {
@@ -288,7 +339,7 @@ public class ClientTerminalParser implements CommandParser {
                 ClientController.getInstance().sendPlaceMessage(cardId,x,y,facingUp);
             }
             else {
-                parseError("Unexpected arguments");
+                parseError();
 
             }
         }
@@ -314,7 +365,10 @@ public class ClientTerminalParser implements CommandParser {
         throw new RuntimeException();
     }
 
-
+    /**
+     * Parses the draw command received by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void draw(String[] tokens) {
 
         if (tokens.length == 2 && ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
@@ -341,10 +395,17 @@ public class ClientTerminalParser implements CommandParser {
         }
     }
 
+    /**
+     * Parses the leave command required by the client.
+     */
     private void leave() {
         ClientController.getInstance().sendLeaveMessage();
     }
 
+    /**
+     * Parses the getInfo command required by the client.
+     * @param tokens array of strings containing the parameters needed to execute the command.
+     */
     private void getInfo (String[] tokens) {
         if (tokens.length == 2) {
             try {
@@ -371,5 +432,60 @@ public class ClientTerminalParser implements CommandParser {
 
         }
         else System.out.println("Error: Invalid number of arguments");
+    }
+
+    /**
+     * Parses the showBoard command required by the client.
+     */
+    private void showBoard() {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+            System.out.println("Unexpected command");
+            System.out.println("you're not in a game");
+            System.out.println();
+        }
+        else Printer.printGameBoard();
+    }
+
+    /**
+     * Parses the showHand command required by the client.
+     */
+    private void showHand () {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+            System.out.println("Unexpected command");
+            System.out.println("you're not in a game");
+            System.out.println();
+        }
+        else Printer.printHand();
+    }
+
+    /**
+     * Parses the showScore command required by the client.
+     */
+    private void showScore () {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+            System.out.println("Unexpected command");
+            System.out.println("you're not in a game");
+            System.out.println();
+        }
+        else Printer.printScores();
+    }
+
+    /**
+     * Parses the showDecks command required by the client.
+     */
+    private void showDecks() {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+            System.out.println("Unexpected command");
+            System.out.println("you're not in a game");
+            System.out.println();
+        }
+        else Printer.printDeckInfo();
+    }
+
+    /**
+     * Parses the showGuide command required by the client.
+     */
+    private void showGuide() {
+        Printer.printGuide();
     }
 }
