@@ -52,22 +52,6 @@ public class Codex {
         System.out.println();
     }
 
-//    private static int handleServerArguments(String[] args) {
-//        if (args.length == 1) {
-//            return 12345; // Use default port
-//        } else if (args.length == 2) {
-//            try {
-//                return Integer.parseInt(args[1]);
-//            } catch (NumberFormatException e) {
-//                System.out.println("Invalid port number: " + args[1]);
-//                System.out.println("Please specify a valid port number (integer)");
-//            }
-//        } else {
-//            System.out.println("Unexpected server arguments");
-//        }
-//        return -1;
-//    }
-
     private void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
     }

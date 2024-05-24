@@ -11,6 +11,9 @@ public abstract class TerminalInputReader implements Runnable {
     protected boolean running = true;
     protected Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Reads input at next line
+     */
     @Override
     public void run() {
         while (running) {
