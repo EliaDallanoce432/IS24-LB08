@@ -28,7 +28,7 @@ public class JoinGameViewController extends ViewController {
     public void initialize() {
         availableGamesComboBox.setOnAction(event -> {
             selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem();
-            System.out.println("Selected game: " + selectedGame);
+            //System.out.println("Selected game: " + selectedGame);
         });
 
     }

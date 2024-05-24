@@ -74,16 +74,16 @@ public class Printer {
         int positiveYBound = 3;
 
         for(CardRepresentation cardRepresentation : placementHistory){
-            if (cardRepresentation.getX() > positiveXBound) positiveXBound = cardRepresentation.getX();
-            if (cardRepresentation.getX() < negativeXBound) negativeXBound = cardRepresentation.getX();
-            if (cardRepresentation.getY() > positiveYBound) positiveYBound = cardRepresentation.getY();
-            if (cardRepresentation.getY() < negativeYBound) negativeYBound = cardRepresentation.getY();
+            if (cardRepresentation.getX() > positiveXBound) positiveXBound = cardRepresentation.getX() + 1;
+            if (cardRepresentation.getX() < negativeXBound) negativeXBound = cardRepresentation.getX() - 1;
+            if (cardRepresentation.getY() > positiveYBound) positiveYBound = cardRepresentation.getY() + 1;
+            if (cardRepresentation.getY() < negativeYBound) negativeYBound = cardRepresentation.getY() - 1;
         }
 
         int width = positiveXBound - negativeXBound;
         int height = positiveYBound - negativeYBound;
 
-        String[][] gameField = new String[width][height];
+        String[][] gameField = new String[height][width];
 
         for(CardRepresentation cardRepresentation : placementHistory){
             int matrixX = width/2 + cardRepresentation.getX();
@@ -97,7 +97,7 @@ public class Printer {
             if(cardRepresentation.isFacingUp()) faceUpstate = "FRONT";
             else faceUpstate = "BACK";
 
-            gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET;
+            gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET + "\t";
         }
 
         printMatrix(gameField);

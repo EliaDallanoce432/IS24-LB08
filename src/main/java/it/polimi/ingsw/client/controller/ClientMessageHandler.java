@@ -27,10 +27,10 @@ public class ClientMessageHandler {
         switch (message.get("message").toString()) {
 
             //in-lobby messages
-            case "joinedLobby" -> updateClientState(ClientState.LOBBY_STATE);
+            case "joinedLobby" -> updateClientState(ClientState.LOBBY_STATE, "Joined Lobby");
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
-            case "gameCreated", "joinGame" -> updateClientState(ClientState.GAME_SETUP_STATE);
+            case "gameCreated", "joinGame" -> updateClientState(ClientState.GAME_SETUP_STATE, "Game Created Succesfully");
             case "cannotCreateGame" -> showError(message.get("reason").toString());
             case "gameDoesNotExist" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game does not exist");
             case "gameIsFull" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game is full");

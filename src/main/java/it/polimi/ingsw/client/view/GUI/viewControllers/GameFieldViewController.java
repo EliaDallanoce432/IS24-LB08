@@ -193,7 +193,7 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
-            System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
+            //System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
             errorLabel.setVisible(false);
             switch (ClientStateModel.getInstance().getClientState()){
                 case NOT_PLAYING_STATE -> {

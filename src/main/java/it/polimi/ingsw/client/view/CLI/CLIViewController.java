@@ -84,6 +84,9 @@ public class CLIViewController extends ViewController {
         ClientState clientState = ClientStateModel.getInstance().getClientState();
 
         switch (clientState) {
+            case GAME_SETUP_STATE -> {
+                Printer.printMessage(ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW);
+            }
             case PLACING_STATE -> {
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
@@ -104,7 +107,7 @@ public class CLIViewController extends ViewController {
             }
             case NOT_PLAYING_STATE -> {
                 Printer.printScores();
-                Printer.printMessage("Waiting for" + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
+                Printer.printMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
             }
             case LAST_TURN_STATE -> {
                 Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
