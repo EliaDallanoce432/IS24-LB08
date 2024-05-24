@@ -49,7 +49,7 @@ public class CLIViewController extends ViewController {
      */
     @Override
     public void updateAvailableGames() {
-        super.updateAvailableGames();
+
     }
 
     @Override
@@ -112,6 +112,7 @@ public class CLIViewController extends ViewController {
         switch (clientState) {
             case GAME_SETUP_STATE -> {
                 Printer.printMessage(ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW);
+                Printer.printMessage("Type 'ready' when you're ready to begin!");
             }
             case PLACING_STATE -> {
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);

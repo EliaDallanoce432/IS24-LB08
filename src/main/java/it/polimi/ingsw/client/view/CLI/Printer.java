@@ -9,10 +9,11 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
+import static it.polimi.ingsw.util.supportclasses.Constants.MENU_HEADER;
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
@@ -42,6 +43,45 @@ public class Printer {
     }
 
     /**
+     * Prints the "Codex" Logo in ASCII art.
+     */
+
+    public static void printCodexLogo() {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("Codex_logo.txt");
+        if (is != null) {
+            try (Scanner sc = new Scanner(is)) {
+                ClientCLI.clearConsole();
+                while (sc.hasNextLine()) {
+                    System.out.println(ConsoleColor.GREEN + sc.nextLine() + ConsoleColor.RESET);
+                }
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+    /**
+     * Displays the main menu options along with their descriptions.
+     */
+    public static void printMenu()
+    {
+        Map<String, String> menuOptions = new HashMap<>();
+        menuOptions.put("setusername | su <username>", "Set your username");
+        menuOptions.put("join | j <gameName>", "Join to a game");
+        menuOptions.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+        menuOptions.put("availablegames | ag", "View all available games");
+        menuOptions.put("quit | q", "Exit from Codex");
+        System.out.println(MENU_HEADER);
+        for (Map.Entry<String, String> entry : menuOptions.entrySet()) {
+            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
+            System.out.println();
+        }
+        System.out.println("Enter your choice: ");
+    }
+
+    /**
      * Prints the card information for a single card, including its ID and facing state.
      * @param id The ID of the card to print.
      * @param facingUp True if the card is facing up, false otherwise.
@@ -55,15 +95,6 @@ public class Printer {
 
     }
 
-    public static void printSelectableCards(int id1, boolean facingup1, int id2, boolean facingup2) throws InvalidIdException {
-        CardPrinter cardPrinter1 = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
-        CardPrinter cardPrinter2 = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
-
-        cardPrinter1.loadCardRepresentation(id1,facingup1);
-        cardPrinter2.loadCardRepresentation(id2,facingup2);
-
-        printMatricesHorizontally(cardPrinter1.getCardMatrix(), cardPrinter2.getCardMatrix());
-    }
 
     /**
      * Prints information about the top card and the two revealed cards from both the resource deck and the gold deck.
@@ -118,8 +149,8 @@ public class Printer {
 
 
             String faceUpstate;
-            if(cardRepresentation.isFacingUp()) faceUpstate = "FRONT";
-            else faceUpstate = "BACK";
+            if(cardRepresentation.isFacingUp()) faceUpstate = "FT";
+            else faceUpstate = "BK";
 
             gameField[matrixY][matrixX] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET + "\t";
         }
@@ -128,6 +159,9 @@ public class Printer {
 
 
     }
+
+
+
 
     /**
      * Prints information about the cards hand.
@@ -156,8 +190,8 @@ public class Printer {
                         Resource.inkPot.toSymbol() + ": inkPot | " +
                         Resource.feather.toSymbol() + ": feather"
         );
-        System.out.println("(FRONT): the card is placed face up on the field.");
-        System.out.println("(BACK): the card is placed face down on the field.");
+        System.out.println("(FT): the card is placed face up on the field.");
+        System.out.println("(BK): the card is placed face down on the field.");
 
     }
 
@@ -221,12 +255,13 @@ public class Printer {
 
         }
     }
-    public static void printMatrix(String[][] matrix) {
+
+    private static void printMatrix(String[][] matrix) {
         for (String[] strings : matrix) {
             for (int j = 0; j < strings.length; j++) {
                 if (strings[j] != null) System.out.print(strings[j]);
                 if (j < strings.length - 1) {
-                    System.out.print("\t");
+                    System.out.print("");
                 }
             }
             System.out.println();
@@ -234,36 +269,10 @@ public class Printer {
     }
 
 
-    /**
-     * Prints two matrices of strings side-by-side on the console, aligning them horizontally.
-     * @param matrix1 The first matrix to print.
-     * @param matrix2 The second matrix to print.
-     */
-    private static void printMatricesHorizontally(String[][] matrix1, String[][] matrix2) {
-
-        int rows1 = matrix1.length;
-        int rows2 = matrix2.length;
-        if (rows1 != rows2) {
-            return;
-        }
-        for (int i = 0; i < rows1; i++) {
-            for (int j = 0; j < matrix1[i].length; j++) {
-                System.out.print(matrix1[i][j]);
-            }
-            System.out.print("\t\t");
-
-            for (int j = 0; j < matrix2[i].length; j++) {
-                System.out.print(matrix2[i][j]);
-            }
-
-            System.out.println();
-        }
-    }
-
 /**
- * Gets the ANSI escape code for the color corresponding to a card's kingdom based on its ID.
+ * Gets the ANSI code for the color corresponding to a card's kingdom based on its ID.
  * @param id The ID of the card.
- * @return The ANSI escape code for the card's kingdom color, or white if the ID is invalid.
+ * @return The ANSI code for the card's kingdom color, or white if the ID corresponds to a card with no kingdom.
  */
     private static String getColor(int id){
         String cardColor;
