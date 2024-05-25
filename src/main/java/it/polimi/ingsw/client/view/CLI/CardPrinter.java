@@ -79,8 +79,15 @@ public class CardPrinter {
 
 
             if (facingUp) {
-                System.out.println("Resources needed to place this card: ");
-                //TODO inserire risorse e condizioni di placement points
+                System.out.println("Resources needed to place this card: \n" +
+                        Resource.fungi.toSymbol() + ": "+ goldCard.getRequiredFungiResourceAmount() + " " +
+                        Resource.plant.toSymbol()+ ": " + goldCard.getRequiredPlantResourceAmount() + " " +
+                        Resource.animal.toSymbol()+ ": " + goldCard.getRequiredAnimalResourceAmount() + " "+
+                        Resource.insect.toSymbol()+ ": " + goldCard.getRequiredInsectResourceAmount()
+                        );
+                //TODO inserire risorse di placement points
+
+
                 if (goldCard.getPoints() != 0)
                     System.out.println("Bonus placement points: " + goldCard.getPoints());
             }
@@ -104,9 +111,24 @@ public class CardPrinter {
 
             System.out.println("\n//OBJECTIVE CARD #" + id);
 
-            System.out.println("Missing Info for this card...");
-
-            //TODO scrivere info delle objective cards
+            switch (id) {
+                case 87 -> System.out.println("2 points for each inverse diagonal of 3 fungi cards");
+                case 88 -> System.out.println("2 points for each direct diagonal of 3 plant cards");
+                case 89 -> System.out.println("2 points for each inverse diagonal of 3 animal cards");
+                case 90 -> System.out.println("2 points for each direct diagonal of 3 insect cards");
+                case 91 -> System.out.println("3 points for each L pattern (Fungi, Fungi, Plant) completed");
+                case 92 -> System.out.println("3 points for each J pattern (Plant, Plant, Insect) completed");
+                case 93 -> System.out.println("3 points for each reversed L pattern (Fungi, Animal, Animal) completed");
+                case 94 -> System.out.println("3 points for each reversed J pattern (Animal, Insect, Insect) completed");
+                case 95 -> System.out.println("2 points for each triplet of fungi visible on the game-field");
+                case 96 -> System.out.println("2 points for each triplet of plants visible on the game-field");
+                case 97 -> System.out.println("2 points for each triplet of animals visible on the game-field");
+                case 98 -> System.out.println("2 points for each triplet of insect visible on the game-field");
+                case 99 -> System.out.println("3 points for each triplet composed of 1 inkPot, 1 scroll, 1 feather visible on the game-field");
+                case 100 -> System.out.println("2 points for each couple of scrolls visible on the game-field");
+                case 101 -> System.out.println("2 points for each couple of inkPots visible on the game-field");
+                case 102 -> System.out.println("2 points for each couple of feathers visible on the game-field");
+            }
 
         }
     }
