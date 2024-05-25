@@ -172,7 +172,6 @@ public class Printer {
             if(cardRepresentation.isFacingUp()) faceUpstate = "FRNT";
             else faceUpstate = "BACK";
 
-            System.out.println("height: " + height + " width: " + width + " xCenter: " + xCenter + " yCenter: " + yCenter + "row: " + row + " column: " + column + " cardId: " + cardId);
             gameField[row][column] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET ;
         }
 
@@ -205,9 +204,10 @@ public class Printer {
                         Resource.animal.toSymbol() + ": animal | " +
                         Resource.insect.toSymbol() + ": insect | " +
                         Resource.plant.toSymbol() + ": plant | " +
-                        Resource.scroll.toSymbol() + ": scroll | " +
+                        Resource.feather.toSymbol() + ": feather | " +
                         Resource.inkPot.toSymbol() + ": inkPot | " +
-                        Resource.feather.toSymbol() + ": feather"
+                        Resource.scroll.toSymbol() + ": scroll"
+
         );
         System.out.println("(FRNT): the FRONT of the card is showing on the field.");
         System.out.println("(BACK): the BACK of the card is showing on the field.");
@@ -219,11 +219,14 @@ public class Printer {
      */
     public static void printResources(){
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
-        Printer.printMessage("Your resources:" +
+        Printer.printMessage("Your resources: " +
                 Resource.fungi.toSymbol() + ": " + scoreBoardModel.getFungiResourceCount() + " | " +
                 Resource.animal.toSymbol() + ": " + scoreBoardModel.getAnimalResourceCount() + " | " +
                 Resource.insect.toSymbol() + ": " + scoreBoardModel.getInsectResourceCount() + " | " +
-                Resource.plant.toSymbol() + ": " + scoreBoardModel.getPlantResourceCount() + " |"
+                Resource.plant.toSymbol() + ": " + scoreBoardModel.getPlantResourceCount() + " || " +
+                Resource.feather.toSymbol() + ": " + scoreBoardModel.getFeatherCount() + " | " +
+                Resource.inkPot.toSymbol() + ": " + scoreBoardModel.getInkPotCount() + " | " +
+                Resource.scroll.toSymbol() + ": " + scoreBoardModel.getScrollCount() + " |"
         );
     }
 

@@ -129,6 +129,7 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
             }
             case END_GAME_STATE -> {
+                Printer.printMessage("Leaderboard", ConsoleColor.YELLOW);
                 Printer.printLeaderboard();
                 Printer.printMessage("type 'leave' to go back to the lobby.");
             }
