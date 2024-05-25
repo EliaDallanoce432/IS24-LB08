@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +40,7 @@ public class HandModel extends ObservableModel {
     }
 
     /**
-     *  triggers notification to registered observers without modifying the hand state
+     * triggers notification to registered observers without modifying the hand state
      */
     public void rollback(){
         notifyObservers();
@@ -54,6 +54,15 @@ public class HandModel extends ObservableModel {
             card.flip();
         }
         notifyObservers();
+    }
+
+    /**
+     * Resets the Hand Model.
+     */
+    public void clear(){
+        if (cardsInHand != null) {
+            cardsInHand.clear();
+        }
     }
 
 

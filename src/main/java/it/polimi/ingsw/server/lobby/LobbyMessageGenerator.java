@@ -101,8 +101,7 @@ public class LobbyMessageGenerator {
         JSONArray games = new JSONArray();
         for (String availableGameName : availableGames.keySet()) {
             JSONObject game = new JSONObject();
-            game.put("name", availableGameName);
-            game.put("playersInGame", String.valueOf("(" + availableGames.get(availableGameName).getClientHandlers().size() + "/" + availableGames.get(availableGameName).getNumberOfPlayers() + ")"));
+            game.put("nameAndPlayers", availableGameName + " - (" + availableGames.get(availableGameName).getClientHandlers().size() + "/" + availableGames.get(availableGameName).getNumberOfPlayers() + ")");
             games.add(game);
         }
         message.put("games", games);

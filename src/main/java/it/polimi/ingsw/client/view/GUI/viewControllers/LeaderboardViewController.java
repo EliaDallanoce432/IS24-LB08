@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
@@ -12,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import org.json.simple.JSONObject;
-
-import java.util.Objects;
 
 /**
  * This class is the controller of the Final leaderboard Scene.
@@ -45,7 +43,8 @@ public class LeaderboardViewController extends ViewController {
 
         StageManager.loadWelcomeScene();
         ClientController.getInstance().sendLeaveMessage();
-        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        ClientController.getInstance().resetModels();
+        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
 
     }
 
@@ -84,6 +83,19 @@ public class LeaderboardViewController extends ViewController {
 
         });
 
+
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
 
     }
 }

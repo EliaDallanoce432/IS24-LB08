@@ -40,7 +40,6 @@ public class GameRequestHandler {
             }
         }
         JSONObject message = request.message();
-        System.out.println("executing message: " + message);
         ClientHandler client = request.client();
         switch (message.get("command").toString()) {
             case "ready" -> ready(client);
@@ -70,22 +69,22 @@ public class GameRequestHandler {
     /**
      * processes a request from a client to choose the orientation of their starter card.
      * @param message JSON message containing the starter card ID and facing up information
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      */
-    private void chooseStarterCardOrientation(JSONObject message, ClientHandler player) {
+    private void chooseStarterCardOrientation(JSONObject message, ClientHandler client) {
         int starterCardId =Integer.parseInt(message.get("starterCardId").toString());
         boolean facingUp= Boolean.parseBoolean(message.get("facingUp").toString());
-        gameController.chooseStarterCardSide(player,starterCardId, facingUp);
+        gameController.chooseStarterCardSide(client,starterCardId, facingUp);
     }
 
     /**
      * processes a request from a client to choose their secret objective card
      * @param message JSON message containing the objective card ID and facing up information
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      */
-    private void chooseSecretObjectiveCard(JSONObject message, ClientHandler player) {
+    private void chooseSecretObjectiveCard(JSONObject message, ClientHandler client) {
         int objectiveCardId =Integer.parseInt(message.get("objectiveCardId").toString());
-        gameController.chooseSecretObjectiveCard(player, objectiveCardId);
+        gameController.chooseSecretObjectiveCard(client, objectiveCardId);
     }
 
     /**
@@ -128,56 +127,56 @@ public class GameRequestHandler {
 
     /**
      * processes a request from a client to draw the revealed resource card from the right side of the deck
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      */
-    private void drawRightRevealedResourceCard(ClientHandler player) {
+    private void drawRightRevealedResourceCard(ClientHandler client) {
         try {
-            gameController.drawRightRevealedResourceCard(player);
-            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.drawRightRevealedResourceCard(client);
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
     /**
      * processes a request from a client to draw the revealed gold card from the left side of the deck
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      */
-    private void drawLeftRevealedGoldCard(ClientHandler player) {
+    private void drawLeftRevealedGoldCard(ClientHandler client) {
         try {
-            gameController.drawLeftRevealedGoldCard(player);
-            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.drawLeftRevealedGoldCard(client);
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
     /**
      * processes a request from a client to draw the revealed gold card from the right side of the deck
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      */
-    private void drawRightRevealedGoldCard(ClientHandler player) {
+    private void drawRightRevealedGoldCard(ClientHandler client) {
         try {
-            gameController.drawRightRevealedGoldCard(player);
-            player.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(player)));
+            gameController.drawRightRevealedGoldCard(client);
+            client.send(messageGenerator.updatedHandMessage(gameController.getCurrentPlayer(client)));
             gameController.broadcast(messageGenerator.updatedDecksMessage());
         } catch (FullHandException | CannotDrawException | NotYourTurnException ignored) {}
     }
 
     /**
      * processes a request from a client to place a card on the board
-     * @param player client handler representing the player who sent the request
+     * @param client client handler representing the player who sent the request
      * @param message JSON message containing information about the card to be placed
      */
-    private void place(ClientHandler player, JSONObject message) {
+    private void place(ClientHandler client, JSONObject message) {
         try {
             int placeableCardId = Integer.parseInt(message.get("placeableCardId").toString());
             int x = Integer.parseInt(message.get("x").toString());
             int y = Integer.parseInt(message.get("y").toString());
             boolean facingUp = Boolean.parseBoolean(message.get("facingUp").toString());
-            gameController.place(player, placeableCardId, facingUp, x, y);
-            player.send(messageGenerator.successfulPlaceMessage(gameController.getCurrentPlayer(player)));
+            gameController.place(client, placeableCardId, facingUp, x, y);
+            client.send(messageGenerator.successfulPlaceMessage(gameController.getCurrentPlayer(client)));
         }
         catch (CannotPlaceCardException e) {
-            player.send(messageGenerator.cannotPlaceMessage(e.getMessage()));
+            client.send(messageGenerator.cannotPlaceMessage(e.getMessage()));
         }
     }
 

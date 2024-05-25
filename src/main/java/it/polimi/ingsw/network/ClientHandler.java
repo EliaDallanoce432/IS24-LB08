@@ -8,6 +8,7 @@ import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +51,10 @@ public class ClientHandler implements Runnable, NetworkInterface {
         running = true;
     }
 
+    public InetAddress getInetAddress() {
+        return socket.getInetAddress();
+    }
+
     public String getUsername() {
         return username;
     }
@@ -58,7 +63,7 @@ public class ClientHandler implements Runnable, NetworkInterface {
         this.username = username;
     }
 
-    public GameController getGame() {
+    public GameController getGameController() {
         return game;
     }
 
@@ -68,6 +73,10 @@ public class ClientHandler implements Runnable, NetworkInterface {
 
     public void setInGame(boolean inGame) {
         isInGame = inGame;
+    }
+
+    public boolean isInGame() {
+        return isInGame;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
@@ -8,10 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-
-import java.io.IOException;
 
 /**
  * This class controls the "Waiting for players" Scene.
@@ -53,7 +50,7 @@ public class WaitForPlayersViewController extends ViewController {
     @FXML
     private void goBack(){
 
-        if (ClientStateModel.getInstance().getClientState() == ClientState.SETUP_STATE) {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
         StageManager.loadWelcomeScene();
@@ -88,7 +85,7 @@ public class WaitForPlayersViewController extends ViewController {
         System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
-                case SETUP_STATE -> loadGetReadyScene();
+                case GAME_SETUP_STATE -> loadGetReadyScene();
                 case ERROR_JOINING_STATE -> loadErrorJoiningScene();
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();

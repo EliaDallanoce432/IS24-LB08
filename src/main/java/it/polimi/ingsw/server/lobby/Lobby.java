@@ -4,10 +4,9 @@ import it.polimi.ingsw.network.ClientHandler;
 import it.polimi.ingsw.network.ServerWelcomeSocket;
 import it.polimi.ingsw.network.ServerNetworkObserver;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.view.ServerView;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Request;
-
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,11 +21,14 @@ public class Lobby implements ServerNetworkObserver {
     private final HashMap<String, GameController> games;
     private final HashMap<String, GameController> availableGames;
     private final ArrayList<String> takenUsernames;
-    private volatile boolean running;
+    private boolean welcomeSocketIsRunning = false;
+    private int welcomeSocketPort;
     private final ExecutorService executorService;
     private final LobbyRequestHandler lobbyRequestHandler;
+    private boolean echo;
+    private volatile boolean running;
 
-    public Lobby(int port) throws CannotOpenWelcomeSocket {
+    public Lobby() {
         connectedClients = new ArrayList<>();
         games = new HashMap<>();
         availableGames = new HashMap<>();
@@ -34,14 +36,56 @@ public class Lobby implements ServerNetworkObserver {
         requests = Collections.synchronizedList(new ArrayList<>());
         executorService = Executors.newCachedThreadPool();
         lobbyRequestHandler = new LobbyRequestHandler(this);
-        ServerWelcomeSocket serverWelcomeSocket;
-        serverWelcomeSocket = new ServerWelcomeSocket(this, port);
-        executorService.submit(serverWelcomeSocket);
+        ServerView.getInstance(this);
+        echo = false;
         running = true;
+        System.out.println("Lobby started");
+        System.out.println("Echo: off");
+        System.out.println("Set a port for the server with 'setPort' command.");
+        System.out.println("Type 'help' for more information.");
+        System.out.println();
+    }
+
+    public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
+        if (!welcomeSocketIsRunning) {
+            ServerWelcomeSocket serverWelcomeSocket;
+            serverWelcomeSocket = new ServerWelcomeSocket(this, port);
+            executorService.submit(serverWelcomeSocket);
+            welcomeSocketPort = port;
+            welcomeSocketIsRunning = true;
+        }
+        else throw new WelcomeSocketIsAlreadyOpenException(String.valueOf(welcomeSocketPort));
     }
 
     public HashMap<String, GameController> getAvailableGames() {
         return availableGames;
+    }
+
+    public HashMap<String, GameController> getGames() {
+        return games;
+    }
+
+    public ArrayList<ClientHandler> getConnectedClients() {
+        return connectedClients;
+    }
+
+    public int getWelcomeSocketPort() {
+        return welcomeSocketPort;
+    }
+
+    public void echoOff() {
+        echo = false;
+        for(GameController gameController : games.values()) {
+            gameController.echoOff();
+        }
+        System.out.println();
+    }
+
+    public void echoOn() {
+        echo = true;
+        for(GameController gameController : games.values()) {
+            gameController.echoOn();
+        }
     }
 
     /**
@@ -95,8 +139,14 @@ public class Lobby implements ServerNetworkObserver {
      * @param client client to allow in
      */
     public void enterLobby(ClientHandler client) {
-        connectedClients.add(client);
-        System.out.println("client connected successfully to the lobby");
+        if(!connectedClients.contains(client)) {
+            connectedClients.add(client);
+        }
+        if (echo) {
+            String username = "";
+            if(client.getUsername() != null){ username = client.getUsername() + " "; }
+            System.out.println("Client "+username+ " is now in the lobby");
+        }
         client.send(LobbyMessageGenerator.joinedLobbyMessage());
     }
 
@@ -107,7 +157,9 @@ public class Lobby implements ServerNetworkObserver {
     public void leaveLobby(ClientHandler client) {
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
-        System.out.println("client " + client.getUsername() + " left the lobby");
+        if (echo) {
+            System.out.println("Client " + client.getUsername() + " left the lobby");
+        }
         client.shutdown();
     }
 
@@ -122,8 +174,14 @@ public class Lobby implements ServerNetworkObserver {
             takenUsernames.remove(client.getUsername()); //the client had already a registered username, so now it's going to be changed
         }
         if (!takenUsernames.contains(username)) {
+            String oldUsername = client.getUsername();
             takenUsernames.add(username);
             client.setUsername(username);
+            if(echo) {
+                if (oldUsername != null) {
+                    System.out.println("Client '" + oldUsername + "' changed their username to '" + username +"'");
+                }
+            }
         }
         else {
             throw new AlreadyTakenUsernameException();
@@ -138,13 +196,12 @@ public class Lobby implements ServerNetworkObserver {
     public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) throws CannotCreateGameException {
         if(gameName == null) throw new CannotCreateGameException("Invalid name!");
         if(games.containsKey(gameName)) throw new CannotCreateGameException("Game name already taken!");
-        GameController newGameController = new GameController(this,numberOfPlayers,gameName);
+        GameController newGameController = new GameController(this,numberOfPlayers,gameName, echo);
         games.put(gameName, newGameController);
         availableGames.put(gameName,newGameController);
         try {
-            newGameController.enterGame(client);
-        } catch (GameIsFullException ignored) {
-        }
+            joinGame(client, gameName);
+        } catch (NonExistentGameException | GameIsFullException ignored) {}
         Thread thread = new Thread(newGameController);
         thread.start();
     }
@@ -170,17 +227,20 @@ public class Lobby implements ServerNetworkObserver {
      */
     public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
-        connectedClients.remove(client);
         availableGames.get(gameName).enterGame(client);
     }
 
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
-        System.out.println("client" + clientHandler.getUsername() + " lost connection");
+        if (echo) {
+            System.out.println("Client" + clientHandler.getUsername() + " lost connection");
+        }
         leaveLobby(clientHandler);
     }
 
     public void shutdown() {
         running = false;
+        executorService.shutdown();
+        System.exit(0);
     }
 }

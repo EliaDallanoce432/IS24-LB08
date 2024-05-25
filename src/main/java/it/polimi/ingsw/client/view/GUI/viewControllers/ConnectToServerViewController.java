@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -85,7 +84,7 @@ public class ConnectToServerViewController extends ViewController {
     public void updateSceneStatus(){
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
-                case WELCOME_STATE -> StageManager.loadWelcomeScene();
+                case LOBBY_STATE -> StageManager.loadWelcomeScene();
                 default -> {}
             }
         });

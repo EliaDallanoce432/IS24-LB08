@@ -1,15 +1,13 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.AvailableGamesModel;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
-import java.io.IOException;
 
 /**
  * This class is the controller of the "Join Game" scene.
@@ -31,7 +29,7 @@ public class JoinGameViewController extends ViewController {
     public void initialize() {
         availableGamesComboBox.setOnAction(event -> {
             selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem();
-            System.out.println("Selected game: " + selectedGame);
+            //System.out.println("Selected game: " + selectedGame);
         });
 
     }
@@ -54,7 +52,8 @@ public class JoinGameViewController extends ViewController {
             alertLabel.setText("Please select a game first");
         }
         else {
-            ClientController.getInstance().sendJoinGameMessage(selectedGame.substring(0,selectedGame.length()-8));
+            String gameName = selectedGame.substring(0,selectedGame.length()-8);
+            ClientController.getInstance().sendJoinGameMessage(gameName);
             StageManager.loadWaitForPlayersScene();
         }
     }
@@ -76,5 +75,18 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void refresh(){
         ClientController.getInstance().sendGetAvailableGamesMessage();
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+
     }
 }

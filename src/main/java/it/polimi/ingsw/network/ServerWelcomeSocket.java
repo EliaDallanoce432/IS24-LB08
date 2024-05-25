@@ -32,8 +32,6 @@ public class ServerWelcomeSocket implements Runnable {
         while (running) {
             try {
                 Socket socket = serverSocket.accept();
-                System.out.println("server address: " + socket.getInetAddress());
-                System.out.println("client address: " + socket.getRemoteSocketAddress());
                 ClientHandler client = new ClientHandler(socket,lobby);
                 lobby.submitNewClient(client);
             } catch (IOException e) {

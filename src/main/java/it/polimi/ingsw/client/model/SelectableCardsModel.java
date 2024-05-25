@@ -25,12 +25,8 @@ public class SelectableCardsModel extends ObservableModel{
         return selectableObjectiveCardsId;
     }
 
-    public void setStarterCardId(int starterCardId) {
+    public void setSelectableCardsId(int starterCardId, int[] objectiveCardsId) {
         this.starterCardId = starterCardId;
-        notifyObservers();
-    }
-
-    public void setSelectableObjectiveCardsId(int[] objectiveCardsId) {
         this.selectableObjectiveCardsId = objectiveCardsId;
         notifyObservers();
     }
@@ -39,4 +35,18 @@ public class SelectableCardsModel extends ObservableModel{
     public int getStarterCardId() {
         return starterCardId;
     }
+
+    /**
+     * Resets the Selectable Cards Model.
+     */
+
+    public void clear(){
+        this.starterCardId = 0;
+        if (selectableObjectiveCardsId != null) {
+            this.selectableObjectiveCardsId[0] = 0;
+            this.selectableObjectiveCardsId[1] = 0;
+        }
+    }
+
+
 }

@@ -1,10 +1,10 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.InputStream;
 

@@ -1,15 +1,13 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.controller.ClientController;
-import it.polimi.ingsw.client.view.ClientGUI;
+import it.polimi.ingsw.client.view.CLI.ClientCLI;
+import it.polimi.ingsw.client.view.GUI.ClientGUI;
 import it.polimi.ingsw.server.lobby.Lobby;
-import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
 import javafx.application.Application;
 
 public class Codex {
 
     private Lobby lobby;
-    private ClientController clientController;
 
     public Lobby getLobby() {
         return lobby;
@@ -17,10 +15,6 @@ public class Codex {
 
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
-    }
-
-    public void setClientController(ClientController clientController) {
-        this.clientController = clientController;
     }
 
     public static void main(String[] args) {
@@ -32,20 +26,12 @@ public class Codex {
             if (args.length == 1) {
                 Application.launch(ClientGUI.class);
             } else if (args[1].equals("--cli")) {
-                //TODO start CLI
+                ClientCLI.getInstance().start();
             } else
                 System.out.println("unexpected argument: " + args[1]);
         } else if (args[0].equals("server")) {
-            int port = handleServerArguments(args);
-            if (port > 0) {
-                try {
-                    codex.setLobby(new Lobby(port));
-                    codex.getLobby().startLobby();
-                } catch (CannotOpenWelcomeSocket e) {
-                    System.out.println("The server could not start the welcome socket at port " + port);
-                    codex.shutdown();
-                }
-            }
+            codex.setLobby(new Lobby());
+            codex.getLobby().startLobby();
         } else {
             printUsageMessage();
             codex.shutdown();
@@ -54,31 +40,21 @@ public class Codex {
 
     private static void printUsageMessage() {
         System.out.println("Wrong arguments. Please specify one of these options:");
-        System.out.println("server (run Server)");
-        System.out.println("server <port> (run Server at specific port)");
-        System.out.println("client (open default GUI)");
-        System.out.println("client --cli (open CLI)");
-    }
-
-    private static int handleServerArguments(String[] args) {
-        if (args.length == 1) {
-            return 12345; // Use default port
-        } else if (args.length == 2) {
-            try {
-                return Integer.parseInt(args[1]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid port number: " + args[1]);
-                System.out.println("Please specify a valid port number (integer)");
-            }
-        } else {
-            System.out.println("Unexpected server arguments");
-        }
-        return -1;
+        System.out.println("┌───────────────────┬───────────────────────────┐");
+        System.out.println("│      Options      │        Description        │");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-20s", "│ server            │", "Open Server configuration │\n");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-15s", "│ client            │", "Run GUI                   │\n");
+        System.out.println("├───────────────────┴───────────────────────────┤");
+        System.out.printf("%-15s %-15s", "│ client --cli      │", "Run CLI                   │\n");
+        System.out.println("└───────────────────┴───────────────────────────┘");
+        System.out.println();
     }
 
     private void shutdown() {
         if(lobby != null) { lobby.shutdown(); }
-        if(clientController != null) { clientController.shutdown(); }
-
     }
+
+
 }

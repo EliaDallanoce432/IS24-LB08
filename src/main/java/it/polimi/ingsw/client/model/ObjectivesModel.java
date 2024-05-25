@@ -42,4 +42,15 @@ public class ObjectivesModel extends ObservableModel{
         this.commonObjectives = commonObjectives;
         notifyObservers();
     }
+
+    /**
+     * Resets the model.
+     */
+    public void clear(){
+        if (commonObjectives != null) {
+            commonObjectives[0] = 0;
+            commonObjectives[1] = 0;
+        }
+        secretObjectiveId = 0;
+    }
 }

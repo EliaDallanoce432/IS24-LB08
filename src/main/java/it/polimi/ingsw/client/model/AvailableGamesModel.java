@@ -10,7 +10,7 @@ public class AvailableGamesModel extends ObservableModel{
 
     private static AvailableGamesModel instance;
 
-    private HashMap<String,String> games;
+    private ArrayList<String> games;
 
     /**
      * returns the singleton instance of AvailableGamesModel
@@ -24,18 +24,14 @@ public class AvailableGamesModel extends ObservableModel{
     }
 
     private AvailableGamesModel(){
-        games = new HashMap<>();
+        games = new ArrayList<>();
     }
 
     public ArrayList<String> getGames() {
-        ArrayList<String> displayedGames = new ArrayList<>();
-        for (String gameName : games.keySet()) {
-            displayedGames.add(gameName+ " - " + games.get(gameName));
-        }
-        return displayedGames;
+        return new ArrayList<>(games);
     }
 
-    public void setGames(HashMap<String,String> games) {
+    public void setGames(ArrayList<String> games) {
         this.games = games;
         notifyObservers();
     }

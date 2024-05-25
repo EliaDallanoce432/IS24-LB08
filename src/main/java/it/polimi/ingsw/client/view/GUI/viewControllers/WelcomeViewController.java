@@ -1,9 +1,9 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -11,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-
-import java.io.IOException;
 
 
 /**
@@ -145,7 +143,7 @@ public class WelcomeViewController extends ViewController {
     @FXML
     private void exit(){
         ClientController.getInstance().sendLeaveMessage();
-        ClientController.getInstance().shutdown();
+        ClientController.getInstance().shutdownForGUI();
         StageManager.getCurrentStage().close();
     }
 
@@ -172,6 +170,18 @@ public class WelcomeViewController extends ViewController {
             errorLabel.setText(message);
             errorLabel.setVisible(true);
         });
+    }
+
+    @Override
+    public void updateSceneStatus(){
+
+        Platform.runLater(()->{
+            switch (ClientStateModel.getInstance().getClientState()){
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
+                default -> {}
+            }
+        });
+
     }
 
 

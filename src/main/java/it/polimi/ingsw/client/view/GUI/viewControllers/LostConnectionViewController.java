@@ -1,10 +1,8 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
 
 /**
  * This class is the controller of the "Lost Connection With the Server" Scene.
@@ -17,6 +15,6 @@ public class LostConnectionViewController extends ViewController {
     @FXML
     private void exit(){
         StageManager.getCurrentStage().close();
-        ClientController.getInstance().shutdown();
+        ClientController.getInstance().shutdownForGUI();
     }
 }

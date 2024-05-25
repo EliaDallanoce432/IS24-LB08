@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.view.viewControllers.ViewController;
+import it.polimi.ingsw.client.view.CLI.CLIViewController;
+import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -37,6 +36,14 @@ public class StageManager {
 
     public static ViewController getCurrentViewController() {
         return currentViewController;
+    }
+
+    /**
+     * Sets a new instance of CLIViewController as currentViewController.
+     */
+
+    public static void enableCLIMode() {
+        currentViewController = new CLIViewController();
     }
 
     /**
@@ -181,6 +188,7 @@ public class StageManager {
         StackPane stackPane = createStackPaneWithBackground("KickedFromGameView.fxml");
         currentStage.setWidth(SCENE_WIDTH);
         currentStage.setHeight(SCENE_HEIGHT);
+        currentStage.centerOnScreen();
         showScene(new Scene(stackPane));
     }
 

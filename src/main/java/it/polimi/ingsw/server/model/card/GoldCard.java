@@ -12,7 +12,9 @@ import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 public class GoldCard extends PlaceableCard {
     protected GoldCardContext context;
 
-    public GoldCard() {}
+    public GoldCard() {
+        // for testing purpose only
+    }
     public GoldCard(int id){
         try {
             JsonCardsReader.loadGoldCard(id,this);

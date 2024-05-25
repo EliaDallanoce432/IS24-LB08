@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.io.IOException;
 
 /**
  * This class is the controller of the scene where the player creates a new game.
@@ -103,7 +101,7 @@ public class CreateGameViewController extends ViewController {
     public void updateSceneStatus() {
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
-                case SETUP_STATE -> StageManager.loadWaitForPlayersScene();
+                case GAME_SETUP_STATE -> StageManager.loadWaitForPlayersScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}
             }

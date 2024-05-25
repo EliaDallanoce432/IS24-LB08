@@ -1,9 +1,7 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 
 
 /**

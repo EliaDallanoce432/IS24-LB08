@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.controller;
 
 import it.polimi.ingsw.client.model.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.Token;
 import org.json.simple.JSONArray;
@@ -23,14 +23,15 @@ public class ClientMessageHandler {
      */
     public void execute (JSONObject message) {
 
-        System.out.println("executing message: " + message);
+        //System.out.println("executing message: " + message);
         switch (message.get("message").toString()) {
 
             //in-lobby messages
-            case "joinedLobby" -> updateClientState(ClientState.WELCOME_STATE);
+            case "joinedLobby" -> updateClientState(ClientState.LOBBY_STATE, "Joined Lobby");
             case "usernameSet" -> updateUsername(message);
             case "usernameAlreadyTaken" -> showError("Username Already Taken");
-            case "gameCreated", "joinGame" -> updateClientState(ClientState.SETUP_STATE);
+            case "gameCreated" -> updateClientState(ClientState.GAME_SETUP_STATE, "Game Created Successfully");
+            case "joinGame" -> updateClientState(ClientState.GAME_SETUP_STATE, "Joined Game Successfully");
             case "cannotCreateGame" -> showError(message.get("reason").toString());
             case "gameDoesNotExist" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game does not exist");
             case "gameIsFull" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game is full");
@@ -93,10 +94,10 @@ public class ClientMessageHandler {
      */
     private void updateAvailableGames(JSONObject message) {
         JSONArray gamesArray = (JSONArray) message.get("games");
-        HashMap<String,String> games = new HashMap<>();
+        ArrayList<String> games = new ArrayList<>();
         for (Object o : gamesArray) {
             JSONObject gameObj = (JSONObject) o;
-            games.put(gameObj.get("name").toString(),gameObj.get("playersInGame").toString());
+            games.add(gameObj.get("nameAndPlayers").toString());
         }
         AvailableGamesModel.getInstance().setGames(games);
     }
@@ -109,8 +110,7 @@ public class ClientMessageHandler {
         int starterCardID = Integer.parseInt(message.get("starterCardID").toString());
         int objectiveCardID1 = Integer.parseInt(message.get("objectiveCardID1").toString());
         int objectiveCardID2 = Integer.parseInt(message.get("objectiveCardID2").toString());
-        SelectableCardsModel.getInstance().setStarterCardId(starterCardID);
-        SelectableCardsModel.getInstance().setSelectableObjectiveCardsId(new int[]{objectiveCardID1, objectiveCardID2});
+        SelectableCardsModel.getInstance().setSelectableCardsId(starterCardID,new int[]{objectiveCardID1, objectiveCardID2});
     }
 
     /**
@@ -131,10 +131,7 @@ public class ClientMessageHandler {
         Token token = Token.parseColor(message.get("token").toString());
 
         //updating the model...
-        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
-            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
-        }
-        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
+
         PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);
         ObjectivesModel.getInstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});
         ObjectivesModel.getInstance().setSecretObjectiveId(secretObjectiveCardID);
@@ -143,7 +140,10 @@ public class ClientMessageHandler {
         PlayerModel.getInstance().setToken(token);
         updateDeckModelFromJSON(decksJSON);
         updateResourcesFromJSON(resourcesJSON);
-
+        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {
+            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
+        }
+        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
     }
 
     /**
@@ -182,12 +182,14 @@ public class ClientMessageHandler {
         ArrayList<CardRepresentation> updatedHand = getHandArray((JSONArray) message.get("updatedHand"));
 
         GameFieldModel.getInstance().updatePlacementHistory(placementHistory);
-        if (!PlayerModel.getInstance().isLastTurn()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
         HandModel.getInstance().updateCardsInHand(updatedHand);
         ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get("updatedScore").toString()));
 
         JSONObject updatedResources = (JSONObject) message.get("updatedResources");
         updateResourcesFromJSON(updatedResources);
+
+        if (!PlayerModel.getInstance().isLastTurn()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);
+
 
 
     }
@@ -213,7 +215,7 @@ public class ClientMessageHandler {
 
         PlayerModel.getInstance().setTurnPlayer(currentTurnPlayer);
         if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {
-            ClientStateModel.getInstance().setClientState(ClientState.PLAYING_STATE);
+            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);
         }
         else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);
 

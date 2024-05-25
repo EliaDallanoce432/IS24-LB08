@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import java.util.ArrayList;
 
 /**
@@ -43,5 +43,14 @@ public class GameFieldModel extends ObservableModel {
      */
     public void rollback(){
         notifyObservers();
+    }
+
+    /**
+     * Resets the placementHistory array.
+     */
+    public void clear(){
+        if (placementHistory != null) {
+            placementHistory.clear();
+        }
     }
 }

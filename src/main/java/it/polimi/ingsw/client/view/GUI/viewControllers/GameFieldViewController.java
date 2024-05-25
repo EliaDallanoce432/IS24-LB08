@@ -1,10 +1,10 @@
-package it.polimi.ingsw.client.view.viewControllers;
+package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
+import it.polimi.ingsw.client.view.GUI.viewControllers.utility.*;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.viewControllers.utility.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -147,7 +147,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private void leaveGame(){
         ClientController.getInstance().sendLeaveMessage();
-        ClientStateModel.getInstance().setClientState(ClientState.WELCOME_STATE);
+        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
+        ClientController.getInstance().resetModels();
         StageManager.loadWelcomeScene();
     }
 
@@ -202,20 +203,20 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
-            System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
+            //System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
             errorLabel.setVisible(false);
             switch (ClientStateModel.getInstance().getClientState()){
                 case NOT_PLAYING_STATE -> {
                     showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
                 }
-                case PLAYING_STATE -> {
+                case PLACING_STATE -> {
                     showMessage("It's your Turn, please place a card!");
                 }
                 case DRAWING_STATE -> {
                     showMessage("Please Draw a Card from the decks!");
                     decksRepresentation.loadDecks();
                 }
-                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
+                case KICKED_STATE,LOBBY_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 case LAST_TURN_STATE -> showSpecialMessage(" It's the last turn! " + ClientStateModel.getInstance().getReason() + "!" );
                 case END_GAME_STATE -> StageManager.loadLeaderboardScene();

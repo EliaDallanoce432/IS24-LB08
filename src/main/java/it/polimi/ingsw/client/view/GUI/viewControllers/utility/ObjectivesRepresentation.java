@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers.utility;
+package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
 
 import it.polimi.ingsw.client.model.ObjectivesModel;
 import javafx.scene.layout.HBox;

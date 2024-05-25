@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.viewControllers.utility;
+package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
