@@ -13,6 +13,8 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColor;
  */
 public class CLIViewController extends ViewController {
 
+    private static ClientState previousState = null;
+
     public CLIViewController() {
         //initializing observers
         new AvailableGamesObserver();
@@ -88,9 +90,18 @@ public class CLIViewController extends ViewController {
     public void updateSceneStatus() {
         ClientState clientState = ClientStateModel.getInstance().getClientState();
         switch (clientState) {
+            case LOBBY_STATE -> {
+                ClientCLI.clearConsole();
+                Printer.printCodexLogo();
+                if(previousState == ClientState.KICKED_STATE){
+                    Printer.printMessage("A player left the game!");
+                }
+                Printer.printMenu();
+            }
             case GAME_SETUP_STATE -> {
                 Printer.printMessage(ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW);
                 Printer.printMessage("Type 'ready' when you're ready to begin!");
+
             }
             case PLACING_STATE -> {
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
@@ -129,5 +140,6 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.", ConsoleColor.RED);
             }
         }
+        previousState = clientState;
     }
 }

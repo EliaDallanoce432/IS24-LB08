@@ -34,15 +34,13 @@ public class ClientCLI {
     public void start() {
         String address = getServerAddress();
         int port = getServerPort();
+        StageManager.enableCLIMode();
         try {
             ClientController.getInstance(address, port);
-            Printer.printCodexLogo();
-            Printer.printMenu();
         } catch (ServerUnreachableException e) {
             System.out.println("Could not connect to server.");
             System.exit(1);
         }
-        StageManager.enableCLIMode();
         clientTerminalInputThread.start();
     }
 
@@ -74,20 +72,14 @@ public class ClientCLI {
         }
     }
 
-
     /**
      * Clears the console screen depending on the operating system (Windows or Unix-based).
-     * @throws IOException If an I/O error occurs.
-     * @throws InterruptedException If the thread is interrupted.
      */
-    public static void clearConsole() throws IOException, InterruptedException{
-        String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } else {
-            Runtime.getRuntime().exec("clear");
-        }
+    public static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
+
     /**
      * Shuts down the CLI by:
      */
