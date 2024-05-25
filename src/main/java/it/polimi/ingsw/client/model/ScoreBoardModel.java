@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.model;
 
+import it.polimi.ingsw.util.supportclasses.Token;
 import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ public class ScoreBoardModel extends ObservableModel{
 
     private static ScoreBoardModel instance;
     private HashMap<String, Integer> scores;
+    private HashMap<String, Token> tokens;
     private ArrayList<JSONObject> leaderboard;
 
     private int insectResourceCount;
@@ -24,6 +26,7 @@ public class ScoreBoardModel extends ObservableModel{
     public ScoreBoardModel() {
         scores = new HashMap<>();
         leaderboard = new ArrayList<>();
+        tokens = new HashMap<>();
     }
 
     public static ScoreBoardModel getInstance(){
@@ -53,6 +56,10 @@ public class ScoreBoardModel extends ObservableModel{
 
     public HashMap<String, Integer> getScore(){
         return scores;
+    }
+
+    public void setTokens(HashMap<String, Token> tokens){
+        this.tokens = tokens;
     }
 
     public void setResources (int animalResourceCount, int insectResourceCount,
@@ -96,6 +103,11 @@ public class ScoreBoardModel extends ObservableModel{
         return inkPotCount;
     }
 
+    public Token getToken(String username){
+        if (tokens.get(username) == null) return Token.black;
+        else return tokens.get(username);
+    }
+
     public void clear(){
         insectResourceCount = 0;
         animalResourceCount = 0;
@@ -105,6 +117,7 @@ public class ScoreBoardModel extends ObservableModel{
         scrollCount = 0;
         inkPotCount = 0;
         if (scores != null) scores.clear();
+        if (tokens != null) tokens.clear();
         if (leaderboard!= null) leaderboard.clear();
     }
 

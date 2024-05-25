@@ -25,6 +25,7 @@ public class PlayerModel extends ObservableModel {
     private PlayerModel(){
         username = "Guest";
         turnPlayer = " ";
+        token = Token.black;
     }
 
     public String getTurnPlayer(){return turnPlayer;}

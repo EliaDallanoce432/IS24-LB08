@@ -41,6 +41,8 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Pane scoreBoardPane;
     @FXML
+    private VBox scoreBoardVBox;
+    @FXML
     private Pane decksPane;
     @FXML
     private HBox commonObjectivesPane;
@@ -96,7 +98,7 @@ public class GameFieldViewController extends ViewController {
         handAndBoardRepresentation = new HandAndBoardRepresentation(handPane,scrollPane);
         objectivesRepresentation = new ObjectivesRepresentation(commonObjectivesPane, secretObjectivePane);
         decksRepresentation = new DecksRepresentation(decksPane);
-        scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardPane);
+        scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardVBox);
         scoreTrackRepresentation = new ScoreTrackRepresentation(scoreTrackPane,startingReference);
 
         specialAlertsLabel.setVisible(false);
@@ -128,7 +130,7 @@ public class GameFieldViewController extends ViewController {
     private void centerVisual()
     {
         scrollPane.setHvalue(0.5);
-        scrollPane.setVvalue(0.5);
+        scrollPane.setVvalue(0.503);
     }
 
     /**

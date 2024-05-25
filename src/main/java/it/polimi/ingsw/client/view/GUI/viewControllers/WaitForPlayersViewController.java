@@ -82,7 +82,6 @@ public class WaitForPlayersViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
 
-        System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
                 case GAME_SETUP_STATE -> loadGetReadyScene();

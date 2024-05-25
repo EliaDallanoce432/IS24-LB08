@@ -71,15 +71,15 @@ public class HandAndBoardRepresentation {
         boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
         scrollPane.setContent(boardPane);
         scrollPane.setHvalue(0.5);
-        scrollPane.setVvalue(0.5);
+        scrollPane.setVvalue(0.503);
 
     }
 
 
 
     /**
-     * sets the card event listeners so that the card is draggable, droppable and sends a "place" message to the server when dropped.
-     * It also makes the card snap to certain coordinates when released, so that the card is correctly placed on the corner of the
+     * Sets the card event listeners so that the card is draggable, droppable and sends a "place" message to the server when dropped.
+     * It also makes the card snap to certain coordinates when released, so that it is correctly placed on the corner of the
      * card on the field.
      * @param card Card node to be made draggable and droppable
      * @param cardRepresentation Reference to the associated CardRepresentation
@@ -118,21 +118,17 @@ public class HandAndBoardRepresentation {
         card.setOnMouseReleased(event -> {
 
             Bounds cardBounds = card.localToScene(card.getBoundsInLocal());
-
-            Bounds scrollPaneBounds = scrollPane.getLayoutBounds();
+            Bounds scrollPaneBounds = scrollPane.localToScene(scrollPane.getBoundsInLocal());
 
             card.setCursor(Cursor.OPEN_HAND);
 
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
 
-            if (!scrollPaneBounds.contains(mouseX, mouseY)){
+            if (!scrollPaneBounds.contains(mouseX, mouseY)) {
                 card.setLayoutX(offsetX);
                 card.setLayoutY(offsetY);
-            }
-
-            else {
-
+            } else {
                 Point2D cardPositionInTargetPane = boardPane.sceneToLocal(cardBounds.getMinX(), cardBounds.getMinY());
 
                 double snapX = roundToNearest(cardPositionInTargetPane.getX(), X_SNAP_INCREMENT);
@@ -149,9 +145,8 @@ public class HandAndBoardRepresentation {
 
                 ClientController.getInstance().sendPlaceMessage(cardRepresentation.getId(), relX, relY, cardRepresentation.isFacingUp());
             }
-
-
         });
+
 
     }
 

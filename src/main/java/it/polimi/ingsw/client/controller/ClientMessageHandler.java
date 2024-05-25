@@ -128,7 +128,7 @@ public class ClientMessageHandler {
         JSONObject decksJSON = (JSONObject) message.get("decks");
         String firstPlayerUsername = message.get("firstPlayer").toString();
         JSONObject resourcesJSON = (JSONObject) message.get("resources");
-        Token token = Token.parseColor(message.get("token").toString());
+        Token token = Token.parseToken(message.get("token").toString());
 
         //updating the model...
 
@@ -228,11 +228,14 @@ public class ClientMessageHandler {
     private void updateScores(JSONObject message) {
 
         HashMap<String, Integer> scores = new HashMap<>();
+        HashMap<String, Token> tokens = new HashMap<>();
         JSONArray scoresArray = (JSONArray) message.get("updatedScores");
         for (Object o : scoresArray) {
             JSONObject scoreObj = (JSONObject) o;
+            tokens.put(scoreObj.get("username").toString(), Token.parseToken(scoreObj.get("token").toString()));
             scores.put(scoreObj.get("username").toString(), Integer.parseInt(scoreObj.get("score").toString()));
         }
+        ScoreBoardModel.getInstance().setTokens(tokens);
         ScoreBoardModel.getInstance().setScores(scores);
 
     }
