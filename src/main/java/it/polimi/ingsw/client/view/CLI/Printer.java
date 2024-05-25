@@ -50,13 +50,10 @@ public class Printer {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("Codex_logo.txt");
         if (is != null) {
-            try (Scanner sc = new Scanner(is)) {
-                ClientCLI.clearConsole();
-                while (sc.hasNextLine()) {
-                    System.out.println(ConsoleColor.GREEN + sc.nextLine() + ConsoleColor.RESET);
-                }
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
+            Scanner sc = new Scanner(is);
+            ClientCLI.clearConsole();
+            while (sc.hasNextLine()) {
+                System.out.println(ConsoleColor.GREEN + sc.nextLine() + ConsoleColor.RESET);
             }
         }
     }
@@ -143,27 +140,29 @@ public class Printer {
         int positiveYBound = 3;
 
         for(CardRepresentation cardRepresentation : placementHistory){
-            if (cardRepresentation.getX() > positiveXBound) positiveXBound = cardRepresentation.getX() + 1;
-            if (cardRepresentation.getX() < negativeXBound) negativeXBound = cardRepresentation.getX() - 1;
-            if (cardRepresentation.getY() > positiveYBound) positiveYBound = cardRepresentation.getY() + 1;
-            if (cardRepresentation.getY() < negativeYBound) negativeYBound = cardRepresentation.getY() - 1;
+            if (cardRepresentation.getX() >= positiveXBound) positiveXBound = cardRepresentation.getX() + 1;
+            if (cardRepresentation.getX() <= negativeXBound) negativeXBound = cardRepresentation.getX() - 1;
+            if (cardRepresentation.getY() >= positiveYBound) positiveYBound = cardRepresentation.getY() + 1;
+            if (cardRepresentation.getY() <= negativeYBound) negativeYBound = cardRepresentation.getY() - 1;
         }
 
-        int width = (positiveXBound - negativeXBound) + 2 ;
-        int height = (positiveYBound - negativeYBound) + 2;
+        int width = (positiveXBound - negativeXBound) + 1;
+        int height = (positiveYBound - negativeYBound) + 1;
 
         String[][] gameField = new String[height][width];
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                gameField[i][j] = ConsoleColor.BLACK + "|_______|" + ConsoleColor.RESET;
+                gameField[i][j] = ConsoleColor.BLACK + "|________|" + ConsoleColor.RESET;
             }
         }
 
 
         for(CardRepresentation cardRepresentation : placementHistory){
-            int column = width/2 + cardRepresentation.getX() - width%2;
-            int row = height/2 - cardRepresentation.getY() - width%2;
+            int xCenter = Math.abs(negativeXBound);
+            int yCenter = Math.abs(positiveYBound);
+            int row = yCenter - cardRepresentation.getY();
+            int column = xCenter + cardRepresentation.getX();
 
             int cardId = cardRepresentation.getId();
             String cardColor = getColor(cardId);
@@ -173,6 +172,7 @@ public class Printer {
             if(cardRepresentation.isFacingUp()) faceUpstate = "FRNT";
             else faceUpstate = "BACK";
 
+            System.out.println("height: " + height + " width: " + width + " xCenter: " + xCenter + " yCenter: " + yCenter + "row: " + row + " column: " + column + " cardId: " + cardId);
             gameField[row][column] = cardColor + "|#" + cardId + "(" + faceUpstate  +")|" + ConsoleColor.RESET ;
         }
 
