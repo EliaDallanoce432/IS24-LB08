@@ -50,7 +50,7 @@ public class ClientCLI {
      */
     private String getServerAddress() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert server IP address (press Enter for set default IP: localhost");
+        System.out.println("Insert server IP address (press Enter for set default IP: localhost)");
         String address = scanner.nextLine().trim();
         return address.isEmpty() ? "localhost" : address;
     }
@@ -62,7 +62,7 @@ public class ClientCLI {
      */
     private int getServerPort() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert server port (press Enter for set default port: 12345");
+        System.out.println("Insert server port (press Enter for set default port: 12345)");
         String portString = scanner.nextLine().trim();
         try {
             return portString.isEmpty() ? 12345 : Integer.parseInt(portString);

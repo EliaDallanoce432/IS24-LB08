@@ -64,7 +64,9 @@ public class Printer {
     public static void printHelp()
     {
         Map<String, String> commands  = new HashMap<>();
-        printMessage("Help", ConsoleColor.CYAN);
+        System.out.println("------------------------------------------------------------------------------------");
+        System.out.printf("%55s",ConsoleColor.CYAN + "HELP" + ConsoleColor.RESET);
+        System.out.println();
         switch (ClientStateModel.getInstance().getClientState())
         {
             case ClientState.LOBBY_STATE -> {
@@ -72,7 +74,6 @@ public class Printer {
                 commands.put("availablegames | ag", "Shows the available games to join");
                 commands.put("join | j <gameName>", "Join to a game");
                 commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
-                commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.GAME_SETUP_STATE -> {
                 commands.put("ready | r", "Set you are ready to play");
@@ -80,31 +81,23 @@ public class Printer {
                 commands.put("startercard | sc <cardId> <front/back>", "Choose a starter card and its side");
                 commands.put("secretobjective | so <cardId>", "Choose a secret objective");
                 commands.put("leave | l", "Leave the game, brings you back to the lobby");
-                commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.DRAWING_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
                 commands.put("draw | d <1-6>", "Draw a game into a player");
-                commands.put("leave | l", "Leave the game");
-                commands.put("quit | q", "Exit from Codex");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
             case ClientState.PLACING_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
                 commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
-                commands.put("leave | l", "Leave the game");
-                commands.put("quit | q", "Exit from Codex");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
             case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
-                //TODO decidere se lasciare place e draw
-                commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
-                commands.put("draw | d <1-6>", "Draw a game into a player");
                 commands.put("leave | l", "Leave the game");
-                commands.put("quit | q", "Exit from Codex");
             }
             case ClientState.END_GAME_STATE -> {
                 commands.put("leave | l", "Leave the game");
-                commands.put("quit | q", "Exit from Codex");
             }
             default -> {
                 commands.put("setusername | su <username>", "Set your username");
@@ -112,13 +105,14 @@ public class Printer {
                 commands.put("join | j <gameName>", "Join to a game");
                 commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
                 commands.put("info | i <cardId>", "View information of a card");
-                commands.put("quit | q", "Exit from Codex");
             }
         }
+        commands.put("quit | q", "Exit from Codex");
         for (Map.Entry<String, String> entry : commands.entrySet()) {
             System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
             System.out.println();
         }
+        System.out.println("------------------------------------------------------------------------------------");
     }
 
     /**
