@@ -92,7 +92,7 @@ public class CLIViewController extends ViewController {
                 ClientCLI.clearConsole();
                 Printer.printCodexLogo();
                 if(previousState == ClientState.KICKED_STATE){
-                    Printer.printMessage("A player left the game!", ConsoleColor.YELLOW);
+                    Printer.printMessage("A player left the game!", ConsoleColor.RED);
                 }
                 Printer.printMenu();
             }
@@ -123,9 +123,7 @@ public class CLIViewController extends ViewController {
                 Printer.printScores();
                 Printer.printMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
             }
-            case LAST_TURN_STATE -> {
-                Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
-            }
+            case LAST_TURN_STATE -> Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
             case END_GAME_STATE -> {
                 Printer.printMessage("Leaderboard", ConsoleColor.YELLOW);
                 Printer.printLeaderboard();
@@ -135,9 +133,7 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("ERROR: Lost connection to the server, closing the game.", ConsoleColor.RED);
                 System.exit(0);
             }
-            case KICKED_STATE -> {
-                Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.", ConsoleColor.RED);
-            }
+            case KICKED_STATE -> Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.", ConsoleColor.RED);
         }
         previousState = clientState;
     }
