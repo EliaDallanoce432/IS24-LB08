@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 
@@ -55,9 +56,15 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Pane scoreTrackPane;
     @FXML
-    private Pane resourcesPane;
+    private ImageView blueToken;
     @FXML
-    private Circle startingReference;
+    private ImageView yellowToken;
+    @FXML
+    private ImageView redToken;
+    @FXML
+    private ImageView greenToken;
+    @FXML
+    private Pane resourcesPane;
     @FXML
     private Label plantResLabel;
     @FXML
@@ -99,7 +106,7 @@ public class GameFieldViewController extends ViewController {
         objectivesRepresentation = new ObjectivesRepresentation(commonObjectivesPane, secretObjectivePane);
         decksRepresentation = new DecksRepresentation(decksPane);
         scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardVBox);
-        scoreTrackRepresentation = new ScoreTrackRepresentation(scoreTrackPane,startingReference);
+        scoreTrackRepresentation = new ScoreTrackRepresentation(scoreTrackPane,blueToken,redToken,greenToken,yellowToken);
 
         specialAlertsLabel.setVisible(false);
         errorLabel.setVisible(false);
@@ -196,6 +203,7 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateScoreBoard(){Platform.runLater(() -> {
         scoreBoardRepresentation.updateScores();
+        scoreTrackRepresentation.updateTokenPosition();
         Platform.runLater(this::updateResources);
     });}
 
