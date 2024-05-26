@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentatio
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
@@ -45,7 +46,6 @@ public class Printer {
     /**
      * Prints the "Codex" Logo in ASCII art.
      */
-
     public static void printCodexLogo() {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("Codex_logo.txt");
@@ -59,17 +59,81 @@ public class Printer {
     }
 
     /**
-     *
+     *  Prints the help menu
      */
+    public static void printHelp()
+    {
+        Map<String, String> commands  = new HashMap<>();
+        printMessage("Help", ConsoleColor.CYAN);
+        switch (ClientStateModel.getInstance().getClientState())
+        {
+            case ClientState.LOBBY_STATE -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.GAME_SETUP_STATE -> {
+                commands.put("ready | r", "Set you are ready to play");
+                commands.put("availablegames | ag", "View all available games");
+                commands.put("startercard | sc <cardId> <front/back>", "Choose a starter card and its side");
+                commands.put("secretobjective | so <cardId>", "Choose a secret objective");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.DRAWING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.PLACING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("draw | d <1-6>", "Draw a game into a player");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("place | p <cardId> <x> <y> <facingUp>", "Place a card in a specific position of game field");
+                commands.put("draw | d <1-6>", "Draw a game into a player");
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            case ClientState.END_GAME_STATE -> {
+                commands.put("leave | l", "Leave the game");
+                commands.put("quit | q", "Exit from Codex");
+            }
+            default -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("quit | q", "Exit from Codex");
+            }
+        }
+        for (Map.Entry<String, String> entry : commands.entrySet()) {
+            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
+            System.out.println();
+        }
+    }
 
+    /**
+     * Prints the available games
+     */
     public static void printAvailableGames() {
         AvailableGamesModel availableGamesModel = AvailableGamesModel.getInstance();
         System.out.println("-------------------------------------------------------------");
-        for (String s :availableGamesModel.getGames()){
-            System.out.println(s);
+        if (!availableGamesModel.getGames().isEmpty()) {
+            for (String s :availableGamesModel.getGames()){
+                System.out.println(s);
+            }
+        }
+        else {
+            System.out.println("No available games");
         }
         System.out.println("-------------------------------------------------------------");
-
+        System.out.println();
     }
 
 

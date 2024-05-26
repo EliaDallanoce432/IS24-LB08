@@ -62,7 +62,7 @@ public class CLIViewController extends ViewController {
     @Override
     public void updatePlayerInfo() {
         if(ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE){
-            Printer.printMessage("User logged in as: " + PlayerModel.getInstance().getUsername());
+            Printer.printMessage("User logged in as: " + PlayerModel.getInstance().getUsername(), ConsoleColor.YELLOW);
             System.out.println();
         }
     }
@@ -76,13 +76,11 @@ public class CLIViewController extends ViewController {
         SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
-        Printer.printMessage("Your starter card ID is #" + starterCardID + " and you can choose your secret objective between these two #"+ objectivesID[0] + " #" +objectivesID[1] + "\n" +
-                "Please select the orientation of the starter card and your secret objective before beginning. \n " +
-                "To select the starter card orientation, type 'sc front' or 'sc back'.\n " +
-                "To select a secret objective, type 'so " + objectivesID[0] + "' or 'so " + objectivesID[1] + "'.");
+        Printer.printMessage("Your starter card is #" + starterCardID + "\n" +
+                "You can choose your secret objective between these two cards #"+ objectivesID[0] +" #" +objectivesID[1]+"\n" +
+                "To select the starter card orientation, type 'sc front' or 'sc back'.\n" +
+                "To select a secret objective, type 'so " + objectivesID[0] + "' or 'so " + objectivesID[1] + "'.", ConsoleColor.YELLOW);
     }
-
-
     /**
      * Prints game state-specific messages and prompts to the console based on the current `ClientState`.
      */
@@ -94,7 +92,7 @@ public class CLIViewController extends ViewController {
                 ClientCLI.clearConsole();
                 Printer.printCodexLogo();
                 if(previousState == ClientState.KICKED_STATE){
-                    Printer.printMessage("A player left the game!");
+                    Printer.printMessage("A player left the game!", ConsoleColor.YELLOW);
                 }
                 Printer.printMenu();
             }
@@ -131,7 +129,7 @@ public class CLIViewController extends ViewController {
             case END_GAME_STATE -> {
                 Printer.printMessage("Leaderboard", ConsoleColor.YELLOW);
                 Printer.printLeaderboard();
-                Printer.printMessage("type 'leave' to go back to the lobby.");
+                Printer.printMessage("Type 'leave' to go back to the lobby.");
             }
             case LOST_CONNECTION_STATE -> {
                 Printer.printMessage("ERROR: Lost connection to the server, closing the game.", ConsoleColor.RED);
