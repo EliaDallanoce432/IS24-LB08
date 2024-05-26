@@ -39,4 +39,15 @@ public class ServerWelcomeSocket implements Runnable {
             }
         }
     }
+
+    /**
+     * Stops the server from accepting new connections
+     */
+    public void shutdown() {
+        running = false;
+        try {
+            serverSocket.close();
+        } catch (IOException ignored) {
+        }
+    }
 }
