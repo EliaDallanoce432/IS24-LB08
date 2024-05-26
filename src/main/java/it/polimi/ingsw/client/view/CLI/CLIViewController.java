@@ -102,11 +102,13 @@ public class CLIViewController extends ViewController {
 
             }
             case PLACING_STATE -> {
+                ClientCLI.clearConsole();
                 Printer.printMessage("Please place a card!", ConsoleColor.YELLOW);
                 Printer.printGameBoard();
                 Printer.printResources();
                 Printer.printGuide();
                 Printer.printHand();
+                //TODO far vedere gli obiettivi comuni e il proprio
                 Printer.printMessage("To place a card, type 'place <cardId> <orientation> <targetCardId> <position>'");
             }
             case DRAWING_STATE -> {
@@ -125,6 +127,7 @@ public class CLIViewController extends ViewController {
             }
             case LAST_TURN_STATE -> Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
             case END_GAME_STATE -> {
+                ClientCLI.clearConsole();
                 Printer.printMessage("Leaderboard", ConsoleColor.YELLOW);
                 Printer.printLeaderboard();
                 Printer.printMessage("Type 'leave' to go back to the lobby.");
