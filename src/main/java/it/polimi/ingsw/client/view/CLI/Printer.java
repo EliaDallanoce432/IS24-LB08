@@ -5,11 +5,11 @@ import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentatio
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -45,7 +45,6 @@ public class Printer {
     /**
      * Prints the "Codex" Logo in ASCII art.
      */
-
     public static void printCodexLogo() {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("Codex_logo.txt");
@@ -59,17 +58,78 @@ public class Printer {
     }
 
     /**
-     *
+     *  Prints the help menu
      */
+    public static void printHelp()
+    {
+        Map<String, String> commands  = new HashMap<>();
+        System.out.println("------------------------------------------------------------------------------------");
+        System.out.printf("%55s",ConsoleColor.CYAN + "HELP" + ConsoleColor.RESET);
+        System.out.println();
+        switch (ClientStateModel.getInstance().getClientState())
+        {
+            case ClientState.LOBBY_STATE -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("availablegames | ag", "Shows the available games to join");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+            }
+            case ClientState.GAME_SETUP_STATE -> {
+                commands.put("ready | r", "Set you are ready to play");
+                commands.put("availablegames | ag", "View all available games");
+                commands.put("startercard | sc <cardId> <front/back>", "Choose a starter card and its side");
+                commands.put("secretobjective | so <cardId>", "Choose a secret objective");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+            }
+            case ClientState.DRAWING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("draw | d <1-6>", "Draw a game into a player");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+            }
+            case ClientState.PLACING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+            }
+            case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("leave | l", "Leave the game");
+            }
+            case ClientState.END_GAME_STATE -> {
+                commands.put("leave | l", "Leave the game");
+            }
+            default -> {
+                commands.put("setusername | su <username>", "Set your username");
+                commands.put("availablegames | ag", "Shows the available games to join");
+                commands.put("join | j <gameName>", "Join to a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("info | i <cardId>", "View information of a card");
+            }
+        }
+        commands.put("quit | q", "Exit from Codex");
+        for (Map.Entry<String, String> entry : commands.entrySet()) {
+            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
+            System.out.println();
+        }
+        System.out.println("------------------------------------------------------------------------------------");
+    }
 
+    /**
+     * Prints the available games
+     */
     public static void printAvailableGames() {
         AvailableGamesModel availableGamesModel = AvailableGamesModel.getInstance();
         System.out.println("-------------------------------------------------------------");
-        for (String s :availableGamesModel.getGames()){
-            System.out.println(s);
+        if (!availableGamesModel.getGames().isEmpty()) {
+            for (String s :availableGamesModel.getGames()){
+                System.out.println(s);
+            }
+        }
+        else {
+            System.out.println("No available games");
         }
         System.out.println("-------------------------------------------------------------");
-
+        System.out.println();
     }
 
 
@@ -125,6 +185,20 @@ public class Printer {
         System.out.println("4) Gold deck top card: #?? (" +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol() + ")");
         System.out.println("5) Left revealed gold card: #"+ goldDeckLeftCardId + " ("+ new GoldCard(goldDeckLeftCardId).getCardKingdom().toSymbol() +")");
         System.out.println("6) Right revealed gold card: #"+ goldDeckRightCardId + " ("+ new GoldCard(goldDeckRightCardId).getCardKingdom().toSymbol() +")");
+        System.out.println();
+    }
+
+    /**
+     * Prints the IDs of the two common objective cards and the ID of the secrete one.
+     */
+    public static void printObjectives() {
+        ObjectivesModel objectivesModel = ObjectivesModel.getInstance();
+        int[] firstCommonObj = objectivesModel.getCommonObjectives();
+        int secreteObj = objectivesModel.getSecretObjectiveId();
+
+        System.out.println("First common objective: " + firstCommonObj[0]);
+        System.out.println("Second common objective: " + firstCommonObj[1]);
+        System.out.println("Your secrete objective: " + secreteObj);
         System.out.println();
     }
 

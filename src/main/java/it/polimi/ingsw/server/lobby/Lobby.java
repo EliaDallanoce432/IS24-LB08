@@ -21,6 +21,7 @@ public class Lobby implements ServerNetworkObserver {
     private final HashMap<String, GameController> games;
     private final HashMap<String, GameController> availableGames;
     private final ArrayList<String> takenUsernames;
+    private ServerWelcomeSocket serverWelcomeSocket = null;
     private boolean welcomeSocketIsRunning = false;
     private int welcomeSocketPort;
     private final ExecutorService executorService;
@@ -48,7 +49,6 @@ public class Lobby implements ServerNetworkObserver {
 
     public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
         if (!welcomeSocketIsRunning) {
-            ServerWelcomeSocket serverWelcomeSocket;
             serverWelcomeSocket = new ServerWelcomeSocket(this, port);
             executorService.submit(serverWelcomeSocket);
             welcomeSocketPort = port;
@@ -240,6 +240,7 @@ public class Lobby implements ServerNetworkObserver {
 
     public void shutdown() {
         running = false;
+        serverWelcomeSocket.shutdown();
         executorService.shutdown();
         System.exit(0);
     }

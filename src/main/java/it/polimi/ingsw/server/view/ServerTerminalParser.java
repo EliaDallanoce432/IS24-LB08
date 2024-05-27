@@ -15,10 +15,10 @@ public class ServerTerminalParser implements CommandParser {
         String[] tokens = command.split("\\s+");
         tokens[0] = tokens[0].toLowerCase();
         switch (tokens[0]) {
-            case "help" -> handleHelp(tokens);
+            case "help", "h" -> handleHelp(tokens);
             case "echo" -> handleEcho(tokens);
-            case "setport" -> handleSetPort(tokens);
-            case "port" -> handlePort(tokens);
+            case "setport", "sp" -> handleSetPort(tokens);
+            case "port","p" -> handlePort(tokens);
             case "clients" -> handleClients(tokens);
             case "games" -> handleGames(tokens);
             case "shutdown" -> handleShutdown(tokens);

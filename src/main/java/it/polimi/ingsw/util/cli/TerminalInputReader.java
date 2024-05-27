@@ -18,7 +18,6 @@ public abstract class TerminalInputReader implements Runnable {
     public void run() {
         while (running) {
             try {
-                    System.out.print("> ");
                     commandParser.parse(scanner.nextLine());
             }
             catch (NoSuchElementException e) {
