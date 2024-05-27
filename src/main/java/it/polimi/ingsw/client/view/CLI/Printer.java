@@ -165,7 +165,9 @@ public class Printer {
 
         CardPrinter cardPrinter = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
         cardPrinter.loadCardRepresentation(id,facingUp);
-        cardPrinter.printCard();
+        if (id < 87) {
+            cardPrinter.printCard();
+        }
 
     }
 

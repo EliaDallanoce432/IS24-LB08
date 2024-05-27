@@ -5,7 +5,6 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class is responsible for generating a text-based representation of a Card object for the Codex game client CLI.
@@ -79,16 +78,13 @@ public class CardPrinter {
 
             if (facingUp) {
                 System.out.println("Resources needed to place this card: \n" +
-                        Resource.fungi.toSymbol() + ": "+ goldCard.getRequiredFungiResourceAmount() + " " +
-                        Resource.plant.toSymbol()+ ": " + goldCard.getRequiredPlantResourceAmount() + " " +
-                        Resource.animal.toSymbol()+ ": " + goldCard.getRequiredAnimalResourceAmount() + " "+
-                        Resource.insect.toSymbol()+ ": " + goldCard.getRequiredInsectResourceAmount()
+                        Resource.fungi.toSymbol() + " : "+ goldCard.getRequiredFungiResourceAmount() + "  " +
+                        Resource.plant.toSymbol()+ " : " + goldCard.getRequiredPlantResourceAmount() + "  " +
+                        Resource.animal.toSymbol()+ " : " + goldCard.getRequiredAnimalResourceAmount() + "  "+
+                        Resource.insect.toSymbol()+ " : " + goldCard.getRequiredInsectResourceAmount()
                         );
-                //TODO inserire risorse di placement points
 
-
-                if (goldCard.getPoints() != 0)
-                    System.out.println("Bonus placement points: " + goldCard.getPoints());
+                printGoldBonus(id);
             }
 
 
@@ -110,6 +106,11 @@ public class CardPrinter {
 
             System.out.println("\n//OBJECTIVE CARD #" + id);
             String [][] matrix = new String[3][3];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    matrix[i][j] = " ";
+                }
+            }
 
             switch (id) {
                 case 87 -> {
@@ -182,8 +183,36 @@ public class CardPrinter {
         }
     }
 
+    /**
+     * Prints the matrix representing the selected objective card
+     * @param matrix containing the explanation of the objective card
+     */
     private void printMatrix(String[][] matrix) {
-        System.out.println(Arrays.toString(matrix[0]) +"\n" + Arrays.toString(matrix[1]) + "\n" + Arrays.toString(matrix[2]));
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(matrix[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the earned points from the gold card
+     * @param id ID of the gold card
+     */
+    private void printGoldBonus (int id) {
+        System.out.println("Earned placement points: ");
+        switch (id) {
+            case 41,51,63,71 -> System.out.println("1 point for each feather");
+            case 42,53,61,73 -> System.out.println("1 point for each inkPot");
+            case 43,52,62,72 -> System.out.println("1 point for each scroll");
+            case 44,45,46,54,55,56,64,65,66,74,75,76 -> System.out.println("2 points for each covered corner");
+            case 47,48,49,57,58,59,67,68,69,77,78,79 -> System.out.println("3 points");
+            case 50,60,70,80 -> System.out.println("5 points");
+        }
+
+
+
     }
 
     /**
