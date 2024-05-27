@@ -10,7 +10,6 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -186,6 +185,20 @@ public class Printer {
         System.out.println("4) Gold deck top card: #?? (" +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol() + ")");
         System.out.println("5) Left revealed gold card: #"+ goldDeckLeftCardId + " ("+ new GoldCard(goldDeckLeftCardId).getCardKingdom().toSymbol() +")");
         System.out.println("6) Right revealed gold card: #"+ goldDeckRightCardId + " ("+ new GoldCard(goldDeckRightCardId).getCardKingdom().toSymbol() +")");
+        System.out.println();
+    }
+
+    /**
+     * Prints the IDs of the two common objective cards and the ID of the secrete one.
+     */
+    public static void printObjectives() {
+        ObjectivesModel objectivesModel = ObjectivesModel.getInstance();
+        int[] firstCommonObj = objectivesModel.getCommonObjectives();
+        int secreteObj = objectivesModel.getSecretObjectiveId();
+
+        System.out.println("First common objective: " + firstCommonObj[0]);
+        System.out.println("Second common objective: " + firstCommonObj[1]);
+        System.out.println("Your secrete objective: " + secreteObj);
         System.out.println();
     }
 

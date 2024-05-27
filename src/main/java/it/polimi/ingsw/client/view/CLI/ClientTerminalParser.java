@@ -11,8 +11,6 @@ import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -45,6 +43,7 @@ public class ClientTerminalParser implements CommandParser {
             case "board" -> showBoard();
             case "hand" -> showHand();
             case "score" -> showScore();
+            case "obj" -> showObjectives();
             case "guide" -> showGuide();
             case "decks" -> showDecks();
             default -> {
@@ -434,6 +433,20 @@ public class ClientTerminalParser implements CommandParser {
             System.out.println();
         }
         else Printer.printDeckInfo();
+    }
+
+    /**
+     * Parses the showObjectives command required by the client.
+     */
+    private void showObjectives() {
+        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+            System.out.println("Unexpected command");
+            System.out.println("you're not in a game");
+            System.out.println();
+        }
+        else {
+            Printer.printObjectives();
+        }
     }
 
     /**
