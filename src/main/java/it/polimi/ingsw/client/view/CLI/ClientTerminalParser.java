@@ -92,7 +92,7 @@ public class ClientTerminalParser implements CommandParser {
         }
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in the lobby");
+            System.out.println("You're not in the lobby");
             System.out.println();
         }
     }
@@ -105,11 +105,17 @@ public class ClientTerminalParser implements CommandParser {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if (tokens.length==3) {
                 String gameName = tokens[1].trim();
-                if(Integer.parseInt(tokens[2])>=2 && Integer.parseInt(tokens[2])<=4) {
-                    ClientController.getInstance().sendSetUpGameMessage(gameName, Integer.parseInt(tokens[2]));
+                int numberOfPlayers = 0;
+                try {
+                    numberOfPlayers = Integer.parseInt(tokens[2].trim());
+                } catch (NumberFormatException e) {
+                    parseError("invalid number of players");
+                }
+                if(numberOfPlayers>=2 && numberOfPlayers<=4) {
+                    ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
                 }
                 else {
-                    parseError("invalid parameters");
+                    parseError("number of players must be between 2 and 4");
                 }
             }
             else {
@@ -118,7 +124,7 @@ public class ClientTerminalParser implements CommandParser {
         }
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in the lobby");
+            System.out.println("You're not in the lobby");
             System.out.println();
         }
     }
@@ -132,7 +138,7 @@ public class ClientTerminalParser implements CommandParser {
             ClientController.getInstance().sendGetAvailableGamesMessage();
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in the lobby");
+            System.out.println("You're not in the lobby");
             System.out.println();
         }
     }
@@ -151,7 +157,7 @@ public class ClientTerminalParser implements CommandParser {
         }
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in the lobby");
+            System.out.println("You're not in the lobby");
             System.out.println();
         }
     }
@@ -166,7 +172,7 @@ public class ClientTerminalParser implements CommandParser {
         }
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in a game");
+            System.out.println("You're not in a game");
             System.out.println();
         }
     }
@@ -188,12 +194,12 @@ public class ClientTerminalParser implements CommandParser {
                 else parseError("invalid parameters");
             }
             else {
-                parseError("Unexpected arguments");
+                parseError();
             }
         }
         else {
             System.out.println("Unexpected command");
-            System.out.println("you're not in a game");
+            System.out.println("You're not in a game");
             System.out.println();
         }
     }
@@ -206,9 +212,14 @@ public class ClientTerminalParser implements CommandParser {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             if (tokens.length == 2) {
                 SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();
-                int objectiveId = Integer.parseInt(tokens[1]);
+                int objectiveId = 0;
+                try {
+                    objectiveId = Integer.parseInt(tokens[1]);
+                } catch (NumberFormatException e) {
+                    parseError("invalid objective card id");
+                }
                 if(objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[0] || objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[1]) {
-                    ClientController.getInstance().sendChosenSecretObjectiveMessage(Integer.parseInt(tokens[1]));
+                    ClientController.getInstance().sendChosenSecretObjectiveMessage(objectiveId);
                 }
                 else {
                     parseError("This ID is not valid");
@@ -260,8 +271,8 @@ public class ClientTerminalParser implements CommandParser {
                     parseError("the target card is not on your field");
                     return;
                 }
-                int x = 0;
-                int y = 0;
+                int x;
+                int y;
                 switch (tokens[4]) {
                     case "topleft", "tl" -> {
                         x = targetCard.getX() - 1;
@@ -328,14 +339,15 @@ public class ClientTerminalParser implements CommandParser {
     private void draw(String[] tokens) {
 
         if (tokens.length == 2 && ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {
-            switch (tokens[1]) {
+            String selection = tokens[1];
+            switch (selection) {
                 case "1" -> ClientController.getInstance().sendDirectDrawResourceCardMessage();
                 case "2" -> ClientController.getInstance().sendDrawLeftResourceCardMessage();
                 case "3" -> ClientController.getInstance().sendDrawRightResourceCardMessage();
                 case "4" -> ClientController.getInstance().sendDirectDrawGoldCardMessage();
                 case "5" -> ClientController.getInstance().sendDrawLeftGoldCardMessage();
                 case "6" -> ClientController.getInstance().sendDrawRightGoldCardMessage();
-                default -> parseError("the argument must be between 1 and 6");
+                default -> parseError("the deck selection must be between 1 and 6");
             }
         }
         else {
@@ -363,15 +375,22 @@ public class ClientTerminalParser implements CommandParser {
      * @param tokens array of strings containing the parameters needed to execute the command.
      */
     private void getInfo (String[] tokens) {
+        int id = 0;
+        try {
+            id = Integer.parseInt(tokens[1]);
+        } catch (NumberFormatException e) {
+            parseError("invalid id");
+        }
         if (tokens.length == 2) {
-            Printer.printCardInfo(Integer.parseInt(tokens[1]),true);
+            Printer.printCardInfo(id,true);
         }
         else if (tokens.length == 3) {
-            if (Objects.equals(tokens[2], "front")){
-                Printer.printCardInfo(Integer.parseInt(tokens[1]), true);
+            String side = tokens[2];
+            if (Objects.equals(side, "front")){
+                Printer.printCardInfo(id, true);
             }
-            else if (Objects.equals(tokens[2], "back")){
-                Printer.printCardInfo(Integer.parseInt(tokens[1]), false);
+            else if (Objects.equals(side, "back")){
+                Printer.printCardInfo(id, false);
             }
 
         }
