@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.card.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import java.util.*;
 
 /**
@@ -191,7 +190,7 @@ public class ServerMessageGenerator {
         else message.put("third", null);
         if(clientHandlers.size()>= 4) {
             Map<String,String> jsonMap = new HashMap<>();
-            jsonMap.put("message", clientHandlers.get(3).getUsername());
+            jsonMap.put("username", clientHandlers.get(3).getUsername());
             jsonMap.put("score",  String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(3)).getScore()));
             jsonMap.put("solvedObjectives", String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(3)).getNumOfCompletedObjectiveCards()));
             JSONObject player = new JSONObject(jsonMap);

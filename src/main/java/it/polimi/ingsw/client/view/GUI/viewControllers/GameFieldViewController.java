@@ -215,12 +215,8 @@ public class GameFieldViewController extends ViewController {
             //System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
             errorLabel.setVisible(false);
             switch (ClientStateModel.getInstance().getClientState()){
-                case NOT_PLAYING_STATE -> {
-                    showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
-                }
-                case PLACING_STATE -> {
-                    showMessage("It's your Turn, please place a card!");
-                }
+                case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
+                case PLACING_STATE -> showMessage("It's your Turn, please place a card!");
                 case DRAWING_STATE -> {
                     showMessage("Please Draw a Card from the decks!");
                     decksRepresentation.loadDecks();
