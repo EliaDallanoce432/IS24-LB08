@@ -20,7 +20,14 @@ module LB08 {
     exports it.polimi.ingsw.client.model;
     exports it.polimi.ingsw.client.controller;
     exports it.polimi.ingsw.client.view;
+    exports it.polimi.ingsw.client.view.observers;
+    exports it.polimi.ingsw.client.view.CLI;
+    exports it.polimi.ingsw.client.view.GUI;
+    exports it.polimi.ingsw.client.view.GUI.viewControllers;
     exports it.polimi.ingsw.network;
+    exports it.polimi.ingsw.network.input;
+    exports it.polimi.ingsw.network.ping;
+    exports it.polimi.ingsw.util.cli;
     exports it.polimi.ingsw.util.customexceptions;
     exports it.polimi.ingsw.util.supportclasses;
 }
