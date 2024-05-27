@@ -1,29 +1,27 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
 
 import it.polimi.ingsw.client.model.ScoreBoardModel;
+import it.polimi.ingsw.util.supportclasses.ScoreTrackCoordinates;
 import it.polimi.ingsw.util.supportclasses.Token;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static it.polimi.ingsw.util.supportclasses.ViewConstants.TOKEN_OFFSET;
 
 public class ScoreTrackRepresentation {
 
-    private Pane scoreTrackPane;
-    private ImageView blueToken;
-    private ImageView redToken;
-    private ImageView greenToken;
-    private ImageView yellowToken;
-    private HashMap<Token,ImageView> tokenMap;
+    private final Pane scoreTrackPane;
+    private final HashMap<Token,ImageView> tokenMap;
+    private final HashMap<Integer, ArrayList<Token>> placedTokens;
 
     public ScoreTrackRepresentation(Pane scoreTrackPane, ImageView blueToken, ImageView redToken, ImageView greenToken, ImageView yellowToken){
         this.scoreTrackPane = scoreTrackPane;
-        this.blueToken = blueToken;
-        this.redToken = redToken;
-        this.greenToken = greenToken;
-        this.yellowToken = yellowToken;
-        tokenMap = new HashMap<Token,ImageView>();
+        tokenMap = new HashMap<>();
+        placedTokens = new HashMap<>();
         tokenMap.put(Token.blue, blueToken);
         tokenMap.put(Token.red, redToken);
         tokenMap.put(Token.green, greenToken);
@@ -41,17 +39,50 @@ public class ScoreTrackRepresentation {
         for (String username : scoreBoardModel.getScore().keySet()){
 
             Token token = scoreBoardModel.getToken(username);
-            ImageView tokenView = tokenMap.get(token);
-            tokenView.setVisible(true);
-            setTokenPosition(tokenView, scoreBoardModel.getScore().get(username));
+
+            setTokenPosition(token, scoreBoardModel.getScore().get(username));
         }
+
+        drawTokens();
     }
 
-    private void setTokenPosition(ImageView tokenView, int score){
+    private void setTokenPosition(Token token, int score){
 
-        tokenView.setLayoutX(score*10);
-        tokenView.setLayoutY(score*10);
+        for(ArrayList<Token> placedTokens : placedTokens.values()){
+            placedTokens.removeIf(placedToken -> placedToken.equals(token));
+        }
 
-        //TODO implementare
+        if(!placedTokens.containsKey(score)){
+            placedTokens.put(score, new ArrayList<>());
+        }
+
+        placedTokens.get(score).addLast(token);
+
+    }
+
+    private void drawTokens(){
+
+        double offset;
+        double x;
+        double y;
+
+        for(int score : placedTokens.keySet()){
+            ArrayList<Token> tokens = placedTokens.get(score);
+            offset = 0;
+            for(Token token : tokens){
+
+                ImageView tokenView = tokenMap.get(token);
+                x = ScoreTrackCoordinates.getXCoordinate(score);
+                y = ScoreTrackCoordinates.getYCoordinate(score);
+
+                tokenView.setLayoutX((x * scoreTrackPane.getWidth()) - (tokenView.getFitWidth()/2));
+                tokenView.setLayoutY((y * scoreTrackPane.getHeight()) - (tokenView.getFitHeight()/2) - offset);
+
+                offset += TOKEN_OFFSET;
+
+                tokenView.setVisible(true);
+                tokenView.toFront();
+            }
+        }
     }
 }

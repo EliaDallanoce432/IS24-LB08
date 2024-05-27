@@ -35,27 +35,8 @@ public class CardRepresentation {
         this.id = id;
         this.facingUp = isFacingUp;
 
-
         this.frontCardTexturePath = "/Images/cards/front/" + id + ".png";
         this.backCardTexturePath = "/Images/cards/back/" + id + ".png";
-
-        Image frontTextureImage = new Image(getClass().getResourceAsStream(frontCardTexturePath));
-        Image backTextureImage = new Image(getClass().getResourceAsStream(backCardTexturePath));
-
-
-        cardFront = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-        cardFront.setArcWidth(10);
-        cardFront.setArcHeight(10);
-        cardFront.setStroke(Color.BLACK);
-        cardFront.setStrokeWidth(2);
-        cardFront.setFill(new ImagePattern(frontTextureImage));
-
-        cardBack = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-        cardBack.setArcWidth(10);
-        cardBack.setArcHeight(10);
-        cardBack.setStroke(Color.BLACK);
-        cardBack.setStrokeWidth(2);
-        cardBack.setFill(new ImagePattern(backTextureImage));
 
     }
 
@@ -90,6 +71,8 @@ public class CardRepresentation {
 
     public Rectangle getCard() {
 
+        loadCardRectangle();
+
         if (facingUp) return cardFront;
         else return cardBack;
     }
@@ -102,6 +85,8 @@ public class CardRepresentation {
 
     public Rectangle getCard(double size){
 
+        loadCardRectangle();
+
         if (facingUp) {
             cardFront.setWidth(size*CARD_WIDTH);
             cardFront.setHeight(size*CARD_HEIGHT);
@@ -113,6 +98,26 @@ public class CardRepresentation {
             return cardBack;
         }
 
+    }
+
+    private void loadCardRectangle() {
+        Image frontTextureImage = new Image(getClass().getResourceAsStream(frontCardTexturePath));
+        Image backTextureImage = new Image(getClass().getResourceAsStream(backCardTexturePath));
+
+
+        cardFront = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
+        cardFront.setArcWidth(10);
+        cardFront.setArcHeight(10);
+        cardFront.setStroke(Color.BLACK);
+        cardFront.setStrokeWidth(2);
+        cardFront.setFill(new ImagePattern(frontTextureImage));
+
+        cardBack = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
+        cardBack.setArcWidth(10);
+        cardBack.setArcHeight(10);
+        cardBack.setStroke(Color.BLACK);
+        cardBack.setStrokeWidth(2);
+        cardBack.setFill(new ImagePattern(backTextureImage));
     }
 
     public int getId() {

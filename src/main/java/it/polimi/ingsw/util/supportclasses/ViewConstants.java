@@ -25,6 +25,8 @@ public final class ViewConstants {
     public static final int BLANK_CARDS_NUMBER = 4;
     public static final double BLANK_CARDS_OFFSET = 4;
 
+    public static final double TOKEN_OFFSET = 5;
+
     //CLI CONSTANTS
 
     public static final int CLI_CARD_HEIGHT = 6;
@@ -32,4 +34,5 @@ public final class ViewConstants {
 
     public static final int CLI_CORNER_HEIGHT = 2;
     public static final int CLI_CORNER_WIDTH = 5;
+
 }
