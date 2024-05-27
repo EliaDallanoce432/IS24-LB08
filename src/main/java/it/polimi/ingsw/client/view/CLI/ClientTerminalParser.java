@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.supportclasses.ClientState;
+import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -77,10 +78,12 @@ public class ClientTerminalParser implements CommandParser {
     private void updateUsername(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if(tokens.length == 2) {
-                if (!tokens[1].contains(" ") && tokens[1].matches("^[a-zA-Z0-9_]*$")) {
-                    ClientController.getInstance().sendSetUsernameMessage(tokens[1]);
-                }
-                else
+                String username = tokens[1].trim();
+                if (username.matches("^[a-zA-Z0-9_]*$")) {
+                    ClientController.getInstance().sendSetUsernameMessage(username);
+                } else if (username.length() > 15) {
+                    Printer.printMessage("The username must be less than 15 characters", ConsoleColor.RED);
+                } else
                     parseError("invalid username");
             }
             else {
@@ -101,8 +104,9 @@ public class ClientTerminalParser implements CommandParser {
     private void createGame(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
             if (tokens.length==3) {
-                if(!tokens[1].contains(" ") && Integer.parseInt(tokens[2])>=2 && Integer.parseInt(tokens[2])<=4) {
-                    ClientController.getInstance().sendSetUpGameMessage(tokens[1], Integer.parseInt(tokens[2]));
+                String gameName = tokens[1].trim();
+                if(Integer.parseInt(tokens[2])>=2 && Integer.parseInt(tokens[2])<=4) {
+                    ClientController.getInstance().sendSetUpGameMessage(gameName, Integer.parseInt(tokens[2]));
                 }
                 else {
                     parseError("invalid parameters");
@@ -378,7 +382,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showBoard command required by the client.
      */
     private void showBoard() {
-        if (!isInGame()) {
+        if (isNotInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -390,7 +394,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showHand command required by the client.
      */
     private void showHand () {
-        if (!isInGame()) {
+        if (isNotInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -402,7 +406,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showScore command required by the client.
      */
     private void showScore () {
-        if (!isInGame()) {
+        if (isNotInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -414,7 +418,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showDecks command required by the client.
      */
     private void showDecks() {
-        if (!isInGame()) {
+        if (isNotInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -426,7 +430,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showObjectives command required by the client.
      */
     private void showObjectives() {
-        if (!isInGame()) {
+        if (isNotInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -443,8 +447,8 @@ public class ClientTerminalParser implements CommandParser {
         Printer.printGuide();
     }
 
-    private boolean isInGame(){
+    private boolean isNotInGame(){
         ClientState clientState = ClientStateModel.getInstance().getClientState();
-        return (clientState == ClientState.PLACING_STATE || clientState == ClientState.DRAWING_STATE || clientState == ClientState.NOT_PLAYING_STATE || clientState == ClientState.LAST_ROUND_STATE);
+        return (clientState != ClientState.PLACING_STATE && clientState != ClientState.DRAWING_STATE && clientState != ClientState.NOT_PLAYING_STATE && clientState != ClientState.LAST_ROUND_STATE);
     }
 }

@@ -77,8 +77,6 @@ public class WelcomeViewController extends ViewController {
      */
     @FXML
     private void setUsername() {
-
-
         joinGameButton.setVisible(false);
         createGameButton.setVisible(false);
         exitButton.setVisible(false);
@@ -90,14 +88,17 @@ public class WelcomeViewController extends ViewController {
 
 
         confirmUsernameButton.setOnAction(event -> {
-            String username = setUsernameTextField.getText();
-            if(username.startsWith(" ") || username.endsWith(" ") || username.isEmpty()) {
+            String username = setUsernameTextField.getText().trim();
+            if(username.contains("\n") || username.isEmpty()) {
                 showErrorMessage("Invalid Username");
+                errorLabel.setVisible(true);
+            }
+            else if(username.length() > 15) {
+                showErrorMessage("The username must be less than 15 characters");
                 errorLabel.setVisible(true);
             }
             else {
                 ClientController.getInstance().sendSetUsernameMessage(username);
-
             }
         });
 

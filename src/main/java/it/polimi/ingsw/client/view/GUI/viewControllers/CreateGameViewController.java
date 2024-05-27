@@ -77,23 +77,23 @@ public class CreateGameViewController extends ViewController {
 
     @FXML
     private void okPressed() {
-        String gameName = gameNameField.getText();
+        String gameName = gameNameField.getText().trim().replace(" ", "_");
         int numberOfPlayers = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
 
-        if ( gameName.startsWith(" ") || gameName.equals("\n") || gameName.endsWith(" ") ) {
-            alertLabel.setText("Invalid Game Name (no spaces allowed!)");
+        if (gameName.contains("\n")) {
+            alertLabel.setText("Invalid Game Name");
         }
         else if (gameName.isEmpty()) {
             alertLabel.setText("Game Name cannot be empty!");
         }
         else if (numberOfPlayers < 2) {
-            alertLabel.setText("Number of Players must be greater than 2");
+            alertLabel.setText("Number of Players must be greater or equal to 2");
         }
-
+        else if (numberOfPlayers > 4) {
+            alertLabel.setText("Number of Players must be smaller or equal to 4");
+        }
         else{
-
             ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);
-
         }
     }
 
