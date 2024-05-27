@@ -10,14 +10,14 @@ import java.util.Scanner;
 /**
  * this class handles the input from the TCP socket
  */
-public class InputHandler implements Runnable {
+public class NetworkInputHandler implements Runnable {
 
     private final NetworkInputObserver socketObserver;
     private final Scanner in;
     private final JSONParser parser;
     private volatile boolean running;
 
-    public InputHandler(NetworkInputObserver socketObserver, Socket socket) {
+    public NetworkInputHandler(NetworkInputObserver socketObserver, Socket socket) {
         parser = new JSONParser();
         this.socketObserver = socketObserver;
         try {

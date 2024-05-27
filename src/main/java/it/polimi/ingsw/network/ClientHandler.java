@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.ping.Pinger;
-import it.polimi.ingsw.network.input.InputHandler;
+import it.polimi.ingsw.network.input.NetworkInputHandler;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.supportclasses.Request;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class ClientHandler implements Runnable, NetworkInterface {
     private final PrintWriter out;
     private final Socket socket;
-    private final InputHandler inputHandler;
+    private final NetworkInputHandler networkInputHandler;
     private final Thread inputHandlerThread;
     private final Pinger pinger;
     private final Thread pingerThread;
@@ -39,8 +39,8 @@ public class ClientHandler implements Runnable, NetworkInterface {
             throw new RuntimeException(e);
         }
 
-        inputHandler = new InputHandler(this,socket);
-        inputHandlerThread = new Thread(inputHandler);
+        networkInputHandler = new NetworkInputHandler(this,socket);
+        inputHandlerThread = new Thread(networkInputHandler);
         inputHandlerThread.start();
 
         pinger = new Pinger(this);
@@ -142,7 +142,7 @@ public class ClientHandler implements Runnable, NetworkInterface {
     public void shutdown() {
         pinger.shutdown();
         out.close();
-        inputHandler.shutdown();
+        networkInputHandler.shutdown();
         inputHandlerThread.interrupt();
         pingerThread.interrupt();
         try {
