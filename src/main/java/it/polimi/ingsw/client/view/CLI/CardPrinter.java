@@ -6,6 +6,7 @@ import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is responsible for generating a text-based representation of a Card object for the Codex game client CLI.
@@ -110,16 +111,44 @@ public class CardPrinter {
         } else {
 
             System.out.println("\n//OBJECTIVE CARD #" + id);
+            String [][] matrix = new String[3][3];
 
             switch (id) {
                 case 87 -> System.out.println("2 points for each inverse diagonal of 3 fungi cards");
                 case 88 -> System.out.println("2 points for each direct diagonal of 3 plant cards");
                 case 89 -> System.out.println("2 points for each inverse diagonal of 3 animal cards");
                 case 90 -> System.out.println("2 points for each direct diagonal of 3 insect cards");
-                case 91 -> System.out.println("3 points for each L pattern (Fungi, Fungi, Plant) completed");
-                case 92 -> System.out.println("3 points for each J pattern (Plant, Plant, Insect) completed");
-                case 93 -> System.out.println("3 points for each reversed L pattern (Fungi, Animal, Animal) completed");
-                case 94 -> System.out.println("3 points for each reversed J pattern (Animal, Insect, Insect) completed");
+                case 91 -> {
+                    System.out.println("3 points for each L pattern (Fungi, Fungi, Plant) completed");
+                    matrix[0][1] = Resource.fungi.toSymbol();
+                    matrix[1][1] = Resource.fungi.toSymbol();
+                    matrix[2][2] = Resource.plant.toSymbol();
+                    System.out.println(Arrays.toString(matrix[0]) +"\n" + Arrays.toString(matrix[1]) + "\n" + Arrays.toString(matrix[2]));
+                }
+
+                case 92 -> {
+                    System.out.println("3 points for each J pattern (Plant, Plant, Insect) completed");
+                    matrix[0][1] = Resource.plant.toSymbol();
+                    matrix[1][1] = Resource.plant.toSymbol();
+                    matrix[2][0] = Resource.insect.toSymbol();
+                    System.out.println(Arrays.toString(matrix[0]) +"\n" + Arrays.toString(matrix[1]) + "\n" + Arrays.toString(matrix[2]));
+                }
+                case 93 -> {
+                    System.out.println("3 points for each reversed L pattern (Fungi, Animal, Animal) completed");
+                    matrix[0][2] = Resource.fungi.toSymbol();
+                    matrix[1][1] = Resource.animal.toSymbol();
+                    matrix[2][1] = Resource.animal.toSymbol();
+                    System.out.println(Arrays.toString(matrix[0]) +"\n" + Arrays.toString(matrix[1]) + "\n" + Arrays.toString(matrix[2]));
+
+                }
+                case 94 -> {
+                    System.out.println("3 points for each reversed J pattern (Animal, Insect, Insect) completed");
+                    matrix[0][0] = Resource.animal.toSymbol();
+                    matrix[1][1] = Resource.insect.toSymbol();
+                    matrix[2][1] = Resource.insect.toSymbol();
+                    System.out.println(Arrays.toString(matrix[0]) +"\n" + Arrays.toString(matrix[1]) + "\n" + Arrays.toString(matrix[2]));
+
+                }
                 case 95 -> System.out.println("2 points for each triplet of fungi visible on the game-field");
                 case 96 -> System.out.println("2 points for each triplet of plants visible on the game-field");
                 case 97 -> System.out.println("2 points for each triplet of animals visible on the game-field");
