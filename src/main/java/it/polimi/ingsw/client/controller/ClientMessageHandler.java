@@ -241,7 +241,7 @@ public class ClientMessageHandler {
     }
 
     private void handleLastRound(JSONObject message){
-        updateClientState(ClientState.LAST_TURN_STATE, message.get("reason").toString());
+        updateClientState(ClientState.LAST_ROUND_STATE, message.get("reason").toString());
         PlayerModel.getInstance().setLastTurn(true);
     }
 

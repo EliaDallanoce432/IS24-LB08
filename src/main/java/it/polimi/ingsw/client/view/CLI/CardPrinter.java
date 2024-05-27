@@ -43,11 +43,10 @@ public class CardPrinter {
      * Loads the card representation based on the provided ID and facing orientation.
      * @param id The ID of the card to be printed.
      * @param facingUp True if the card should be printed face-up, False for face-down.
-     * @throws InvalidIdException If the provided ID is invalid.
      */
-    public void loadCardRepresentation(int id, boolean facingUp) throws InvalidIdException {
+    public void loadCardRepresentation(int id, boolean facingUp) {
         if (id <= 0 || id > 102) {
-            throw new InvalidIdException("Invalid ID");
+            Printer.printMessage("ERROR: invalid card id", ConsoleColor.RED);
         } else if (id <= 40) {
 
             System.out.println("//RESOURCE CARD #" + id);

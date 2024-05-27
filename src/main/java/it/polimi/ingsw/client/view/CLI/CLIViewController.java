@@ -37,6 +37,11 @@ public class CLIViewController extends ViewController {
         Printer.printMessage(message);
     }
 
+    @Override
+    public void updateObjectives(){
+        Printer.printObjectives();
+    }
+
     /**
      * Prints an error message to the console in red using the `Printer` class.
      * @param message The error message to display.
@@ -108,7 +113,6 @@ public class CLIViewController extends ViewController {
                 Printer.printResources();
                 Printer.printGuide();
                 Printer.printHand();
-                //TODO far vedere gli obiettivi comuni e il proprio
                 Printer.printMessage("To place a card, type 'place <cardId> <orientation> <targetCardId> <position>'");
             }
             case DRAWING_STATE -> {
@@ -125,7 +129,7 @@ public class CLIViewController extends ViewController {
                 Printer.printScores();
                 Printer.printMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn..");
             }
-            case LAST_TURN_STATE -> Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
+            case LAST_ROUND_STATE -> Printer.printMessage("It's the last turn! " + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);
             case END_GAME_STATE -> {
                 ClientCLI.clearConsole();
                 Printer.printMessage("Leaderboard", ConsoleColor.YELLOW);

@@ -69,40 +69,44 @@ public class Printer {
         switch (ClientStateModel.getInstance().getClientState())
         {
             case ClientState.LOBBY_STATE -> {
-                commands.put("setusername | su <username>", "Set your username");
+                commands.put("setusername | su <username>", "Set your new username");
                 commands.put("availablegames | ag", "Shows the available games to join");
-                commands.put("join | j <gameName>", "Join to a game");
-                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("join | j <gameName>", "Join a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game (2 to 4 players)");
             }
             case ClientState.GAME_SETUP_STATE -> {
-                commands.put("ready | r", "Set you are ready to play");
+                commands.put("ready | r", "Type this when you are ready to play");
                 commands.put("availablegames | ag", "View all available games");
-                commands.put("startercard | sc <cardId> <front/back>", "Choose a starter card and its side");
-                commands.put("secretobjective | so <cardId>", "Choose a secret objective");
+                commands.put("startercard | sc <front/back>", "Choose the starter card side");
+                commands.put("secretobjective | so <cardId>", "Choose your secret objective");
                 commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
             case ClientState.DRAWING_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
-                commands.put("draw | d <1-6>", "Draw a game into a player");
+                commands.put("draw | d <1-6>", "Draw a card using the index");
+                commands.put("objectives | obj", "Shows your current active objectives");
                 commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
             case ClientState.PLACING_STATE -> {
                 commands.put("info | i <cardId>", "View information of a card");
-                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position of game field. The position argument can be topleft|tl or toright|tr or bottomleft|bl or bottomright|br");
+                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position on the game field. The position argument can be 'topleft'/'tl' or 'toright'/'tr' or 'bottomleft'/'bl' or 'bottomright'/'br'");
+                commands.put("objectives | obj", "Shows your current active objectives");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+
+            }
+            case ClientState.NOT_PLAYING_STATE -> {
+                commands.put("info | i <cardId>", "View information of a card");
+                commands.put("objectives | obj", "Shows your current active objectives");
                 commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
-            case ClientState.NOT_PLAYING_STATE, ClientState.LAST_TURN_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");
-                commands.put("leave | l", "Leave the game");
-            }
             case ClientState.END_GAME_STATE -> {
-                commands.put("leave | l", "Leave the game");
+                commands.put("leave | l", "Leave the game, brings you back to the lobby");
             }
             default -> {
-                commands.put("setusername | su <username>", "Set your username");
+                commands.put("setusername | su <username>", "Set your new username");
                 commands.put("availablegames | ag", "Shows the available games to join");
-                commands.put("join | j <gameName>", "Join to a game");
-                commands.put("create | c <gameName> <players(2-4)>", "Create a game for 2 to 4 players");
+                commands.put("join | j <gameName>", "Join a game");
+                commands.put("create | c <gameName> <players(2-4)>", "Create a game (2 to 4 players)");
                 commands.put("info | i <cardId>", "View information of a card");
             }
         }
@@ -156,9 +160,8 @@ public class Printer {
      * Prints the card information for a single card, including its ID and facing state.
      * @param id The ID of the card to print.
      * @param facingUp True if the card is facing up, false otherwise.
-     * @throws InvalidIdException If the provided card ID is invalid.
      */
-    public static void printCardInfo(int id, boolean facingUp) throws InvalidIdException {
+    public static void printCardInfo(int id, boolean facingUp) {
 
         CardPrinter cardPrinter = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
         cardPrinter.loadCardRepresentation(id,facingUp);
@@ -193,12 +196,18 @@ public class Printer {
      */
     public static void printObjectives() {
         ObjectivesModel objectivesModel = ObjectivesModel.getInstance();
-        int[] firstCommonObj = objectivesModel.getCommonObjectives();
-        int secreteObj = objectivesModel.getSecretObjectiveId();
+        int[] commonObj = objectivesModel.getCommonObjectives();
+        int secretObj = objectivesModel.getSecretObjectiveId();
 
-        System.out.println("First common objective: " + firstCommonObj[0]);
-        System.out.println("Second common objective: " + firstCommonObj[1]);
-        System.out.println("Your secrete objective: " + secreteObj);
+        Printer.printMessage("Your active Objectives: " , ConsoleColor.YELLOW);
+
+        System.out.println("First common objective: " + commonObj[0]);
+        printCardInfo(commonObj[0], true);
+        System.out.println("Second common objective: " + commonObj[1]);
+        printCardInfo(commonObj[1], true);
+        System.out.println("Your secret objective: " + secretObj);
+        printCardInfo(secretObj, true);
+
         System.out.println();
     }
 

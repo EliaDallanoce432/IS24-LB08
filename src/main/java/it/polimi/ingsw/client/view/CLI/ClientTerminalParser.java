@@ -43,7 +43,7 @@ public class ClientTerminalParser implements CommandParser {
             case "board" -> showBoard();
             case "hand" -> showHand();
             case "score" -> showScore();
-            case "obj" -> showObjectives();
+            case "objectives","obj" -> showObjectives();
             case "guide" -> showGuide();
             case "decks" -> showDecks();
             default -> {
@@ -391,7 +391,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showBoard command required by the client.
      */
     private void showBoard() {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+        if (!isInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -403,7 +403,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showHand command required by the client.
      */
     private void showHand () {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+        if (!isInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -415,7 +415,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showScore command required by the client.
      */
     private void showScore () {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+        if (!isInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -427,7 +427,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showDecks command required by the client.
      */
     private void showDecks() {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+        if (!isInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -439,7 +439,7 @@ public class ClientTerminalParser implements CommandParser {
      * Parses the showObjectives command required by the client.
      */
     private void showObjectives() {
-        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE || ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
+        if (!isInGame()) {
             System.out.println("Unexpected command");
             System.out.println("you're not in a game");
             System.out.println();
@@ -454,5 +454,10 @@ public class ClientTerminalParser implements CommandParser {
      */
     private void showGuide() {
         Printer.printGuide();
+    }
+
+    private boolean isInGame(){
+        ClientState clientState = ClientStateModel.getInstance().getClientState();
+        return (clientState == ClientState.PLACING_STATE || clientState == ClientState.DRAWING_STATE || clientState == ClientState.NOT_PLAYING_STATE || clientState == ClientState.LAST_ROUND_STATE);
     }
 }

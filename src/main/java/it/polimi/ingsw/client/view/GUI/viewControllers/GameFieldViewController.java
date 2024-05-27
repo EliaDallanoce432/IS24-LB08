@@ -15,7 +15,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
 
 import java.util.Objects;
 
@@ -228,7 +227,7 @@ public class GameFieldViewController extends ViewController {
                 }
                 case KICKED_STATE,LOBBY_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
-                case LAST_TURN_STATE -> showSpecialMessage(" It's the last turn! " + ClientStateModel.getInstance().getReason() + "!" );
+                case LAST_ROUND_STATE -> showSpecialMessage(" It's the last turn! " + ClientStateModel.getInstance().getReason() + "!" );
                 case END_GAME_STATE -> StageManager.loadLeaderboardScene();
                 default -> {}
             }
