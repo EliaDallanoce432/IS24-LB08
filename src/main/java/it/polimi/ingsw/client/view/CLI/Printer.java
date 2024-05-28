@@ -184,13 +184,10 @@ public class Printer {
         int[] commonObj = objectivesModel.getCommonObjectives();
         int secretObj = objectivesModel.getSecretObjectiveId();
 
-        Printer.printMessage("Your active Objectives: " , ConsoleColor.YELLOW);
-
-        System.out.println("First common objective: " + commonObj[0]);
+        printMessage("Common objectives" , ConsoleColor.CYAN);
         printCardInfo(commonObj[0], true);
-        System.out.println("Second common objective: " + commonObj[1]);
         printCardInfo(commonObj[1], true);
-        System.out.println("Your secret objective: " + secretObj);
+        printMessage("Your secret objective", ConsoleColor.CYAN);
         printCardInfo(secretObj, true);
 
         System.out.println();

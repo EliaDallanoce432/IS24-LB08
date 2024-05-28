@@ -84,7 +84,7 @@ public class CLIViewController extends ViewController {
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
         Printer.printMessage("Your starter card is #" + starterCardID + "\n" +
-                "You can choose your secret objective between these two cards #"+ objectivesID[0] +" #" +objectivesID[1]+"\n" +
+                "You can choose your secret objective between these two cards: #"+ objectivesID[0] +" and #" +objectivesID[1]+"\n" +
                 "To select the starter card orientation, type 'sc front' or 'sc back'.\n" +
                 "To select a secret objective, type 'so " + objectivesID[0] + "' or 'so " + objectivesID[1] + "'.", ConsoleColor.YELLOW);
     }

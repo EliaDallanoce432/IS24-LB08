@@ -159,7 +159,7 @@ public class Lobby implements ServerNetworkObserver {
         if (echo) {
             String username = "";
             if(client.getUsername() != null){ username = client.getUsername() + " "; }
-            System.out.println("Client "+username+ " is now in the lobby");
+            System.out.println("Client '"+username+ "' is now in the lobby");
         }
         client.send(LobbyMessageGenerator.joinedLobbyMessage());
     }
@@ -172,7 +172,7 @@ public class Lobby implements ServerNetworkObserver {
         connectedClients.remove(client);
         takenUsernames.remove(client.getUsername());
         if (echo) {
-            System.out.println("Client " + client.getUsername() + " left the lobby");
+            System.out.println("Client '" + client.getUsername() + "' left the lobby");
         }
         client.shutdown();
     }
@@ -251,7 +251,7 @@ public class Lobby implements ServerNetworkObserver {
     @Override
     public void notifyConnectionLoss(ClientHandler clientHandler) {
         if (echo) {
-            System.out.println("Client" + clientHandler.getUsername() + " lost connection");
+            System.out.println("Client '" + clientHandler.getUsername() + "' lost connection");
         }
         leaveLobby(clientHandler);
     }

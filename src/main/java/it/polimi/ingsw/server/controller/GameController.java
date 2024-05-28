@@ -42,7 +42,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         this.gameRequestHandler = new GameRequestHandler(this, messageGenerator, game);
 
         if (echo) {
-            System.out.println("Game " + gameName + " is ready to receive players");
+            System.out.println("Game '" + gameName + "' is ready to receive players");
         }
     }
 
@@ -98,7 +98,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         client.setInGame(true);
         game.getPlayersHashMap().put(client.getUsername(), new Player(game));
         if (echo) {
-            System.out.println("Player " + client.getUsername() + " joined the game " + gameName);
+            System.out.println("Player '" + client.getUsername() + "' joined the game '" + gameName +"'");
         }
     }
 
@@ -113,7 +113,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         client.setGame(null);
         client.setInGame(false);
         if (echo) {
-            System.out.println("Player " + client.getUsername() + " left the game " + gameName);
+            System.out.println("Player '" + client.getUsername() + "' left the game '" + gameName +"'");
         }
         lobby.enterLobby(client);
         if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
@@ -138,7 +138,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     private void disconnectionDuringGameProcedure() {
         game.setGameState(GameState.aClientDisconnected);
         if (echo) {
-            System.out.println("Game " + gameName + " is closing");
+            System.out.println("Game '" + gameName + "' is closing");
         }
         broadcast(messageGenerator.closingGameMessage());
         while (!clientHandlers.isEmpty()) {
@@ -218,7 +218,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
      */
     public synchronized void ready(ClientHandler player){
         getCurrentPlayer(player).setReady(true);
-        if(echo) System.out.println("In game " + gameName + "player " + player.getUsername() + " is ready");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + player.getUsername() + "' is ready");
     }
 
     /**
@@ -239,7 +239,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         broadcast(messageGenerator.updatedScoresMessage(this));
         game.setTurnCounter(0);
         if(echo) {
-            System.out.println("Game " + gameName + " is starting");
+            System.out.println("Game '" + gameName + "' is starting");
         }
     }
 
@@ -262,7 +262,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             throw new CannotPlaceCardException("The card is not in your hand"); //should never happen
         }
         broadcast(messageGenerator.updatedScoresMessage(this));
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " placed the card " + placeableCardId + " at X:" + x + " Y:" + y);
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' placed the card " + placeableCardId + " at X:" + x + " Y:" + y);
         if(game.getGameState() == GameState.lastRound) passTurn(client);
     }
 
@@ -284,7 +284,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn a resource card from the deck");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn a resource card from the deck");
         notifyLastRound();
         passTurn(client);
     }
@@ -306,7 +306,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().directDraw();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn a gold card from the deck");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn a gold card from the deck");
         notifyLastRound();
         passTurn(client);
     }
@@ -328,7 +328,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn the left revealed resource card");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn the left revealed resource card");
         notifyLastRound();
         passTurn(client);
     }
@@ -350,7 +350,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn the right revealed resource card");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn the right revealed resource card");
         notifyLastRound();
         passTurn(client);
     }
@@ -372,7 +372,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawLeftRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn the left revealed gold card");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn the left revealed gold card");
         notifyLastRound();
         passTurn(client);
     }
@@ -394,7 +394,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
         GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawRightRevealedCard();
         getCurrentPlayer(client).addToHand(cardTemp);
-        if(echo) System.out.println("In game " + gameName + " player " + client.getUsername() + " has drawn the right revealed gold card");
+        if(echo) System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' has drawn the right revealed gold card");
         notifyLastRound();
         passTurn(client);
     }
@@ -413,7 +413,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
                 String side;
                 if(facingUp) side = "front";
                 else side = "back";
-                System.out.println("In game "+ gameName + " player " + client.getUsername() + " chose to play their starter card on the " + side);
+                System.out.println("In game '"+ gameName + "' player '" + client.getUsername() + "' chose to play their starter card on the " + side);
             }
             currentPlayer.setStarterCardOrientationSelected(true);
         }
@@ -430,7 +430,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             if (drawnObjectiveCard.getId() == objectiveCardId) {
                 currentPlayer.setSecretObjective(drawnObjectiveCard);
                 if (echo) {
-                    System.out.println("In game "+ gameName + " player " + client.getUsername() + " chose to the secret objective " + objectiveCardId);
+                    System.out.println("In game '"+ gameName + "' player '" + client.getUsername() + "' chose to the secret objective " + objectiveCardId);
                 }
             }
     }
@@ -449,7 +449,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     public void notifyConnectedClientCountChanged() {
         if(clientHandlers.isEmpty()) {
             if (echo) {
-                System.out.println("There are no more players in the game " + gameName + ": game is closed");
+                System.out.println("There are no more players in the game '" + gameName + "': game is closed");
             }
             lobby.closeGame(gameName);
             running = false;
@@ -459,7 +459,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     @Override
     public void notifyConnectionLoss (ClientHandler client) {
         if (echo) {
-            System.out.println("In game " + gameName + " player " + client.getUsername() + " disconnected");
+            System.out.println("In game '" + gameName + "' player '" + client.getUsername() + "' disconnected");
         }
         leaveGame(client);
         lobby.notifyConnectionLoss(client);
@@ -486,7 +486,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         gamePreparation();
         sendCardsSelectionMessageToThePlayers();
         if (echo) {
-            System.out.println("In game " + gameName + " all players are ready");
+            System.out.println("In game '" + gameName + "' all players are ready");
         }
     }
 
@@ -511,7 +511,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
         game.setGameState(GameState.playing);
         if(echo) {
-            System.out.println("In game " + gameName + " all players selected the starter card side and secret objective");
+            System.out.println("In game '" + gameName + "' all players selected the starter card side and secret objective");
         }
         startGame();
     }
@@ -526,7 +526,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
                 reason = "player " + clientHandler.getUsername() + " has 20 or more points";
                 broadcast(messageGenerator.lastRoundMessage(reason));
                 if(echo) {
-                    System.out.println("Game " + gameName + " is at the last round because " + reason);
+                    System.out.println("Game '" + gameName + "' is at the last round because " + reason);
                 }
                 return;
             }
@@ -537,7 +537,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             reason = "decks are empty";
             broadcast(messageGenerator.lastRoundMessage(reason));
             if(echo) {
-                System.out.println("Game " + gameName + " is at the last round because " + reason);
+                System.out.println("Game '" + gameName + "' is at the last round because " + reason);
             }
         }
 
@@ -549,7 +549,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         if(game.getGameState()!=GameState.lastRound) return;
         if(game.getTurnCounter() != 0) return;
         game.setGameState(GameState.endGame);
-        if(echo) System.out.println("Game " + gameName + " has ended");
+        if(echo) System.out.println("Game '" + gameName + "' has ended");
         calculateFinalScore();
     }
 
@@ -565,7 +565,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         sortPlayers(classifiedPlayers);
         broadcast(messageGenerator.leaderBoardMessage(this , classifiedPlayers));
         if(echo) {
-            System.out.println("Game " + gameName + " leaderboard:");
+            System.out.println("Game '" + gameName + "' leaderboard:");
             for (int i = 0; i < classifiedPlayers.size(); i++) {
                 System.out.println(i + ": " + classifiedPlayers.get(i).getUsername() + " " + getCurrentPlayer(classifiedPlayers.get(i)).getScore() + " points (" + getCurrentPlayer(classifiedPlayers.get(i)).getNumOfCompletedObjectiveCards() + " objectives completed)");
             }

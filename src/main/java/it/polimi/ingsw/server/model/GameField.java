@@ -158,7 +158,7 @@ public class GameField {
         card.setFacingUp(facingUp);
         if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException("There's already a card placed there!");
         if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException("You can't place a card there!");
-        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("Placement requirements are not satisfied!");
+        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException("You don't have enough resources to place this card!");
         this.placeCardAtCoordinates(card,x,y);
         card.setX(x);
         card.setY(y);
