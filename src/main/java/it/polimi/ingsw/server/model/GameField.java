@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.server.model.card.StarterCard;
 import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
 import it.polimi.ingsw.util.supportclasses.Resource;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -96,10 +95,10 @@ public class GameField {
     }
 
     /**
-     *  gets the card in a particular position on the grid
-      * @param x x coordinate on the grid
-     * @param y y coordinate on the grid
-     * @return card at (x,y) coordinates or null
+     *  Searches the card in a particular position on the grid.
+      * @param x The x coordinate on the grid.
+     * @param y The y coordinate on the grid.
+     * @return The card at (x,y) coordinates or null if it's not found.
      */
     public PlaceableCard lookAtCoordinates(int x, int y){
         if(x<-40 || y<-40 || x>40 || y>40) return null;
@@ -107,29 +106,29 @@ public class GameField {
     }
 
     /**
-     * places a card to the specified coordinates
-     * @param card card to place
-     * @param x x coordinate
-     * @param y y coordinate
+     * Places a card to the specified coordinates.
+     * @param card The card to place.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      */
     private void placeCardAtCoordinates(PlaceableCard card, int x, int y){
         cardsGrid.put(coordinatesToString(x,y),card);
     }
 
     /**
-     * converts coordinates to string
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return coordinates converted to String
+     * Converts coordinates to string.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The coordinates converted to String like: "x,y"
      */
     private String coordinatesToString(int x, int y){
         return x + "," + y;
     }
 
     /**
-     * places the starter card on the game field
-     * @param card     starter card that needs to be placed
-     * @param facingUp optional value that chooses the side of the card that will be shown
+     * Places the starter card on the game field.
+     * @param card The starter card to be placed.
+     * @param facingUp Value that chooses the side of the card that will be shown. True ro place it on the front side, false otherwise.
      */
     public void place(StarterCard card, boolean facingUp) {
         card.setFacingUp(facingUp);
@@ -149,11 +148,11 @@ public class GameField {
     }
 
     /**
-     * places the card on the game field
-     * @param card     card that needs to be placed
-     * @param facingUp optional value that chooses the side of the card that will be shown
-     * @param x        x coordinate on the grid
-     * @param y        y coordinate on the grid
+     * Places the card on the game field.
+     * @param card The card to be placed.
+     * @param facingUp Value that chooses the side of the card that will be shown. True ro place it on the front side, false otherwise.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      */
     public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         card.setFacingUp(facingUp);
@@ -169,19 +168,19 @@ public class GameField {
     }
 
     /**
-     * checks the placing rules between the new card and the neighbour cards
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return true if placing is valid
+     * Checks the placing rules between the new card and the neighbour cards.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return true if placing is valid, false otherwise.
      */
     private boolean followsPlacementRules(int x, int y){
         return isInValidCoordinates(x, y) && hasValidNeighbours(x,y);
     }
 
     /**
-     * checks if the card is in valid coordinates, x and y must be both even or both odd
-     * @param x x coordinate
-     * @param y y coordinate
+     * Checks if the card is in valid coordinates, x and y must be both even or both odd.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      * @return true if placing is correct
      * */
     private boolean isInValidCoordinates(int x, int y) {
@@ -189,10 +188,10 @@ public class GameField {
     }
 
     /**
-     * checks if the card has valid corner for placement
-     * @param neighbourCard placeable neighbourCard
-     * @param offset offset of cards
-     * @return true if the card has valid corner for placement
+     * Checks if the card has valid corner for placement.
+     * @param neighbourCard The neighbourCard.
+     * @param offset The offset of the card.
+     * @return true if the card has valid corner for placement, false otherwise.
      */
     private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
          switch (offset[0]) {
@@ -217,10 +216,10 @@ public class GameField {
     }
 
     /**
-     * checks if the card has valid neighbors for placement
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return true if the card has valid neighbors for placement
+     * Checks if the card has valid neighbors for placement.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return true if the card has valid neighbors for placement, false otherwise.
      */
     private boolean hasValidNeighbours(int x, int y){
         int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
@@ -236,9 +235,9 @@ public class GameField {
     }
 
     /**
-     * checks if the requirements for placing the card are matched
-     * @param placeableCard card to check the requirements
-     * @return true if the requirements for placing the card are matched
+     * Checks if the requirements for placing the card are matched.
+     * @param placeableCard Card to check the requirements.
+     * @return true if the requirements for placing the card are matched, false otherwise.
      */
     private boolean followsPlacementRequirements (PlaceableCard placeableCard){
 
@@ -251,10 +250,10 @@ public class GameField {
     }
 
     /**
-     * updates the state of the neighbour cards corners and resources visible on the gamefield after placing a card
-     * @param card placed card
-     * @param x x coordinate
-     * @param y y coordinate
+     * Updates the state of the neighbour cards corners and resources visible on the game-field after placing a card.
+     * @param card The placed card.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      */
     private void updateNeighboursAndResources(PlaceableCard card, int x, int y){
 
@@ -311,8 +310,8 @@ public class GameField {
     }
 
     /**
-     * adds the given resource to the total resource amount
-     * @param resource resource to add to the total visible amount
+     * Adds the given resource to the total resource amount.
+     * @param resource The resource to add to the total visible amount.
      */
     private void addResource(Resource resource){
 
@@ -330,8 +329,8 @@ public class GameField {
     }
 
     /**
-     * removes the given resource to the total resource amount
-     * @param resource resource to add to the total visible amount
+     * Removes the given resource to the total resource amount.
+     * @param resource The resource to add to the total visible amount.
      */
     private void removeResource(Resource resource){
 

@@ -11,9 +11,9 @@ public abstract class Deck {
     protected ArrayList<Card> cards;
 
     /**
-     * gets first card and removes it from the deck
-     * @throws EmptyDeckException If the deck is empty when trying to draw a card
-     * @return Card drawn
+     * Draws the top card from the deck.
+     * @throws EmptyDeckException If the deck is empty when trying to draw a card.
+     * @return The drawn card.
      */
     public Card directDraw() throws EmptyDeckException {
         Card drawnCard;
@@ -27,8 +27,8 @@ public abstract class Deck {
     }
 
     /**
-     * gets the id of the card that is currently at the top of the deck.
-     * @return top card id
+     * Gets the ID of the card that is currently at the top of the deck.
+     * @return The top card ID.
      */
     public int getTopCardID() {
         if(cards.isEmpty()) {return 0;}
@@ -36,8 +36,8 @@ public abstract class Deck {
     }
 
     /**
-     * checks if deck is empty
-     * @return true if deck is empty, false otherwise
+     * Checks if deck is empty.
+     * @return true if deck is empty, false otherwise.
      */
     public boolean isEmpty() {
         return cards.isEmpty();

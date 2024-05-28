@@ -43,6 +43,12 @@ public class Lobby implements ServerNetworkObserver {
 
     }
 
+    /**
+     * Initializes the welcome socket that is used by the server to listen for new connections.
+     * @param port The port to listen on.
+     * @throws CannotOpenWelcomeSocket Thrown when the welcome socket can't be opened on the specified port.
+     * @throws WelcomeSocketIsAlreadyOpenException Thrown when the server is already listening on a port.
+     */
     public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
         if (!welcomeSocketIsRunning) {
             serverWelcomeSocket = new ServerWelcomeSocket(this, port);
@@ -69,6 +75,9 @@ public class Lobby implements ServerNetworkObserver {
         return welcomeSocketPort;
     }
 
+    /**
+     * Disables the echo function of the server.
+     */
     public void echoOff() {
         echo = false;
         for(GameController gameController : games.values()) {
@@ -77,6 +86,9 @@ public class Lobby implements ServerNetworkObserver {
         System.out.println();
     }
 
+    /**
+     * Enables the echo function of the server.
+     */
     public void echoOn() {
         echo = true;
         for(GameController gameController : games.values()) {
@@ -85,9 +97,14 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * starts the lobby server that continuously processes requests from clients until the server is shut down
+     * Starts the lobby execution that continuously processes requests from clients until the server is shut down.
      */
     public void startLobby() {
+        System.out.println("Lobby started");
+        System.out.println("Echo: off");
+        System.out.println("Set a port for the server with 'setPort' command.");
+        System.out.println("Type 'help' for more information.");
+        System.out.println();
         while (running) {
             while (!requests.isEmpty()) {
                 lobbyRequestHandler.execute(requests.getFirst());
@@ -97,8 +114,8 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * adds a new client to the lobby.
-     * @param client Client Handler of client
+     * Adds a new client to the lobby.
+     * @param client New client handler.
      */
     public void submitNewClient(ClientHandler client) {
         executorService.submit(client);
@@ -108,8 +125,8 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * sets a random username to submitted client.
-     * @param client Client Handler of client
+     * Sets a random username to the client.
+     * @param client The client handler that needs to be assigned with a random username.
      */
     private void setRandomGuestUsername(ClientHandler client){
         boolean usernameNotSet = true;
@@ -122,17 +139,18 @@ public class Lobby implements ServerNetworkObserver {
             }
         }
     }
+
     /**
-     * submits a new request from lobby
-     * @param request request of client
+     * Submits a new request to lobby.
+     * @param request The new request.
      */
     public synchronized void submitNewRequest(Request request) {
         requests.addLast(request);
     }
 
     /**
-     * adds the client to the lobby's arraylist of connected clients
-     * @param client client to allow in
+     * Adds the client to the lobby's arraylist of connected clients.
+     * @param client The client to allow in.
      */
     public void enterLobby(ClientHandler client) {
         if(!connectedClients.contains(client)) {
@@ -147,8 +165,8 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * removes the client to the lobby arraylist of clients waiting inside of it
-     * @param client client to allow in
+     * Removes the client from the lobby.
+     * @param client The client to allow in.
      */
     public void leaveLobby(ClientHandler client) {
         connectedClients.remove(client);
@@ -160,10 +178,10 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * allows the client to pick a username, the username is added to the taken usernames list to ensure the uniqueness
-     * @param username chosen username
-     * @param client client that is setting the username
-     * @throws AlreadyTakenUsernameException exception gets thrown when trying to choose an already taken username
+     * Allows the client to pick a username, the username is added to the taken usernames list to ensure the uniqueness.
+     * @param username The chosen username.
+     * @param client The client that is setting the username.
+     * @throws AlreadyTakenUsernameException Thrown when trying to choose an already taken username.
      */
     public void setUsername(String username, ClientHandler client) throws AlreadyTakenUsernameException {
         if (client.getUsername() != null) {
@@ -185,9 +203,9 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * creates a new game with the requested number of players and assign a name to it
-     * @param numberOfPlayers number of players that will join
-     * @param gameName name to identify the game
+     * Creates a new game with the requested number of players and assign a name to it.
+     * @param numberOfPlayers The number of players that will join.
+     * @param gameName The name to identify the game.
      */
     public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) throws CannotCreateGameException {
         if(gameName == null) throw new CannotCreateGameException("Invalid name!");
@@ -203,23 +221,27 @@ public class Lobby implements ServerNetworkObserver {
     }
 
     /**
-     * removes a game from the list of available games.
-     * @param gameName game name available
+     * Removes a game from the list of available games.
+     * @param gameName The game name.
      */
     public void makeUnavailable(String gameName) {
         availableGames.remove(gameName);
     }
 
+    /**
+     * CLoses the game from the lobby.
+     * @param gameName The game name.
+     */
     public void closeGame(String gameName) {
         makeUnavailable(gameName);
         games.remove(gameName);
     }
 
     /**
-     * allows a client to join a game that is waiting for players
-     * @param client client that wants to join
-     * @param gameName name of the game to join
-     * @throws NonExistentGameException exception thrown when the given game name isn't the name of one of the available games to join
+     * Allows a client to join a game that is waiting for players.
+     * @param client The client that wants to join.
+     * @param gameName The name of the game to join.
+     * @throws NonExistentGameException Thrown when the given game name isn't the name of one of the available games to join.
      */
     public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
         if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }
@@ -234,6 +256,9 @@ public class Lobby implements ServerNetworkObserver {
         leaveLobby(clientHandler);
     }
 
+    /**
+     * Stops the lobby execution.
+     */
     public void shutdown() {
         running = false;
         serverWelcomeSocket.shutdown();

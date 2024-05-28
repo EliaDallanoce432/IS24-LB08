@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.card;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 /**
- * This class represents a Corner on the card
+ * This class represents a Corner on the card.
  */
 public class Corner {
     protected Resource resource; //resource present in the corner
@@ -21,6 +21,7 @@ public class Corner {
     }
 
     @Override
+    @SuppressWarnings("all")
     public boolean equals(Object obj) {
         if(!(obj instanceof Corner other)) {return false;}
         else if (this.resource != other.resource) return false;

@@ -20,7 +20,7 @@ public class GameRequestHandler {
     }
 
     /**
-     * parses the commands received from clients and invokes the specific method in the game controller based on the requested action
+     * Parses the commands received from clients and invokes the specific method in the game controller based on the requested action.
      * @param request that is about to be executed
      */
     public void execute (Request request)  {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This class represents Starter card's deck
+ * This class represents the starter card deck.
  */
 public class StarterCardDeck extends Deck {
     public StarterCardDeck() {

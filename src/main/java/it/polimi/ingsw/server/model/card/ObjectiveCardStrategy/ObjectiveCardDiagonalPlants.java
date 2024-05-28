@@ -3,11 +3,10 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
-
 import java.util.ArrayList;
 
 /**
- * This class is used to implement the diagonal plant strategy
+ * This class is used to implement the diagonal plant strategy.
  */
 public class ObjectiveCardDiagonalPlants implements ObjectiveStrategy {
     private int diagonalPlantTriplets(GameField gameField, ArrayList<PlaceableCard> plantCards) {
@@ -46,10 +45,10 @@ public class ObjectiveCardDiagonalPlants implements ObjectiveStrategy {
 
     /**
      * Used to calculate the amount of points given for each diagonalPlantTriplet completed on
-     * the game-field
-     * @param pointsOnTheCard points multiplier written on the card
-     * @param gamefield game-field on which the objective has to be checked
-     * @return the amount of calculated points
+     * the game-field.
+     * @param pointsOnTheCard Points given by the objective card.
+     * @param gamefield Reference to the game-field that is being analysed.
+     * @return The amount of calculated points on the specific game-field.
      */
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         return pointsOnTheCard* diagonalPlantTriplets(gamefield, gamefield.getPlantCards());

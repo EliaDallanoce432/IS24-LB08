@@ -16,7 +16,6 @@ public class ServerView {
     private final Thread inputThread;
     private final Lobby lobby;
 
-
     private ServerView(Lobby lobby) {
         serverTerminalInputReader = ServerTerminalInputReader.getInstance();
         inputThread = new Thread(serverTerminalInputReader);

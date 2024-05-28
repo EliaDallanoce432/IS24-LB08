@@ -3,9 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.util.customexceptions.*;
 import it.polimi.ingsw.util.supportclasses.Token;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
 
 /**

@@ -3,11 +3,10 @@ package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
 import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.PlaceableCard;
 import it.polimi.ingsw.util.supportclasses.Resource;
-
 import java.util.ArrayList;
 
 /**
- * This class is used to implement the diagonal animal strategy
+ * This class is used to implement the diagonal animal strategy.
  */
 public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy {
     private int diagonalAnimalTriplets(GameField gameField, ArrayList<PlaceableCard> animalCards) {
@@ -46,10 +45,10 @@ public class ObjectiveCardDiagonalAnimal implements ObjectiveStrategy {
 
     /**
      * Used to calculate the amount of points given for each diagonalAnimalTriplet completed on
-     * the game-field
-     * @param pointsOnTheCard points multiplier written on the card
-     * @param gamefield game-field on which the objective has to be checked
-     * @return the amount of calculated points
+     * the game-field.
+     * @param pointsOnTheCard Points given by the objective card.
+     * @param gamefield Reference to the game-field that is being analysed.
+     * @return The amount of calculated points on the specific game-field.
      */
     public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
         return pointsOnTheCard* diagonalAnimalTriplets(gamefield, gamefield.getAnimalCards());

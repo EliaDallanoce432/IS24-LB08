@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.server.model.card.ObjectiveCardStrategy.*;
 
 /**
- * This class represents an Objective card
+ * This class represents an Objective card.
  */
 public class ObjectiveCard extends Card {
     protected int points;
@@ -84,9 +84,9 @@ public class ObjectiveCard extends Card {
     }
 
     /**
-     * returns the points earned with this objective card
-     * @param gameField game field on which the objective has to be checked
-     * @return score of placement
+     * Calculates the points earned with this objective card.
+     * @param gameField Reference to the game field on which the objective has to be checked.
+     * @return Points earned by placing the card.
      */
     public int getEarnedPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField);

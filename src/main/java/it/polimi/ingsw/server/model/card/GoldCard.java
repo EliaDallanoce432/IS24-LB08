@@ -7,7 +7,7 @@ import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 
 /**
- * This class represents a Gold card
+ * This class represents a Gold card.
  */
 public class GoldCard extends PlaceableCard {
     protected GoldCardContext context;
@@ -35,18 +35,14 @@ public class GoldCard extends PlaceableCard {
     }
 
     /**
-     * returns the points earned with this gold card
-     * @param gameField game field
-     * @return score of placement
+     * Calculates the points earned with this gold card.
+     * @param gameField Reference to the game field the card is placed on.
+     * @return Points earned by placing the card.
      */
     public int placementPoints(GameField gameField) {
         return context.executePointsCalculation(this.getPoints(),gameField,this);
     }
 
-    /**
-     * set context of gold card (strategy pattern)
-     * @param context context of gold card
-     */
     public void setContext(GoldCardContext context) {
         this.context = context;
     }

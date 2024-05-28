@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This class represents Objective card's deck
+ * This class represents the objective card deck.
  */
-public class ObjectiveCardDeck extends DeckWithRevealedCards {
+public class ObjectiveCardDeck extends Deck {
     public ObjectiveCardDeck() {
         cards = new ArrayList<>();
         for (int i = 87; i < 103; i++) {

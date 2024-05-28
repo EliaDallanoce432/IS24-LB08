@@ -13,10 +13,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import static it.polimi.ingsw.util.supportclasses.Constants.SCORE_GOAL;
 
 /**
- * This class manages the lifecycle and logic of a game instance. It acts as the central controller
- *  for the game, coordinating interactions between players, the game engine itself, and the server network layer.
+ * This class manages the logic of a game instance. It acts as the central controller
+ *  for the game, coordinating interactions between players, the game model and the server network.
  */
 public class GameController implements Runnable, ServerNetworkObserver, GameObserver {
     private final String gameName;
@@ -45,6 +46,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
+    @Override
     public void run() {
         while (running) {
             while (!requests.isEmpty()) {
@@ -84,8 +86,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * adds the player to the arraylist of players
-     * @param client who joined the current game
+     * Adds the player to the arraylist of players.
+     * @param client Client who joined the current game.
      */
     public synchronized void enterGame (ClientHandler client) throws GameIsFullException {
         if(gameIsFull()) {
@@ -101,8 +103,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * removes a player from the current game and sends him to the lobby
-     * @param client who left the game
+     * Removes a player from the current game and sends him to the lobby.
+     * @param client Client who left the game.
      */
     public synchronized void leaveGame (ClientHandler client){
         clientHandlers.remove(client);
@@ -121,17 +123,17 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * retrieves the Player object associated with the provided ClientHandler.
-     * @param client the ClientHandler representing the player.
-     * @return the Player object for the given client, or null if not found.
+     * Retrieves the Player object associated with the provided ClientHandler.
+     * @param client The ClientHandler representing the player.
+     * @return The Player object for the given client, or null if not found.
      */
     public Player getCurrentPlayer(ClientHandler client) {
         return game.getPlayersHashMap().get(client.getUsername());
     }
 
     /**
-     * sets the game state to `aClientDisconnected`, broadcasts a closing game message to all players,
-     *  and then removes all remaining players from the game
+     * Sets the game state to aClientDisconnected, broadcasts a closing game message to all players,
+     *  and then removes all remaining players from the game.
      */
     private void disconnectionDuringGameProcedure() {
         game.setGameState(GameState.aClientDisconnected);
@@ -145,8 +147,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * compares the game's turn counter with the index of the client handler in the `clientHandlers` list.
-     * @param client the ClientHandler representing the player.
+     * Compares the game's turn counter with the index of the client handler in the clientHandlers list.
+     * @param client The ClientHandler representing the player.
      * @return true if it's not the player's turn, false otherwise.
      */
     private boolean isNotTheTurnOf(ClientHandler client) {
@@ -154,9 +156,9 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * increments the game's turn counter, resets the current player's turn state using `clearTurnState`,
-     * broadcasts a turn update message to all players, and checks for the end game condition using `notifyEndGame`.
-     * @param client the ClientHandler representing the current player.
+     * Increments the game's turn counter, resets the current player's turn state,
+     * broadcasts a turn update message to all players, and checks for the end game condition.
+     * @param client The ClientHandler representing the current player.
      */
     private void passTurn (ClientHandler client) {
         if(game.getTurnCounter() == game.getNumberOfPlayers() -1) game.setTurnCounter(0);
@@ -167,15 +169,15 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * retrieves the ClientHandler object at the index of the game's turn counter from the `clientHandlers` list
-     * @return String the username of the player whose turn it is
+     * Retrieves the ClientHandler object at the index of the game's turn counter from the clientHandlers list.
+     * @return The username of the player whose turn it is
      */
     public String getTurnPlayerUsername() {
         return clientHandlers.get(game.getTurnCounter()).getUsername();
     }
 
     /**
-     * draws a card for every player
+     * Draws a starter card for each player.
      */
     private void starterCardsSelectionPreparation() {
         StarterCard starterCard=null;
@@ -188,7 +190,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * draws 2 objective cards for each player
+     * Draws 2 objective cards for each player.
      */
     private void secretObjectiveCardsSelectionPreparation()
     {
@@ -203,7 +205,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * prepares the game to wait for players to choose the starter card orientation and the secret objective
+     * Prepares the game to wait for players to choose the starter card orientation and the secret objective.
      */
     private void gamePreparation (){
         starterCardsSelectionPreparation();
@@ -211,8 +213,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * sets the flag ready to true when the player is ready to play
-     * @param player player that is now ready
+     * Sets the flag ready to true when the player is ready to play.
+     * @param player The player that is now ready.
      */
     public synchronized void ready(ClientHandler player){
         getCurrentPlayer(player).setReady(true);
@@ -220,7 +222,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * communicates to players the game is about to start and sends their cards
+     * Communicates to the players the game is about to start and sends their cards.
      */
     public void startGame () {
         //shuffles the client handlers to decide the round player sequence randomly
@@ -242,13 +244,13 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * attempts to place a card on the board for the player associated with the provided ClientHandler.
-     * @param client the ClientHandler representing the player who wants to place the card.
-     * @param placeableCardId the ID of the card in the player's hand to be placed.
-     * @param facingUp whether the card should be placed face up (true) or face down (false).
-     * @param x the x-coordinate on the board where the card should be placed.
-     * @param y the y-coordinate on the board where the card should be placed.
-     * @throws CannotPlaceCardException if it's not the player's turn or the card cannot be placed for some reason (e.g., not in hand).
+     * Places a card on the board for the player associated with the provided ClientHandler.
+     * @param client The ClientHandler representing the player who wants to place the card.
+     * @param placeableCardId The ID of the card in the player's hand to be placed.
+     * @param facingUp Whether the card should be placed face up (true) or face down (false).
+     * @param x The x-coordinate on the board where the card should be placed.
+     * @param y The y-coordinate on the board where the card should be placed.
+     * @throws CannotPlaceCardException Thrown if it's not the player's turn or the card cannot be placed for some reason.
      */
     public void place (ClientHandler client,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
         if(isNotTheTurnOf(client)) {
@@ -265,12 +267,12 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to directly draw a resource card from the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws EmptyDeckException if the resource card deck is empty.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to directly draw a resource card from the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws EmptyDeckException Thrown if the resource card deck is empty.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -288,11 +290,11 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to directly draw a gold card from the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to directly draw a gold card from the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void directDrawGoldCard (ClientHandler client) throws EmptyDeckException, FullHandException, NotYourTurnException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -310,11 +312,11 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to draw a revealed resource card from the left side of the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to draw a revealed resource card from the left side of the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void drawLeftRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -332,11 +334,11 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to draw a revealed resource card from the right side of the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to draw a revealed resource card from the right side of the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void drawRightRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -354,11 +356,11 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to draw a revealed gold card from the left side of the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to draw a revealed gold card from the left side of the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void drawLeftRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -376,11 +378,11 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * allows the player associated with the ClientHandler to draw a revealed gold card from the right side of the deck.
-     * @param client the ClientHandler representing the player who wants to draw a card.
-     * @throws NotYourTurnException if it's not the player's turn.
-     * @throws FullHandException if the player's hand is already full.
-     * @throws CannotDrawException if the player hasn't placed a card yet this turn.
+     * Allows the player associated with the ClientHandler to draw a revealed gold card from the right side of the deck.
+     * @param client The ClientHandler representing the player who wants to draw a card.
+     * @throws NotYourTurnException Thrown if it's not the player's turn.
+     * @throws FullHandException Thrown if the player's hand is already full.
+     * @throws CannotDrawException Thrown if the player hasn't placed a card yet this turn.
      */
     public void drawRightRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
         if (isNotTheTurnOf(client)) {
@@ -398,10 +400,10 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * selects the orientation of the starter card and places it
-     * @param client player that selected the orientation
-     * @param starterCardId starter card id
-     * @param facingUp orientation: true if the front is facing up
+     * Selects the orientation of the starter card and places it.
+     * @param client The player that selected the orientation.
+     * @param starterCardId The starter card id.
+     * @param facingUp The orientation: true if the front is facing up, false otherwise.
      */
     public void chooseStarterCardSide(ClientHandler client, int starterCardId, boolean facingUp) {
         Player currentPlayer = getCurrentPlayer(client);
@@ -418,9 +420,9 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * selects the chosen secret objective between the two drawn objective cards
-     * @param client player choosing the secret objective
-     * @param objectiveCardId chosen secret objective card id
+     * Selects the chosen secret objective between the two drawn objective cards.
+     * @param client The player choosing the secret objective.
+     * @param objectiveCardId The chosen secret objective card id.
      */
     public void chooseSecretObjectiveCard (ClientHandler client,int objectiveCardId){
         Player currentPlayer = getCurrentPlayer(client);
@@ -434,8 +436,8 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * broadcasts a JSON message to all connected clients in the game.
-     * @param message the JSON message to be sent to all clients.
+     * Broadcasts a JSON message to all connected clients in the game.
+     * @param message The JSON message to be sent to all clients.
      */
     public void broadcast (JSONObject message){
         for (ClientHandler player : clientHandlers) {
@@ -443,9 +445,6 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
-    /**
-     * checks if there are no more players left in the game.
-     */
     @Override
     public void notifyConnectedClientCountChanged() {
         if(clientHandlers.isEmpty()) {
@@ -457,11 +456,6 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
-
-    /**
-     * handles the notification of disconnection of a player
-     * @param client reference to the network interface that is notifying
-     */
     @Override
     public void notifyConnectionLoss (ClientHandler client) {
         if (echo) {
@@ -474,17 +468,10 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
-    /**
-     * checks if the game has reached the maximum number of players.
-     * @return true if the number of players in the game equals the maximum number of players allowed, false otherwise.
-     */
     private boolean gameIsFull() {
         return game.getPlayersHashMap().size() == game.getNumberOfPlayers();
     }
 
-    /**
-     * checks if all players are ready and the game state is appropriate to proceed.
-     */
     @Override
     public void notifyReady() {
         if(!gameIsFull()) return;
@@ -515,9 +502,6 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
-    /**
-     * checks if all players have made their selections and transitions the game to the playing state if so.
-     */
     @Override
     public void notifyStarterCardAndSecretObjectiveSelected() {
         if(game.getGameState() != GameState.waitingForCardsSelection) return;
@@ -532,16 +516,12 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         startGame();
     }
 
-    /**
-     * checks if a player has reached a certain score or both card decks are empty.
-     */
     @Override
     public void notifyLastRound() {
         if(game.getGameState() != GameState.playing) return;
         String reason;
         for (ClientHandler clientHandler : clientHandlers) {
-            //TODO rimettere a 20 o far specificare il punteggio da raggiungere quando si crea la partita
-            if (getCurrentPlayer(clientHandler).getScore() >= 5) {
+            if (getCurrentPlayer(clientHandler).getScore() >= SCORE_GOAL) {
                 game.setGameState(GameState.lastRound);
                 reason = "player " + clientHandler.getUsername() + " has 20 or more points";
                 broadcast(messageGenerator.lastRoundMessage(reason));
@@ -563,9 +543,6 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
 
     }
 
-    /**
-     * handles the notification that the game has ended.
-     */
     @Override
     public void notifyEndGame() {
         if(game.getGameState()==GameState.endGame) return;
@@ -577,7 +554,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
     }
 
     /**
-     * calculates final scores for all players in the lobby and broadcasts a leaderboard message.
+     * Calculates the final leaderboard and sends it to each client.
      */
     public void calculateFinalScore() {
         ArrayList<ClientHandler> classifiedPlayers = new ArrayList<>();
@@ -595,9 +572,6 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
         }
     }
 
-    /**
-     * sorts players by score and completed objectives
-     */
     private void sortPlayers(ArrayList<ClientHandler> clients) {
         clients.sort((c1, c2) -> getCurrentPlayer(c1).compareTo(getCurrentPlayer(c2)));
     }

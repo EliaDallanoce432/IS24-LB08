@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.model.json;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import it.polimi.ingsw.server.model.card.*;
 import it.polimi.ingsw.server.model.card.GoldCardStrategy.*;
 import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
@@ -17,15 +17,15 @@ import org.json.simple.parser.ParseException;
 
 /**
  * This class handles reading card data from JSON files. It provides methods to extract specific information
- * about card properties based on the JSON structure
+ * about card properties based on the JSON structure.
  */
 public class JsonCardsReader {
 
     /**
-     * extracts the resource type from a JSONObject representing a corner of a card in the JSON data
+     * Extracts the resource type from a JSONObject representing a corner of a card in the JSON data.
      * @param item JSONObject representing the card data.
-     * @param corn String representing the corner
-     * @return `Resource` enum value extracted from the corner data
+     * @param corn String representing the corner.
+     * @return `Resource` enum value extracted from the corner data.
      */
     private static Resource getCornerResource(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
@@ -34,10 +34,10 @@ public class JsonCardsReader {
     }
 
     /**
-     * extracts the attachable flag from a JSONObject representing a corner of a card in the JSON data
-     * @param item JSONObject representing the card data
-     * @param corn String representing the corner
-     * @return True if the "Exist" key in the corner data is true, false otherwise
+     * Extracts the attachable flag from a JSONObject representing a corner of a card in the JSON data.
+     * @param item JSONObject representing the card data.
+     * @param corn String representing the corner.
+     * @return True if the "Exist" key in the corner data is true, false otherwise.
      */
     private static boolean getCornerAttachable(JSONObject item, String corn) {
         JSONObject corner = (JSONObject) item.get(corn);
@@ -45,9 +45,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads resource card from json file
-     * @param id unique id that identifies the card
-     * @param resourceCard  reference to the card itself
+     * Loads resource card from json file.
+     * @param id Unique id that identifies the card.
+     * @param resourceCard  Reference to the card itself.
      * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
      * @throws InvalidIdException If the provided ID is invalid (outside the range of 1-40).
      */
@@ -78,9 +78,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads gold card from json file
-     * @param id unique id that identifies the card
-     * @param goldCard  reference to the card itself
+     * Loads gold card from json file.
+     * @param id Unique id that identifies the card.
+     * @param goldCard  Reference to the card itself.
      * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
      * @throws InvalidIdException If the provided ID is invalid (outside the range of 41-80).
      */
@@ -115,10 +115,10 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads generic placeable card information
-     * @param placeableCard placeable card to load
-     * @param item JSONObject representing the card data
-     * @param id unique identifier of the card
+     * Loads generic placeable card information.
+     * @param placeableCard Placeable card to load.
+     * @param item JSONObject representing the card data.
+     * @param id Unique identifier of the card.
      */
     private static void loadGenericPlaceableCardInformation(PlaceableCard placeableCard, JSONObject item, int id) {
         placeableCard.setId(id);
@@ -136,9 +136,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads the strategy information for a gold card from a JSONObject
-     * @param goldCard gold card to load
-     * @param item JSONObject representing the card data
+     * Loads the strategy information for a gold card from a JSONObject.
+     * @param goldCard Gold card to load.
+     * @param item JSONObject representing the card data.
      */
     private static void loadGoldCardStrategy(GoldCard goldCard, JSONObject item)  {
         String strategy = item.get("Strategy").toString();
@@ -152,9 +152,9 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads the resource requirements for a gold card from a JSONArray in the JSON data
-     * @param goldCard gold card to load
-     * @param requirements JSONArray containing the resource requirements data
+     * Loads the resource requirements for a gold card from a JSONArray in the JSON data.
+     * @param goldCard Gold card to load.
+     * @param requirements JSONArray containing the resource requirements data.
      */
     private static void loadGoldCardRequirements(GoldCard goldCard, JSONArray requirements) {
         for (int i = 0; i < 4; i++) {
@@ -172,9 +172,9 @@ public class JsonCardsReader {
 
 
     /**
-     * loads starter card information from a JSON file based on the provided card ID
-     * @param id unique id that identifies the card
-     * @param starterCard  reference to the card itself
+     * Loads starter card information from a JSON file based on the provided card ID.
+     * @param id Unique id that identifies the card.
+     * @param starterCard  Reference to the card itself.
      * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
      * @throws InvalidIdException If the provided ID is invalid (outside the range of 81-86).
      */
@@ -205,10 +205,10 @@ public class JsonCardsReader {
     }
 
     /**
-     * loads resource and corner information for a starter card from a JSONObject.
-     * @param starterCard starter card
-     * @param item JSONObject representing the card data
-     * @param id unique identifier of the card
+     * Loads resource and corner information for a starter card from a JSONObject.
+     * @param starterCard Starter card.
+     * @param item JSONObject representing the card data.
+     * @param id Unique identifier of the card.
      */
     private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
         List<Resource> backResources = new ArrayList<>();

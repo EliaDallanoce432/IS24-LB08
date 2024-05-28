@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.deck.StarterCardDeck;
 import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 import it.polimi.ingsw.util.supportclasses.Token;
 import it.polimi.ingsw.util.supportclasses.GameState;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 
 /**
  * This class represents the core game model, managing the game state, decks, players, and overall game logic.
- *  It interacts with other components to receive player actions and update the game state accordingly.
+ * It interacts with other components to receive player actions and update the game state accordingly.
  */
 public class Game {
     private int numberOfPlayers;
@@ -69,8 +68,8 @@ public class Game {
     }
 
     /**
-    * makes the token available again
-    * @param token of the player
+    * Makes the token available again.
+    * @param token Token to be made available again.
      */
     public void reinsertToken(Token token) {
         getAvailableTokens().add(token);

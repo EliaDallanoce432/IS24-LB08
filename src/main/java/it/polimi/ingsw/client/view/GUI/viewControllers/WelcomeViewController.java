@@ -84,7 +84,7 @@ public class WelcomeViewController extends ViewController {
                 errorLabel.setVisible(true);
             }
             else if(username.length() > 15) {
-                showErrorMessage("The username must be less than 15 characters");
+                showErrorMessage("The username is too long");
                 errorLabel.setVisible(true);
             }
             else {

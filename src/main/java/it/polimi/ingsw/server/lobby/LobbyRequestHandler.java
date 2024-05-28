@@ -9,7 +9,7 @@ import it.polimi.ingsw.util.supportclasses.Request;
 import org.json.simple.JSONObject;
 
 /**
- * This class represents the request parser of the exchanged messages
+ * This class represents the request parser of the exchanged messages.
  */
 public class LobbyRequestHandler {
     private final Lobby lobby;
@@ -18,7 +18,7 @@ public class LobbyRequestHandler {
         this.lobby = lobby;
     }
     /**
-     * handles the incoming request from a client
+     * Handles the incoming request from a client
      * @param request request to be processed
      */
     public void execute(Request request) {
@@ -37,7 +37,7 @@ public class LobbyRequestHandler {
     }
 
     /**
-     * handles the logic for setting a username for a client
+     * Handles the logic for setting a username for a client.
      * @param lobby lobby reference
      * @param message json object message
      * @param clientHandler client handler of client

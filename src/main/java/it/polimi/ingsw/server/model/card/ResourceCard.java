@@ -6,7 +6,7 @@ import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
 import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 
 /**
- * This class represents a Resource card
+ * This class represents a Resource card.
  */
 public class ResourceCard extends PlaceableCard {
 
@@ -26,9 +26,9 @@ public class ResourceCard extends PlaceableCard {
     }
 
     /**
-     * returns the points earned by placing this resource card
-     * @param gameField game field
-     * @return score of placement
+     * Calculates the points earned by placing this resource card
+     * @param gameField Reference to the game field the card is placed on.
+     * @return Points earned by placing the card.
      */
     public int placementPoints(GameField gameField) {
         return this.getPoints();

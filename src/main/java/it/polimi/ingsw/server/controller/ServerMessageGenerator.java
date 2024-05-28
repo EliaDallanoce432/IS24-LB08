@@ -12,6 +12,7 @@ import java.util.*;
  * This class is responsible for generating JSON messages that are sent to clients throughout the game.
  * These messages inform players about game state, their hand and deck information, and other relevant game events.
  */
+@SuppressWarnings("all")
 public class ServerMessageGenerator {
 
     private final Game game;
@@ -20,15 +21,13 @@ public class ServerMessageGenerator {
         this.game = game;
     }
 
-
-
     /**
-     * this message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
-     * secrete objective
-     * @param starterCard given to the player
-     * @param objectiveCard1 first objective card that can be selected
-     * @param objectiveCard2 second objective card that can be selected
-     * @return a message containing these three cards
+     * This message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
+     * secrete objective.
+     * @param starterCard The given to the player.
+     * @param objectiveCard1 The first objective card that can be selected.
+     * @param objectiveCard2 The second objective card that can be selected.
+     * @return The message containing these three cards.
      */
     public JSONObject cardsSelectionMessage (StarterCard starterCard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
         Map<String,String> jsonMap = new HashMap<>();
@@ -40,10 +39,10 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent to each player at the beginning of the match
-     * @param gameController of the current match
-     * @param player player who is playing the current match
-     * @return a message containing all the necessary information the player needs to start the match
+     * This message is sent to each player at the beginning of the match.
+     * @param gameController The game controller of the current match.
+     * @param player The player who is playing the current match.
+     * @return The message containing all the necessary information the player needs to start the match.
      */
     public JSONObject startGameMessage (GameController gameController, Player player) {
         JSONObject message = new JSONObject();
@@ -61,9 +60,9 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message sends to a player his updated hand
-     * @param player with the updated hand
-     * @return a message containing the updated hand
+     * This message sends to a player his updated hand.
+     * @param player The player with the updated hand.
+     * @return The message containing the updated hand.
      */
     public JSONObject updatedHandMessage(Player player) {
         JSONObject message = new JSONObject();
@@ -71,10 +70,11 @@ public class ServerMessageGenerator {
         message.put("updatedHand", updatedHand(player));
         return message;
     }
+
     /**
-     * this message is sent to notify the beginning of a player's turn
-     * @param gameController is used to get the player's name
-     * @return a message showing which player is about to play and his name
+     * This message is sent to notify the beginning of a player's turn.
+     * @param gameController The game controller is used to get the player's name.
+     * @return The message showing which player is about to play and his name.
      */
     public JSONObject turnPlayerUpdateMessage(GameController gameController) {
         Map<String,String> jsonMap = new HashMap<>();
@@ -84,8 +84,8 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent to players in order to update the decks after each draw
-     * @return a message containing updated information about the decks
+     * This message is sent to players in order to update the decks after each draw.
+     * @return The message containing updated information about the decks.
      */
     public JSONObject updatedDecksMessage() {
         JSONObject message = new JSONObject();
@@ -95,9 +95,9 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent when the player executes a successful placement
-     * @param player who places the card
-     * @return a message containing updated information (score, his hand, resources on the game-field)
+     * This message is sent when the player executes a successful placement.
+     * @param player The player who places the card.
+     * @return The message containing updated information (score, his hand, resources on the game-field).
      */
     public JSONObject successfulPlaceMessage(Player player) {
         JSONObject message = new JSONObject();
@@ -110,9 +110,9 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent when a player cannot place a card for a particular reason
-     * @param reason explains why the placement is incorrect
-     * @return the message to the player
+     * This message is sent when a player cannot place a card for a particular reason.
+     * @param reason The reason that explains why the placement is incorrect.
+     * @return The message to the player.
      */
     public JSONObject cannotPlaceMessage(String reason) {
         Map<String,String> jsonMap = new HashMap<>();
@@ -122,9 +122,9 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message is sent to notify players' updated scores after each turn
-     * @param gameController of the current game
-     * @return a message containing all the players' scores
+     * This message is sent to notify players' updated scores after each turn.
+     * @param gameController The game controller of the current game.
+     * @return The message containing all the players' scores.
      */
     public JSONObject updatedScoresMessage (GameController gameController) {
         JSONObject message = new JSONObject();
@@ -142,9 +142,9 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message informs the players that they're playing the last round
-     * @param reason what triggered the last round
-     * @return the message that informs the players
+     * This message informs the players that they're playing the last round.
+     * @param reason The reason that explains what triggered the last round.
+     * @return Rhe message that informs the players.
      */
     public JSONObject lastRoundMessage(String reason) {
         Map<String,String> jsonMap = new HashMap<>();
@@ -154,8 +154,8 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * this message sends to the players their final scores when the game is ended
-     * @return the final scores
+     * This message sends to the players their final scores when the game is ended.
+     * @return The final scores.
      */
     public JSONObject leaderBoardMessage (GameController gameController, ArrayList<ClientHandler> clientHandlers) {
         JSONObject message = new JSONObject();
@@ -201,8 +201,8 @@ public class ServerMessageGenerator {
     }
 
     /**
-     * message sent when a client loses connection to inform the other clients that the game is getting cancelled
-     * @return message
+     * Message sent when a client loses connection to inform the other clients that the game is getting cancelled
+     * @return The message
      */
     public JSONObject closingGameMessage () {
         Map<String,String> jsonMap = new HashMap<>();

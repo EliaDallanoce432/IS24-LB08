@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This class represents a Starter card
+ * This class represents a Starter card.
  */
 public class StarterCard extends PlaceableCard {
     protected ArrayList<Resource> backCentralResources;
@@ -30,9 +30,9 @@ public class StarterCard extends PlaceableCard {
     }
 
     /**
-     * returns the points earned by placing this starter card
-     * @param gameField game field
-     * @return score of placement
+     * The starter card doesn't give any points when placed, so it returns always 0.
+     * @param gameField Reference to the game field the card is placed on.
+     * @return Points earned by placing the card.
      */
     @Override
     public int placementPoints(GameField gameField) {

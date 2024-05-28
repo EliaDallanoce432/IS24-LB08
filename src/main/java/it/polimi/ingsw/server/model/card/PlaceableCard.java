@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.GameField;
 import it.polimi.ingsw.util.supportclasses.Resource;
 
 /**
- * This class represents a placeable card
+ * This class represents a placeable card.
  */
 public abstract class PlaceableCard extends Card {
     protected int points;
@@ -151,12 +151,13 @@ public abstract class PlaceableCard extends Card {
     }
 
     /**
-     * returns the points received by placing the card
-     * @return score of placement
+     * Calculates the points earned with this card.
+     * @return Points earned by placing the card.
      */
     public abstract int placementPoints(GameField gameField);
 
     @Override
+    @SuppressWarnings("all")
     public boolean equals(Object obj) {
         if(!(obj instanceof PlaceableCard card)) return false;
         if(this.id!=card.id) return false;

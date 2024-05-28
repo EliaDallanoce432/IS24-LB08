@@ -5,7 +5,7 @@ import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
 
 /**
  * This abstract class represents a deck of cards that can have
- * two cards revealed on the table at a time, one on the left and one on the right.
+ * two cards revealed on the table.
  */
 public abstract class DeckWithRevealedCards extends Deck{
     protected Card leftRevealedCard;
@@ -22,8 +22,8 @@ public abstract class DeckWithRevealedCards extends Deck{
     }
 
     /**
-     * draws the left revealed card from the board and replaces it with the top card
-     * @return Card was drawn
+     * Draws the left revealed card from the board and replaces it with the top card of the deck.
+     * @return The drawn card.
      */
     public Card drawLeftRevealedCard() {
         Card selectedCard;
@@ -37,8 +37,8 @@ public abstract class DeckWithRevealedCards extends Deck{
     }
 
     /**
-     * draws the right revealed card from the board and replaces it with the top card
-     * @return Card was drawn
+     * Draws the right revealed card from the board and replaces it with the top card of the deck.
+     * @return The drawn card.
      */
     public Card drawRightRevealedCard() {
         Card selectedCard;
