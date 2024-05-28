@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 /**
- * this class handles the input from the TCP socket
+ * This class handles the input from the TCP socket.
  */
 public class NetworkInputHandler implements Runnable {
 
@@ -45,7 +45,7 @@ public class NetworkInputHandler implements Runnable {
     }
 
     /**
-     * stops the InputHandler execution
+     * Stops the InputHandler execution.
      */
     public void shutdown() {
         running = false;

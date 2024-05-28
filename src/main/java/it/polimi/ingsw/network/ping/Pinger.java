@@ -7,7 +7,7 @@ import java.util.Map;
 import static it.polimi.ingsw.util.supportclasses.PingerConstants.*;
 
 /**
- * This class has the role to ping the other host to ensure the connection is still alive
+ * This class has the role to ping the other host to ensure the connection is still alive.
  */
 public class Pinger implements Runnable, PongObserver {
     private final NetworkInterface networkInterface;
@@ -26,6 +26,7 @@ public class Pinger implements Runnable, PongObserver {
     }
 
     @Override
+    @SuppressWarnings("all")
     public void run() {
         remainingPings = pingTries;
         while (running) {
@@ -47,7 +48,7 @@ public class Pinger implements Runnable, PongObserver {
     }
 
     /**
-     * stops the pinger execution
+     * Stops the pinger execution.
      */
     public void shutdown() {
         running = false;

@@ -2,14 +2,13 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.server.lobby.Lobby;
 import it.polimi.ingsw.util.customexceptions.CannotOpenWelcomeSocket;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * This class accepts the new client connections
+ * This class accepts the new client connections.
  */
 public class ServerWelcomeSocket implements Runnable {
     private final ServerSocket serverSocket;
@@ -41,7 +40,7 @@ public class ServerWelcomeSocket implements Runnable {
     }
 
     /**
-     * Stops the server from accepting new connections
+     * Stops the server from accepting new connections.
      */
     public void shutdown() {
         running = false;

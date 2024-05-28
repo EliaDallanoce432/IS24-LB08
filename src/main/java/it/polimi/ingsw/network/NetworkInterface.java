@@ -5,13 +5,12 @@ import it.polimi.ingsw.network.ping.ConnectionObserver;
 import org.json.simple.JSONObject;
 
 /**
- * represents a generic network interface to enable communication between two hosts
+ *  Represents a generic network interface to enable communication between two hosts.
  */
 public interface NetworkInterface extends ConnectionObserver, NetworkInputObserver {
     /**
-     * method sends a message to a remote host
-     * @param message   message to send to the remote host
+     * Method sends a message to a remote host.
+     * @param message The message to send to the remote host.
      */
     void send(JSONObject message);
-
 }

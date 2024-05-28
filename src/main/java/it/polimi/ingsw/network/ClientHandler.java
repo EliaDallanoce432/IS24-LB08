@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * this class offers network functionalities for the server between the server and the client
+ * This class offers network functionalities for the server between the server and the client.
  */
 public class ClientHandler implements Runnable, NetworkInterface {
     private final PrintWriter out;
@@ -104,7 +104,7 @@ public class ClientHandler implements Runnable, NetworkInterface {
     }
 
     /**
-     * handles messages that are not meant for the higher level, but they are service messages for the proper network functionality
+     * Handles messages that are not meant for the higher level, but they are service messages for the proper network functionality.
      * @param message message to handle
      * @return returns true if it was a service message, false if it's a message for the application
      */
@@ -137,7 +137,7 @@ public class ClientHandler implements Runnable, NetworkInterface {
     }
 
     /**
-     * closes every service that was open and ends the connection
+     * Closes every service that was open and ends the connection.
      */
     public void shutdown() {
         pinger.shutdown();
