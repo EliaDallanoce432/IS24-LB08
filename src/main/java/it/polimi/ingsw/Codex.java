@@ -34,11 +34,6 @@ public class Codex {
                 System.out.println("unexpected argument: " + args[1]);
         } else if (args[0].equals("server")) {
             codex.setLobby(new Lobby());
-            System.out.println("Lobby started");
-            System.out.println("Echo: off");
-            System.out.println("Set a port for the server with 'setPort' command.");
-            System.out.println("Type 'help' for more information.");
-            System.out.println();
             codex.getLobby().startLobby();
         } else {
             printUsageMessage();
