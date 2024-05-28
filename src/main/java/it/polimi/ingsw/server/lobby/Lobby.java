@@ -40,11 +40,7 @@ public class Lobby implements ServerNetworkObserver {
         ServerView.getInstance(this);
         echo = false;
         running = true;
-        System.out.println("Lobby started");
-        System.out.println("Echo: off");
-        System.out.println("Set a port for the server with 'setPort' command.");
-        System.out.println("Type 'help' for more information.");
-        System.out.println();
+
     }
 
     public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
