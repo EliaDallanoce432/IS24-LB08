@@ -3,9 +3,11 @@ it.polimi.ingsw
 it.polimi.ingsw.client.controller
 it.polimi.ingsw.client.model
 it.polimi.ingsw.client.view
+it.polimi.ingsw.client.view.CLI
+it.polimi.ingsw.client.view.GUI
+it.polimi.ingsw.client.view.GUI.viewControllers
 it.polimi.ingsw.client.view.observers
-it.polimi.ingsw.client.view.viewControllers
-it.polimi.ingsw.client.view.viewControllers.utility
+it.polimi.ingsw.client.view.utility
 it.polimi.ingsw.network
 it.polimi.ingsw.network.input
 it.polimi.ingsw.network.ping
@@ -18,5 +20,6 @@ it.polimi.ingsw.server.model.card.ObjectiveCardStrategy
 it.polimi.ingsw.server.model.deck
 it.polimi.ingsw.server.model.json
 it.polimi.ingsw.server.view
+it.polimi.ingsw.util.cli
 it.polimi.ingsw.util.customexceptions
 it.polimi.ingsw.util.supportclasses
