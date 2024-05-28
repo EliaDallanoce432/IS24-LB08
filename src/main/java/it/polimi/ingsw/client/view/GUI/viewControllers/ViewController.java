@@ -1,16 +1,10 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers;
 
-import it.polimi.ingsw.client.model.ClientStateModel;
-import it.polimi.ingsw.client.view.StageManager;
-import javafx.application.Platform;
-
 /**
  * This abstract class is the base for all the View Controllers. It contains all the main methods to update the UI
  * components.
  */
-
 public abstract class ViewController {
-
     /**
      * Shows a message in the UI.
      * @param message the message to be shown
@@ -64,11 +58,8 @@ public abstract class ViewController {
      */
     public void updateObjectives(){}
 
-
     /**
      * Updates the scene status in the UI accordingly to the current ClientStateModel.
      */
     public void updateSceneStatus(){}
-
-
 }

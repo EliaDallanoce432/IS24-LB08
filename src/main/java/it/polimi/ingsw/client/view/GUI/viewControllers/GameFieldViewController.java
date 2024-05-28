@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.view.GUI.viewControllers;
 
-
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.*;
 import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.utility.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
 import java.util.Objects;
 
 /**
@@ -24,10 +22,7 @@ import java.util.Objects;
  * scoreboards, the player's hand, and other UI components.
  */
 public class GameFieldViewController extends ViewController {
-
-
     //FXML Nodes
-
     @FXML
     private Pane handPane;
     @FXML
@@ -79,8 +74,6 @@ public class GameFieldViewController extends ViewController {
     @FXML
     private Label scrollResLabel;
 
-
-
     private HandAndBoardRepresentation handAndBoardRepresentation;
     private DecksRepresentation decksRepresentation;
     private ScoreBoardRepresentation scoreBoardRepresentation;
@@ -92,10 +85,8 @@ public class GameFieldViewController extends ViewController {
      * It also performs an additional update of all the UI elements, in case the observer updates the scene before it's
      * loaded.
      */
-
     @FXML
     private void initialize() {
-
         flipButton.setOnMouseEntered(mouseEvent -> flipButton.setCursor(Cursor.HAND));
         flipButton.setOnMouseExited(mouseEvent -> flipButton.setCursor(Cursor.DEFAULT));
         leaveGameButton.setOnMouseEntered(mouseEvent -> leaveGameButton.setCursor(Cursor.HAND));
@@ -124,17 +115,13 @@ public class GameFieldViewController extends ViewController {
             updatePlayerInfo();
             updateScoreBoard();
         });
-
-
-
     }
 
     /**
-     * Center the visual of game field (scrollPane)
+     * Center the visual of game field (scrollPane).
      */
     @FXML
-    private void centerVisual()
-    {
+    private void centerVisual() {
         scrollPane.setHvalue(0.5);
         scrollPane.setVvalue(0.503);
     }
@@ -144,9 +131,7 @@ public class GameFieldViewController extends ViewController {
      */
     @FXML
     private void flipCardsInHand() {
-
         HandModel.getInstance().flipCardsInHand();
-
     }
 
     /**
@@ -166,7 +151,6 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateGameBoard(){
         Platform.runLater(()-> handAndBoardRepresentation.loadBoardFromPlacementHistory());
-
     }
 
     /**
@@ -212,7 +196,6 @@ public class GameFieldViewController extends ViewController {
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
-            //System.out.println("UPDATE STATUS: " + ClientStateModel.getInstance().getClientState());
             errorLabel.setVisible(false);
             switch (ClientStateModel.getInstance().getClientState()){
                 case NOT_PLAYING_STATE -> showMessage("Waiting for " + PlayerModel.getInstance().getTurnPlayer() + " to finish their turn...");
@@ -228,12 +211,11 @@ public class GameFieldViewController extends ViewController {
                 default -> {}
             }
         });
-
     }
 
     /**
-     * Shows a message in the label
-     * @param message the message to be shown
+     * Shows a message in the label.
+     * @param message The message to be shown.
      */
     @Override
     public void showMessage(String message){
@@ -241,8 +223,8 @@ public class GameFieldViewController extends ViewController {
     }
 
     /**
-     * Shows a message in the "special alerts" label
-     * @param message the message to be shown
+     * Shows a message in the "special alerts" label.
+     * @param message The message to be shown.
      */
     public void showSpecialMessage(String message){
         Platform.runLater(() -> {
@@ -252,8 +234,8 @@ public class GameFieldViewController extends ViewController {
     }
 
     /**
-     * Shows an error message in the error label
-     * @param message the message to be shown
+     * Shows an error message in the error label.
+     * @param message The message to be shown.
      */
     @Override
     public void showErrorMessage(String message){
@@ -263,11 +245,9 @@ public class GameFieldViewController extends ViewController {
         });
     }
 
-
-
     /**
-     * Fills a given pane with a textured tile
-     * @param pane the Pane to be filled
+     * Fills a given pane with a textured tile.
+     * @param pane The Pane to be filled.
      */
     private void fillPaneWithPattern (Pane pane){
         Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/background_tile.png")));
@@ -284,15 +264,12 @@ public class GameFieldViewController extends ViewController {
     }
 
     /**
-     * Loads and shows the resources from the scoreBoardModel
+     * Loads and shows the resources from the scoreBoardModel.
      */
-
     private void updateResources() {
-
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
 
         Platform.runLater(()->{
-
             animalResLabel.setText(scoreBoardModel.getAnimalResourceCount() + "");
             fungiResLabel.setText(scoreBoardModel.getFungiResourceCount() + "");
             insectResLabel.setText(scoreBoardModel.getInsectResourceCount() + "");
@@ -301,13 +278,8 @@ public class GameFieldViewController extends ViewController {
             featherResLabel.setText(scoreBoardModel.getFeatherCount() + "");
             scrollResLabel.setText(scoreBoardModel.getScrollCount() + "");
             inkPotResLabel.setText(scoreBoardModel.getInkPotCount() + "");
-
         });
     }
-
-
-
-
 }
 
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
+package it.polimi.ingsw.client.view.utility;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.GameFieldModel;
@@ -11,19 +11,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.Objects;
-
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
-import static java.lang.Math.abs;
 
 /**
  * This class manages the representation of the cards in the hand and on the board, along with all of their proprieties.
  */
-
 public class HandAndBoardRepresentation {
-
     private final Pane handPane;
     private final Pane boardPane;
     private final ScrollPane scrollPane;
@@ -38,13 +33,11 @@ public class HandAndBoardRepresentation {
     private double offsetY;
 
     /**
-     * Sets up the HandAndBoardRepresentation
-     * @param handPane reference to the Pane where the cards in hand are loaded
-     * @param scrollPane reference to the ScrollPane where the game board will be loaded
+     * Sets up the HandAndBoardRepresentation.
+     * @param handPane Reference to the Pane where the cards in hand are loaded.
+     * @param scrollPane Reference to the ScrollPane where the game board will be loaded.
      */
-
     public HandAndBoardRepresentation(Pane handPane, ScrollPane scrollPane) {
-
         this.scrollPane = scrollPane;
         this.handPane = handPane;
 
@@ -61,18 +54,13 @@ public class HandAndBoardRepresentation {
                 BackgroundSize.DEFAULT
         );
 
-
-
-
         boardPane = new Pane();
-        //boardPane.setStyle("-fx-background-color: #dbd3ad; -fx-border-color: black; -fx-border-width: 2px;");
         boardPane.setBackground(new Background(backgroundImage));
 
         boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
         scrollPane.setContent(boardPane);
         scrollPane.setHvalue(0.5);
         scrollPane.setVvalue(0.503);
-
     }
 
 
@@ -81,16 +69,12 @@ public class HandAndBoardRepresentation {
      * Sets the card event listeners so that the card is draggable, droppable and sends a "place" message to the server when dropped.
      * It also makes the card snap to certain coordinates when released, so that it is correctly placed on the corner of the
      * card on the field.
-     * @param card Card node to be made draggable and droppable
-     * @param cardRepresentation Reference to the associated CardRepresentation
+     * @param card Card node to be made draggable and droppable.
+     * @param cardRepresentation Reference to the associated CardRepresentation.
      */
-
-    public void makeDraggableAndDroppable(Node card, CardRepresentation cardRepresentation) {
-
+    private void makeDraggableAndDroppable(Node card, CardRepresentation cardRepresentation) {
         card.setOnMouseEntered(mouseEvent -> card.setCursor(Cursor.OPEN_HAND));
-
         card.setOnMouseExited(mouseEvent -> card.setCursor(Cursor.DEFAULT));
-
         card.setOnMousePressed(event -> {
             card.toFront();
 
@@ -102,8 +86,6 @@ public class HandAndBoardRepresentation {
 
             card.setCursor(Cursor.CLOSED_HAND);
         });
-
-
         card.setOnMouseDragged(event -> {
 
             card.setCursor(Cursor.CLOSED_HAND);
@@ -114,9 +96,7 @@ public class HandAndBoardRepresentation {
             card.setLayoutX(offsetX + deltaX);
             card.setLayoutY(offsetY + deltaY);
         });
-
         card.setOnMouseReleased(event -> {
-
             Bounds cardBounds = card.localToScene(card.getBoundsInLocal());
             Bounds scrollPaneBounds = scrollPane.localToScene(scrollPane.getBoundsInLocal());
 
@@ -138,7 +118,7 @@ public class HandAndBoardRepresentation {
                 card.setLayoutY(snapY);
                 boardPane.getChildren().add(card);
                 handPane.getChildren().remove(card);
-                makeUndraggable(card);
+                makeNotDraggable(card);
 
                 int relX = absoluteToRelativeX(snapX);
                 int relY = absoluteToRelativeY(snapY);
@@ -146,88 +126,73 @@ public class HandAndBoardRepresentation {
                 ClientController.getInstance().sendPlaceMessage(cardRepresentation.getId(), relX, relY, cardRepresentation.isFacingUp());
             }
         });
-
-
     }
 
     /**
-     * Makes the card Node undraggable
-     * @param card card to be made undraggable
+     * Makes the card Node not draggable.
+     * @param card Card to be made not draggable.
      */
-
-    public void makeUndraggable(Node card) {
+    private void makeNotDraggable(Node card) {
         card.setOnMousePressed(null);
         card.setOnMouseDragged(null);
         card.setOnMouseReleased(null);
     }
 
     /**
-     * Rounds the given value to the nearest multiple of the increment
-     * @param value the value to be rounded
-     * @param increment the given increment
-     * @return the rounded value
+     * Rounds the given value to the nearest multiple of the increment.
+     * @param value The value to be rounded.
+     * @param increment The given increment.
+     * @return The rounded value.
      */
-
     private double roundToNearest(double value, double increment) {
         return Math.round(value / increment) * increment;
     }
 
     /**
-     * Makes the conversion from the Pane X coordinate to the X coordinate relative to the center of the gameboard
-     * @param absX the absolute X coordinate
-     * @return the relative coordinates
+     * Makes the conversion from the Pane X coordinate to the X coordinate relative to the center of the game board.
+     * @param absX The absolute X coordinate.
+     * @return The relative coordinates.
      */
-
     private int absoluteToRelativeX(double absX) {
         return ((int) ((absX - centerX) / X_SNAP_INCREMENT) );
-
     }
 
     /**
-     * Makes the conversion from the Pane Y coordinate to the Y coordinate relative to the center of the gameboard
-     * @param absY the absolute Y coordinate
-     * @return the relative coordinates
+     * Makes the conversion from the Pane Y coordinate to the Y coordinate relative to the center of the game board.
+     * @param absY The absolute Y coordinate.
+     * @return The relative coordinates.
      */
-
     private int absoluteToRelativeY(double absY) {
         return -((int) ((absY - centerY) / Y_SNAP_INCREMENT) );
-
     }
 
     /**
-     * Makes the conversion from the X coordinate relative to the center of the gameboard to the Pane X coordinate
+     * Makes the conversion from the X coordinate relative to the center of the game board to the Pane X coordinate
      * @param relX the relative coordinate
      * @return the absolute coordinates
      */
-
     private double relativeToAbsoluteX(int relX) {
         return (relX * X_SNAP_INCREMENT) + centerX;
-
     }
 
     /**
-     * Makes the conversion from the Y coordinate relative to the center of the gameboard to the Pane Y coordinate
-     * @param relY the relative coordinate
-     * @return the absolute coordinates
+     * Makes the conversion from the Y coordinate relative to the center of the game board to the Pane Y coordinate.
+     * @param relY The relative coordinate.
+     * @return The absolute coordinates.
      */
-
     private double relativeToAbsoluteY(int relY) {
         return ((-relY) * Y_SNAP_INCREMENT) + centerY;
-
     }
 
     /**
-     * Loads the gameboard from the placementHistory in the GameFieldModel
+     * Loads the game board from the placementHistory in the GameFieldModel.
      */
-
     public void loadBoardFromPlacementHistory(){
-
         ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
 
         boardPane.getChildren().clear();
 
         for (CardRepresentation cardRepresentation : placementHistory){
-
             Rectangle cardNode = cardRepresentation.getCard();
             int relativeX = cardRepresentation.getX();
             int relativeY = cardRepresentation.getY();
@@ -235,25 +200,20 @@ public class HandAndBoardRepresentation {
             cardNode.setLayoutX(relativeToAbsoluteX(relativeX));
             cardNode.setLayoutY(relativeToAbsoluteY(relativeY));
 
-            makeUndraggable(cardNode);
+            makeNotDraggable(cardNode);
             boardPane.getChildren().add(cardNode);
-
         }
     }
 
     /**
-     * Loads the hand from the HandModel
+     * Loads the hand from the HandModel and makes the cards draggable.
      */
-
     public void loadHand() {
-
         handPane.getChildren().clear();
-
 
         double currentX = SPACING;
 
         for(CardRepresentation v: HandModel.getInstance().getCardsInHand()){
-
             Rectangle cardNode = v.getCard();
             cardNode.setLayoutX(currentX);
             cardNode.setLayoutY(0);
@@ -262,17 +222,6 @@ public class HandAndBoardRepresentation {
 
             handPane.getChildren().add(cardNode);
             currentX += CARD_WIDTH + SPACING;
-
         }
     }
-
-
-
-
 }
-
-
-
-
-
-

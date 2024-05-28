@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.model;
 
 /**
- * This class represents an ObservableModel that keeps track of the current DeckModel
+ * This class represents an ObservableModel that keeps track of the current DeckModel.
  */
 public class DeckModel extends ObservableModel{
 
@@ -15,8 +15,8 @@ public class DeckModel extends ObservableModel{
     private static DeckModel instance;
 
     /**
-     * returns the singleton instance of DeckModel
-     * @return The singleton instance of DeckModel
+     * Returns the singleton instance of DeckModel.
+     * @return The singleton instance of DeckModel.
      */
     public static DeckModel getInstance(){
 
@@ -50,13 +50,13 @@ public class DeckModel extends ObservableModel{
     }
 
     /**
-     * updates the deck information for both the resource deck and the gold deck and notifies any registered observers that the data has changed.
-     * @param resourceDeckTopCardId The identifier for the card in the top position of the resource deck.
-     * @param resourceDeckLeftCardId The identifier for the card in the left position of the resource deck.
-     * @param resourceDeckRightCardId The identifier for the card in the right position of the resource deck.
-     * @param goldTopCardId The identifier for the card in the top position of the gold deck.
-     * @param goldLeftCardId The identifier for the card in the left position of the gold deck.
-     * @param goldRightCardId The identifier for the card in the right position of the gold deck.
+     * Updates the deck information for both the resource deck and the gold deck and notifies any registered observers that the data has changed.
+     * @param resourceDeckTopCardId The identifier for the card on the top of the resource deck.
+     * @param resourceDeckLeftCardId The identifier for the left revealed card of the resource deck.
+     * @param resourceDeckRightCardId The identifier for the right revealed card of the resource deck.
+     * @param goldTopCardId The identifier for the card on the top of the gold deck.
+     * @param goldLeftCardId The identifier for the left revealed card of the gold deck.
+     * @param goldRightCardId The identifier for the right revealed card of the gold deck.
      */
     public void updateDecks(int resourceDeckTopCardId, int resourceDeckLeftCardId, int resourceDeckRightCardId, int goldTopCardId, int goldLeftCardId, int goldRightCardId) {
         this.resourceDeckTopCardId = resourceDeckTopCardId;
@@ -71,7 +71,6 @@ public class DeckModel extends ObservableModel{
     /**
      * Resets the Deck Model.
      */
-
     public void clear(){
         resourceDeckTopCardId = 0;
         resourceDeckLeftCardId = 0;

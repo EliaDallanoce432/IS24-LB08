@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 /**
  * This class is the controller of the scene where the player creates a new game.
  */
-
 public class CreateGameViewController extends ViewController {
 
     @FXML
@@ -38,17 +37,15 @@ public class CreateGameViewController extends ViewController {
     /**
      * Initializes the scene.
      */
-
     @FXML
     public void initialize() {
-
         okButton.setOnMouseEntered(mouseEvent -> okButton.setCursor(Cursor.HAND));
         okButton.setOnMouseExited(mouseEvent -> okButton.setCursor(Cursor.DEFAULT));
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
 
         errorLabel.setVisible(false);
-        gameNameField.setOnMouseClicked(mouseEvent -> {errorLabel.setVisible(false);});
+        gameNameField.setOnMouseClicked(mouseEvent -> errorLabel.setVisible(false));
 
         gameNameField.setPromptText("Game Name Here");
 
@@ -56,15 +53,11 @@ public class CreateGameViewController extends ViewController {
         numberOfPlayersChoiceBox.setValue("2");
         numberOfPlayersChoiceBox.setOnMouseEntered(mouseEvent -> numberOfPlayersChoiceBox.setCursor(Cursor.HAND));
         numberOfPlayersChoiceBox.setOnMouseExited(mouseEvent -> numberOfPlayersChoiceBox.setCursor(Cursor.DEFAULT));
-        numberOfPlayersChoiceBox.setOnAction(event -> {
-            int selectedItem = Integer.parseInt(numberOfPlayersChoiceBox.getValue());
-        });
     }
 
     /**
      * Loads the Main Menu scene.
      */
-
     @FXML
     private void goBack(){
 
@@ -74,7 +67,6 @@ public class CreateGameViewController extends ViewController {
     /**
      * Checks the given game Name and sends setupGame message. Otherwise, displays error in the alertLabel.
      */
-
     @FXML
     private void okPressed() {
         String gameName = gameNameField.getText().trim().replace(" ", "_");
@@ -97,6 +89,9 @@ public class CreateGameViewController extends ViewController {
         }
     }
 
+    /**
+     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+     */
     @Override
     public void updateSceneStatus() {
         Platform.runLater(()->{
@@ -108,6 +103,10 @@ public class CreateGameViewController extends ViewController {
         });
     }
 
+    /**
+     * Shows a message in the alertLabel.
+     * @param message message to be shown
+     */
     @Override
     public void showErrorMessage(String message) {
         Platform.runLater(()->{

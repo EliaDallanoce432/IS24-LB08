@@ -14,23 +14,18 @@ import javafx.scene.control.Label;
  * This class controls the "Waiting for players" Scene.
  */
 public class WaitForPlayersViewController extends ViewController {
-
     @FXML
     private Button backButton;
-
     @FXML
     private Label alertLabel;
-
     @FXML
     private Button readyButton;
-
 
     /**
      * Initializes the scene.
      */
     @FXML
     public void initialize() {
-
         readyButton.setVisible(false);
         readyButton.setOnMouseEntered(mouseEvent -> readyButton.setCursor(Cursor.HAND));
         readyButton.setOnMouseExited(mouseEvent -> readyButton.setCursor(Cursor.DEFAULT));
@@ -40,8 +35,6 @@ public class WaitForPlayersViewController extends ViewController {
         showMessage("Joining Game...");
 
         Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
-
-
     }
 
     /**
@@ -49,7 +42,6 @@ public class WaitForPlayersViewController extends ViewController {
      */
     @FXML
     private void goBack(){
-
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
             ClientController.getInstance().sendLeaveMessage();
         }
@@ -61,10 +53,8 @@ public class WaitForPlayersViewController extends ViewController {
      */
     @FXML
     private void readyPressed(){
-
         ClientController.getInstance().sendReadyMessage();
         StageManager.loadChooseCardsScene();
-
     }
 
     /**
@@ -81,7 +71,6 @@ public class WaitForPlayersViewController extends ViewController {
      */
     @Override
     public void updateSceneStatus(){
-
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
                 case GAME_SETUP_STATE -> loadGetReadyScene();
@@ -92,7 +81,6 @@ public class WaitForPlayersViewController extends ViewController {
                 }
             }
         });
-
     }
 
     /**

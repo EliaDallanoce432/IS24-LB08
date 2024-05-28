@@ -29,7 +29,7 @@ public class CLIViewController extends ViewController {
     }
 
     /**
-     * Prints a message to the console using the `Printer` class.
+     * Prints a message to the console.
      * @param message The message to display.
      */
     @Override
@@ -37,13 +37,16 @@ public class CLIViewController extends ViewController {
         Printer.printMessage(message);
     }
 
+    /**
+     * Prints the common objectives and the player's secret objective.
+     */
     @Override
     public void updateObjectives(){
         Printer.printObjectives();
     }
 
     /**
-     * Prints an error message to the console in red using the `Printer` class.
+     * Prints an error message to the console in red.
      * @param message The error message to display.
      */
     @Override
@@ -52,7 +55,7 @@ public class CLIViewController extends ViewController {
     }
 
     /**
-     * Calls the superclass implementation (likely for generic handling) but might have additional logic specific to CLI updates.
+     * Prints the available games.
      */
     @Override
     public void updateAvailableGames() {
@@ -60,9 +63,8 @@ public class CLIViewController extends ViewController {
         Printer.printAvailableGames();
     }
 
-
     /**
-     * Prints the logged-in username if the client is in the LOBBY_STATE.
+     * Prints the current username if the client is in the LOBBY_STATE.
      */
     @Override
     public void updatePlayerInfo() {
@@ -71,13 +73,13 @@ public class CLIViewController extends ViewController {
             System.out.println();
         }
     }
+
     /**
      * Prints information about the starter card ID and selectable objective card IDs to the console.
      * Also provides instructions for selecting starter card orientation and secret objective.
      */
     @Override
     public void updateSelectableCards() {
-
         SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();
         int starterCardID = selectableCardsModel.getStarterCardId();
         int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();
@@ -86,8 +88,9 @@ public class CLIViewController extends ViewController {
                 "To select the starter card orientation, type 'sc front' or 'sc back'.\n" +
                 "To select a secret objective, type 'so " + objectivesID[0] + "' or 'so " + objectivesID[1] + "'.", ConsoleColor.YELLOW);
     }
+
     /**
-     * Prints game state-specific messages and prompts to the console based on the current `ClientState`.
+     * Prints game state-specific messages and UI components to the console based on the current `ClientState`.
      */
     @Override
     public void updateSceneStatus() {

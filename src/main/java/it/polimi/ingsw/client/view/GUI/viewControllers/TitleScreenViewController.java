@@ -3,19 +3,15 @@ package it.polimi.ingsw.client.view.GUI.viewControllers;
 import it.polimi.ingsw.client.view.StageManager;
 import javafx.fxml.FXML;
 
-
 /**
  * This class is the controller for the Main Menu Scene.
  */
-
 public class TitleScreenViewController extends ViewController {
     /**
      * Initializes the scene.
      */
     @FXML
-    private void initialize() {
-
-    }
+    private void initialize() {}
 
     /**
      * Loads the "Connect to server" scene.
@@ -25,7 +21,6 @@ public class TitleScreenViewController extends ViewController {
         StageManager.loadConnectToServerScene();
     }
 
-
     /**
      * Closes the GUI and shuts down the ClientController.
      */
@@ -33,6 +28,4 @@ public class TitleScreenViewController extends ViewController {
     private void exit(){
         StageManager.getCurrentStage().close();
     }
-
-
 }

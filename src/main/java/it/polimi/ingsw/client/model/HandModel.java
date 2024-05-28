@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import java.util.ArrayList;
 
 /**
- * This class represents an ObservableModel that keeps track of the player's hand in a card game
+ * This class represents an ObservableModel that keeps track of the player's hand in a card game.
  */
 public class HandModel extends ObservableModel {
 
@@ -12,8 +12,8 @@ public class HandModel extends ObservableModel {
     private static HandModel instance;
 
     /**
-     * returns the singleton instance of HandModel
-     * @return The singleton instance of HandModel
+     * Returns the singleton instance of HandModel.
+     * @return The singleton instance of HandModel.
      */
     public static HandModel getInstance(){
 
@@ -31,8 +31,8 @@ public class HandModel extends ObservableModel {
     }
 
     /**
-     * updates the cards in hand with the provided new list
-     * @param cardsInHand The new list of CardRepresentation objects
+     * Updates the cards in hand with the provided new list and notifies any registered observers that the data has changed.
+     * @param cardsInHand The new list of CardRepresentation objects.
      */
     public void updateCardsInHand(ArrayList<CardRepresentation> cardsInHand) {
         this.cardsInHand = cardsInHand;
@@ -40,14 +40,14 @@ public class HandModel extends ObservableModel {
     }
 
     /**
-     * triggers notification to registered observers without modifying the hand state
+     * Triggers notification to registered observers without modifying the hand state.
      */
     public void rollback(){
         notifyObservers();
     }
 
     /**
-     * flips all the cards in the player's hand
+     * Flips all the cards in the player's hand and notifies any registered observers that the data has changed.
      */
     public void flipCardsInHand(){
         for (CardRepresentation card : cardsInHand) {
@@ -64,7 +64,5 @@ public class HandModel extends ObservableModel {
             cardsInHand.clear();
         }
     }
-
-
 }
 

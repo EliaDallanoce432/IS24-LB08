@@ -1,43 +1,37 @@
-package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
+package it.polimi.ingsw.client.view.utility;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import java.util.Objects;
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
- * This class manages the visual representation of a card
+ * This class manages the visual representation of a card.
  */
-
 public class CardRepresentation {
-
-    private String frontCardTexturePath;
-    private String backCardTexturePath;
-    private int id;
+    private final String frontCardTexturePath;
+    private final String backCardTexturePath;
+    private final int id;
     private boolean facingUp;
     private Rectangle cardFront;
     private Rectangle cardBack;
-
 
     //only used in placementHistory array to memorize coordinates
     private int x;
     private int y;
 
     /**
-     * Sets up the CardRepresentation
-     * @param id the ID of the card to be represented
-     * @param isFacingUp whether the card is facing up or not
+     * Sets up the CardRepresentation.
+     * @param id The ID of the card to be represented.
+     * @param isFacingUp Whether the card is facing up or not.
      */
-
     public CardRepresentation(int id, boolean isFacingUp) {
-
         this.id = id;
         this.facingUp = isFacingUp;
-
         this.frontCardTexturePath = "/Images/cards/front/" + id + ".png";
         this.backCardTexturePath = "/Images/cards/back/" + id + ".png";
-
     }
 
     public void setFacingUp(boolean facingUp) {
@@ -65,28 +59,22 @@ public class CardRepresentation {
     }
 
     /**
-     * returns the representation of the current state of the card
-     * @return the Rectangle representing the card
+     * Returns the representation of the current state of the card.
+     * @return the Rectangle representing the card.
      */
-
     public Rectangle getCard() {
-
         loadCardRectangle();
-
         if (facingUp) return cardFront;
         else return cardBack;
     }
 
     /**
-     * returns the card representation with a custom size multiplier
-     * @param size the size multiplier
-     * @return the Rectangle representing the card
+     * Returns the card representation with a custom size multiplier.
+     * @param size the size multiplier.
+     * @return the Rectangle representing the card.
      */
-
     public Rectangle getCard(double size){
-
         loadCardRectangle();
-
         if (facingUp) {
             cardFront.setWidth(size*CARD_WIDTH);
             cardFront.setHeight(size*CARD_HEIGHT);
@@ -97,13 +85,11 @@ public class CardRepresentation {
             cardBack.setHeight(size*CARD_HEIGHT);
             return cardBack;
         }
-
     }
 
     private void loadCardRectangle() {
-        Image frontTextureImage = new Image(getClass().getResourceAsStream(frontCardTexturePath));
-        Image backTextureImage = new Image(getClass().getResourceAsStream(backCardTexturePath));
-
+        Image frontTextureImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(frontCardTexturePath)));
+        Image backTextureImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(backCardTexturePath)));
 
         cardFront = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
         cardFront.setArcWidth(10);
@@ -127,7 +113,6 @@ public class CardRepresentation {
     /**
      * changes the current facingUp variable to its opposite
      */
-
     public void flip(){
         facingUp = !facingUp;
     }

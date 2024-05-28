@@ -15,7 +15,7 @@
                   <Image url="@../../../../../Images/codex_title.png" />
                </image>
             </ImageView>
-            <Pane fx:id="setUsernamePane" layoutX="161.0" layoutY="289.0" prefHeight="100.0" prefWidth="280.0">
+            <Pane layoutX="161.0" layoutY="289.0" prefHeight="100.0" prefWidth="280.0">
                <children>
                   <Label fx:id="errorLabel" alignment="CENTER" layoutX="27.0" layoutY="50.0" opacity="0.56" prefHeight="31.0" prefWidth="227.0" style="-fx-background-color: red;" textFill="WHITE">
                      <font>

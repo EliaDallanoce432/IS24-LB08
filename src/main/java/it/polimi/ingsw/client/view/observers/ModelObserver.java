@@ -13,5 +13,5 @@ public interface ModelObserver {
      * Implementing classes should define the specific behavior
      * that should occur when the model changes.
      */
-    public void update();
+    void update();
 }

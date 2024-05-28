@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.model;
 
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import java.util.ArrayList;
 
 /**
- * This class represents an ObservableModel that keeps track of the game field state, specifically the placement history of cards
+ * This class represents an ObservableModel that keeps track of the game field state, specifically the placement history of the cards.
  */
 public class GameFieldModel extends ObservableModel {
 
@@ -12,8 +12,8 @@ public class GameFieldModel extends ObservableModel {
     private ArrayList<CardRepresentation> placementHistory;
 
     /**
-     * returns the singleton instance of GameFieldModel
-     * @return The singleton instance of GameFieldModel
+     * Returns the singleton instance of GameFieldModel.
+     * @return The singleton instance of GameFieldModel.
      */
     public static GameFieldModel getInstance(){
         if (instance ==null) instance = new GameFieldModel();
@@ -30,8 +30,8 @@ public class GameFieldModel extends ObservableModel {
     }
 
     /**
-     * updates the placement history with the provided new list
-     * @param placementHistory The new list of CardRepresentation objects
+     * Updates the placement history with the provided new list and notifies any registered observers that the data has changed.
+     * @param placementHistory The new list of CardRepresentation objects.
      */
     public void updatePlacementHistory(ArrayList<CardRepresentation> placementHistory) {
         this.placementHistory = placementHistory;
@@ -39,7 +39,7 @@ public class GameFieldModel extends ObservableModel {
     }
 
     /**
-     * triggers notification to registered observers without modifying the game field state
+     * Triggers notification to registered observers without modifying the game field state.
      */
     public void rollback(){
         notifyObservers();

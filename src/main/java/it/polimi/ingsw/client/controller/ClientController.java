@@ -23,9 +23,9 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * singleton pattern implementation to ensure only one instance of
-     * `ClientController` exists throughout the application
-     * @return The singleton instance
+     * Singleton pattern implementation to ensure only one instance of
+     * `ClientController` exists throughout the application.
+     * @return The singleton instance.
      */
     public static ClientController getInstance() {
         if (instance == null) {
@@ -46,9 +46,9 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * invokes `processMessage` method. This method is called whenever a message is received from the
+     * This method is called whenever a message is received from the
      * server. It delegates the message processing to the `ClientMessageHandler`.
-     * @param message message to process
+     * @param message message to process.
      */
     @Override
     public void processMessage(JSONObject message) {
@@ -57,7 +57,7 @@ public class ClientController implements ClientNetworkObserver {
 
 
     /**
-     * resets all the client models to their initial state.
+     * Resets all the client models to their initial state.
      */
     public void resetModels(){
         DeckModel.getInstance().clear();
@@ -71,7 +71,7 @@ public class ClientController implements ClientNetworkObserver {
 
 
     /**
-     * updates the client state to reflect the loss and displays a message. Called when a network connection loss is detected
+     * Updates the client state to reflect the loss and displays a message. Called when a network connection loss is detected.
      */
     @Override
     public void notifyConnectionLoss() {
@@ -81,8 +81,8 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server to set the player's username.
-     * @param username The username to be set for the player
+     * Sends a message to the server to set the player's username.
+     * @param username The username to be set for the player.
      */
     public void sendSetUsernameMessage(String username) {
         clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username));
@@ -90,7 +90,7 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server requesting a list of available games to join
+     * Sends a message to the server requesting a list of available games to join.
      */
     public void sendGetAvailableGamesMessage(){
         clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage());
@@ -98,8 +98,8 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server requesting to join a specific game
-     * @param gameName The name of the game to join
+     * Sends a message to the server requesting to join a specific game.
+     * @param gameName The name of the game to join.
      */
     public void sendJoinGameMessage(String gameName){
         clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));
@@ -107,14 +107,14 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server indicating the client intends to leave the current game session
+     * Sends a message to the server indicating the client intends to leave the current game session.
      */
     public void sendLeaveMessage(){
         clientConnectionManager.send(ClientMessageGenerator.generateLeaveMessage());
     }
 
     /**
-     * sends a message to the server requesting to set up a new game.
+     * Sends a message to the server requesting to set up a new game.
      * @param gameName The desired name for the new game.
      * @param numOfPlayers The desired number of players for the game.
      */
@@ -124,14 +124,14 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server indicating the client is ready to begin the game
+     * Sends a message to the server indicating the client is ready to begin the game.
      */
     public void sendReadyMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());
     }
 
     /**
-     * sends a message to the server informing the chosen side for a specific starter card identified by its ID.
+     * Sends a message to the server informing the chosen side for a specific starter card identified by its ID.
      * @param cardId The unique identifier of the starter card.
      * @param facingUp Whether the chosen side of the card is facing up.
      */
@@ -140,7 +140,7 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server indicating the chosen secret objective card identified by its ID
+     * Sends a message to the server indicating the chosen secret objective card identified by its ID.
      * @param cardId The unique identifier of the chosen secret objective card.
      */
     public void sendChosenSecretObjectiveMessage(int cardId) {
@@ -149,7 +149,7 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server requesting to place a card on the game board
+     * Sends a message to the server requesting to place a card on the game board.
      * @param cardId The unique identifier of the card to be placed.
      * @param x The X-coordinate of the desired placement location.
      * @param y The Y-coordinate of the desired placement location.
@@ -160,48 +160,48 @@ public class ClientController implements ClientNetworkObserver {
     }
 
     /**
-     * sends a message to the server requesting to draw a resource card directly from the resource deck.
+     * Sends a message to the server requesting to draw a resource card directly from the resource deck.
      */
     public void sendDirectDrawResourceCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage());
     }
 
     /**
-     * sends a message to the server requesting to draw a resource card from the left side of the resource deck.
+     * Sends a message to the server requesting to draw a resource card from the left revealed card of the resource deck.
      */
     public void sendDrawLeftResourceCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage());
     }
 
     /**
-     * sends a message to the server requesting to draw a resource card from the right side of the resource deck.
+     * Sends a message to the server requesting to draw a resource card from the right revealed card of the resource deck.
      */
     public void sendDrawRightResourceCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage());
     }
     /**
-     * sends a message to the server requesting to draw a gold card directly from the gold deck.
+     * Sends a message to the server requesting to draw a gold card directly from the gold deck.
      */
     public void sendDirectDrawGoldCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage());
     }
 
     /**
-     * sends a message to the server requesting to draw a gold card from the left side of the gold deck.
+     * Sends a message to the server requesting to draw a gold card from the left revealed card of the gold deck.
      */
     public void sendDrawLeftGoldCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage());
     }
 
     /**
-     * sends a message to the server requesting to draw a gold card from the right side of the gold deck.
+     * Sends a message to the server requesting to draw a gold card from the right revealed card of the gold deck.
      */
     public void sendDrawRightGoldCardMessage() {
         clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage());
     }
 
     /**
-     * shuts down the client application gracefully
+     * Shuts down the client application gracefully when the client is running the GUI.
      */
     public void shutdownForGUI() {
         clientConnectionManager.shutdown();
@@ -209,6 +209,9 @@ public class ClientController implements ClientNetworkObserver {
         System.exit(0);
     }
 
+    /**
+     * Shuts down the client application gracefully when the client is running the CLI.
+     */
     public void shutdownForCLI() {
         clientConnectionManager.shutdown();
         System.exit(0);

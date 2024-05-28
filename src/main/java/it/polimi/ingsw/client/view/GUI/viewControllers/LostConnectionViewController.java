@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
  * This class is the controller of the "Lost Connection With the Server" Scene.
  */
 public class LostConnectionViewController extends ViewController {
-
     /**
      * Closes the current window and shuts down the ClientController.
      */

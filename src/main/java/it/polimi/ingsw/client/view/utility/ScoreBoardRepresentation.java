@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.viewControllers.utility;
+package it.polimi.ingsw.client.view.utility;
 
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.ScoreBoardModel;
@@ -8,29 +8,24 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * This class manages the representation of the Scoreboard
+ * This class manages the representation of the Scoreboard.
  */
-
 public class ScoreBoardRepresentation {
 
-    private VBox scoreBoardVBox;
+    private final VBox scoreBoardVBox;
 
     /**
-     * Sets up the ScoreBoardRepresentation
-     * @param scoreBoardVBox the Pane in which the scoreboard will be shown
+     * Sets up the ScoreBoardRepresentation.
+     * @param scoreBoardVBox The Pane in which the scoreboard will be shown.
      */
-
     public ScoreBoardRepresentation(VBox scoreBoardVBox) {
         this.scoreBoardVBox = scoreBoardVBox;
-
     }
 
     /**
-     * Updates the scores from the PlayerModel
+     * Updates the scores from the PlayerModel.
      */
-
     public void updateScores() {
-
         scoreBoardVBox.getChildren().clear();
         String clientUsername = PlayerModel.getInstance().getUsername();
         int clientScore = ScoreBoardModel.getInstance().getScore().getOrDefault(clientUsername, 0);

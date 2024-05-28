@@ -11,14 +11,12 @@ public class SelectableCardsModel extends ObservableModel{
     private int[] selectableObjectiveCardsId;
 
     /**
-     * returns the singleton instance of SelectableCardsModel
-     * @return  The singleton instance of SelectableCardsModel
+     * Returns the singleton instance of SelectableCardsModel.
+     * @return  The singleton instance of SelectableCardsModel.
      */
     public static SelectableCardsModel getInstance(){
-
         if (instance ==null) instance = new SelectableCardsModel();
         return instance;
-
     }
 
     public int[] getSelectableObjectiveCardsId() {
@@ -31,7 +29,6 @@ public class SelectableCardsModel extends ObservableModel{
         notifyObservers();
     }
 
-
     public int getStarterCardId() {
         return starterCardId;
     }
@@ -39,7 +36,6 @@ public class SelectableCardsModel extends ObservableModel{
     /**
      * Resets the Selectable Cards Model.
      */
-
     public void clear(){
         this.starterCardId = 0;
         if (selectableObjectiveCardsId != null) {

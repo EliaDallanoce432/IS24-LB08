@@ -16,8 +16,8 @@ public abstract class ObservableModel {
     }
 
     /**
-     * registers an observer with this model. The observer will be notified whenever the model's data changes
-     * @param observer The ModelObserver to unregister
+     * Registers an observer with this model. The observer will be notified whenever the model's data changes.
+     * @param observer The ModelObserver to unregister.
      */
     public synchronized void addObserver(ModelObserver observer) {
         observers.add(observer);
@@ -28,11 +28,10 @@ public abstract class ObservableModel {
     }
 
     /**
-     * notifies all registered observers that the model's data has changed. This method iterates through the list of observers
+     * Notifies all registered observers that the model's data has changed. This method iterates through the list of observers.
      */
     protected void notifyObservers() {
         for (ModelObserver observer : observers) {
-            //System.out.println("Observer: " + observer);
             observer.update();
         }
     }

@@ -17,10 +17,8 @@ import org.json.simple.JSONObject;
  * This class is the controller of the Final leaderboard Scene.
  */
 public class LeaderboardViewController extends ViewController {
-
     @FXML
     VBox leaderboardVBox;
-
     @FXML
     Label leaderboardLabel;
 
@@ -39,37 +37,28 @@ public class LeaderboardViewController extends ViewController {
      * Loads the Main Menu Scene, sends a LeaveGame message and updates the ClientState.
      */
     @FXML
-    private void backToMainScreen(){
-
+    private void backToMainScreen() {
         StageManager.loadWelcomeScene();
         ClientController.getInstance().sendLeaveMessage();
         ClientController.getInstance().resetModels();
         ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
-
     }
 
     /**
      * Loads and shows in the GUI the updated Leaderboard from the ScoreBoard Model.
      */
     @Override
-    public void updateScoreBoard(){
-
+    public void updateScoreBoard() {
         Platform.runLater(()->{
-
             leaderboardVBox.getChildren().clear();
-
             int pos_index = 0;
-
             for(JSONObject obj : ScoreBoardModel.getInstance().getLeaderboard()){
                 Label scoreLabel = new Label();
                 scoreLabel.setText( positions[pos_index] + " - " + obj.get("username").toString() + ": " + obj.get("score").toString() + " Points (" + obj.get("solvedObjectives").toString() + " solved Objectives)" );
                 scoreLabel.setStyle("-fx-font-weight: bold");
                 scoreLabel.setFont(Font.font("Arial", 15));
                 leaderboardVBox.getChildren().add(scoreLabel);
-
-
                 if(obj.get("username").toString().equals(PlayerModel.getInstance().getUsername())){
-
                     if(pos_index == 0){
                         leaderboardLabel.setText("You Won!");
                     }
@@ -77,18 +66,16 @@ public class LeaderboardViewController extends ViewController {
                         leaderboardLabel.setText("You came in " + positions[pos_index] + " place!");
                     }
                 }
-
                 pos_index++;
             }
-
         });
-
-
     }
 
+    /**
+     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+     */
     @Override
-    public void updateSceneStatus(){
-
+    public void updateSceneStatus() {
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
@@ -96,6 +83,5 @@ public class LeaderboardViewController extends ViewController {
                 default -> {}
             }
         });
-
     }
 }

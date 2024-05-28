@@ -4,14 +4,13 @@ import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
@@ -28,25 +27,19 @@ public class ChooseCardsViewController extends ViewController {
     /**
      * Initializes the scene.
      */
-
     @FXML
     public void initialize() {
-
         showMessage("Waiting for all players to be ready...");
-
         Platform.runLater(this::updateSelectableCards);
     }
 
     /**
-     * Shows the starter card to be chosen by the player.
+     * Shows the starter card and possible secret objectives to be chosen by the player.
      */
     @Override
     public void updateSelectableCards() {
-
         Platform.runLater(()->{
-
             if(SelectableCardsModel.getInstance().getStarterCardId()!= 0) {
-
                 showMessage("Choose the starter card side:");
 
                 int starterCardId = SelectableCardsModel.getInstance().getStarterCardId();
@@ -74,13 +67,12 @@ public class ChooseCardsViewController extends ViewController {
                 cardBox.getChildren().addAll(faceUpCard, faceDownCard);
             }
         });
-
     }
 
     /**
      * Shows the objective cards to be chosen by the player.
      */
-    public void showObjectiveCards() {
+    private void showObjectiveCards() {
 
         showMessage("Choose an objective card:");
 
@@ -118,19 +110,16 @@ public class ChooseCardsViewController extends ViewController {
      * Shows a message in the alertLabel.
      * @param message message to be shown
      */
-
     @Override
     public void showMessage(String message){
-
-        Platform.runLater(()->{
-            alertLabel.setText(message);
-        });
-
+        Platform.runLater(()-> alertLabel.setText(message));
     }
 
+    /**
+     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+     */
     @Override
     public void updateSceneStatus(){
-
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
@@ -138,10 +127,5 @@ public class ChooseCardsViewController extends ViewController {
                 default -> {}
             }
         });
-
     }
-
-
-
-
 }

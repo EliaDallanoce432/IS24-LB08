@@ -13,11 +13,8 @@ import javafx.scene.control.Label;
  * This class is the controller of the "Join Game" scene.
  */
 public class JoinGameViewController extends ViewController {
-
-
     @FXML
     private Label alertLabel;
-
     @FXML
     private ComboBox<String> availableGamesComboBox;
     private String selectedGame;
@@ -27,11 +24,7 @@ public class JoinGameViewController extends ViewController {
      */
     @FXML
     public void initialize() {
-        availableGamesComboBox.setOnAction(event -> {
-            selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem();
-            //System.out.println("Selected game: " + selectedGame);
-        });
-
+        availableGamesComboBox.setOnAction(event -> selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem());
     }
 
     /**
@@ -47,7 +40,6 @@ public class JoinGameViewController extends ViewController {
      */
     @FXML
     private void okPressed() {
-
         if(selectedGame == null){
             alertLabel.setText("Please select a game first");
         }
@@ -77,9 +69,11 @@ public class JoinGameViewController extends ViewController {
         ClientController.getInstance().sendGetAvailableGamesMessage();
     }
 
+    /**
+     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+     */
     @Override
     public void updateSceneStatus(){
-
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
@@ -87,6 +81,5 @@ public class JoinGameViewController extends ViewController {
                 default -> {}
             }
         });
-
     }
 }

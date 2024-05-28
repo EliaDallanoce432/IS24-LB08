@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.CLI;
 
-import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.cli.TerminalInputReader;
 
 /**

@@ -9,20 +9,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
  * The StageManager class manages the current stage and view controller of the application.
- * It provides methods to load different scenes with specified backgrounds.
+ * It provides methods to load different scenes with different settings.
  */
 public class StageManager {
-
     private static Stage currentStage;
     private static ViewController currentViewController;
-
 
     public static void setCurrentStage(Stage currentStage) {
         StageManager.currentStage = currentStage;
@@ -32,7 +28,6 @@ public class StageManager {
         return currentStage;
     }
 
-
     public static ViewController getCurrentViewController() {
         return currentViewController;
     }
@@ -40,17 +35,16 @@ public class StageManager {
     /**
      * Sets a new instance of CLIViewController as currentViewController.
      */
-
     public static void enableCLIMode() {
         currentViewController = new CLIViewController();
     }
 
     /**
      * Loads an ImageView with the specified background image.
-     *
-     * @param path the path to the background image
-     * @return an ImageView containing the background image
+     * @param path The path to the background image.
+     * @return The ImageView containing the background image.
      */
+    @SuppressWarnings("all")
     private static ImageView loadBackground(String path) {
         Image backgroundImage = new Image(StageManager.class.getResourceAsStream(path));
         ImageView backgroundImageView = new ImageView(backgroundImage);
@@ -60,10 +54,9 @@ public class StageManager {
 
     /**
      * Creates a StackPane with an optional background image and loads the specified FXML.
-     *
-     * @param fxmlPath       the path to the FXML file to be loaded
-     * @param withBackground
-     * @return a StackPane containing the background image and loaded FXML content
+     * @param fxmlPath The path to the FXML file to be loaded.
+     * @param withBackground True if the background has to be loaded, False otherwise.
+     * @return The StackPane containing the background image and loaded FXML content.
      */
     private static StackPane createStackPane(String fxmlPath, boolean withBackground) {
         FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));
@@ -86,6 +79,9 @@ public class StageManager {
         return stackPane;
     }
 
+    /**
+     * Loads the main title scene.
+     */
     public static void loadTitleScreenScene() {
         StackPane stackPane = createStackPane("TitleScreenView.fxml", false);
         currentStage.setWidth(SCENE_WIDTH);
@@ -93,13 +89,15 @@ public class StageManager {
         showScene(new Scene(stackPane));
     }
 
+    /**
+     * Loads the scene for connecting to the server.
+     */
     public static void loadConnectToServerScene() {
         StackPane stackPane = createStackPane("ConnectToServerView.fxml", false);
         currentStage.setWidth(SCENE_WIDTH);
         currentStage.setHeight(SCENE_HEIGHT);
         showScene(new Scene(stackPane));
     }
-
 
     /**
      * Loads the GameBoard scene.
@@ -186,7 +184,6 @@ public class StageManager {
 
     /**
      * Shows the specified scene on the current stage.
-     *
      * @param scene the scene to be shown
      */
     private static void showScene(Scene scene) {

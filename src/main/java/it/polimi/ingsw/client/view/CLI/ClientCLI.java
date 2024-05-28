@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.StageManager;
 import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
-
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,11 +10,11 @@ import java.util.Scanner;
  * It handles user interactions, displays menus, and retrieves user input.
  */
 public class ClientCLI {
-    private static final ClientCLI instance = new ClientCLI();
+    private static ClientCLI instance;
     private final ClientTerminalInputReader clientTerminalInputReader;
     private final Thread clientTerminalInputThread;
 
-    public ClientCLI() {
+    private ClientCLI() {
         clientTerminalInputReader = new ClientTerminalInputReader();
         clientTerminalInputThread = new Thread(clientTerminalInputReader);
     }
@@ -26,10 +24,12 @@ public class ClientCLI {
      * @return The ClientCLI instance.
      */
     public static ClientCLI getInstance() {
+        if (instance == null) { instance = new ClientCLI(); }
         return instance;
     }
+
     /**
-     * Starts the CLI by prompting for server address and port
+     * Starts the CLI by prompting for server address and port.
      */
     public void start() {
         String address = getServerAddress();
@@ -73,7 +73,7 @@ public class ClientCLI {
     }
 
     /**
-     * Clears the console screen depending on the operating system (Windows or Unix-based).
+     * Clears the console screen.
      */
     public static void clearConsole() {
         System.out.print("\033[H\033[2J");
@@ -81,10 +81,10 @@ public class ClientCLI {
     }
 
     /**
-     * Shuts down the CLI by:
+     * Shuts down the client.
      */
     public void shutdown() {
         clientTerminalInputReader.shutdown();
-        ClientController.getInstance().shutdownForGUI();
+        ClientController.getInstance().shutdownForCLI();
     }
 }

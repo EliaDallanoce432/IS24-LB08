@@ -20,7 +20,6 @@ public class ObjectivesObserver implements ModelObserver{
         ObjectivesModel.getInstance().addObserver(this);
     }
 
-
     /**
      * This method is called when the observed object is changed. It triggers
      * the update of the GUI through the StageManager.

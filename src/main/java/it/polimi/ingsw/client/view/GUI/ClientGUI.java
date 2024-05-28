@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.observers.*;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.InputStream;
 
 /**
@@ -13,12 +12,9 @@ import java.io.InputStream;
  * initializing and managing the GUI for the client-side
  */
 public class ClientGUI extends Application {
-
-
     /**
      * Starts the JavaFX framework when the application begins. This method sets up the primary stage,
      * initializes all necessary observers, and loads the welcome scene.
-     *
      * @param primaryStage the primary stage of the application which will be used to display all the scenes of the GUI
      */
     @Override
@@ -41,5 +37,4 @@ public class ClientGUI extends Application {
         StageManager.loadTitleScreenScene();
         primaryStage.setTitle("Codex Naturalis");
     }
-
 }

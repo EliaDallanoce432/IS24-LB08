@@ -5,11 +5,10 @@ import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.GameFieldModel;
 import it.polimi.ingsw.client.model.HandModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import it.polimi.ingsw.util.cli.CommandParser;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -56,7 +55,7 @@ public class ClientTerminalParser implements CommandParser {
 
     /**
      * Sends an error message to the client when the received command is invalid.
-     * @param messageError message containing the reason of the failure.
+     * @param messageError Message containing the reason of the failure.
      */
     private void parseError(String messageError) {
         System.out.println("Unexpected arguments: " + messageError);
@@ -99,7 +98,7 @@ public class ClientTerminalParser implements CommandParser {
 
     /**
      * Parses the createGame command required by the client.
-     * @param tokens array of strings containing the parameters needed to execute the command.
+     * @param tokens Array of strings containing the parameters needed to execute the command.
      */
     private void createGame(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {
@@ -130,8 +129,7 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     /**
-     * Parses the getAvailableGames required by the client and shows him
-     * all the possible games he can join.
+     * Parses the getAvailableGames required by the client and shows him all the possible games he can join.
      */
     private void getAvailableGames () {
         if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE)
@@ -145,7 +143,7 @@ public class ClientTerminalParser implements CommandParser {
 
     /**
      * Parses the joinGame command required by the client.
-     * @param tokens array of strings containing the parameters needed to execute the command.
+     * @param tokens Array of strings containing the parameters needed to execute the command.
      */
     private void joinGame(String[] tokens) {
 
@@ -178,8 +176,8 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     /**
-     * Parses the selectStarterCardOrientation command required by the client
-     * @param tokens array of strings containing the parameters needed to execute the command.
+     * Parses the selectStarterCardOrientation command required by the client.
+     * @param tokens Array of strings containing the parameters needed to execute the command.
      */
     private void selectStarterCardOrientation(String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {
@@ -205,8 +203,8 @@ public class ClientTerminalParser implements CommandParser {
     }
 
     /**
-     * Parses the selectSecreteObjective command required by the client
-     * @param tokens array of strings containing the parameters needed to execute the command.
+     * Parses the selectSecreteObjective command required by the client.
+     * @param tokens Array of strings containing the parameters needed to execute the command.
      */
     private void selectSecretObjective (String[] tokens) {
         if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {

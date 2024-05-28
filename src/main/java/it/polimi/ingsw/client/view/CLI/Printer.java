@@ -1,23 +1,20 @@
 package it.polimi.ingsw.client.view.CLI;
 
 import it.polimi.ingsw.client.model.*;
-import it.polimi.ingsw.client.view.GUI.viewControllers.utility.CardRepresentation;
+import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import it.polimi.ingsw.server.model.card.GoldCard;
 import it.polimi.ingsw.server.model.card.ResourceCard;
-import it.polimi.ingsw.util.customexceptions.InvalidIdException;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;
 import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
-
 import java.io.InputStream;
 import java.util.*;
-
 import static it.polimi.ingsw.util.supportclasses.Constants.MENU_HEADER;
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
- *  This class provides a variety of methods for printing information to the console.
+ * This class provides a variety of methods for printing information to the console.
  */
 public class Printer {
 
@@ -58,68 +55,58 @@ public class Printer {
     }
 
     /**
-     *  Prints the help menu
+     * Prints the help menu.
      */
-    public static void printHelp()
-    {
-        Map<String, String> commands  = new HashMap<>();
+    public static void printHelp() {
         System.out.println("------------------------------------------------------------------------------------");
         System.out.printf("%55s",ConsoleColor.CYAN + "HELP" + ConsoleColor.RESET);
         System.out.println();
-        switch (ClientStateModel.getInstance().getClientState())
-        {
+        switch (ClientStateModel.getInstance().getClientState()) {
             case ClientState.LOBBY_STATE -> {
-                commands.put("setusername | su <username>", "Set your new username");
-                commands.put("availablegames | ag", "Shows the available games to join");
-                commands.put("join | j <gameName>", "Join a game");
-                commands.put("create | c <gameName> <players(2-4)>", "Create a game (2 to 4 players)");
+                System.out.println("setusername | su <username>          Set your new username");
+                System.out.println("availablegames | ag                  Shows the available games to join");
+                System.out.println("join | j <gameName>                  Join a game");
+                System.out.println("create | c <gameName> <players(2-4)> Create a game (2 to 4 players)");
             }
             case ClientState.GAME_SETUP_STATE -> {
-                commands.put("ready | r", "Type this when you are ready to play");
-                commands.put("availablegames | ag", "View all available games");
-                commands.put("startercard | sc <front/back>", "Choose the starter card side");
-                commands.put("secretobjective | so <cardId>", "Choose your secret objective");
-                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+                System.out.println("ready | r                            Type this when you are ready to play");
+                System.out.println("availablegames | ag                  View all available games");
+                System.out.println("startercard | sc <front/back>        Choose the starter card side");
+                System.out.println("secretobjective | so <cardId>        Choose your secret objective");
+                System.out.println("leave | l                            Leave the game, brings you back to the lobby");
             }
             case ClientState.DRAWING_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");
-                commands.put("draw | d <1-6>", "Draw a card using the index");
-                commands.put("objectives | obj", "Shows your current active objectives");
-                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+                System.out.println("info | i <cardId>                    View information of a card");
+                System.out.println("draw | d <1-6>                       Draw a card using the index");
+                System.out.println("objectives | obj                     Shows your current active objectives");
+                System.out.println("leave | l                            Leave the game, brings you back to the lobby");
             }
             case ClientState.PLACING_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");
-                commands.put("place | p <cardId> <front/back> <targetId> <position>", "Place a card in a specific position on the game field. The position argument can be 'topleft'/'tl' or 'toright'/'tr' or 'bottomleft'/'bl' or 'bottomright'/'br'");
-                commands.put("objectives | obj", "Shows your current active objectives");
-                commands.put("leave | l", "Leave the game, brings you back to the lobby");
-
+                System.out.println("info | i <cardId>                    View information of a card");
+                System.out.println("place | p <cardId> <front/back> <targetId> <position> Place a card in a specific position on the game field. The position argument can be 'topleft'/'tl' or 'topright'/'tr' or 'bottomleft'/'bl' or 'bottomright'/'br'");
+                System.out.println("objectives | obj                     Shows your current active objectives");
+                System.out.println("leave | l                            Leave the game, brings you back to the lobby");
             }
             case ClientState.NOT_PLAYING_STATE -> {
-                commands.put("info | i <cardId>", "View information of a card");
-                commands.put("objectives | obj", "Shows your current active objectives");
-                commands.put("leave | l", "Leave the game, brings you back to the lobby");
+                System.out.println("info | i <cardId>                    View information of a card");
+                System.out.println("objectives | obj                     Shows your current active objectives");
+                System.out.println("leave | l                            Leave the game, brings you back to the lobby");
             }
-            case ClientState.END_GAME_STATE -> {
-                commands.put("leave | l", "Leave the game, brings you back to the lobby");
-            }
+            case ClientState.END_GAME_STATE -> System.out.println("leave | l                            Leave the game, brings you back to the lobby");
             default -> {
-                commands.put("setusername | su <username>", "Set your new username");
-                commands.put("availablegames | ag", "Shows the available games to join");
-                commands.put("join | j <gameName>", "Join a game");
-                commands.put("create | c <gameName> <players(2-4)>", "Create a game (2 to 4 players)");
-                commands.put("info | i <cardId>", "View information of a card");
+                System.out.println("setusername | su <username>          Set your new username");
+                System.out.println("availablegames | ag                  Shows the available games to join");
+                System.out.println("join | j <gameName>                  Join a game");
+                System.out.println("create | c <gameName> <players(2-4)> Create a game (2 to 4 players)");
+                System.out.println("info | i <cardId>                    View information of a card");
             }
         }
-        commands.put("quit | q", "Exit from Codex");
-        for (Map.Entry<String, String> entry : commands.entrySet()) {
-            System.out.printf("%-50s %-20s", entry.getKey(), entry.getValue());
-            System.out.println();
-        }
+        System.out.println("quit | q                             Exit from Codex");
         System.out.println("------------------------------------------------------------------------------------");
     }
 
     /**
-     * Prints the available games
+     * Prints the available games.
      */
     public static void printAvailableGames() {
         AvailableGamesModel availableGamesModel = AvailableGamesModel.getInstance();
@@ -140,8 +127,7 @@ public class Printer {
     /**
      * Displays the main menu options along with their descriptions.
      */
-    public static void printMenu()
-    {
+    public static void printMenu() {
         Map<String, String> menuOptions = new HashMap<>();
         menuOptions.put("setusername | su <username>", "Set your username");
         menuOptions.put("join | j <gameName>", "Join to a game");
@@ -162,18 +148,16 @@ public class Printer {
      * @param facingUp True if the card is facing up, false otherwise.
      */
     public static void printCardInfo(int id, boolean facingUp) {
-
         CardPrinter cardPrinter = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);
         cardPrinter.loadCardRepresentation(id,facingUp);
         if (id < 87) {
             cardPrinter.printCard();
         }
-
     }
 
 
     /**
-     * Prints information about the top card and the two revealed cards from both the resource deck and the gold deck.
+     * Prints the top card and the two revealed cards from both the resource deck and the gold deck.
      */
     public static void printDeckInfo () {
         DeckModel deckModel = DeckModel.getInstance();
@@ -194,7 +178,7 @@ public class Printer {
     }
 
     /**
-     * Prints the IDs of the two common objective cards and the ID of the secrete one.
+     * Prints the IDs of the two common objective cards and the ID of the secret one and their description.
      */
     public static void printObjectives() {
         ObjectivesModel objectivesModel = ObjectivesModel.getInstance();
@@ -214,7 +198,7 @@ public class Printer {
     }
 
     /**
-     * Prints information about the game board.
+     * Prints the game board.
      */
     public static void printGameBoard(){
         ArrayList<CardRepresentation> placementHistory = GameFieldModel.getInstance().getPlacementHistory();
@@ -242,7 +226,6 @@ public class Printer {
             }
         }
 
-
         for(CardRepresentation cardRepresentation : placementHistory){
             int xCenter = Math.abs(negativeXBound);
             int yCenter = Math.abs(positiveYBound);
@@ -263,11 +246,8 @@ public class Printer {
         printMatrix(gameField);
     }
 
-
-
-
     /**
-     * Prints information about the cards hand.
+     * Prints the cards in the player's hand.
      */
     public static void printHand(){
         ArrayList<CardRepresentation> handArray = HandModel.getInstance().getCardsInHand();
@@ -353,13 +333,13 @@ public class Printer {
         ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();
         HashMap<String,Integer> scores = scoreBoardModel.getScore();
 
+        printMessage("ScoreBoard", ConsoleColor.YELLOW);
         for(String username : scores.keySet()){
 
             if (Objects.equals(PlayerModel.getInstance().getUsername(), username))
-                System.out.println("You: " + scores.get(username));
+                System.out.println("You: " + scores.get(username) + " points");
 
-            else System.out.println(username + ": " + scores.get(username));
-
+            else System.out.println(username + ": " + scores.get(username) + " points");
         }
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class represents an ObservableModel that keeps track of the scoreboard, resources and final leaderboard information in a game
+ * This class represents an ObservableModel that keeps track of the scores, resources and final leaderboard information in a game.
  */
 public class ScoreBoardModel extends ObservableModel{
 
@@ -30,10 +30,8 @@ public class ScoreBoardModel extends ObservableModel{
     }
 
     public static ScoreBoardModel getInstance(){
-
         if (instance ==null) instance = new ScoreBoardModel();
         return instance;
-
     }
 
     public void setMyScore(int score){
@@ -44,11 +42,19 @@ public class ScoreBoardModel extends ObservableModel{
         return leaderboard;
     }
 
+    /**
+     * Sets the leaderboard and notifies any registered observers that the data has changed.
+     * @param leaderboard The received leaderboard from the server.
+     */
     public void setLeaderboard(ArrayList<JSONObject> leaderboard){
         this.leaderboard = leaderboard;
         notifyObservers();
     }
 
+    /**
+     * Sets the players' scores and notifies any registered observers that the data has changed.
+     * @param scores The HashMap containing the scores for each player.
+     */
     public void setScores(HashMap<String, Integer> scores){
         this.scores = scores;
         notifyObservers();
@@ -62,9 +68,7 @@ public class ScoreBoardModel extends ObservableModel{
         this.tokens = tokens;
     }
 
-    public void setResources (int animalResourceCount, int insectResourceCount,
-                              int fungiResourceCount, int plantResourceCount, int featherCount,
-                              int scrollCount, int inkPotCount) {
+    public void setResources (int animalResourceCount, int insectResourceCount, int fungiResourceCount, int plantResourceCount, int featherCount, int scrollCount, int inkPotCount) {
         this.animalResourceCount = animalResourceCount;
         this.insectResourceCount = insectResourceCount;
         this.fungiResourceCount = fungiResourceCount;
@@ -108,6 +112,9 @@ public class ScoreBoardModel extends ObservableModel{
         else return tokens.get(username);
     }
 
+    /**
+     * Resets the ScoreBoardModel.
+     */
     public void clear(){
         insectResourceCount = 0;
         animalResourceCount = 0;
