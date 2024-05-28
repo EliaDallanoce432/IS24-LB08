@@ -6,7 +6,7 @@ public interface CommandParser {
 
     /**
      * Analyzes and processes the provided user command, extracting arguments and triggering appropriate methods.
-     * @param command command The user-entered command string
+     * @param command The command The user-entered command string.
      */
     void parse(String command);
 }

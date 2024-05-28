@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.NetworkInterface;
 import org.json.simple.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
-import static it.polimi.ingsw.util.supportclasses.PingerConstants.*;
+import static it.polimi.ingsw.util.supportclasses.Constants.*;
 
 /**
  * This class has the role to ping the other host to ensure the connection is still alive.

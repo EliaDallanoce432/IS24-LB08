@@ -1,7 +1,8 @@
 package it.polimi.ingsw.util.supportclasses;
 
-import java.awt.*;
-
+/**
+ * This class contains the possible token colors.
+ */
 public enum Token {
     red, yellow, blue, green, black;
 
@@ -16,6 +17,11 @@ public enum Token {
         };
     }
 
+    /**
+     * Converts a string to the corresponding token.
+     * @param color The string to convert.
+     * @return The token color
+     */
     public static Token parseToken(String color) {
         return switch (color) {
             case "red" -> red;
@@ -28,6 +34,10 @@ public enum Token {
         };
     }
 
+    /**
+     * Converts the token color to a Javafx compatible color
+     * @return The Javafx color.
+     */
     public javafx.scene.paint.Color toColor() {
         return switch (this){
             case red -> javafx.scene.paint.Color.RED;
@@ -35,7 +45,6 @@ public enum Token {
             case blue -> javafx.scene.paint.Color.BLUE;
             case green -> javafx.scene.paint.Color.GREEN;
             case black -> javafx.scene.paint.Color.BLACK;
-            default -> throw new IllegalStateException("Unexpected value: " + this);
         };
     }
 }

@@ -1,8 +1,16 @@
 package it.polimi.ingsw.util.supportclasses;
 
+/**
+ * This class contains the representation of the resources.
+ */
 public enum Resource {
     fungi, animal, plant, insect, scroll, inkPot, feather, none;
 
+    /**
+     * Converts a string to the corresponding resource.
+     * @param str The string to convert.
+     * @return The resource.
+     */
     public static Resource StringToResource(String str)
     {
         return switch (str) {
@@ -21,7 +29,6 @@ public enum Resource {
      * Converts the resource in the relative colored symbol representation for the CLI.
      * @return the symbol to be printed
      */
-
     public String toSymbol() {
         return switch (this) {
             case fungi -> ConsoleColor.RED +  "F" + ConsoleColor.RESET;
@@ -32,10 +39,13 @@ public enum Resource {
             case inkPot -> ConsoleColor.YELLOW  + "i" + ConsoleColor.RESET;
             case feather -> ConsoleColor.YELLOW  + "f" + ConsoleColor.RESET;
             case none -> " ";
-            default -> "";
         };
     }
 
+    /**
+     * Converts the resource in the relative color.
+     * @return The ANSI code of the corresponding color of the resource.
+     */
     public String toColor(){
         return switch (this) {
             case fungi -> ConsoleColor.RED;
@@ -43,7 +53,7 @@ public enum Resource {
             case plant -> ConsoleColor.GREEN;
             case insect -> ConsoleColor.PURPLE;
             case scroll, inkPot, feather -> ConsoleColor.YELLOW;
-            case none -> null;
+            case none -> ConsoleColor.RESET;
         };
     }
 

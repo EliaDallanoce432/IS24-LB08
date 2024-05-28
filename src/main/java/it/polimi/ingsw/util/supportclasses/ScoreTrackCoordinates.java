@@ -2,6 +2,9 @@ package it.polimi.ingsw.util.supportclasses;
 
 import java.util.HashMap;
 
+/**
+ * This class holds the score track coordinates for each point on the track.
+ */
 public class ScoreTrackCoordinates {
 
     static class Coordinate {

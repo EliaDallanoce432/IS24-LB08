@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.view;
 
 import it.polimi.ingsw.util.cli.CommandParser;
-import static it.polimi.ingsw.util.supportclasses.Constants.INVALID_ARGUMENT_COUNT_MESSAGE;
-import static it.polimi.ingsw.util.supportclasses.Constants.INVALID_ARGUMENT_TYPE_MESSAGE;
-
+import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 /**
  * This class parses the commands imparted to the server by the user through the terminal.
  */

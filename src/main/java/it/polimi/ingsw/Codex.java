@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.view.GUI.ClientGUI;
 import it.polimi.ingsw.server.lobby.Lobby;
 import javafx.application.Application;
 
+/**
+ * The main class with the entry point for the Codex Naturalis application.
+ */
 public class Codex {
 
     private Lobby lobby;

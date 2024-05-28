@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * This class represents a reader that is always ready to take inputs from the terminal
+ * This class represents a reader that is always ready to take inputs from the terminal.
  */
 public abstract class TerminalInputReader implements Runnable {
     protected CommandParser commandParser;
@@ -12,13 +12,13 @@ public abstract class TerminalInputReader implements Runnable {
     protected Scanner scanner = new Scanner(System.in);
 
     /**
-     * Reads input at next line
+     * Reads a new line from the input.
      */
     @Override
     public void run() {
         while (running) {
             try {
-                    commandParser.parse(scanner.nextLine());
+                commandParser.parse(scanner.nextLine());
             }
             catch (NoSuchElementException e) {
                 System.out.println("Error reading input. Please try again.");
@@ -27,7 +27,7 @@ public abstract class TerminalInputReader implements Runnable {
     }
 
     /**
-     * Terminates the TerminalInputReader execution
+     * Terminates the TerminalInputReader execution.
      */
     public void shutdown() {
         running = false;

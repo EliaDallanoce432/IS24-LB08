@@ -10,7 +10,6 @@ import it.polimi.ingsw.util.supportclasses.Resource;
 import org.json.simple.JSONObject;
 import java.io.InputStream;
 import java.util.*;
-import static it.polimi.ingsw.util.supportclasses.Constants.MENU_HEADER;
 import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
 
 /**
