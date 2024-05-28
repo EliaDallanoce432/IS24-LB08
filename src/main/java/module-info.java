@@ -1,3 +1,4 @@
+@SuppressWarnings("all")
 module LB08 {
     requires javafx.controls;
     requires javafx.fxml;
