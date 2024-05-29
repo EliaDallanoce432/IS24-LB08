@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -16,11 +17,16 @@
                <effect>
                   <InnerShadow />
                </effect></Button>
-                <Label fx:id="alertLabel" alignment="CENTER" layoutX="20.0" layoutY="142.0" prefHeight="117.0" prefWidth="561.0" text="One player has left or lost connection. The game was closed." textOverrun="CLIP">
+                <Label fx:id="alertLabel" alignment="CENTER" layoutX="20.0" prefHeight="117.0" prefWidth="561.0" text="One player has left or lost connection. The game was closed." textOverrun="CLIP">
                     <font>
                         <Font name="Baskerville Old Face" size="22.0" />
                     </font>
                 </Label>
+            <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="176.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../Images/sad_monk.png" />
+               </image>
+            </ImageView>
             </children>
         </Pane>
     </children>

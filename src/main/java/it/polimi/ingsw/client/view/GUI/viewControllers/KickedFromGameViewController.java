@@ -18,9 +18,8 @@ public class KickedFromGameViewController extends ViewController{
      */
     @FXML
     private void backToMainScreen(){
-        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);
         ClientController.getInstance().resetModels();
-        StageManager.loadWelcomeScene();
+        ClientController.getInstance().sendLeaveMessage();
     }
 
     /**
@@ -29,8 +28,9 @@ public class KickedFromGameViewController extends ViewController{
     @Override
     public void updateSceneStatus(){
         Platform.runLater(()->{
-            if (Objects.requireNonNull(ClientStateModel.getInstance().getClientState()) == ClientState.LOST_CONNECTION_STATE) {
-                StageManager.loadLostConnectionScene();
+            switch (ClientStateModel.getInstance().getClientState()){
+                case LOBBY_STATE -> StageManager.loadWelcomeScene();
+                case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
             }
         });
     }

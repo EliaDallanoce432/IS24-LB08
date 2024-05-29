@@ -116,7 +116,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             System.out.println("Player '" + client.getUsername() + "' left the game '" + gameName +"'");
         }
         lobby.enterLobby(client);
-        if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {
+        if(game.getGameState() == GameState.waitingForCardsSelection || game.getGameState() == GameState.playing || game.getGameState() == GameState.lastRound) {
             disconnectionDuringGameProcedure();
         }
         notifyConnectedClientCountChanged();
@@ -141,9 +141,7 @@ public class GameController implements Runnable, ServerNetworkObserver, GameObse
             System.out.println("Game '" + gameName + "' is closing");
         }
         broadcast(messageGenerator.closingGameMessage());
-        while (!clientHandlers.isEmpty()) {
-            leaveGame(clientHandlers.getFirst());
-        }
+
     }
 
     /**
