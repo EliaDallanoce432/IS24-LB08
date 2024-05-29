@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
 import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.ViewController;
 import it.polimi.ingsw.client.view.utility.CardRepresentation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

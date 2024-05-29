@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.CLI;
 import it.polimi.ingsw.client.model.ClientStateModel;
 import it.polimi.ingsw.client.model.PlayerModel;
 import it.polimi.ingsw.client.model.SelectableCardsModel;
-import it.polimi.ingsw.client.view.GUI.viewControllers.ViewController;
+import it.polimi.ingsw.client.view.ViewController;
 import it.polimi.ingsw.client.view.observers.*;
 import it.polimi.ingsw.util.supportclasses.ClientState;
 import it.polimi.ingsw.util.supportclasses.ConsoleColor;

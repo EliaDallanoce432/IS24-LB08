@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.GUI.viewControllers;
 
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.view.StageManager;
+import it.polimi.ingsw.client.view.ViewController;
 import javafx.fxml.FXML;
 
 /**

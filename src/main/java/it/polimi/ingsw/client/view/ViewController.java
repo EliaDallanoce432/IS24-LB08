@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.GUI.viewControllers;
+package it.polimi.ingsw.client.view;
 
 /**
  * This abstract class is the base for all the View Controllers. It contains all the main methods to update the UI
