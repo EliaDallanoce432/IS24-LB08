@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -16,7 +17,10 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
                 <Label fx:id="alertLabel" alignment="CENTER" layoutX="51.0" layoutY="14.0" prefHeight="79.0" prefWidth="498.0" text="Lost Connection With the Server.">
                     <font>
                         <Font name="Baskerville Old Face" size="30.0" />

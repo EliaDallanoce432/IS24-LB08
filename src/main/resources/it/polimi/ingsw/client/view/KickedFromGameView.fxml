@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -16,7 +17,10 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
                 <Label fx:id="alertLabel" alignment="CENTER" layoutX="20.0" prefHeight="117.0" prefWidth="561.0" text="One player has left or lost connection. The game was closed." textOverrun="CLIP">
                     <font>
                         <Font name="Baskerville Old Face" size="22.0" />

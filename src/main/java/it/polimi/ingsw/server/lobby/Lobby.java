@@ -261,8 +261,12 @@ public class Lobby implements ServerNetworkObserver {
      */
     public void shutdown() {
         running = false;
-        serverWelcomeSocket.shutdown();
-        executorService.shutdown();
+        if (serverWelcomeSocket != null) {
+            serverWelcomeSocket.shutdown();
+        }
+        if (executorService != null) {
+            executorService.shutdown();
+        }
         System.exit(0);
     }
 }

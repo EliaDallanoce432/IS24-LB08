@@ -74,7 +74,7 @@ public class ChooseCardsViewController extends ViewController {
      */
     private void showObjectiveCards() {
 
-        showMessage("Choose an objective card:");
+        showMessage("Choose your secret objective:");
 
         int[] ids = SelectableCardsModel.getInstance().getSelectableObjectiveCardsId();
 

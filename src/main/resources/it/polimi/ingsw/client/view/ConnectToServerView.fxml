@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -15,14 +16,20 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
                 <Button fx:id="exitButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Exit">
                <font>
                   <Font name="Baskerville Old Face" size="22.0" />
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <TextField fx:id="ipTextField" layoutX="34.0" layoutY="147.0" prefHeight="28.0" prefWidth="218.0" promptText="Leave blank for &quot;localhost&quot;" style="-fx-background-radius: 10;" />
             <Label layoutX="34.0" layoutY="113.0" prefHeight="25.0" prefWidth="218.0" text="Server Address:">
                <font>
@@ -44,7 +51,10 @@
                   <Font name="Baskerville Old Face" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="alertLabel" layoutX="281.0" layoutY="134.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+            <Label fx:id="alertLabel" alignment="CENTER" layoutX="312.0" layoutY="188.0" opacity="0.5" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: red; -fx-background-radius: 10;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font></Label>
             <Label layoutX="195.0" layoutY="36.0" text="Connect to server">
                <font>
                   <Font name="Baskerville Old Face" size="30.0" />

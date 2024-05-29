@@ -39,10 +39,13 @@
                <font>
                   <Font name="Baskerville Old Face" size="15.0" />
                </font></Label>
-            <ComboBox fx:id="availableGamesComboBox" layoutX="34.0" layoutY="188.0" onMouseClicked="#refresh" prefHeight="25.0" prefWidth="533.0" style="-fx-background-radius: 10; -fx-background-color: dbd3ad;">
+            <ComboBox fx:id="availableGamesComboBox" layoutX="34.0" layoutY="188.0" onMouseClicked="#refresh" prefHeight="25.0" prefWidth="533.0" style="-fx-background-radius: 10; -fx-background-color: dbd3ad;" visibleRowCount="100">
                <effect>
                   <InnerShadow />
-               </effect></ComboBox>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ComboBox>
             <Label layoutX="226.0" layoutY="36.0" text="Join a Game">
                <font>
                   <Font name="Baskerville Old Face" size="30.0" />

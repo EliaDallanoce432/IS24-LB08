@@ -43,6 +43,9 @@ public class ConnectToServerViewController extends ViewController {
         okButton.setOnMouseExited(mouseEvent -> okButton.setCursor(Cursor.DEFAULT));
         exitButton.setOnMouseEntered(mouseEvent -> exitButton.setCursor(Cursor.HAND));
         exitButton.setOnMouseExited(mouseEvent -> exitButton.setCursor(Cursor.DEFAULT));
+        ipTextField.setOnMouseClicked(mouseEvent -> alertLabel.setVisible(false));
+        portTextField.setOnMouseClicked(mouseEvent -> alertLabel.setVisible(false));
+        alertLabel.setVisible(false);
     }
 
     /**
@@ -90,6 +93,9 @@ public class ConnectToServerViewController extends ViewController {
      */
     @Override
     public void showErrorMessage(String errorMessage) {
-       Platform.runLater(()->alertLabel.setText(errorMessage));
+       Platform.runLater(()-> {
+           alertLabel.setText(errorMessage);
+           alertLabel.setVisible(true);
+       });
     }
 }

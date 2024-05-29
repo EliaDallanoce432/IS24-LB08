@@ -55,9 +55,10 @@ public class JoinGameViewController extends ViewController {
      */
     @Override
     public void updateAvailableGames(){
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             availableGamesComboBox.getItems().clear();
             availableGamesComboBox.getItems().addAll(AvailableGamesModel.getInstance().getGames());
+            availableGamesComboBox.setVisibleRowCount(Math.min(availableGamesComboBox.getItems().size(), 5));
         });
     }
 
@@ -67,6 +68,7 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void refresh(){
         ClientController.getInstance().sendGetAvailableGamesMessage();
+        Platform.runLater(() -> {alertLabel.setVisible(false);});
     }
 
     /**

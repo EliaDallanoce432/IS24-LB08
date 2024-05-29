@@ -9,14 +9,14 @@
     <children>
         <Pane layoutX="245.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: dbd3bc; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="readyButton" layoutX="496.0" layoutY="340.0" mnemonicParsing="false" onAction="#readyPressed" style="-fx-background-color: dbd3ad;" text="Ready">
+                <Button fx:id="readyButton" layoutX="496.0" layoutY="340.0" mnemonicParsing="false" onAction="#readyPressed" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Ready">
                <font>
                   <Font name="Baskerville Old Face" size="22.0" />
                </font>
                <effect>
                   <InnerShadow />
                </effect></Button>
-                <Button fx:id="backButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: dbd3ad;" text="Back">
+                <Button fx:id="backButton" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: dbd3ad; -fx-background-radius: 10;" text="Back">
                <font>
                   <Font name="Baskerville Old Face" size="22.0" />
                </font>
