@@ -43,7 +43,7 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void okPressed() {
         if(selectedGame == null){
-            alertLabel.setText("Please select a game first");
+            showErrorMessage("Please select a game first");
         }
         else {
             String gameName = selectedGame.substring(0,selectedGame.length()-8);
