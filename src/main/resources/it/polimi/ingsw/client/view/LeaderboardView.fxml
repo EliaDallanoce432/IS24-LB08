@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -15,7 +16,10 @@
                </font>
                <effect>
                   <InnerShadow />
-               </effect></Button>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Label fx:id="leaderboardLabel" alignment="CENTER" layoutX="49.0" layoutY="34.0" prefHeight="59.0" prefWidth="503.0">
                <font>
                   <Font name="Baskerville Old Face" size="30.0" />
