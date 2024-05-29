@@ -68,7 +68,7 @@ public class JoinGameViewController extends ViewController {
     @FXML
     private void refresh(){
         ClientController.getInstance().sendGetAvailableGamesMessage();
-        Platform.runLater(() -> {alertLabel.setVisible(false);});
+        Platform.runLater(() -> alertLabel.setVisible(false));
     }
 
     /**
