@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card.ObjectiveCardStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveStrategy (it.polimi.ingsw.server.model.card.ObjectiveCardStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveStrategy</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface contains the method that is going to be implemented for each single strategy
+&nbsp; * owned by every single objective card.
+&nbsp; */
+&nbsp;public interface ObjectiveStrategy {
+&nbsp;    /**
+&nbsp;     * Performs the calculation of the points received by fulfilling the objective.
+&nbsp;     * @param pointsOnTheCard Points given by the objective card.
+&nbsp;     * @param gamefield Reference to the game-field that is being analysed.
+&nbsp;     * @return The amount of calculated points on the specific game-field.
+&nbsp;     */
+&nbsp;    int calculatePoints(int pointsOnTheCard, GameField gamefield);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

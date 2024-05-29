@@ -1,0 +1,340 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (10/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.8%
+  </span>
+  <span class="absValue">
+    (24/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.card.*;
+&nbsp;import it.polimi.ingsw.util.customexceptions.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Token;
+&nbsp;import java.util.ArrayList;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.Constants.MAX_HAND_SIZE;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents a player participating in the game. It manages the player&#39;s state,
+&nbsp; *  including their assigned token color, score, hand of cards, starter card, secret objective,
+&nbsp; *  drawn objective card choices, and various flags indicating player actions.
+&nbsp; */
+&nbsp;public class Player {
+&nbsp;    private final Token token;
+&nbsp;    private int score;
+&nbsp;    private final Game game;
+&nbsp;    private final GameField gamefield;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; hand;
+&nbsp;    private StarterCard starterCard;
+&nbsp;    private ObjectiveCard secretObjective;
+&nbsp;    private ObjectiveCard[] drawnObjectiveCards;
+&nbsp;
+&nbsp;    private boolean isReady;
+&nbsp;    private boolean starterCardOrientationSelected;
+&nbsp;    private boolean alreadyPlaced;
+&nbsp;    private int numOfCompletedObjectiveCards;
+&nbsp;
+<b class="fc">&nbsp;    public Player(Game game) {</b>
+<b class="fc">&nbsp;        this.game = game;</b>
+<b class="fc">&nbsp;        this.token = game.getRandomToken();</b>
+<b class="fc">&nbsp;        this.score = 0;</b>
+<b class="fc">&nbsp;        this.gamefield = new GameField(this);</b>
+<b class="fc">&nbsp;        this.hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.starterCard = null;</b>
+<b class="fc">&nbsp;        this.secretObjective = null;</b>
+<b class="fc">&nbsp;        this.drawnObjectiveCards = new ObjectiveCard[2];</b>
+<b class="fc">&nbsp;        this.isReady = false;</b>
+<b class="fc">&nbsp;        this.starterCardOrientationSelected = false;</b>
+&nbsp;    }
+&nbsp;    //GETTERS and SETTERS
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getHand() {
+<b class="fc">&nbsp;        return hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean hasAlreadyPlaced() {
+<b class="nc">&nbsp;        return alreadyPlaced;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void clearTurnState() {
+<b class="nc">&nbsp;        alreadyPlaced = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public GameField getGamefield() {
+<b class="fc">&nbsp;        return gamefield;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public StarterCard getStarterCard() {
+<b class="nc">&nbsp;        return starterCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStarterCard(StarterCard starterCard) {
+<b class="nc">&nbsp;        this.starterCard = starterCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isStarterCardOrientationSelected() {
+<b class="nc">&nbsp;        return starterCardOrientationSelected;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Token getToken() {
+<b class="fc">&nbsp;        return token;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getScore() {
+<b class="fc">&nbsp;        return score;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ObjectiveCard[] getDrawnObjectiveCards() {
+<b class="nc">&nbsp;        return drawnObjectiveCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ObjectiveCard getSecretObjective() {
+<b class="nc">&nbsp;        return secretObjective;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public void setDrawnObjectiveCards(ObjectiveCard[] drawnObjectiveCards) {this.drawnObjectiveCards = drawnObjectiveCards;}</b>
+&nbsp;
+&nbsp;    public boolean isReady() {
+<b class="nc">&nbsp;        return isReady;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNumOfCompletedObjectiveCards() {
+<b class="nc">&nbsp;        return numOfCompletedObjectiveCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the player state to ready and notifies the GameObserver
+&nbsp;     * @param ready is the state of the player
+&nbsp;     */
+&nbsp;    public void setReady(boolean ready) {
+<b class="nc">&nbsp;        isReady = ready;</b>
+<b class="nc">&nbsp;        game.getGameObserver().notifyReady();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * sets the starter-card orientation chosen by the player and notifies the GameObserver
+&nbsp;     * @param starterCardOrientationSelected is the orientation selected by the player
+&nbsp;     */
+&nbsp;    public void setStarterCardOrientationSelected(boolean starterCardOrientationSelected) {
+<b class="nc">&nbsp;        this.starterCardOrientationSelected = starterCardOrientationSelected;</b>
+<b class="nc">&nbsp;        game.getGameObserver().notifyStarterCardAndSecretObjectiveSelected();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * adds to the player&#39;s hand the first 3 cards of his game
+&nbsp;     */
+&nbsp;    public void initializeHand() {
+<b class="nc">&nbsp;        hand.clear();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            addToHand((ResourceCard) game.getResourceCardDeck().directDraw());</b>
+<b class="nc">&nbsp;            addToHand((ResourceCard) game.getResourceCardDeck().directDraw());</b>
+<b class="nc">&nbsp;            addToHand((GoldCard) game.getGoldCardDeck().directDraw());</b>
+<b class="nc">&nbsp;        } catch (FullHandException | EmptyDeckException ignored) {</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * updates the player&#39;s score and notifies the GameObserver
+&nbsp;     * @param newScore is the player&#39;s updated score
+&nbsp;     */
+&nbsp;    public void setScore(int newScore) {
+<b class="fc">&nbsp;        this.score = newScore;</b>
+<b class="fc">&nbsp;        game.getGameObserver().notifyLastRound();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * calculates player&#39;s final score
+&nbsp;     * @param amount is the amount of points to be added
+&nbsp;     */
+&nbsp;    public void increaseScore(int amount) {
+<b class="nc">&nbsp;        setScore(getScore() + amount);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the secrete objective card chosen by the player
+&nbsp;     * @param objectiveCard chosen by the player at the beginning of the match
+&nbsp;     */
+&nbsp;    public void setSecretObjective(ObjectiveCard objectiveCard) {
+<b class="nc">&nbsp;        if(this.secretObjective != null) return;</b>
+<b class="nc">&nbsp;        this.secretObjective = objectiveCard;</b>
+<b class="nc">&nbsp;        game.getGameObserver().notifyStarterCardAndSecretObjectiveSelected();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * adds the drawn card to the player&#39;s hand
+&nbsp;     * @param card card to be added
+&nbsp;     */
+&nbsp;    public void addToHand(PlaceableCard card) throws FullHandException {
+<b class="fc">&nbsp;        if (this.hand.size() &gt;= MAX_HAND_SIZE) throw new FullHandException();</b>
+<b class="fc">&nbsp;        hand.add(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * removes the card from the player&#39;s hand
+&nbsp;     * @param card card to be taken
+&nbsp;     * @return placeable card deleted
+&nbsp;     */
+&nbsp;    public PlaceableCard removeFromHand(PlaceableCard card) throws CardNotInHandException {
+<b class="fc">&nbsp;        if(!hand.remove(card)) throw new CardNotInHandException();</b>
+<b class="fc">&nbsp;        return card;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * invokes the place method for the starter card in the player&#39;s game-field
+&nbsp;     * @param card is the starter card the player owns
+&nbsp;     * @param facingUp is the orientation of the starter card
+&nbsp;     */
+&nbsp;    public void place(StarterCard card, boolean facingUp){
+<b class="fc">&nbsp;        gamefield.place(card, facingUp);</b>
+<b class="fc">&nbsp;        alreadyPlaced = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * invokes the place method for a generic placeable card in the player&#39;s game-field
+&nbsp;     * @param id that identifies the card
+&nbsp;     * @param facingUp is the card&#39;s orientation
+&nbsp;     * @param x horizontal coordinate
+&nbsp;     * @param y vertical coordinate
+&nbsp;     * @throws CannotPlaceCardException thrown when the player executes an illegal placement
+&nbsp;     * @throws CardNotInHandException thrown when the card isn&#39;t owned by the player
+&nbsp;     */
+&nbsp;    public void place(int id, boolean facingUp, int x, int y) throws CannotPlaceCardException, CardNotInHandException {
+<b class="nc">&nbsp;        if (hasAlreadyPlaced()) throw new CannotPlaceCardException(&quot;You have already placed!&quot;);</b>
+<b class="nc">&nbsp;        PlaceableCard cardInHand = null;</b>
+<b class="nc">&nbsp;        for (PlaceableCard placeableCard : hand) {</b>
+<b class="nc">&nbsp;            if (placeableCard.getId() == id) {</b>
+<b class="nc">&nbsp;                cardInHand = placeableCard;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(cardInHand == null) throw new CardNotInHandException();</b>
+<b class="nc">&nbsp;        gamefield.place(cardInHand,facingUp,x,y);</b>
+<b class="nc">&nbsp;        removeFromHand(cardInHand);</b>
+<b class="nc">&nbsp;        alreadyPlaced = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * calculates the points given by the secrete objective card and the 2 common objective
+&nbsp;     */
+&nbsp;    public void calculateFinalScore() {
+<b class="nc">&nbsp;        increaseScore(secretObjective.getEarnedPoints(getGamefield()));</b>
+<b class="nc">&nbsp;        increaseScore(game.getCommonObjectives().get(0).getEarnedPoints(getGamefield()));</b>
+<b class="nc">&nbsp;        increaseScore(game.getCommonObjectives().get(1).getEarnedPoints(getGamefield()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * increases the number of completed objective cards
+&nbsp;     */
+&nbsp;    public void increaseNumOfCompletedObjective () {
+<b class="fc">&nbsp;        this.numOfCompletedObjectiveCards ++;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * compares a player&#39;s attribute with another player
+&nbsp;     * @param other other player in the comparison
+&nbsp;     * @return the result of the comparison
+&nbsp;     */
+&nbsp;    public int compareTo (Player other){
+<b class="nc">&nbsp;        if (this.getScore() &gt; other.getScore()) return -1;</b>
+<b class="nc">&nbsp;        else if (this.getScore() &lt; other.getScore()) return 1;</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            if(this.getNumOfCompletedObjectiveCards() &gt; other.getNumOfCompletedObjectiveCards()) return -1;</b>
+<b class="nc">&nbsp;            else if (this.getNumOfCompletedObjectiveCards() &lt; other.getNumOfCompletedObjectiveCards()) return 1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

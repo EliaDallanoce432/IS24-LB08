@@ -1,0 +1,365 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ServerMessageGenerator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerMessageGenerator (it.polimi.ingsw.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerMessageGenerator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.2%
+  </span>
+  <span class="absValue">
+    (1/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.5%
+  </span>
+  <span class="absValue">
+    (2/134)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.ClientHandler;
+&nbsp;import it.polimi.ingsw.server.model.Game;
+&nbsp;import it.polimi.ingsw.server.model.Player;
+&nbsp;import it.polimi.ingsw.server.model.card.*;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for generating JSON messages that are sent to clients throughout the game.
+&nbsp; * These messages inform players about game state, their hand and deck information, and other relevant game events.
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;all&quot;)
+&nbsp;public class ServerMessageGenerator {
+&nbsp;
+&nbsp;    private final Game game;
+&nbsp;
+<b class="fc">&nbsp;    public ServerMessageGenerator(Game game) {</b>
+<b class="fc">&nbsp;        this.game = game;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent to each player before the beginning of the match so that they can select the starter card orientation and their
+&nbsp;     * secrete objective.
+&nbsp;     * @param starterCard The given to the player.
+&nbsp;     * @param objectiveCard1 The first objective card that can be selected.
+&nbsp;     * @param objectiveCard2 The second objective card that can be selected.
+&nbsp;     * @return The message containing these three cards.
+&nbsp;     */
+&nbsp;    public JSONObject cardsSelectionMessage (StarterCard starterCard, ObjectiveCard objectiveCard1, ObjectiveCard objectiveCard2) {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;message&quot;, &quot;cardsSelection&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;starterCardID&quot;, String.valueOf(starterCard.getId()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;objectiveCardID1&quot;, String.valueOf(objectiveCard1.getId()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;objectiveCardID2&quot;, String.valueOf(objectiveCard2.getId()));</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent to each player at the beginning of the match.
+&nbsp;     * @param gameController The game controller of the current match.
+&nbsp;     * @param player The player who is playing the current match.
+&nbsp;     * @return The message containing all the necessary information the player needs to start the match.
+&nbsp;     */
+&nbsp;    public JSONObject startGameMessage (GameController gameController, Player player) {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;,&quot;startGame&quot;);</b>
+<b class="nc">&nbsp;        message.put(&quot;hand&quot;, updatedHand(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;decks&quot;, updatedDecks());</b>
+<b class="nc">&nbsp;        message.put(&quot;placementHistory&quot;, updatedPlacementHistory(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;resources&quot;, updatedResources(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;secretObjectiveID&quot;, String.valueOf(player.getSecretObjective().getId()));</b>
+<b class="nc">&nbsp;        message.put(&quot;token&quot;, player.getToken().toString());</b>
+<b class="nc">&nbsp;        message.put(&quot;commonObjective1&quot;, String.valueOf(game.getCommonObjectives().getFirst().getId()));</b>
+<b class="nc">&nbsp;        message.put(&quot;commonObjective2&quot;, String.valueOf(game.getCommonObjectives().getLast().getId()));</b>
+<b class="nc">&nbsp;        message.put(&quot;firstPlayer&quot;, gameController.getTurnPlayerUsername());</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message sends to a player his updated hand.
+&nbsp;     * @param player The player with the updated hand.
+&nbsp;     * @return The message containing the updated hand.
+&nbsp;     */
+&nbsp;    public JSONObject updatedHandMessage(Player player) {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;, &quot;updatedHand&quot;);</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedHand&quot;, updatedHand(player));</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent to notify the beginning of a player&#39;s turn.
+&nbsp;     * @param gameController The game controller is used to get the player&#39;s name.
+&nbsp;     * @return The message showing which player is about to play and his name.
+&nbsp;     */
+&nbsp;    public JSONObject turnPlayerUpdateMessage(GameController gameController) {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;message&quot;, &quot;turnPlayerUpdate&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;player&quot;,  gameController.getTurnPlayerUsername());</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent to players in order to update the decks after each draw.
+&nbsp;     * @return The message containing updated information about the decks.
+&nbsp;     */
+&nbsp;    public JSONObject updatedDecksMessage() {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;, &quot;updatedDecks&quot;);</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedDecks&quot;, updatedDecks());</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent when the player executes a successful placement.
+&nbsp;     * @param player The player who places the card.
+&nbsp;     * @return The message containing updated information (score, his hand, resources on the game-field).
+&nbsp;     */
+&nbsp;    public JSONObject successfulPlaceMessage(Player player) {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;,&quot;successfulPlace&quot;);</b>
+<b class="nc">&nbsp;        message.put(&quot;placementHistory&quot;, updatedPlacementHistory(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedHand&quot; , updatedHand(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedResources&quot;, updatedResources(player));</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedScore&quot;, String.valueOf(player.getScore()));</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent when a player cannot place a card for a particular reason.
+&nbsp;     * @param reason The reason that explains why the placement is incorrect.
+&nbsp;     * @return The message to the player.
+&nbsp;     */
+&nbsp;    public JSONObject cannotPlaceMessage(String reason) {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;message&quot;, &quot;cannotPlace&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;reason&quot;,  reason);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message is sent to notify players&#39; updated scores after each turn.
+&nbsp;     * @param gameController The game controller of the current game.
+&nbsp;     * @return The message containing all the players&#39; scores.
+&nbsp;     */
+&nbsp;    public JSONObject updatedScoresMessage (GameController gameController) {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;,&quot;updatedScores&quot;);</b>
+<b class="nc">&nbsp;        JSONArray scores = new JSONArray();</b>
+<b class="nc">&nbsp;        for(ClientHandler clientHandler: gameController.getClientHandlers()) {</b>
+<b class="nc">&nbsp;            JSONObject client = new JSONObject();</b>
+<b class="nc">&nbsp;            client.put(&quot;username&quot;, clientHandler.getUsername());</b>
+<b class="nc">&nbsp;            client.put(&quot;score&quot;, String.valueOf(gameController.getCurrentPlayer(clientHandler).getScore()));</b>
+<b class="nc">&nbsp;            client.put(&quot;token&quot;, String.valueOf(gameController.getCurrentPlayer(clientHandler).getToken()));</b>
+<b class="nc">&nbsp;            scores.add(client);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        message.put(&quot;updatedScores&quot;, scores);</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message informs the players that they&#39;re playing the last round.
+&nbsp;     * @param reason The reason that explains what triggered the last round.
+&nbsp;     * @return Rhe message that informs the players.
+&nbsp;     */
+&nbsp;    public JSONObject lastRoundMessage(String reason) {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;message&quot;, &quot;lastRound&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;reason&quot;,  reason);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This message sends to the players their final scores when the game is ended.
+&nbsp;     * @return The final scores.
+&nbsp;     */
+&nbsp;    public JSONObject leaderBoardMessage (GameController gameController, ArrayList&lt;ClientHandler&gt; clientHandlers) {
+<b class="nc">&nbsp;        JSONObject message = new JSONObject();</b>
+<b class="nc">&nbsp;        message.put(&quot;message&quot;, &quot;leaderBoard&quot;);</b>
+<b class="nc">&nbsp;        if(!clientHandlers.isEmpty()) {</b>
+<b class="nc">&nbsp;            Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;username&quot;,clientHandlers.getFirst().getUsername());</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;score&quot;, String.valueOf( gameController.getCurrentPlayer(clientHandlers.getFirst()).getScore()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;solvedObjectives&quot; , String.valueOf(gameController.getCurrentPlayer(clientHandlers.getFirst()).getNumOfCompletedObjectiveCards()));</b>
+<b class="nc">&nbsp;            JSONObject player = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;            message.put(&quot;first&quot;, player);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else message.put(&quot;first&quot;, null);</b>
+<b class="nc">&nbsp;        if(clientHandlers.size()&gt;= 2) {</b>
+<b class="nc">&nbsp;            Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;username&quot;,clientHandlers.get(1).getUsername());</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;score&quot;, String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(1)).getScore()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;solvedObjectives&quot; , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(1)).getNumOfCompletedObjectiveCards()));</b>
+<b class="nc">&nbsp;            JSONObject player = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;            message.put(&quot;second&quot;, player);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else message.put(&quot;second&quot;, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(clientHandlers.size()&gt;= 3) {</b>
+<b class="nc">&nbsp;            Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;username&quot;,clientHandlers.get(2).getUsername());</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;score&quot;, String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(2)).getScore()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;solvedObjectives&quot; , String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(2)).getNumOfCompletedObjectiveCards()));</b>
+<b class="nc">&nbsp;            JSONObject player = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;            message.put(&quot;third&quot;, player);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else message.put(&quot;third&quot;, null);</b>
+<b class="nc">&nbsp;        if(clientHandlers.size()&gt;= 4) {</b>
+<b class="nc">&nbsp;            Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;username&quot;, clientHandlers.get(3).getUsername());</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;score&quot;,  String.valueOf( gameController.getCurrentPlayer(clientHandlers.get(3)).getScore()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;solvedObjectives&quot;, String.valueOf(gameController.getCurrentPlayer(clientHandlers.get(3)).getNumOfCompletedObjectiveCards()));</b>
+<b class="nc">&nbsp;            JSONObject player = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;            message.put(&quot;fourth&quot;, player);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else message.put(&quot;fourth&quot;, null);</b>
+<b class="nc">&nbsp;        return message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Message sent when a client loses connection to inform the other clients that the game is getting cancelled
+&nbsp;     * @return The message
+&nbsp;     */
+&nbsp;    public JSONObject closingGameMessage () {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;message&quot;, &quot;closingGame&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private JSONArray updatedPlacementHistory(Player player) {
+<b class="nc">&nbsp;        JSONArray placementHistory = new JSONArray();</b>
+<b class="nc">&nbsp;        for(PlaceableCard placeableCard : player.getGamefield().getPlacementHistory()) {</b>
+<b class="nc">&nbsp;            Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;cardID&quot;, String.valueOf(placeableCard.getId()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;facingUp&quot;, String.valueOf(placeableCard.isFacingUp()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;x&quot;, String.valueOf(placeableCard.getX()));</b>
+<b class="nc">&nbsp;            jsonMap.put(&quot;y&quot;, String.valueOf(placeableCard.getY()));</b>
+<b class="nc">&nbsp;            JSONObject card = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;            placementHistory.add(card);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return placementHistory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private JSONArray updatedHand(Player player) {
+<b class="nc">&nbsp;        JSONArray handArray = new JSONArray();</b>
+<b class="nc">&nbsp;        for(PlaceableCard cardInHand : player.getHand()){</b>
+<b class="nc">&nbsp;            handArray.add(String.valueOf(cardInHand.getId()));</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return handArray;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private JSONObject updatedDecks() {
+<b class="nc">&nbsp;        Map&lt;String,String&gt; decks = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        decks.put(&quot;topDeckResourceCardID&quot;, String.valueOf(game.getResourceCardDeck().getTopCardID()));</b>
+<b class="nc">&nbsp;        decks.put(&quot;leftRevealedResourceCardID&quot;, String.valueOf(game.getResourceCardDeck().getLeftRevealedCardID()));</b>
+<b class="nc">&nbsp;        decks.put(&quot;rightRevealedResourceCardID&quot;, String.valueOf(game.getResourceCardDeck().getRightRevealedCardID()));</b>
+<b class="nc">&nbsp;        decks.put(&quot;topDeckGoldCardID&quot;, String.valueOf(game.getGoldCardDeck().getTopCardID()));</b>
+<b class="nc">&nbsp;        decks.put(&quot;leftRevealedGoldCardID&quot;, String.valueOf(game.getGoldCardDeck().getLeftRevealedCardID()));</b>
+<b class="nc">&nbsp;        decks.put(&quot;rightRevealedGoldCardID&quot;, String.valueOf(game.getGoldCardDeck().getRightRevealedCardID()));</b>
+<b class="nc">&nbsp;        return new JSONObject(decks);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private JSONObject updatedResources(Player player) {
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap= new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        jsonMap.put(&quot;fungiResources&quot;, String.valueOf(player.getGamefield().getFungiCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;plantResources&quot;, String.valueOf(player.getGamefield().getPlantCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;animalResources&quot;, String.valueOf(player.getGamefield().getAnimalCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;insectResources&quot;, String.valueOf(player.getGamefield().getInsectCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;featherCount&quot;, String.valueOf(player.getGamefield().getFeatherCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;scrollCount&quot;, String.valueOf(player.getGamefield().getScrollCount()));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;inkPotCount&quot;, String.valueOf(player.getGamefield().getInkPotCount()));</b>
+&nbsp;
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

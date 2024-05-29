@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientNetworkObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientNetworkObserver (it.polimi.ingsw.network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ClientNetworkObserver</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network;
+&nbsp;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface has the functionalities of the client seen from the network perspective.
+&nbsp; */
+&nbsp;public interface ClientNetworkObserver {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies the client network observer that the connection with the remote host is lost.
+&nbsp;     */
+&nbsp;    void notifyConnectionLoss();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Feeds the incoming message to the client in order to be processed.
+&nbsp;     * @param message The message to process.
+&nbsp;     */
+&nbsp;    void processMessage(JSONObject message);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

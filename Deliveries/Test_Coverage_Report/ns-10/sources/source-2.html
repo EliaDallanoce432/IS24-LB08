@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Corner</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card</a>
+</div>
+
+<h1>Coverage Summary for Class: Corner (it.polimi.ingsw.server.model.card)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Corner</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card;
+&nbsp;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents a Corner on the card.
+&nbsp; */
+&nbsp;public class Corner {
+&nbsp;    protected Resource resource; //resource present in the corner
+&nbsp;    protected boolean visible; //true if the corner is visible
+&nbsp;    protected boolean attached; //true if it&#39;s connected to another corner
+&nbsp;    protected boolean attachable; //true if corner is present on the card for connection of other cards on top of it
+&nbsp;    protected PlaceableCard parentCard; //card owning the corner
+&nbsp;
+<b class="fc">&nbsp;    public Corner(Resource resource, boolean attachable, PlaceableCard card) {</b>
+<b class="fc">&nbsp;        this.resource = resource;</b>
+<b class="fc">&nbsp;        this.attachable = attachable;</b>
+<b class="fc">&nbsp;        this.parentCard = card;</b>
+<b class="fc">&nbsp;        attached = false;</b>
+<b class="fc">&nbsp;        visible = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @SuppressWarnings(&quot;all&quot;)
+&nbsp;    public boolean equals(Object obj) {
+<b class="fc">&nbsp;        if(!(obj instanceof Corner other)) {return false;}</b>
+<b class="fc">&nbsp;        else if (this.resource != other.resource) return false;</b>
+<b class="fc">&nbsp;        else if (this.attached != other.attached) return false;</b>
+<b class="fc">&nbsp;        else if (this.attachable != other.attachable) return false;</b>
+<b class="fc">&nbsp;        else if (this.visible != other.visible) return false;</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Resource getResource() {
+<b class="fc">&nbsp;        if(this.isAttachable()) return resource;</b>
+<b class="fc">&nbsp;        else return Resource.none;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVisible(boolean visible) {
+<b class="fc">&nbsp;        this.visible = visible;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isVisible() {
+<b class="fc">&nbsp;        return visible;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isAttachable() {
+<b class="fc">&nbsp;        return attachable;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isAttached() {
+<b class="fc">&nbsp;        return attached;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAttached(boolean attached) {
+<b class="fc">&nbsp;        this.attached = attached;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

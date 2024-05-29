@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > LobbyRequestHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.lobby</a>
+</div>
+
+<h1>Coverage Summary for Class: LobbyRequestHandler (it.polimi.ingsw.server.lobby)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LobbyRequestHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.lobby;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.ClientHandler;
+&nbsp;import it.polimi.ingsw.util.customexceptions.AlreadyTakenUsernameException;
+&nbsp;import it.polimi.ingsw.util.customexceptions.CannotCreateGameException;
+&nbsp;import it.polimi.ingsw.util.customexceptions.GameIsFullException;
+&nbsp;import it.polimi.ingsw.util.customexceptions.NonExistentGameException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Request;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents the request parser of the exchanged messages.
+&nbsp; */
+&nbsp;public class LobbyRequestHandler {
+&nbsp;    private final Lobby lobby;
+&nbsp;
+<b class="nc">&nbsp;    public LobbyRequestHandler(Lobby lobby) {</b>
+<b class="nc">&nbsp;        this.lobby = lobby;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Handles the incoming request from a client
+&nbsp;     * @param request request to be processed
+&nbsp;     */
+&nbsp;    public void execute(Request request) {
+<b class="nc">&nbsp;        JSONObject message = request.message();</b>
+<b class="nc">&nbsp;        ClientHandler clientHandler = request.client();</b>
+<b class="nc">&nbsp;        switch (message.get(&quot;command&quot;).toString()) {</b>
+<b class="nc">&nbsp;            case &quot;setUsername&quot; -&gt; setUsername(lobby, message, clientHandler);</b>
+<b class="nc">&nbsp;            case &quot;getAvailableGames&quot; -&gt; getAvailableGames(lobby,clientHandler);</b>
+<b class="nc">&nbsp;            case &quot;setUp&quot; -&gt; setUpGame(lobby,message,clientHandler);</b>
+<b class="nc">&nbsp;            case &quot;join&quot; -&gt; joinGame(lobby,message,clientHandler);</b>
+<b class="nc">&nbsp;            case &quot;leave&quot;, &quot;connectionLost&quot; -&gt; leaveLobby(lobby,clientHandler);</b>
+&nbsp;            default -&gt; {
+&nbsp;                //do nothing (request discarded)
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the logic for setting a username for a client.
+&nbsp;     * @param lobby lobby reference
+&nbsp;     * @param message json object message
+&nbsp;     * @param clientHandler client handler of client
+&nbsp;     */
+&nbsp;    private void setUsername(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+&nbsp;        try {
+<b class="nc">&nbsp;            lobby.setUsername(message.get(&quot;username&quot;).toString(),clientHandler);</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.usernameSetMessage(clientHandler.getUsername()));</b>
+<b class="nc">&nbsp;        } catch (AlreadyTakenUsernameException e) {</b>
+<b class="nc">&nbsp;             clientHandler.send(LobbyMessageGenerator.usernameAlreadyTakenMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * retrieves a list of available games from the lobby and sends them to the requesting client
+&nbsp;     * @param lobby lobby reference
+&nbsp;     * @param clientHandler client handler of client
+&nbsp;     */
+&nbsp;    private void getAvailableGames(Lobby lobby, ClientHandler clientHandler) {
+<b class="nc">&nbsp;        clientHandler.send(LobbyMessageGenerator.getAvailableGamesMessage(lobby.getAvailableGames()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * processes a request to create a new game
+&nbsp;     * @param lobby lobby reference
+&nbsp;     * @param message json object message
+&nbsp;     * @param clientHandler client handler of client
+&nbsp;     */
+&nbsp;    private void setUpGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+<b class="nc">&nbsp;        int numberOfPlayers = Integer.parseInt(message.get(&quot;numOfPlayers&quot;).toString());</b>
+<b class="nc">&nbsp;        String gameName = message.get(&quot;gameName&quot;).toString();</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            lobby.setupNewGame(numberOfPlayers,gameName,clientHandler);</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.createdGameMessage());</b>
+<b class="nc">&nbsp;        } catch (CannotCreateGameException e) {</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.cannotCreateGameMessage(e.getMessage()));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * handles a client&#39;s request to join a game
+&nbsp;     * @param lobby lobby reference
+&nbsp;     * @param message json object message
+&nbsp;     * @param clientHandler client handler of client
+&nbsp;     */
+&nbsp;    private void joinGame(Lobby lobby, JSONObject message, ClientHandler clientHandler) {
+<b class="nc">&nbsp;        String gameName = message.get(&quot;gameName&quot;).toString();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            lobby.joinGame(clientHandler,gameName);</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.joinGameMessage(gameName));</b>
+<b class="nc">&nbsp;        } catch (NonExistentGameException e) {</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.gameDoesNotExistMessage());</b>
+<b class="nc">&nbsp;        } catch (GameIsFullException e) {</b>
+<b class="nc">&nbsp;            clientHandler.send(LobbyMessageGenerator.gameIsFullMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * removes a client from the lobby when they choose to leave
+&nbsp;     * @param lobby lobby reference
+&nbsp;     * @param clientHandler client handler of client
+&nbsp;     */
+&nbsp;    private void leaveLobby(Lobby lobby, ClientHandler clientHandler) {
+<b class="nc">&nbsp;        lobby.leaveLobby(clientHandler);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,323 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientController (it.polimi.ingsw.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.*;
+&nbsp;import it.polimi.ingsw.network.ClientConnectionManager;
+&nbsp;import it.polimi.ingsw.network.ClientNetworkObserver;
+&nbsp;import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import javafx.application.Platform;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class acts as the central controller for the client-side application of the Codex game.
+&nbsp; */
+&nbsp;public class ClientController implements ClientNetworkObserver {
+&nbsp;
+&nbsp;    private final ClientConnectionManager clientConnectionManager;
+&nbsp;    private final ClientMessageHandler clientMessageHandler;
+&nbsp;    private static ClientController instance;
+&nbsp;
+&nbsp;    public static ClientController getInstance(String serverAddress, int serverPort) throws ServerUnreachableException {
+<b class="nc">&nbsp;        if (instance == null) instance = new ClientController(serverAddress, serverPort);</b>
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Singleton pattern implementation to ensure only one instance of
+&nbsp;     * `ClientController` exists throughout the application.
+&nbsp;     * @return The singleton instance.
+&nbsp;     */
+&nbsp;    public static ClientController getInstance() {
+<b class="nc">&nbsp;        if (instance == null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                instance = new ClientController(&quot;localhost&quot;, 12345); //should not happen !</b>
+<b class="nc">&nbsp;            } catch (ServerUnreachableException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public ClientController (String serverAddress, int serverPort) throws ServerUnreachableException {</b>
+<b class="nc">&nbsp;        clientMessageHandler = new ClientMessageHandler();</b>
+&nbsp;
+<b class="nc">&nbsp;        clientConnectionManager = new ClientConnectionManager(this,serverAddress,serverPort);</b>
+<b class="nc">&nbsp;        instance = this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called whenever a message is received from the
+&nbsp;     * server. It delegates the message processing to the `ClientMessageHandler`.
+&nbsp;     * @param message message to process.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void processMessage(JSONObject message) {
+<b class="nc">&nbsp;        clientMessageHandler.execute(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resets all the client models to their initial state.
+&nbsp;     */
+&nbsp;    public void resetModels(){
+<b class="nc">&nbsp;        DeckModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        ObjectivesModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        GameFieldModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        HandModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        PlayerModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().clear();</b>
+<b class="nc">&nbsp;        SelectableCardsModel.getInstance().clear();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client state to reflect the loss and displays a message. Called when a network connection loss is detected.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyConnectionLoss() {
+<b class="nc">&nbsp;        ClientStateModel.getInstance().setClientState(ClientState.LOST_CONNECTION_STATE);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Connection lost&quot;);</b>
+<b class="nc">&nbsp;        clientConnectionManager.shutdown();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server to set the player&#39;s username.
+&nbsp;     * @param username The username to be set for the player.
+&nbsp;     */
+&nbsp;    public void sendSetUsernameMessage(String username) {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateSetUsernameMessage(username));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting a list of available games to join.
+&nbsp;     */
+&nbsp;    public void sendGetAvailableGamesMessage(){
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateGetAvailableGamesMessage());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to join a specific game.
+&nbsp;     * @param gameName The name of the game to join.
+&nbsp;     */
+&nbsp;    public void sendJoinGameMessage(String gameName){
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateJoinGameMessage(gameName));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server indicating the client intends to leave the current game session.
+&nbsp;     */
+&nbsp;    public void sendLeaveMessage(){
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateLeaveMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to set up a new game.
+&nbsp;     * @param gameName The desired name for the new game.
+&nbsp;     * @param numOfPlayers The desired number of players for the game.
+&nbsp;     */
+&nbsp;    public void sendSetUpGameMessage(String gameName, int numOfPlayers) {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateSetUpGameMessage(gameName,numOfPlayers));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server indicating the client is ready to begin the game.
+&nbsp;     */
+&nbsp;    public void sendReadyMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateReadyMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server informing the chosen side for a specific starter card identified by its ID.
+&nbsp;     * @param cardId The unique identifier of the starter card.
+&nbsp;     * @param facingUp Whether the chosen side of the card is facing up.
+&nbsp;     */
+&nbsp;    public void sendChosenStarterCardSideMessage(int cardId, boolean facingUp) {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateChosenStarterCardSideMessage(cardId,facingUp));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server indicating the chosen secret objective card identified by its ID.
+&nbsp;     * @param cardId The unique identifier of the chosen secret objective card.
+&nbsp;     */
+&nbsp;    public void sendChosenSecretObjectiveMessage(int cardId) {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateChosenSecretObjectiveMessage(cardId));</b>
+<b class="nc">&nbsp;        ObjectivesModel.getInstance().setSecretObjectiveId(cardId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to place a card on the game board.
+&nbsp;     * @param cardId The unique identifier of the card to be placed.
+&nbsp;     * @param x The X-coordinate of the desired placement location.
+&nbsp;     * @param y The Y-coordinate of the desired placement location.
+&nbsp;     * @param facingUp Whether the card should be placed facing up or down.
+&nbsp;     */
+&nbsp;    public void sendPlaceMessage(int cardId, int x, int y, boolean facingUp) {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generatePlaceMessage(cardId, x, y, facingUp));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a resource card directly from the resource deck.
+&nbsp;     */
+&nbsp;    public void sendDirectDrawResourceCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawResourceCardMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a resource card from the left revealed card of the resource deck.
+&nbsp;     */
+&nbsp;    public void sendDrawLeftResourceCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftResourceCardMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a resource card from the right revealed card of the resource deck.
+&nbsp;     */
+&nbsp;    public void sendDrawRightResourceCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightResourceCardMessage());</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a gold card directly from the gold deck.
+&nbsp;     */
+&nbsp;    public void sendDirectDrawGoldCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDirectDrawGoldCardMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a gold card from the left revealed card of the gold deck.
+&nbsp;     */
+&nbsp;    public void sendDrawLeftGoldCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDrawLeftGoldCardMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message to the server requesting to draw a gold card from the right revealed card of the gold deck.
+&nbsp;     */
+&nbsp;    public void sendDrawRightGoldCardMessage() {
+<b class="nc">&nbsp;        clientConnectionManager.send(ClientMessageGenerator.generateDrawRightGoldCardMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shuts down the client application gracefully when the client is running the GUI.
+&nbsp;     */
+&nbsp;    public void shutdownForGUI() {
+<b class="nc">&nbsp;        clientConnectionManager.shutdown();</b>
+<b class="nc">&nbsp;        Platform.exit();</b>
+<b class="nc">&nbsp;        System.exit(0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shuts down the client application gracefully when the client is running the CLI.
+&nbsp;     */
+&nbsp;    public void shutdownForCLI() {
+<b class="nc">&nbsp;        clientConnectionManager.shutdown();</b>
+<b class="nc">&nbsp;        System.exit(0);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

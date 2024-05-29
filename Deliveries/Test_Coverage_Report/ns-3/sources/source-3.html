@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DeckModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.model</a>
+</div>
+
+<h1>Coverage Summary for Class: DeckModel (it.polimi.ingsw.client.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DeckModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.model;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents an ObservableModel that keeps track of the current DeckModel.
+&nbsp; */
+<b class="nc">&nbsp;public class DeckModel extends ObservableModel{</b>
+&nbsp;
+&nbsp;    private int resourceDeckTopCardId;
+&nbsp;    private int resourceDeckLeftCardId;
+&nbsp;    private int resourceDeckRightCardId;
+&nbsp;    private int goldDeckTopCardId;
+&nbsp;    private int goldDeckLeftCardId;
+&nbsp;    private int goldDeckRightCardId;
+&nbsp;
+&nbsp;    private static DeckModel instance;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the singleton instance of DeckModel.
+&nbsp;     * @return The singleton instance of DeckModel.
+&nbsp;     */
+&nbsp;    public static DeckModel getInstance(){
+&nbsp;
+<b class="nc">&nbsp;        if (instance ==null) instance = new DeckModel();</b>
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getResourceDeckTopCardId() {
+<b class="nc">&nbsp;        return resourceDeckTopCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getResourceDeckLeftCardId() {
+<b class="nc">&nbsp;        return resourceDeckLeftCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getResourceDeckRightCardId() {
+<b class="nc">&nbsp;        return resourceDeckRightCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getGoldDeckTopCardId() {
+<b class="nc">&nbsp;        return goldDeckTopCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getGoldDeckLeftCardId() {
+<b class="nc">&nbsp;        return goldDeckLeftCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getGoldDeckRightCardId() {
+<b class="nc">&nbsp;        return goldDeckRightCardId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the deck information for both the resource deck and the gold deck and notifies any registered observers that the data has changed.
+&nbsp;     * @param resourceDeckTopCardId The identifier for the card on the top of the resource deck.
+&nbsp;     * @param resourceDeckLeftCardId The identifier for the left revealed card of the resource deck.
+&nbsp;     * @param resourceDeckRightCardId The identifier for the right revealed card of the resource deck.
+&nbsp;     * @param goldTopCardId The identifier for the card on the top of the gold deck.
+&nbsp;     * @param goldLeftCardId The identifier for the left revealed card of the gold deck.
+&nbsp;     * @param goldRightCardId The identifier for the right revealed card of the gold deck.
+&nbsp;     */
+&nbsp;    public void updateDecks(int resourceDeckTopCardId, int resourceDeckLeftCardId, int resourceDeckRightCardId, int goldTopCardId, int goldLeftCardId, int goldRightCardId) {
+<b class="nc">&nbsp;        this.resourceDeckTopCardId = resourceDeckTopCardId;</b>
+<b class="nc">&nbsp;        this.resourceDeckLeftCardId = resourceDeckLeftCardId;</b>
+<b class="nc">&nbsp;        this.resourceDeckRightCardId = resourceDeckRightCardId;</b>
+<b class="nc">&nbsp;        this.goldDeckTopCardId = goldTopCardId;</b>
+<b class="nc">&nbsp;        this.goldDeckLeftCardId = goldLeftCardId;</b>
+<b class="nc">&nbsp;        this.goldDeckRightCardId = goldRightCardId;</b>
+<b class="nc">&nbsp;        notifyObservers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resets the Deck Model.
+&nbsp;     */
+&nbsp;    public void clear(){
+<b class="nc">&nbsp;        resourceDeckTopCardId = 0;</b>
+<b class="nc">&nbsp;        resourceDeckLeftCardId = 0;</b>
+<b class="nc">&nbsp;        resourceDeckRightCardId = 0;</b>
+<b class="nc">&nbsp;        goldDeckTopCardId = 0;</b>
+<b class="nc">&nbsp;        goldDeckLeftCardId = 0;</b>
+<b class="nc">&nbsp;        goldDeckRightCardId = 0;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

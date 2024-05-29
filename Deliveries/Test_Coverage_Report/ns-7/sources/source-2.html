@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ConnectToServerViewController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.GUI.viewControllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ConnectToServerViewController (it.polimi.ingsw.client.view.GUI.viewControllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConnectToServerViewController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.GUI.viewControllers;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.client.model.ClientStateModel;
+&nbsp;import it.polimi.ingsw.client.view.StageManager;
+&nbsp;import it.polimi.ingsw.client.view.ViewController;
+&nbsp;import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import javafx.application.Platform;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.control.TextField;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is the controller of the scene where the player creates a new game.
+&nbsp; */
+<b class="nc">&nbsp;public class ConnectToServerViewController extends ViewController {</b>
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private TextField ipTextField;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private TextField portTextField;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Button exitButton;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label alertLabel;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Button okButton;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the scene.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    public void initialize() {
+<b class="nc">&nbsp;        okButton.setOnMouseEntered(mouseEvent -&gt; okButton.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;        okButton.setOnMouseExited(mouseEvent -&gt; okButton.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;        exitButton.setOnMouseEntered(mouseEvent -&gt; exitButton.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;        exitButton.setOnMouseExited(mouseEvent -&gt; exitButton.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;        ipTextField.setOnMouseClicked(mouseEvent -&gt; alertLabel.setVisible(false));</b>
+<b class="nc">&nbsp;        portTextField.setOnMouseClicked(mouseEvent -&gt; alertLabel.setVisible(false));</b>
+<b class="nc">&nbsp;        alertLabel.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Closes the GUI.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void exit(){
+<b class="nc">&nbsp;        StageManager.getCurrentStage().close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks the given game Name and sends setupGame message. Otherwise, displays error in the alertLabel.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void okPressed() {
+<b class="nc">&nbsp;        String givenIp = ipTextField.getText();</b>
+<b class="nc">&nbsp;        String givenPort = portTextField.getText();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (givenIp.isEmpty()) givenIp = &quot;localhost&quot;;</b>
+<b class="nc">&nbsp;        if (givenPort.isEmpty()) givenPort = &quot;12345&quot;;</b>
+&nbsp;
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            ClientController.getInstance(givenIp, Integer.parseInt(givenPort));</b>
+<b class="nc">&nbsp;        } catch (ServerUnreachableException e) {</b>
+<b class="nc">&nbsp;            showErrorMessage(&quot;Server unreachable&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateSceneStatus(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc">&nbsp;            if (Objects.requireNonNull(ClientStateModel.getInstance().getClientState()) == ClientState.LOBBY_STATE) {</b>
+<b class="nc">&nbsp;                StageManager.loadWelcomeScene();</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows an error message in the error label
+&nbsp;     * @param errorMessage the message to be shown
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showErrorMessage(String errorMessage) {
+<b class="nc">&nbsp;       Platform.runLater(()-&gt; {</b>
+<b class="nc">&nbsp;           alertLabel.setText(errorMessage);</b>
+<b class="nc">&nbsp;           alertLabel.setVisible(true);</b>
+&nbsp;       });
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

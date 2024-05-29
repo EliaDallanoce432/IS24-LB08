@@ -1,0 +1,287 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlaceableCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card</a>
+</div>
+
+<h1>Coverage Summary for Class: PlaceableCard (it.polimi.ingsw.server.model.card)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlaceableCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (54/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents a placeable card.
+&nbsp; */
+<b class="fc">&nbsp;public abstract class PlaceableCard extends Card {</b>
+&nbsp;    protected int points;
+&nbsp;    protected Resource cardKingdom; //animal, plant, fungi or insect
+&nbsp;    protected boolean facingUp;
+&nbsp;    protected int x;
+&nbsp;    protected int y;
+&nbsp;    protected int requiredFungiResourceAmount;
+&nbsp;    protected int requiredInsectResourceAmount;
+&nbsp;    protected int requiredAnimalResourceAmount;
+&nbsp;    protected int requiredPlantResourceAmount;
+&nbsp;
+&nbsp;    protected Corner frontTopLeftCorner;
+&nbsp;    protected Corner frontTopRightCorner;
+&nbsp;    protected Corner frontBottomLeftCorner;
+&nbsp;    protected Corner frontBottomRightCorner;
+&nbsp;    protected Corner backTopLeftCorner;
+&nbsp;    protected Corner backTopRightCorner;
+&nbsp;    protected Corner backBottomLeftCorner;
+&nbsp;    protected Corner backBottomRightCorner;
+&nbsp;
+&nbsp;    public Resource getCardKingdom() {
+<b class="fc">&nbsp;        return cardKingdom;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCardKingdom(Resource cardKingdom) {
+<b class="fc">&nbsp;        this.cardKingdom = cardKingdom;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getX() {
+<b class="fc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setX(int x) {
+<b class="fc">&nbsp;        this.x = x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getY() {
+<b class="fc">&nbsp;        return y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setY(int y) {
+<b class="fc">&nbsp;        this.y = y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Corner getTopLeftCorner() {
+<b class="fc">&nbsp;        if (facingUp) return frontTopLeftCorner;</b>
+<b class="fc">&nbsp;        else return backTopLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Corner getTopRightCorner() {
+<b class="fc">&nbsp;        if (facingUp) return frontTopRightCorner;</b>
+<b class="fc">&nbsp;        else return backTopRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Corner getBottomLeftCorner() {
+<b class="fc">&nbsp;        if (facingUp) return frontBottomLeftCorner;</b>
+<b class="fc">&nbsp;        else return backBottomLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Corner getBottomRightCorner() {
+<b class="fc">&nbsp;        if (facingUp) return frontBottomRightCorner;</b>
+<b class="fc">&nbsp;        else  return backBottomRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isFacingUp() {
+<b class="fc">&nbsp;        return facingUp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFacingUp(boolean facingUp) {
+<b class="fc">&nbsp;        this.facingUp = facingUp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getRequiredFungiResourceAmount() {
+<b class="fc">&nbsp;        return requiredFungiResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getRequiredInsectResourceAmount() {
+<b class="fc">&nbsp;        return requiredInsectResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getRequiredAnimalResourceAmount() {
+<b class="fc">&nbsp;        return requiredAnimalResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getRequiredPlantResourceAmount() {
+<b class="fc">&nbsp;        return requiredPlantResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRequiredFungiResourceAmount(int requiredFungiResourceAmount) {
+<b class="fc">&nbsp;        this.requiredFungiResourceAmount = requiredFungiResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRequiredInsectResourceAmount(int requiredInsectResourceAmount) {
+<b class="fc">&nbsp;        this.requiredInsectResourceAmount = requiredInsectResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRequiredAnimalResourceAmount(int requiredAnimalResourceAmount) {
+<b class="fc">&nbsp;        this.requiredAnimalResourceAmount = requiredAnimalResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRequiredPlantResourceAmount(int requiredPlantResourceAmount) {
+<b class="fc">&nbsp;        this.requiredPlantResourceAmount = requiredPlantResourceAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPoints(int points) {
+<b class="fc">&nbsp;        this.points = points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFrontTopLeftCorner(Corner frontTopLeftCorner) {
+<b class="fc">&nbsp;        this.frontTopLeftCorner = frontTopLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFrontTopRightCorner(Corner frontTopRightCorner) {
+<b class="fc">&nbsp;        this.frontTopRightCorner = frontTopRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFrontBottomLeftCorner(Corner frontBottomLeftCorner) {
+<b class="fc">&nbsp;        this.frontBottomLeftCorner = frontBottomLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFrontBottomRightCorner(Corner frontBottomRightCorner) {
+<b class="fc">&nbsp;        this.frontBottomRightCorner = frontBottomRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBackTopLeftCorner(Corner backTopLeftCorner) {
+<b class="fc">&nbsp;        this.backTopLeftCorner = backTopLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBackTopRightCorner(Corner backTopRightCorner) {
+<b class="fc">&nbsp;        this.backTopRightCorner = backTopRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBackBottomLeftCorner(Corner backBottomLeftCorner) {
+<b class="fc">&nbsp;        this.backBottomLeftCorner = backBottomLeftCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBackBottomRightCorner(Corner backBottomRightCorner) {
+<b class="fc">&nbsp;        this.backBottomRightCorner = backBottomRightCorner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getPoints() {
+<b class="fc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the points earned with this card.
+&nbsp;     * @return Points earned by placing the card.
+&nbsp;     */
+&nbsp;    public abstract int placementPoints(GameField gameField);
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @SuppressWarnings(&quot;all&quot;)
+&nbsp;    public boolean equals(Object obj) {
+<b class="fc">&nbsp;        if(!(obj instanceof PlaceableCard card)) return false;</b>
+<b class="fc">&nbsp;        if(this.id!=card.id) return false;</b>
+<b class="fc">&nbsp;        else if (this.cardKingdom != card.cardKingdom) return false;</b>
+<b class="fc">&nbsp;        else if (this.facingUp != card.facingUp) return false;</b>
+<b class="fc">&nbsp;        else if (this.x != card.x) return false;</b>
+<b class="fc">&nbsp;        else if (this.y != card.y) return false;</b>
+<b class="fc">&nbsp;        else if (this.requiredAnimalResourceAmount != card.requiredAnimalResourceAmount) return false;</b>
+<b class="fc">&nbsp;        else if (this.requiredFungiResourceAmount != card.requiredFungiResourceAmount) return false;</b>
+<b class="fc">&nbsp;        else if (this.requiredInsectResourceAmount != card.requiredInsectResourceAmount) return false;</b>
+<b class="fc">&nbsp;        else if (this.requiredPlantResourceAmount != card.requiredPlantResourceAmount) return false;</b>
+<b class="fc">&nbsp;        else if (!this.backTopLeftCorner.equals(card.backTopLeftCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.backTopRightCorner.equals(card.backTopRightCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.backBottomLeftCorner.equals(card.backBottomLeftCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.backBottomRightCorner.equals(card.backBottomRightCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.frontTopLeftCorner.equals(card.frontTopLeftCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.frontTopRightCorner.equals(card.frontTopRightCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.frontBottomLeftCorner.equals(card.frontBottomLeftCorner)) return false;</b>
+<b class="fc">&nbsp;        else if (!this.frontBottomRightCorner.equals(card.frontBottomRightCorner)) return false;</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

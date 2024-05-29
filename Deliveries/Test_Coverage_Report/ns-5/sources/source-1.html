@@ -1,0 +1,280 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CLIViewController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.CLI</a>
+</div>
+
+<h1>Coverage Summary for Class: CLIViewController (it.polimi.ingsw.client.view.CLI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CLIViewController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CLIViewController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/65)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.CLI;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.ClientStateModel;
+&nbsp;import it.polimi.ingsw.client.model.PlayerModel;
+&nbsp;import it.polimi.ingsw.client.model.SelectableCardsModel;
+&nbsp;import it.polimi.ingsw.client.view.ViewController;
+&nbsp;import it.polimi.ingsw.client.view.observers.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ConsoleColor;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for handling UI updates in the Command-Line Interface (CLI) for the Codex game client.
+&nbsp; */
+&nbsp;public class CLIViewController extends ViewController {
+&nbsp;
+<b class="nc">&nbsp;    private static ClientState previousState = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    public CLIViewController() {</b>
+&nbsp;        //initializing observers
+<b class="nc">&nbsp;        new AvailableGamesObserver();</b>
+<b class="nc">&nbsp;        new ClientStateObserver();</b>
+<b class="nc">&nbsp;        new DeckObserver();</b>
+<b class="nc">&nbsp;        new GameFieldObserver();</b>
+<b class="nc">&nbsp;        new HandObserver();</b>
+<b class="nc">&nbsp;        new ObjectivesObserver();</b>
+<b class="nc">&nbsp;        new PlayerObserver();</b>
+<b class="nc">&nbsp;        new ScoreBoardObserver();</b>
+<b class="nc">&nbsp;        new SelectableCardsObserver();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a message to the console.
+&nbsp;     * @param message The message to display.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showMessage(String message) {
+<b class="nc">&nbsp;        Printer.printMessage(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the common objectives and the player&#39;s secret objective.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateObjectives(){
+<b class="nc">&nbsp;        Printer.printObjectives();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints an error message to the console in red.
+&nbsp;     * @param message The error message to display.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showErrorMessage(String message) {
+<b class="nc">&nbsp;        Printer.printMessage(&quot;ERROR: &quot; + message , ConsoleColor.RED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the available games.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateAvailableGames() {
+<b class="nc">&nbsp;        Printer.printMessage(&quot;Available Games: &quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;        Printer.printAvailableGames();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the current username if the client is in the LOBBY_STATE.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updatePlayerInfo() {
+<b class="nc">&nbsp;        if(ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE){</b>
+<b class="nc">&nbsp;            Printer.printMessage(&quot;User logged in as: &quot; + PlayerModel.getInstance().getUsername(), ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints information about the starter card ID and selectable objective card IDs to the console.
+&nbsp;     * Also provides instructions for selecting starter card orientation and secret objective.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateSelectableCards() {
+<b class="nc">&nbsp;        SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();</b>
+<b class="nc">&nbsp;        int starterCardID = selectableCardsModel.getStarterCardId();</b>
+<b class="nc">&nbsp;        int[] objectivesID = selectableCardsModel.getSelectableObjectiveCardsId();</b>
+<b class="nc">&nbsp;        Printer.printMessage(&quot;Your starter card is #&quot; + starterCardID + &quot;\n&quot; +</b>
+&nbsp;                &quot;You can choose your secret objective between these two cards: #&quot;+ objectivesID[0] +&quot; and #&quot; +objectivesID[1]+&quot;\n&quot; +
+&nbsp;                &quot;To select the starter card orientation, type &#39;sc front&#39; or &#39;sc back&#39;.\n&quot; +
+&nbsp;                &quot;To select a secret objective, type &#39;so &quot; + objectivesID[0] + &quot;&#39; or &#39;so &quot; + objectivesID[1] + &quot;&#39;.&quot;, ConsoleColor.YELLOW);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints game state-specific messages and UI components to the console based on the current `ClientState`.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateSceneStatus() {
+<b class="nc">&nbsp;        ClientState clientState = ClientStateModel.getInstance().getClientState();</b>
+<b class="nc">&nbsp;        switch (clientState) {</b>
+&nbsp;            case LOBBY_STATE -&gt; {
+<b class="nc">&nbsp;                ClientCLI.clearConsole();</b>
+<b class="nc">&nbsp;                Printer.printCodexLogo();</b>
+<b class="nc">&nbsp;                if(previousState == ClientState.KICKED_STATE){</b>
+<b class="nc">&nbsp;                    Printer.printMessage(&quot;A player left the game!&quot;, ConsoleColor.RED);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                Printer.printMenu();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case GAME_SETUP_STATE -&gt; {
+<b class="nc">&nbsp;                Printer.printMessage(ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Type &#39;ready&#39; when you&#39;re ready to begin!&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case PLACING_STATE -&gt; {
+<b class="nc">&nbsp;                ClientCLI.clearConsole();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Please place a card!&quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;                Printer.printGameBoard();</b>
+<b class="nc">&nbsp;                Printer.printResources();</b>
+<b class="nc">&nbsp;                Printer.printGuide();</b>
+<b class="nc">&nbsp;                Printer.printHand();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;To place a card, type &#39;place &lt;cardId&gt; &lt;orientation&gt; &lt;targetCardId&gt; &lt;position&gt;&#39;&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case DRAWING_STATE -&gt; {
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Your updated Game Board:&quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;                Printer.printGameBoard();</b>
+<b class="nc">&nbsp;                Printer.printResources();</b>
+<b class="nc">&nbsp;                Printer.printGuide();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Now please draw a card from the decks&quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;                Printer.printDeckInfo();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;to draw a card type &#39;draw [selection]&#39;, with selection between 1 and 6\n&quot; +</b>
+&nbsp;                        &quot;type &#39;info [cardId]&#39; to see more information about the cards&quot;);
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case NOT_PLAYING_STATE -&gt; {
+<b class="nc">&nbsp;                Printer.printScores();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Waiting for &quot; + PlayerModel.getInstance().getTurnPlayer() + &quot; to finish their turn..&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case LAST_ROUND_STATE -&gt; Printer.printMessage(&quot;It&#39;s the last turn! &quot; + ClientStateModel.getInstance().getReason(), ConsoleColor.YELLOW_BRIGHT);</b>
+&nbsp;            case END_GAME_STATE -&gt; {
+<b class="nc">&nbsp;                ClientCLI.clearConsole();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Leaderboard&quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;                Printer.printLeaderboard();</b>
+<b class="nc">&nbsp;                Printer.printMessage(&quot;Type &#39;leave&#39; to go back to the lobby.&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case LOST_CONNECTION_STATE -&gt; {
+<b class="nc">&nbsp;                Printer.printMessage(&quot;ERROR: Lost connection to the server, closing the game.&quot;, ConsoleColor.RED);</b>
+<b class="nc">&nbsp;                System.exit(0);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case KICKED_STATE -&gt; Printer.printMessage(&quot;ERROR: one player left the game or has lost connection, closing the game.&quot;, ConsoleColor.RED);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        previousState = clientState;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

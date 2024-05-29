@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Game</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.1%
+  </span>
+  <span class="absValue">
+    (8/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.7%
+  </span>
+  <span class="absValue">
+    (22/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.controller.GameObserver;
+&nbsp;import it.polimi.ingsw.server.model.card.ObjectiveCard;
+&nbsp;import it.polimi.ingsw.server.model.deck.GoldCardDeck;
+&nbsp;import it.polimi.ingsw.server.model.deck.ObjectiveCardDeck;
+&nbsp;import it.polimi.ingsw.server.model.deck.ResourceCardDeck;
+&nbsp;import it.polimi.ingsw.server.model.deck.StarterCardDeck;
+&nbsp;import it.polimi.ingsw.util.customexceptions.EmptyDeckException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Token;
+&nbsp;import it.polimi.ingsw.util.supportclasses.GameState;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents the core game model, managing the game state, decks, players, and overall game logic.
+&nbsp; * It interacts with other components to receive player actions and update the game state accordingly.
+&nbsp; */
+&nbsp;public class Game {
+&nbsp;    private int numberOfPlayers;
+&nbsp;    private GameState gameState;
+&nbsp;    private int turnCounter;
+&nbsp;
+&nbsp;    private final ObjectiveCardDeck objectiveCardDeck;
+&nbsp;    private final ResourceCardDeck resourceCardDeck;
+&nbsp;    private final GoldCardDeck goldCardDeck;
+&nbsp;    private final StarterCardDeck starterCardDeck;
+&nbsp;    private final ArrayList&lt;ObjectiveCard&gt; commonObjectives;
+&nbsp;    private final HashMap&lt;String, Player&gt; players;
+&nbsp;
+&nbsp;    private GameObserver gameObserver;
+&nbsp;    private final ArrayList&lt;Token&gt; availableTokens;
+&nbsp;
+<b class="fc">&nbsp;    public Game(int numberOfPlayers, GameObserver gameObserver) {</b>
+<b class="fc">&nbsp;        this.setNumberOfPlayers(numberOfPlayers);</b>
+<b class="fc">&nbsp;        players = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        objectiveCardDeck = new ObjectiveCardDeck();</b>
+<b class="fc">&nbsp;        resourceCardDeck = new ResourceCardDeck();</b>
+<b class="fc">&nbsp;        goldCardDeck = new GoldCardDeck();</b>
+<b class="fc">&nbsp;        starterCardDeck = new StarterCardDeck();</b>
+<b class="fc">&nbsp;        commonObjectives = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        availableTokens = new ArrayList&lt;&gt;(Arrays.asList(Token.red, Token.yellow, Token.green, Token.blue));</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());</b>
+<b class="fc">&nbsp;            commonObjectives.add((ObjectiveCard) objectiveCardDeck.directDraw());</b>
+<b class="nc">&nbsp;        } catch (EmptyDeckException ignored) {</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        gameState = GameState.waitingForPlayers;</b>
+<b class="fc">&nbsp;        this.setGameObserver(gameObserver);</b>
+&nbsp;    }
+&nbsp;    public GameState getGameState() {
+<b class="fc">&nbsp;        return gameState;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public void setGameState(GameState gamestate) {this.gameState = gamestate;}</b>
+&nbsp;
+&nbsp;    public Token getRandomToken() {
+<b class="fc">&nbsp;        Collections.shuffle(getAvailableTokens());</b>
+<b class="fc">&nbsp;        return getAvailableTokens().removeFirst();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public HashMap&lt;String, Player&gt; getPlayersHashMap() { return players;}</b>
+&nbsp;
+&nbsp;    public ArrayList&lt;Player&gt; getPlayers() {
+<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(players.values());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;    * Makes the token available again.
+&nbsp;    * @param token Token to be made available again.
+&nbsp;     */
+&nbsp;    public void reinsertToken(Token token) {
+<b class="fc">&nbsp;        getAvailableTokens().add(token);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public int getNumberOfPlayers() {
+<b class="nc">&nbsp;        return numberOfPlayers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNumberOfPlayers(int numberOfPlayers) {
+<b class="fc">&nbsp;        this.numberOfPlayers = numberOfPlayers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getTurnCounter() {
+<b class="nc">&nbsp;        return turnCounter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTurnCounter(int turnCounter) {
+<b class="nc">&nbsp;        this.turnCounter = turnCounter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ObjectiveCardDeck getObjectiveCardDeck() {
+<b class="nc">&nbsp;        return objectiveCardDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResourceCardDeck getResourceCardDeck() {
+<b class="nc">&nbsp;        return resourceCardDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public GoldCardDeck getGoldCardDeck() {
+<b class="nc">&nbsp;        return goldCardDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public StarterCardDeck getStarterCardDeck() {
+<b class="nc">&nbsp;        return starterCardDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;ObjectiveCard&gt; getCommonObjectives() {
+<b class="nc">&nbsp;        return commonObjectives;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public GameObserver getGameObserver() {
+<b class="fc">&nbsp;        return gameObserver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGameObserver(GameObserver gameObserver) {
+<b class="fc">&nbsp;        this.gameObserver = gameObserver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;Token&gt; getAvailableTokens() {
+<b class="fc">&nbsp;        return availableTokens;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DecksRepresentation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.utility</a>
+</div>
+
+<h1>Coverage Summary for Class: DecksRepresentation (it.polimi.ingsw.client.view.utility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DecksRepresentation</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.utility;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.client.model.DeckModel;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.layout.Pane;
+&nbsp;import javafx.scene.shape.Rectangle;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class manages the representation of the Decks in the GUI.
+&nbsp; */
+&nbsp;public class DecksRepresentation {
+&nbsp;
+&nbsp;    Pane decksPane;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets up the Decks Representation.
+&nbsp;     * @param decksPane The Pane where the decks will be shown.
+&nbsp;     */
+<b class="nc">&nbsp;    public DecksRepresentation(Pane decksPane) {</b>
+<b class="nc">&nbsp;        this.decksPane = decksPane;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the decks from the DeckModel.
+&nbsp;     */
+&nbsp;    public void loadDecks() {
+&nbsp;
+<b class="nc">&nbsp;        decksPane.getChildren().clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        DeckModel deckModel = DeckModel.getInstance();</b>
+&nbsp;
+<b class="nc">&nbsp;        showDeckWithRevealedCards(&quot;resourceDeck&quot;,0, deckModel.getResourceDeckTopCardId(),</b>
+<b class="nc">&nbsp;                deckModel.getResourceDeckLeftCardId(), deckModel.getResourceDeckRightCardId());</b>
+&nbsp;
+<b class="nc">&nbsp;        showDeckWithRevealedCards(&quot;goldDeck&quot;,Y_GOLD_DECK, deckModel.getGoldDeckTopCardId(),</b>
+<b class="nc">&nbsp;                deckModel.getGoldDeckLeftCardId(), deckModel.getGoldDeckRightCardId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a Deck with the given proprieties in the Pane.
+&nbsp;     * @param DeckID      String that identifies the type of deck.
+&nbsp;     * @param yOffset     The y coordinate where the deck will be generated.
+&nbsp;     * @param topDeckID   The ID of the card on top of the deck.
+&nbsp;     * @param leftCardID  The ID of the left revealed card.
+&nbsp;     * @param rightCardID The ID of the right revealed card.
+&nbsp;     */
+&nbsp;    private void showDeckWithRevealedCards (String DeckID, double yOffset, int topDeckID, int leftCardID, int rightCardID) {
+<b class="nc">&nbsp;        double spacing = SPACING;</b>
+<b class="nc">&nbsp;        if(topDeckID != 0) {</b>
+&nbsp;            //generates the blank cards for the deck representation
+<b class="nc">&nbsp;            for(int i = 0; i &lt; BLANK_CARDS_NUMBER; i++) {</b>
+<b class="nc">&nbsp;                CardRepresentation blankCard  = new CardRepresentation(0,false);</b>
+<b class="nc">&nbsp;                Rectangle blankCardRect = blankCard.getCard();</b>
+<b class="nc">&nbsp;                blankCardRect.setLayoutY(yOffset + (BLANK_CARDS_NUMBER-i)*BLANK_CARDS_OFFSET);</b>
+<b class="nc">&nbsp;                blankCardRect.setLayoutX(0);</b>
+<b class="nc">&nbsp;                decksPane.getChildren().add(blankCardRect);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            CardRepresentation topDeck = new CardRepresentation(topDeckID, false);</b>
+<b class="nc">&nbsp;            Rectangle topDeckNode = topDeck.getCard();</b>
+<b class="nc">&nbsp;            topDeckNode.setLayoutY(yOffset);</b>
+<b class="nc">&nbsp;            topDeckNode.setLayoutX(0);</b>
+<b class="nc">&nbsp;            topDeckNode.setOnMouseClicked( e -&gt; handleButtonClick(DeckID + &quot;TopCard&quot;));</b>
+<b class="nc">&nbsp;            topDeckNode.setOnMouseEntered( e -&gt; topDeckNode.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;            topDeckNode.setOnMouseExited( e -&gt; topDeckNode.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;            decksPane.getChildren().add(topDeckNode);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(leftCardID != 0) {</b>
+<b class="nc">&nbsp;            CardRepresentation leftCard = new CardRepresentation(leftCardID, true);</b>
+<b class="nc">&nbsp;            Rectangle leftCardNode = leftCard.getCard();</b>
+<b class="nc">&nbsp;            leftCardNode.setLayoutY(yOffset);</b>
+<b class="nc">&nbsp;            leftCardNode.setLayoutX((2*spacing) + CARD_WIDTH + spacing);</b>
+<b class="nc">&nbsp;            leftCardNode.setOnMouseClicked( e -&gt; handleButtonClick(DeckID + &quot;LeftCard&quot;));</b>
+<b class="nc">&nbsp;            leftCardNode.setOnMouseEntered( e -&gt; leftCardNode.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;            leftCardNode.setOnMouseExited( e -&gt; leftCardNode.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;            decksPane.getChildren().add(leftCardNode);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(rightCardID != 0) {</b>
+<b class="nc">&nbsp;            CardRepresentation rightCard = new CardRepresentation(rightCardID, true);</b>
+<b class="nc">&nbsp;            Rectangle rightCardNode = rightCard.getCard();</b>
+<b class="nc">&nbsp;            rightCardNode.setLayoutY(yOffset);</b>
+<b class="nc">&nbsp;            rightCardNode.setLayoutX( (2*spacing) + (2 * (CARD_WIDTH + spacing)));</b>
+<b class="nc">&nbsp;            rightCardNode.setOnMouseClicked( e -&gt; handleButtonClick(DeckID + &quot;RightCard&quot;));</b>
+<b class="nc">&nbsp;            rightCardNode.setOnMouseEntered( e -&gt; rightCardNode.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;            rightCardNode.setOnMouseExited( e -&gt; rightCardNode.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;            decksPane.getChildren().add(rightCardNode);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the click on a card by sending the relative draw message.
+&nbsp;     * @param buttonID ID of the button that has been pressed.
+&nbsp;     */
+&nbsp;    private void handleButtonClick(String buttonID){
+<b class="nc">&nbsp;        switch(buttonID){</b>
+&nbsp;            case &quot;resourceDeckTopCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDirectDrawResourceCardMessage();</b>
+&nbsp;            case &quot;resourceDeckLeftCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDrawLeftResourceCardMessage();</b>
+&nbsp;            case &quot;resourceDeckRightCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDrawRightResourceCardMessage();</b>
+&nbsp;            case &quot;goldDeckTopCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDirectDrawGoldCardMessage();</b>
+&nbsp;            case &quot;goldDeckLeftCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDrawLeftGoldCardMessage();</b>
+&nbsp;            case &quot;goldDeckRightCard&quot; -&gt;
+<b class="nc">&nbsp;                ClientController.getInstance().sendDrawRightGoldCardMessage();</b>
+&nbsp;            default-&gt;
+<b class="nc">&nbsp;                System.out.println(&quot;ERROR: Unknown buttonID: &quot; + buttonID);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

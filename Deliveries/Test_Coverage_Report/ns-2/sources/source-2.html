@@ -1,0 +1,282 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientMessageGenerator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientMessageGenerator (it.polimi.ingsw.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientMessageGenerator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.controller;
+&nbsp;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for generating JSON messages that are sent to server throughout the game.
+&nbsp; */
+<b class="nc">&nbsp;public class ClientMessageGenerator {</b>
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server for setting the player&#39;s username.
+&nbsp;     * @param username The username to be set for the player.
+&nbsp;     * @return The JSONObject representing the &quot;setUsername&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateSetUsernameMessage (String username) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;setUsername&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;username&quot;,username);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server to set up a new game.
+&nbsp;     * @param gameName The desired name for the new game.
+&nbsp;     * @param numOfPlayers The desired number of players for the game.
+&nbsp;     * @return The JSONObject representing the &quot;setUp&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateSetUpGameMessage (String gameName, int numOfPlayers) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;setUp&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;gameName&quot;,gameName);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;numOfPlayers&quot;,String.valueOf(numOfPlayers));</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server to join a specific game.
+&nbsp;     * @param gameName The name of the game to join.
+&nbsp;     * @return The JSONObject representing the &quot;join&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateJoinGameMessage (String gameName) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;join&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;gameName&quot;,gameName);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting a list of available games to join.
+&nbsp;     * @return The JSONObject representing the &quot;getAvailableGames&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateGetAvailableGamesMessage () {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;getAvailableGames&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server indicating the client is ready to begin the game.
+&nbsp;     * @return The JSONObject representing the &quot;ready&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateReadyMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;ready&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server with the chosen side for the starter card.
+&nbsp;     * @param cardId The unique identifier of the starter card.
+&nbsp;     * @param facingUp Whether the chosen side of the card is facing up. True if the front is selected, false otherwise.
+&nbsp;     * @return The JSONObject representing the &quot;starterCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateChosenStarterCardSideMessage(int cardId, boolean facingUp) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;starterCard&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;starterCardId&quot;,String.valueOf(cardId));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;facingUp&quot;, String.valueOf(facingUp));</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server indicating the chosen secret objective card.
+&nbsp;     * @param id The unique identifier of the chosen secret objective card.
+&nbsp;     * @return The JSONObject representing the &quot;objectiveCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateChosenSecretObjectiveMessage(int id) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;objectiveCard&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;objectiveCardId&quot;, String.valueOf(id));</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server for placing a card on the game board.
+&nbsp;     * @param cardId The unique identifier of the card to be placed.
+&nbsp;     * @param x The X-coordinate of the desired placement location.
+&nbsp;     * @param y The Y-coordinate of the desired placement location.
+&nbsp;     * @param facingUp Whether the card should be placed facing up or down.
+&nbsp;     * @return The JSONObject representing the &quot;place&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generatePlaceMessage(int cardId, int x, int y, boolean facingUp) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;place&quot;);</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;placeableCardId&quot;,String.valueOf(cardId));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;x&quot;, String.valueOf(x));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;y&quot;, String.valueOf(y));</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;facingUp&quot;, String.valueOf(facingUp));</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw a resource card directly from the resource deck.
+&nbsp;     * @return The JSONObject representing the &quot;directDrawResourceCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDirectDrawResourceCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;directDrawResourceCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw the left revealed card of the resource deck.
+&nbsp;     * @return The JSONObject representing the &quot;drawLeftResourceCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDrawLeftResourceCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;drawLeftResourceCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw the right revealed card of the resource deck.
+&nbsp;     * @return The JSONObject representing the &quot;drawRightResourceCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDrawRightResourceCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;drawRightResourceCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw a gold card directly from the gold deck.
+&nbsp;     * @return The JSONObject representing the &quot;directDrawGoldCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDirectDrawGoldCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;directDrawGoldCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw the left revealed card of the gold deck.
+&nbsp;     * @return The JSONObject representing the &quot;drawLeftGoldCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDrawLeftGoldCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;drawLeftGoldCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server requesting to draw the right revealed card of the gold deck.
+&nbsp;     * @return The JSONObject representing the &quot;drawRightGoldCard&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateDrawRightGoldCardMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;drawRightGoldCard&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generates a JSON message object to be sent to the server indicating the client intends to leave the current game session.
+&nbsp;     * @return The JSONObject representing the &quot;leave&quot; message.
+&nbsp;     */
+&nbsp;    public static JSONObject generateLeaveMessage() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;command&quot;,&quot;leave&quot;);</b>
+<b class="nc">&nbsp;        return new JSONObject(jsonMap);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

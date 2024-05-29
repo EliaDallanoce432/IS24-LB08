@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientGUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.GUI</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientGUI (it.polimi.ingsw.client.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.GUI;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.view.StageManager;
+&nbsp;import it.polimi.ingsw.client.view.observers.*;
+&nbsp;import javafx.application.Application;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.stage.Stage;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is the primary application class responsible for
+&nbsp; * initializing and managing the GUI for the client-side
+&nbsp; */
+<b class="nc">&nbsp;public class ClientGUI extends Application {</b>
+&nbsp;    /**
+&nbsp;     * Starts the JavaFX framework when the application begins. This method sets up the primary stage,
+&nbsp;     * initializes all necessary observers, and loads the welcome scene.
+&nbsp;     * @param primaryStage the primary stage of the application which will be used to display all the scenes of the GUI
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void start(Stage primaryStage) {
+&nbsp;        //initializing observers
+<b class="nc">&nbsp;        new AvailableGamesObserver();</b>
+<b class="nc">&nbsp;        new ClientStateObserver();</b>
+<b class="nc">&nbsp;        new DeckObserver();</b>
+<b class="nc">&nbsp;        new GameFieldObserver();</b>
+<b class="nc">&nbsp;        new HandObserver();</b>
+<b class="nc">&nbsp;        new ObjectivesObserver();</b>
+<b class="nc">&nbsp;        new PlayerObserver();</b>
+<b class="nc">&nbsp;        new ScoreBoardObserver();</b>
+<b class="nc">&nbsp;        new SelectableCardsObserver();</b>
+<b class="nc">&nbsp;        ClassLoader classloader = Thread.currentThread().getContextClassLoader();</b>
+<b class="nc">&nbsp;        InputStream is = classloader.getResourceAsStream(&quot;Images/codex_logo_crop.png&quot;);</b>
+<b class="nc">&nbsp;        assert is != null;</b>
+<b class="nc">&nbsp;        primaryStage.getIcons().add(new Image(is));</b>
+<b class="nc">&nbsp;        StageManager.setCurrentStage(primaryStage);</b>
+<b class="nc">&nbsp;        StageManager.loadTitleScreenScene();</b>
+<b class="nc">&nbsp;        primaryStage.setTitle(&quot;Codex Naturalis&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

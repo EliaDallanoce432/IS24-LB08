@@ -1,0 +1,681 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: GameController (it.polimi.ingsw.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.3%
+  </span>
+  <span class="absValue">
+    (3/41)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.6%
+  </span>
+  <span class="absValue">
+    (13/234)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.ClientHandler;
+&nbsp;import it.polimi.ingsw.server.lobby.Lobby;
+&nbsp;import it.polimi.ingsw.network.ServerNetworkObserver;
+&nbsp;import it.polimi.ingsw.server.model.Game;
+&nbsp;import it.polimi.ingsw.server.model.Player;
+&nbsp;import it.polimi.ingsw.server.model.card.*;
+&nbsp;import it.polimi.ingsw.util.customexceptions.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.GameState;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Request;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.Constants.SCORE_GOAL;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class manages the logic of a game instance. It acts as the central controller
+&nbsp; *  for the game, coordinating interactions between players, the game model and the server network.
+&nbsp; */
+&nbsp;public class GameController implements Runnable, ServerNetworkObserver, GameObserver {
+&nbsp;    private final String gameName;
+&nbsp;    private final ArrayList&lt;ClientHandler&gt; clientHandlers;
+&nbsp;    private final Lobby lobby;
+&nbsp;    private final Game game;
+&nbsp;    private final List&lt;Request&gt; requests;
+&nbsp;    private boolean echo;
+&nbsp;    private boolean running;
+&nbsp;    private final GameRequestHandler gameRequestHandler;
+&nbsp;    private final ServerMessageGenerator messageGenerator;
+&nbsp;
+<b class="fc">&nbsp;    public GameController(Lobby lobby, int numberOfPlayers, String gameName, boolean echo) {</b>
+<b class="fc">&nbsp;        this.gameName = gameName;</b>
+<b class="fc">&nbsp;        this.clientHandlers = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.lobby = lobby;</b>
+<b class="fc">&nbsp;        this.requests = Collections.synchronizedList(new ArrayList&lt;&gt;());</b>
+<b class="fc">&nbsp;        this.echo = echo;</b>
+<b class="fc">&nbsp;        running = true;</b>
+<b class="fc">&nbsp;        this.game = new Game(numberOfPlayers,this);</b>
+<b class="fc">&nbsp;        this.messageGenerator = new ServerMessageGenerator(game);</b>
+<b class="fc">&nbsp;        this.gameRequestHandler = new GameRequestHandler(this, messageGenerator, game);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; is ready to receive players&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void run() {
+<b class="nc">&nbsp;        while (running) {</b>
+<b class="nc">&nbsp;            while (!requests.isEmpty()) {</b>
+<b class="nc">&nbsp;                gameRequestHandler.execute(requests.getFirst());</b>
+<b class="nc">&nbsp;                requests.removeFirst();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void echoOff() {
+<b class="nc">&nbsp;        echo = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void echoOn() {
+<b class="nc">&nbsp;        echo = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getGameName() {
+<b class="nc">&nbsp;        return gameName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void submitNewRequest(Request request) {
+<b class="nc">&nbsp;        requests.addLast(request);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Game getGame() {
+<b class="fc">&nbsp;        return game;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;ClientHandler&gt; getClientHandlers() {
+<b class="nc">&nbsp;        return clientHandlers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNumberOfPlayers() {
+<b class="nc">&nbsp;        return game.getNumberOfPlayers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the player to the arraylist of players.
+&nbsp;     * @param client Client who joined the current game.
+&nbsp;     */
+&nbsp;    public synchronized void enterGame (ClientHandler client) throws GameIsFullException {
+<b class="nc">&nbsp;        if(gameIsFull()) {</b>
+<b class="nc">&nbsp;            throw new GameIsFullException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        clientHandlers.add(client);</b>
+<b class="nc">&nbsp;        client.setGame(this);</b>
+<b class="nc">&nbsp;        client.setInGame(true);</b>
+<b class="nc">&nbsp;        game.getPlayersHashMap().put(client.getUsername(), new Player(game));</b>
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Player &#39;&quot; + client.getUsername() + &quot;&#39; joined the game &#39;&quot; + gameName +&quot;&#39;&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes a player from the current game and sends him to the lobby.
+&nbsp;     * @param client Client who left the game.
+&nbsp;     */
+&nbsp;    public synchronized void leaveGame (ClientHandler client){
+<b class="nc">&nbsp;        clientHandlers.remove(client);</b>
+<b class="nc">&nbsp;        game.reinsertToken(getCurrentPlayer(client).getToken());</b>
+<b class="nc">&nbsp;        game.getPlayersHashMap().remove(client.getUsername());</b>
+<b class="nc">&nbsp;        client.setGame(null);</b>
+<b class="nc">&nbsp;        client.setInGame(false);</b>
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Player &#39;&quot; + client.getUsername() + &quot;&#39; left the game &#39;&quot; + gameName +&quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        lobby.enterLobby(client);</b>
+<b class="nc">&nbsp;        if(game.getGameState() == GameState.waitingForCardsSelection || game.getGameState() == GameState.playing || game.getGameState() == GameState.lastRound) {</b>
+<b class="nc">&nbsp;            disconnectionDuringGameProcedure();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        notifyConnectedClientCountChanged();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves the Player object associated with the provided ClientHandler.
+&nbsp;     * @param client The ClientHandler representing the player.
+&nbsp;     * @return The Player object for the given client, or null if not found.
+&nbsp;     */
+&nbsp;    public Player getCurrentPlayer(ClientHandler client) {
+<b class="nc">&nbsp;        return game.getPlayersHashMap().get(client.getUsername());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the game state to aClientDisconnected, broadcasts a closing game message to all players,
+&nbsp;     *  and then removes all remaining players from the game.
+&nbsp;     */
+&nbsp;    private void disconnectionDuringGameProcedure() {
+<b class="nc">&nbsp;        game.setGameState(GameState.aClientDisconnected);</b>
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; is closing&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        broadcast(messageGenerator.closingGameMessage());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compares the game&#39;s turn counter with the index of the client handler in the clientHandlers list.
+&nbsp;     * @param client The ClientHandler representing the player.
+&nbsp;     * @return true if it&#39;s not the player&#39;s turn, false otherwise.
+&nbsp;     */
+&nbsp;    private boolean isNotTheTurnOf(ClientHandler client) {
+<b class="nc">&nbsp;        return game.getTurnCounter() != clientHandlers.indexOf(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Increments the game&#39;s turn counter, resets the current player&#39;s turn state,
+&nbsp;     * broadcasts a turn update message to all players, and checks for the end game condition.
+&nbsp;     * @param client The ClientHandler representing the current player.
+&nbsp;     */
+&nbsp;    private void passTurn (ClientHandler client) {
+<b class="nc">&nbsp;        if(game.getTurnCounter() == game.getNumberOfPlayers() -1) game.setTurnCounter(0);</b>
+<b class="nc">&nbsp;        else game.setTurnCounter(game.getTurnCounter() + 1);</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).clearTurnState();</b>
+<b class="nc">&nbsp;        broadcast(messageGenerator.turnPlayerUpdateMessage(this));</b>
+<b class="nc">&nbsp;        notifyEndGame();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves the ClientHandler object at the index of the game&#39;s turn counter from the clientHandlers list.
+&nbsp;     * @return The username of the player whose turn it is
+&nbsp;     */
+&nbsp;    public String getTurnPlayerUsername() {
+<b class="nc">&nbsp;        return clientHandlers.get(game.getTurnCounter()).getUsername();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws a starter card for each player.
+&nbsp;     */
+&nbsp;    private void starterCardsSelectionPreparation() {
+<b class="nc">&nbsp;        StarterCard starterCard=null;</b>
+<b class="nc">&nbsp;        for(Player p : game.getPlayers()) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                starterCard = (StarterCard) game.getStarterCardDeck().directDraw() ;</b>
+<b class="nc">&nbsp;            } catch (EmptyDeckException ignored) {}</b>
+<b class="nc">&nbsp;            p.setStarterCard(starterCard);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws 2 objective cards for each player.
+&nbsp;     */
+&nbsp;    private void secretObjectiveCardsSelectionPreparation()
+&nbsp;    {
+<b class="nc">&nbsp;        for (Player p : game.getPlayers()) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                ObjectiveCard cardTemp1 = ((ObjectiveCard) game.getObjectiveCardDeck().directDraw());</b>
+<b class="nc">&nbsp;                ObjectiveCard cardTemp2 = ((ObjectiveCard) game.getObjectiveCardDeck().directDraw());</b>
+<b class="nc">&nbsp;                p.setDrawnObjectiveCards(new ObjectiveCard[]{cardTemp1, cardTemp2});</b>
+<b class="nc">&nbsp;            } catch (EmptyDeckException ignored) {</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prepares the game to wait for players to choose the starter card orientation and the secret objective.
+&nbsp;     */
+&nbsp;    private void gamePreparation (){
+<b class="nc">&nbsp;        starterCardsSelectionPreparation();</b>
+<b class="nc">&nbsp;        secretObjectiveCardsSelectionPreparation();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the flag ready to true when the player is ready to play.
+&nbsp;     * @param player The player that is now ready.
+&nbsp;     */
+&nbsp;    public synchronized void ready(ClientHandler player){
+<b class="nc">&nbsp;        getCurrentPlayer(player).setReady(true);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + player.getUsername() + &quot;&#39; is ready&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Communicates to the players the game is about to start and sends their cards.
+&nbsp;     */
+&nbsp;    public void startGame () {
+&nbsp;        //shuffles the client handlers to decide the round player sequence randomly
+<b class="nc">&nbsp;        Collections.shuffle(clientHandlers);</b>
+&nbsp;        //initializes the hand of each player
+<b class="nc">&nbsp;        for(Player p : game.getPlayers()) {</b>
+<b class="nc">&nbsp;            p.initializeHand();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        //sends the starting messages to each player
+<b class="nc">&nbsp;        for (ClientHandler client : clientHandlers) {</b>
+<b class="nc">&nbsp;            client.send(messageGenerator.startGameMessage(this, getCurrentPlayer(client)));</b>
+<b class="nc">&nbsp;            getCurrentPlayer(client).clearTurnState();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        broadcast(messageGenerator.updatedScoresMessage(this));</b>
+<b class="nc">&nbsp;        game.setTurnCounter(0);</b>
+<b class="nc">&nbsp;        if(echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; is starting&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places a card on the board for the player associated with the provided ClientHandler.
+&nbsp;     * @param client The ClientHandler representing the player who wants to place the card.
+&nbsp;     * @param placeableCardId The ID of the card in the player&#39;s hand to be placed.
+&nbsp;     * @param facingUp Whether the card should be placed face up (true) or face down (false).
+&nbsp;     * @param x The x-coordinate on the board where the card should be placed.
+&nbsp;     * @param y The y-coordinate on the board where the card should be placed.
+&nbsp;     * @throws CannotPlaceCardException Thrown if it&#39;s not the player&#39;s turn or the card cannot be placed for some reason.
+&nbsp;     */
+&nbsp;    public void place (ClientHandler client,int placeableCardId, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+<b class="nc">&nbsp;        if(isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new CannotPlaceCardException(&quot;You can&#39;t place a card, it&#39;s not your turn!&quot;);</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="nc">&nbsp;            getCurrentPlayer(client).place(placeableCardId, facingUp, x, y);</b>
+<b class="nc">&nbsp;        } catch (CardNotInHandException e) {</b>
+<b class="nc">&nbsp;            throw new CannotPlaceCardException(&quot;The card is not in your hand&quot;); //should never happen</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        broadcast(messageGenerator.updatedScoresMessage(this));</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; placed the card &quot; + placeableCardId + &quot; at X:&quot; + x + &quot; Y:&quot; + y);</b>
+<b class="nc">&nbsp;        if(game.getGameState() == GameState.lastRound) passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to directly draw a resource card from the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws EmptyDeckException Thrown if the resource card deck is empty.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void directDrawResourceCard (ClientHandler client) throws NotYourTurnException, EmptyDeckException, FullHandException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().directDraw();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn a resource card from the deck&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to directly draw a gold card from the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void directDrawGoldCard (ClientHandler client) throws EmptyDeckException, FullHandException, NotYourTurnException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().directDraw();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn a gold card from the deck&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to draw a revealed resource card from the left side of the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void drawLeftRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawLeftRevealedCard();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn the left revealed resource card&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to draw a revealed resource card from the right side of the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void drawRightRevealedResourceCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ResourceCard cardTemp = (ResourceCard) game.getResourceCardDeck().drawRightRevealedCard();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn the right revealed resource card&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to draw a revealed gold card from the left side of the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void drawLeftRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawLeftRevealedCard();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn the left revealed gold card&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the player associated with the ClientHandler to draw a revealed gold card from the right side of the deck.
+&nbsp;     * @param client The ClientHandler representing the player who wants to draw a card.
+&nbsp;     * @throws NotYourTurnException Thrown if it&#39;s not the player&#39;s turn.
+&nbsp;     * @throws FullHandException Thrown if the player&#39;s hand is already full.
+&nbsp;     * @throws CannotDrawException Thrown if the player hasn&#39;t placed a card yet this turn.
+&nbsp;     */
+&nbsp;    public void drawRightRevealedGoldCard (ClientHandler client) throws FullHandException, NotYourTurnException, CannotDrawException {
+<b class="nc">&nbsp;        if (isNotTheTurnOf(client)) {</b>
+<b class="nc">&nbsp;            throw new NotYourTurnException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!getCurrentPlayer(client).hasAlreadyPlaced()) {</b>
+<b class="nc">&nbsp;            throw new CannotDrawException();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        GoldCard cardTemp = (GoldCard) game.getGoldCardDeck().drawRightRevealedCard();</b>
+<b class="nc">&nbsp;        getCurrentPlayer(client).addToHand(cardTemp);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; has drawn the right revealed gold card&quot;);</b>
+<b class="nc">&nbsp;        notifyLastRound();</b>
+<b class="nc">&nbsp;        passTurn(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Selects the orientation of the starter card and places it.
+&nbsp;     * @param client The player that selected the orientation.
+&nbsp;     * @param starterCardId The starter card id.
+&nbsp;     * @param facingUp The orientation: true if the front is facing up, false otherwise.
+&nbsp;     */
+&nbsp;    public void chooseStarterCardSide(ClientHandler client, int starterCardId, boolean facingUp) {
+<b class="nc">&nbsp;        Player currentPlayer = getCurrentPlayer(client);</b>
+<b class="nc">&nbsp;        if (currentPlayer.getStarterCard().getId() == starterCardId) {</b>
+<b class="nc">&nbsp;            currentPlayer.place(currentPlayer.getStarterCard(), facingUp);</b>
+<b class="nc">&nbsp;            if (echo) {</b>
+&nbsp;                String side;
+<b class="nc">&nbsp;                if(facingUp) side = &quot;front&quot;;</b>
+<b class="nc">&nbsp;                else side = &quot;back&quot;;</b>
+<b class="nc">&nbsp;                System.out.println(&quot;In game &#39;&quot;+ gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; chose to play their starter card on the &quot; + side);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            currentPlayer.setStarterCardOrientationSelected(true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Selects the chosen secret objective between the two drawn objective cards.
+&nbsp;     * @param client The player choosing the secret objective.
+&nbsp;     * @param objectiveCardId The chosen secret objective card id.
+&nbsp;     */
+&nbsp;    public void chooseSecretObjectiveCard (ClientHandler client,int objectiveCardId){
+<b class="nc">&nbsp;        Player currentPlayer = getCurrentPlayer(client);</b>
+<b class="nc">&nbsp;        for(ObjectiveCard drawnObjectiveCard : currentPlayer.getDrawnObjectiveCards())</b>
+<b class="nc">&nbsp;            if (drawnObjectiveCard.getId() == objectiveCardId) {</b>
+<b class="nc">&nbsp;                currentPlayer.setSecretObjective(drawnObjectiveCard);</b>
+<b class="nc">&nbsp;                if (echo) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;In game &#39;&quot;+ gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; chose to the secret objective &quot; + objectiveCardId);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Broadcasts a JSON message to all connected clients in the game.
+&nbsp;     * @param message The JSON message to be sent to all clients.
+&nbsp;     */
+&nbsp;    public void broadcast (JSONObject message){
+<b class="nc">&nbsp;        for (ClientHandler player : clientHandlers) {</b>
+<b class="nc">&nbsp;            player.send(message);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyConnectedClientCountChanged() {
+<b class="nc">&nbsp;        if(clientHandlers.isEmpty()) {</b>
+<b class="nc">&nbsp;            if (echo) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;There are no more players in the game &#39;&quot; + gameName + &quot;&#39;: game is closed&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            lobby.closeGame(gameName);</b>
+<b class="nc">&nbsp;            running = false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyConnectionLoss (ClientHandler client) {
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; player &#39;&quot; + client.getUsername() + &quot;&#39; disconnected&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        leaveGame(client);</b>
+<b class="nc">&nbsp;        lobby.notifyConnectionLoss(client);</b>
+<b class="nc">&nbsp;        if(!(game.getGameState() == GameState.endGame || game.getGameState() == GameState.waitingForPlayers)) {</b>
+<b class="nc">&nbsp;            disconnectionDuringGameProcedure();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean gameIsFull() {
+<b class="nc">&nbsp;        return game.getPlayersHashMap().size() == game.getNumberOfPlayers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyReady() {
+<b class="nc">&nbsp;        if(!gameIsFull()) return;</b>
+<b class="nc">&nbsp;        if(game.getGameState()!=GameState.waitingForPlayers) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Player p : game.getPlayers()) {</b>
+<b class="nc">&nbsp;            if(!p.isReady())</b>
+&nbsp;                return;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        lobby.makeUnavailable(gameName);</b>
+<b class="nc">&nbsp;        game.setGameState(GameState.waitingForCardsSelection);</b>
+<b class="nc">&nbsp;        gamePreparation();</b>
+<b class="nc">&nbsp;        sendCardsSelectionMessageToThePlayers();</b>
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; all players are ready&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sends a message to each player containing their starter card and drawn objective cards.
+&nbsp;     */
+&nbsp;    private void sendCardsSelectionMessageToThePlayers() {
+<b class="nc">&nbsp;        for (ClientHandler c : clientHandlers) {</b>
+<b class="nc">&nbsp;            StarterCard starterCard = getCurrentPlayer(c).getStarterCard();</b>
+<b class="nc">&nbsp;            ObjectiveCard objectiveCard1 = getCurrentPlayer(c).getDrawnObjectiveCards()[0];</b>
+<b class="nc">&nbsp;            ObjectiveCard objectiveCard2 = getCurrentPlayer(c).getDrawnObjectiveCards()[1];</b>
+<b class="nc">&nbsp;            c.send(messageGenerator.cardsSelectionMessage(starterCard, objectiveCard1, objectiveCard2));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyStarterCardAndSecretObjectiveSelected() {
+<b class="nc">&nbsp;        if(game.getGameState() != GameState.waitingForCardsSelection) return;</b>
+<b class="nc">&nbsp;        for (ClientHandler player : clientHandlers) {</b>
+<b class="nc">&nbsp;            Player currentPlayer = getCurrentPlayer(player);</b>
+<b class="nc">&nbsp;            if(!currentPlayer.isStarterCardOrientationSelected() || currentPlayer.getSecretObjective() == null) return;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        game.setGameState(GameState.playing);</b>
+<b class="nc">&nbsp;        if(echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;In game &#39;&quot; + gameName + &quot;&#39; all players selected the starter card side and secret objective&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        startGame();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyLastRound() {
+<b class="fc">&nbsp;        if(game.getGameState() != GameState.playing) return;</b>
+&nbsp;        String reason;
+<b class="nc">&nbsp;        for (ClientHandler clientHandler : clientHandlers) {</b>
+<b class="nc">&nbsp;            if (getCurrentPlayer(clientHandler).getScore() &gt;= SCORE_GOAL) {</b>
+<b class="nc">&nbsp;                game.setGameState(GameState.lastRound);</b>
+<b class="nc">&nbsp;                reason = &quot;player &quot; + clientHandler.getUsername() + &quot; has 20 or more points&quot;;</b>
+<b class="nc">&nbsp;                broadcast(messageGenerator.lastRoundMessage(reason));</b>
+<b class="nc">&nbsp;                if(echo) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; is at the last round because &quot; + reason);</b>
+&nbsp;                }
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        
+<b class="nc">&nbsp;        if (game.getGoldCardDeck().isEmpty() &amp;&amp; game.getResourceCardDeck().isEmpty()) {</b>
+<b class="nc">&nbsp;            game.setGameState(GameState.lastRound);</b>
+<b class="nc">&nbsp;            reason = &quot;decks are empty&quot;;</b>
+<b class="nc">&nbsp;            broadcast(messageGenerator.lastRoundMessage(reason));</b>
+<b class="nc">&nbsp;            if(echo) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; is at the last round because &quot; + reason);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyEndGame() {
+<b class="nc">&nbsp;        if(game.getGameState()==GameState.endGame) return;</b>
+<b class="nc">&nbsp;        if(game.getGameState()!=GameState.lastRound) return;</b>
+<b class="nc">&nbsp;        if(game.getTurnCounter() != 0) return;</b>
+<b class="nc">&nbsp;        game.setGameState(GameState.endGame);</b>
+<b class="nc">&nbsp;        if(echo) System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; has ended&quot;);</b>
+<b class="nc">&nbsp;        calculateFinalScore();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the final leaderboard and sends it to each client.
+&nbsp;     */
+&nbsp;    public void calculateFinalScore() {
+<b class="nc">&nbsp;        ArrayList&lt;ClientHandler&gt; classifiedPlayers = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (ClientHandler c : clientHandlers) {</b>
+<b class="nc">&nbsp;            classifiedPlayers.add(c);</b>
+<b class="nc">&nbsp;            getCurrentPlayer(c).calculateFinalScore();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        sortPlayers(classifiedPlayers);</b>
+<b class="nc">&nbsp;        broadcast(messageGenerator.leaderBoardMessage(this , classifiedPlayers));</b>
+<b class="nc">&nbsp;        if(echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Game &#39;&quot; + gameName + &quot;&#39; leaderboard:&quot;);</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; classifiedPlayers.size(); i++) {</b>
+<b class="nc">&nbsp;                System.out.println(i + &quot;: &quot; + classifiedPlayers.get(i).getUsername() + &quot; &quot; + getCurrentPlayer(classifiedPlayers.get(i)).getScore() + &quot; points (&quot; + getCurrentPlayer(classifiedPlayers.get(i)).getNumOfCompletedObjectiveCards() + &quot; objectives completed)&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void sortPlayers(ArrayList&lt;ClientHandler&gt; clients) {
+<b class="nc">&nbsp;        clients.sort((c1, c2) -&gt; getCurrentPlayer(c1).compareTo(getCurrentPlayer(c2)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

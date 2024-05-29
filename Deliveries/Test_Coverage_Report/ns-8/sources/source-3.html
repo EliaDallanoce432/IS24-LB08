@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DeckObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.observers</a>
+</div>
+
+<h1>Coverage Summary for Class: DeckObserver (it.polimi.ingsw.client.view.observers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DeckObserver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.observers;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.DeckModel;
+&nbsp;import it.polimi.ingsw.client.view.StageManager;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class implements the ModelObserver interface
+&nbsp; * and is responsible for observing changes in the DeckModel. When a change
+&nbsp; * occurs, it updates the deck view through the StageManager.
+&nbsp; * This class is instantiated and registered as an observer to the DeckModel
+&nbsp; * singleton instance upon creation.
+&nbsp; */
+&nbsp;public class DeckObserver implements ModelObserver {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new DeckObserver and registers it as an observer
+&nbsp;     * to the DeckModel instance.
+&nbsp;     */
+<b class="nc">&nbsp;    public DeckObserver() {</b>
+<b class="nc">&nbsp;        DeckModel.getInstance().addObserver(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called when the observed object is changed. It triggers
+&nbsp;     * the update of the GUI through the StageManager.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void update() {
+<b class="nc">&nbsp;        StageManager.getCurrentViewController().updateDecks();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,417 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GameFieldViewController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.GUI.viewControllers</a>
+</div>
+
+<h1>Coverage Summary for Class: GameFieldViewController (it.polimi.ingsw.client.view.GUI.viewControllers)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameFieldViewController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameFieldViewController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/72)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.GUI.viewControllers;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.client.model.*;
+&nbsp;import it.polimi.ingsw.client.view.StageManager;
+&nbsp;import it.polimi.ingsw.client.view.ViewController;
+&nbsp;import it.polimi.ingsw.client.view.utility.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import javafx.application.Platform;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.control.ScrollPane;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.image.ImageView;
+&nbsp;import javafx.scene.layout.*;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class controls the GUI scene of the game board.
+&nbsp; * It initializes and updates various elements of the scene such as the game board, objectives,
+&nbsp; * scoreboards, the player&#39;s hand, and other UI components.
+&nbsp; */
+<b class="nc">&nbsp;public class GameFieldViewController extends ViewController {</b>
+&nbsp;    //FXML Nodes
+&nbsp;    @FXML
+&nbsp;    private Pane handPane;
+&nbsp;    @FXML
+&nbsp;    private ScrollPane scrollPane;
+&nbsp;    @FXML
+&nbsp;    private Label alertLabel;
+&nbsp;    @FXML
+&nbsp;    private Label specialAlertsLabel;
+&nbsp;    @FXML
+&nbsp;    private Label errorLabel;
+&nbsp;    @FXML
+&nbsp;    private Pane scoreBoardPane;
+&nbsp;    @FXML
+&nbsp;    private VBox scoreBoardVBox;
+&nbsp;    @FXML
+&nbsp;    private Pane decksPane;
+&nbsp;    @FXML
+&nbsp;    private HBox commonObjectivesPane;
+&nbsp;    @FXML
+&nbsp;    private HBox secretObjectivePane;
+&nbsp;    @FXML
+&nbsp;    private Button flipButton;
+&nbsp;    @FXML
+&nbsp;    private Button leaveGameButton;
+&nbsp;    @FXML
+&nbsp;    private Pane scoreTrackPane;
+&nbsp;    @FXML
+&nbsp;    private ImageView blueToken;
+&nbsp;    @FXML
+&nbsp;    private ImageView yellowToken;
+&nbsp;    @FXML
+&nbsp;    private ImageView redToken;
+&nbsp;    @FXML
+&nbsp;    private ImageView greenToken;
+&nbsp;    @FXML
+&nbsp;    private Pane resourcesPane;
+&nbsp;    @FXML
+&nbsp;    private Label plantResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label animalResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label fungiResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label insectResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label featherResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label inkPotResLabel;
+&nbsp;    @FXML
+&nbsp;    private Label scrollResLabel;
+&nbsp;
+&nbsp;    private HandAndBoardRepresentation handAndBoardRepresentation;
+&nbsp;    private DecksRepresentation decksRepresentation;
+&nbsp;    private ScoreBoardRepresentation scoreBoardRepresentation;
+&nbsp;    private ObjectivesRepresentation objectivesRepresentation;
+&nbsp;    private ScoreTrackRepresentation scoreTrackRepresentation;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the Panes, the relative representation utility classes and fills the panes with the pattern.
+&nbsp;     * It also performs an additional update of all the UI elements, in case the observer updates the scene before it&#39;s
+&nbsp;     * loaded.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void initialize() {
+<b class="nc">&nbsp;        flipButton.setOnMouseEntered(mouseEvent -&gt; flipButton.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;        flipButton.setOnMouseExited(mouseEvent -&gt; flipButton.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;        leaveGameButton.setOnMouseEntered(mouseEvent -&gt; leaveGameButton.setCursor(Cursor.HAND));</b>
+<b class="nc">&nbsp;        leaveGameButton.setOnMouseExited(mouseEvent -&gt; leaveGameButton.setCursor(Cursor.DEFAULT));</b>
+&nbsp;
+<b class="nc">&nbsp;        handAndBoardRepresentation = new HandAndBoardRepresentation(handPane,scrollPane);</b>
+<b class="nc">&nbsp;        objectivesRepresentation = new ObjectivesRepresentation(commonObjectivesPane, secretObjectivePane);</b>
+<b class="nc">&nbsp;        decksRepresentation = new DecksRepresentation(decksPane);</b>
+<b class="nc">&nbsp;        scoreBoardRepresentation = new ScoreBoardRepresentation(scoreBoardVBox);</b>
+<b class="nc">&nbsp;        scoreTrackRepresentation = new ScoreTrackRepresentation(scoreTrackPane,blueToken,redToken,greenToken,yellowToken);</b>
+&nbsp;
+<b class="nc">&nbsp;        specialAlertsLabel.setVisible(false);</b>
+<b class="nc">&nbsp;        errorLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        fillPaneWithPattern(resourcesPane);</b>
+<b class="nc">&nbsp;        fillPaneWithPattern(scoreBoardPane);</b>
+&nbsp;
+<b class="nc">&nbsp;        showMessage(&quot;Waiting for all players to choose the cards...&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;            updateGameBoard();</b>
+<b class="nc">&nbsp;            updateObjectives();</b>
+<b class="nc">&nbsp;            updateHand();</b>
+<b class="nc">&nbsp;            updateDecks();</b>
+<b class="nc">&nbsp;            updateSceneStatus();</b>
+<b class="nc">&nbsp;            updatePlayerInfo();</b>
+<b class="nc">&nbsp;            updateScoreBoard();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Center the visual of game field (scrollPane).
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void centerVisual() {
+<b class="nc">&nbsp;        scrollPane.setHvalue(0.5);</b>
+<b class="nc">&nbsp;        scrollPane.setVvalue(0.503);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the HandModel so that the cards get flipped.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void flipCardsInHand() {
+<b class="nc">&nbsp;        HandModel.getInstance().flipCardsInHand();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the Main Menu and sends a &quot;leaveGame&quot; message.
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void leaveGame(){
+<b class="nc">&nbsp;        ClientController.getInstance().sendLeaveMessage();</b>
+<b class="nc">&nbsp;        ClientStateModel.getInstance().setClientState(ClientState.LOBBY_STATE);</b>
+<b class="nc">&nbsp;        ClientController.getInstance().resetModels();</b>
+<b class="nc">&nbsp;        StageManager.loadWelcomeScene();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the model the current placementHistory array and shows it.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateGameBoard(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt; handAndBoardRepresentation.loadBoardFromPlacementHistory());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the model the current common and secret objectives and shows them in the GUI.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateObjectives(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc">&nbsp;            objectivesRepresentation.loadCommonObjectives();</b>
+<b class="nc">&nbsp;            objectivesRepresentation.loadSecretObjective();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the model the current top cards of the decks and shows them in the GUI.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateDecks(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt; decksRepresentation.loadDecks());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the model the current hand of the Player and shows it in the GUI.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateHand(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt; handAndBoardRepresentation.loadHand());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads form the model the updated scores and resources and shows them in the GUI.
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public void updateScoreBoard(){Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;        scoreBoardRepresentation.updateScores();</b>
+<b class="nc">&nbsp;        scoreTrackRepresentation.updateTokenPosition();</b>
+<b class="nc">&nbsp;        Platform.runLater(this::updateResources);</b>
+&nbsp;    });}
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads from the ClientState Model the current state and updates the GUI accordingly.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void updateSceneStatus(){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc">&nbsp;            errorLabel.setVisible(false);</b>
+<b class="nc">&nbsp;            switch (ClientStateModel.getInstance().getClientState()){</b>
+<b class="nc">&nbsp;                case NOT_PLAYING_STATE -&gt; showMessage(&quot;Waiting for &quot; + PlayerModel.getInstance().getTurnPlayer() + &quot; to finish their turn...&quot;);</b>
+<b class="nc">&nbsp;                case PLACING_STATE -&gt; showMessage(&quot;It&#39;s your Turn, please place a card!&quot;);</b>
+&nbsp;                case DRAWING_STATE -&gt; {
+<b class="nc">&nbsp;                    showMessage(&quot;Please Draw a Card from the decks!&quot;);</b>
+<b class="nc">&nbsp;                    decksRepresentation.loadDecks();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case KICKED_STATE -&gt; StageManager.loadKickedFromGameScene();</b>
+<b class="nc">&nbsp;                case LOST_CONNECTION_STATE -&gt; StageManager.loadLostConnectionScene();</b>
+<b class="nc">&nbsp;                case LAST_ROUND_STATE -&gt; showSpecialMessage(&quot; It&#39;s the last turn! &quot; + ClientStateModel.getInstance().getReason() + &quot;!&quot; );</b>
+<b class="nc">&nbsp;                case END_GAME_STATE -&gt; StageManager.loadLeaderboardScene();</b>
+&nbsp;                default -&gt; {}
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a message in the label.
+&nbsp;     * @param message The message to be shown.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showMessage(String message){
+<b class="nc">&nbsp;        Platform.runLater(()-&gt; alertLabel.setText(message));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a message in the &quot;special alerts&quot; label.
+&nbsp;     * @param message The message to be shown.
+&nbsp;     */
+&nbsp;    public void showSpecialMessage(String message){
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;            specialAlertsLabel.setText(message);</b>
+<b class="nc">&nbsp;            specialAlertsLabel.setVisible(true);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows an error message in the error label.
+&nbsp;     * @param message The message to be shown.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showErrorMessage(String message){
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;            errorLabel.setText(&quot;?&quot; + message);</b>
+<b class="nc">&nbsp;            errorLabel.setVisible(true);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Fills a given pane with a textured tile.
+&nbsp;     * @param pane The Pane to be filled.
+&nbsp;     */
+&nbsp;    private void fillPaneWithPattern (Pane pane){
+<b class="nc">&nbsp;        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/Images/background_tile.png&quot;)));</b>
+&nbsp;
+<b class="nc">&nbsp;        BackgroundImage backgroundImage = new BackgroundImage(</b>
+&nbsp;                patternTile,
+&nbsp;                BackgroundRepeat.REPEAT,   // Repeat horizontally
+&nbsp;                BackgroundRepeat.REPEAT,   // Repeat vertically
+&nbsp;                BackgroundPosition.DEFAULT,
+&nbsp;                BackgroundSize.DEFAULT
+&nbsp;        );
+&nbsp;
+<b class="nc">&nbsp;        pane.setBackground(new Background(backgroundImage));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads and shows the resources from the scoreBoardModel.
+&nbsp;     */
+&nbsp;    private void updateResources() {
+<b class="nc">&nbsp;        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();</b>
+&nbsp;
+<b class="nc">&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc">&nbsp;            animalResLabel.setText(scoreBoardModel.getAnimalResourceCount() + &quot;&quot;);</b>
+<b class="nc">&nbsp;            fungiResLabel.setText(scoreBoardModel.getFungiResourceCount() + &quot;&quot;);</b>
+<b class="nc">&nbsp;            insectResLabel.setText(scoreBoardModel.getInsectResourceCount() + &quot;&quot;);</b>
+<b class="nc">&nbsp;            plantResLabel.setText(scoreBoardModel.getPlantResourceCount() + &quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            featherResLabel.setText(scoreBoardModel.getFeatherCount() + &quot;&quot;);</b>
+<b class="nc">&nbsp;            scrollResLabel.setText(scoreBoardModel.getScrollCount() + &quot;&quot;);</b>
+<b class="nc">&nbsp;            inkPotResLabel.setText(scoreBoardModel.getInkPotCount() + &quot;&quot;);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

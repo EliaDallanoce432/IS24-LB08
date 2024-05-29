@@ -1,0 +1,480 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GameField</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GameField (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameField</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.4%
+  </span>
+  <span class="absValue">
+    (27/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (123/126)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameField$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    96.6%
+  </span>
+  <span class="absValue">
+    (28/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (124/127)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.card.PlaceableCard;
+&nbsp;import it.polimi.ingsw.server.model.card.StarterCard;
+&nbsp;import it.polimi.ingsw.util.customexceptions.CannotPlaceCardException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents a player&#39;s game field, which is the grid where they place their cards during the game.
+&nbsp; * It keeps track of the cards placed on the grid, categorized by type (plant, animal, fungi, insect), as well as resource counts associated with placed cards.
+&nbsp; */
+&nbsp;public class GameField {
+&nbsp;    private final HashMap&lt;String, PlaceableCard&gt; cardsGrid;
+&nbsp;    private final Player player;
+&nbsp;    private int fungiCount;
+&nbsp;    private int animalCount;
+&nbsp;    private int plantCount;
+&nbsp;    private int insectCount;
+&nbsp;    private int scrollCount;
+&nbsp;    private int inkPotCount;
+&nbsp;    private int featherCount;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; plantCards;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; animalCards;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; fungiCards;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; insectCards;
+&nbsp;    private final ArrayList&lt;PlaceableCard&gt; placementHistory;
+&nbsp;
+<b class="fc">&nbsp;    public GameField(Player player) {</b>
+<b class="fc">&nbsp;        this.player = player;</b>
+<b class="fc">&nbsp;        cardsGrid = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        animalCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        insectCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        fungiCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        plantCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        placementHistory = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //GETTERS and SETTERS
+&nbsp;    public Player getPlayer() {
+<b class="fc">&nbsp;        return player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getFungiCount() {
+<b class="fc">&nbsp;        return fungiCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getPlantCards() {
+<b class="fc">&nbsp;        return plantCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getAnimalCards() {
+<b class="fc">&nbsp;        return animalCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getFungiCards() {
+<b class="fc">&nbsp;        return fungiCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getInsectCards() {
+<b class="fc">&nbsp;        return insectCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;PlaceableCard&gt; getPlacementHistory() {
+<b class="nc">&nbsp;        return placementHistory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addToPlacementHistory(PlaceableCard card) {
+<b class="fc">&nbsp;        placementHistory.addLast(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getAnimalCount() {
+<b class="fc">&nbsp;        return animalCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getPlantCount() {
+<b class="fc">&nbsp;        return plantCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getInsectCount() {
+<b class="fc">&nbsp;        return insectCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getScrollCount() {
+<b class="fc">&nbsp;        return scrollCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getInkPotCount() {
+<b class="fc">&nbsp;        return inkPotCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getFeatherCount() {
+<b class="fc">&nbsp;        return featherCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  Searches the card in a particular position on the grid.
+&nbsp;      * @param x The x coordinate on the grid.
+&nbsp;     * @param y The y coordinate on the grid.
+&nbsp;     * @return The card at (x,y) coordinates or null if it&#39;s not found.
+&nbsp;     */
+&nbsp;    public PlaceableCard lookAtCoordinates(int x, int y){
+<b class="fc">&nbsp;        if(x&lt;-40 || y&lt;-40 || x&gt;40 || y&gt;40) return null;</b>
+<b class="fc">&nbsp;        else return cardsGrid.get(coordinatesToString(x,y));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places a card to the specified coordinates.
+&nbsp;     * @param card The card to place.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     */
+&nbsp;    private void placeCardAtCoordinates(PlaceableCard card, int x, int y){
+<b class="fc">&nbsp;        cardsGrid.put(coordinatesToString(x,y),card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts coordinates to string.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     * @return The coordinates converted to String like: &quot;x,y&quot;
+&nbsp;     */
+&nbsp;    private String coordinatesToString(int x, int y){
+<b class="fc">&nbsp;        return x + &quot;,&quot; + y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places the starter card on the game field.
+&nbsp;     * @param card The starter card to be placed.
+&nbsp;     * @param facingUp Value that chooses the side of the card that will be shown. True ro place it on the front side, false otherwise.
+&nbsp;     */
+&nbsp;    public void place(StarterCard card, boolean facingUp) {
+<b class="fc">&nbsp;        card.setFacingUp(facingUp);</b>
+<b class="fc">&nbsp;        this.placeCardAtCoordinates(card,0,0); //places card in the grid</b>
+<b class="fc">&nbsp;        card.setX(0);</b>
+<b class="fc">&nbsp;        card.setY(0);</b>
+<b class="fc">&nbsp;        addResource(card.getTopRightCorner().getResource());</b>
+<b class="fc">&nbsp;        addResource(card.getTopLeftCorner().getResource());</b>
+<b class="fc">&nbsp;        addResource(card.getBottomRightCorner().getResource());</b>
+<b class="fc">&nbsp;        addResource(card.getBottomLeftCorner().getResource());</b>
+<b class="fc">&nbsp;        if(!card.isFacingUp()) {</b>
+<b class="fc">&nbsp;            for (Resource res : card.getBackCentralResources()) {</b>
+<b class="fc">&nbsp;                addResource(res);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+<b class="fc">&nbsp;        addToPlacementHistory(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places the card on the game field.
+&nbsp;     * @param card The card to be placed.
+&nbsp;     * @param facingUp Value that chooses the side of the card that will be shown. True ro place it on the front side, false otherwise.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     */
+&nbsp;    public void place(PlaceableCard card, boolean facingUp, int x, int y) throws CannotPlaceCardException {
+<b class="fc">&nbsp;        card.setFacingUp(facingUp);</b>
+<b class="fc">&nbsp;        if (this.lookAtCoordinates(x,y)!=null) throw new CannotPlaceCardException(&quot;There&#39;s already a card placed there!&quot;);</b>
+<b class="fc">&nbsp;        if (!this.followsPlacementRules(x,y)) throw new CannotPlaceCardException(&quot;You can&#39;t place a card there!&quot;);</b>
+<b class="fc">&nbsp;        if (!this.followsPlacementRequirements(card)) throw new CannotPlaceCardException(&quot;You don&#39;t have enough resources to place this card!&quot;);</b>
+<b class="fc">&nbsp;        this.placeCardAtCoordinates(card,x,y);</b>
+<b class="fc">&nbsp;        card.setX(x);</b>
+<b class="fc">&nbsp;        card.setY(y);</b>
+<b class="fc">&nbsp;        updateNeighboursAndResources(card, x,y); //updates the surrounding cards and resource state</b>
+<b class="fc">&nbsp;        if(card.isFacingUp()) player.setScore(player.getScore()+card.placementPoints(this)); //gets the points earned from placing the card</b>
+<b class="fc">&nbsp;        addToPlacementHistory(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks the placing rules between the new card and the neighbour cards.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     * @return true if placing is valid, false otherwise.
+&nbsp;     */
+&nbsp;    private boolean followsPlacementRules(int x, int y){
+<b class="fc">&nbsp;        return isInValidCoordinates(x, y) &amp;&amp; hasValidNeighbours(x,y);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the card is in valid coordinates, x and y must be both even or both odd.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     * @return true if placing is correct
+&nbsp;     * */
+&nbsp;    private boolean isInValidCoordinates(int x, int y) {
+<b class="fc">&nbsp;        return (Math.abs(x)%2==0 &amp;&amp; Math.abs(y)%2==0) || (Math.abs(x)%2==1 &amp;&amp; Math.abs(y)%2==1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the card has valid corner for placement.
+&nbsp;     * @param neighbourCard The neighbourCard.
+&nbsp;     * @param offset The offset of the card.
+&nbsp;     * @return true if the card has valid corner for placement, false otherwise.
+&nbsp;     */
+&nbsp;    private boolean hasValidCorner(PlaceableCard neighbourCard, int[] offset) {
+<b class="fc">&nbsp;         switch (offset[0]) {</b>
+&nbsp;            case 1 -&gt; {
+<b class="fc">&nbsp;                if (offset[1] == 1)</b>
+<b class="fc">&nbsp;                    return neighbourCard.getBottomLeftCorner().isAttachable();</b>
+<b class="fc">&nbsp;                if(offset[1] == -1)</b>
+<b class="fc">&nbsp;                    return neighbourCard.getTopLeftCorner().isAttachable();</b>
+&nbsp;            }
+&nbsp;            case -1 -&gt; {
+<b class="fc">&nbsp;                if (offset[1] == 1)</b>
+<b class="fc">&nbsp;                    return neighbourCard.getBottomRightCorner().isAttachable();</b>
+<b class="fc">&nbsp;                if (offset[1] == -1)</b>
+<b class="fc">&nbsp;                    return neighbourCard.getTopRightCorner().isAttachable();</b>
+&nbsp;            }
+&nbsp;             default -&gt; {
+<b class="nc">&nbsp;                 return false;</b>
+&nbsp;             }
+&nbsp;         }
+&nbsp;         //shouldn&#39;t get here
+<b class="nc">&nbsp;         return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the card has valid neighbors for placement.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     * @return true if the card has valid neighbors for placement, false otherwise.
+&nbsp;     */
+&nbsp;    private boolean hasValidNeighbours(int x, int y){
+<b class="fc">&nbsp;        int[][] offsets = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};</b>
+<b class="fc">&nbsp;        int validNeighbourCount = 0;</b>
+<b class="fc">&nbsp;        for (int[] offset : offsets) {</b>
+<b class="fc">&nbsp;            PlaceableCard neighbourCard = lookAtCoordinates(x + offset[0], y + offset[1]);</b>
+<b class="fc">&nbsp;            if (neighbourCard != null) {</b>
+<b class="fc">&nbsp;                if (!hasValidCorner(neighbourCard, offset)) return false;</b>
+<b class="fc">&nbsp;                else validNeighbourCount++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return validNeighbourCount&gt;0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the requirements for placing the card are matched.
+&nbsp;     * @param placeableCard Card to check the requirements.
+&nbsp;     * @return true if the requirements for placing the card are matched, false otherwise.
+&nbsp;     */
+&nbsp;    private boolean followsPlacementRequirements (PlaceableCard placeableCard){
+&nbsp;
+<b class="fc">&nbsp;        if(!placeableCard.isFacingUp()) return true;</b>
+<b class="fc">&nbsp;        return placeableCard.getRequiredAnimalResourceAmount() &lt;= this.animalCount &amp;&amp;</b>
+<b class="fc">&nbsp;                placeableCard.getRequiredFungiResourceAmount() &lt;= this.fungiCount &amp;&amp;</b>
+<b class="fc">&nbsp;                placeableCard.getRequiredInsectResourceAmount() &lt;= this.insectCount &amp;&amp;</b>
+<b class="fc">&nbsp;                placeableCard.getRequiredPlantResourceAmount() &lt;= this.plantCount;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the state of the neighbour cards corners and resources visible on the game-field after placing a card.
+&nbsp;     * @param card The placed card.
+&nbsp;     * @param x The x coordinate.
+&nbsp;     * @param y The y coordinate.
+&nbsp;     */
+&nbsp;    private void updateNeighboursAndResources(PlaceableCard card, int x, int y){
+&nbsp;
+&nbsp;        PlaceableCard neighbourCard;
+&nbsp;
+<b class="fc">&nbsp;        neighbourCard = this.lookAtCoordinates(x+1,y+1);</b>
+<b class="fc">&nbsp;        if( neighbourCard != null ) {</b>
+<b class="fc">&nbsp;            this.removeResource(neighbourCard.getBottomLeftCorner().getResource());</b>
+<b class="fc">&nbsp;            neighbourCard.getBottomLeftCorner().setVisible(false);</b>
+<b class="fc">&nbsp;            neighbourCard.getBottomLeftCorner().setAttached(true);</b>
+<b class="fc">&nbsp;            card.getTopRightCorner().setAttached(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        neighbourCard = this.lookAtCoordinates(x+1,y-1);</b>
+<b class="fc">&nbsp;        if( neighbourCard != null ) {</b>
+<b class="fc">&nbsp;            this.removeResource(neighbourCard.getTopLeftCorner().getResource());</b>
+<b class="fc">&nbsp;            neighbourCard.getTopLeftCorner().setVisible(false);</b>
+<b class="fc">&nbsp;            neighbourCard.getTopLeftCorner().setAttached(true);</b>
+<b class="fc">&nbsp;            card.getBottomRightCorner().setAttached(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        neighbourCard = this.lookAtCoordinates(x-1,y-1);</b>
+<b class="fc">&nbsp;        if( neighbourCard != null ) {</b>
+<b class="fc">&nbsp;            this.removeResource(neighbourCard.getTopRightCorner().getResource());</b>
+<b class="fc">&nbsp;            neighbourCard.getTopRightCorner().setVisible(false);</b>
+<b class="fc">&nbsp;            neighbourCard.getTopRightCorner().setAttached(true);</b>
+<b class="fc">&nbsp;            card.getBottomLeftCorner().setAttached(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        neighbourCard = this.lookAtCoordinates(x-1,y+1);</b>
+<b class="fc">&nbsp;        if( neighbourCard != null ) {</b>
+<b class="fc">&nbsp;            this.removeResource(neighbourCard.getBottomRightCorner().getResource());</b>
+<b class="fc">&nbsp;            neighbourCard.getBottomRightCorner().setVisible(false);</b>
+<b class="fc">&nbsp;            neighbourCard.getBottomRightCorner().setAttached(true);</b>
+<b class="fc">&nbsp;            card.getTopLeftCorner().setAttached(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if(card.isFacingUp()){</b>
+<b class="fc">&nbsp;            this.addResource(card.getTopRightCorner().getResource());</b>
+<b class="fc">&nbsp;            this.addResource(card.getBottomRightCorner().getResource());</b>
+<b class="fc">&nbsp;            this.addResource(card.getBottomLeftCorner().getResource());</b>
+<b class="fc">&nbsp;            this.addResource(card.getTopLeftCorner().getResource());</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            this.addResource(card.getCardKingdom());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        switch (card.getCardKingdom())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            case fungi -&gt; this.fungiCards.add(card);</b>
+<b class="fc">&nbsp;            case animal -&gt; this.animalCards.add(card);</b>
+<b class="fc">&nbsp;            case plant -&gt; this.plantCards.add(card);</b>
+<b class="fc">&nbsp;            case insect -&gt; this.insectCards.add(card);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the given resource to the total resource amount.
+&nbsp;     * @param resource The resource to add to the total visible amount.
+&nbsp;     */
+&nbsp;    private void addResource(Resource resource){
+&nbsp;
+<b class="fc">&nbsp;        switch (resource){</b>
+<b class="fc">&nbsp;            case fungi -&gt; fungiCount++;</b>
+<b class="fc">&nbsp;            case animal -&gt; animalCount++;</b>
+<b class="fc">&nbsp;            case plant -&gt; plantCount++;</b>
+<b class="fc">&nbsp;            case insect -&gt; insectCount++;</b>
+<b class="fc">&nbsp;            case scroll -&gt; scrollCount++;</b>
+<b class="fc">&nbsp;            case inkPot -&gt; inkPotCount++;</b>
+<b class="fc">&nbsp;            case feather -&gt; featherCount++;</b>
+&nbsp;            default -&gt; {}
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes the given resource to the total resource amount.
+&nbsp;     * @param resource The resource to add to the total visible amount.
+&nbsp;     */
+&nbsp;    private void removeResource(Resource resource){
+&nbsp;
+<b class="fc">&nbsp;        switch (resource){</b>
+<b class="fc">&nbsp;            case fungi -&gt; fungiCount--;</b>
+<b class="fc">&nbsp;            case animal -&gt; animalCount--;</b>
+<b class="fc">&nbsp;            case plant -&gt; plantCount--;</b>
+<b class="fc">&nbsp;            case insect -&gt; insectCount--;</b>
+<b class="fc">&nbsp;            case scroll -&gt; scrollCount--;</b>
+<b class="fc">&nbsp;            case inkPot -&gt; inkPotCount--;</b>
+<b class="fc">&nbsp;            case feather -&gt; featherCount--;</b>
+&nbsp;            default -&gt; {}
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

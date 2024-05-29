@@ -1,0 +1,434 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientMessageHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientMessageHandler (it.polimi.ingsw.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientMessageHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/130)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.*;
+&nbsp;import it.polimi.ingsw.client.view.StageManager;
+&nbsp;import it.polimi.ingsw.client.view.utility.CardRepresentation;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Token;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for handling incoming JSON messages from the server.
+&nbsp; * It parses the message content and updates the client&#39;s internal models accordingly.
+&nbsp; */
+<b class="nc">&nbsp;public class ClientMessageHandler {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes an incoming JSON message from the server.
+&nbsp;     * @param message The JSONObject representing the received message.
+&nbsp;     */
+&nbsp;    public void execute (JSONObject message) {
+&nbsp;
+<b class="nc">&nbsp;        switch (message.get(&quot;message&quot;).toString()) {</b>
+&nbsp;            //in-lobby messages
+<b class="nc">&nbsp;            case &quot;joinedLobby&quot; -&gt; updateClientState(ClientState.LOBBY_STATE, &quot;Joined Lobby&quot;);</b>
+<b class="nc">&nbsp;            case &quot;usernameSet&quot; -&gt; updateUsername(message);</b>
+<b class="nc">&nbsp;            case &quot;usernameAlreadyTaken&quot; -&gt; showError(&quot;Username Already Taken&quot;);</b>
+<b class="nc">&nbsp;            case &quot;gameCreated&quot; -&gt; updateClientState(ClientState.GAME_SETUP_STATE, &quot;Game Created Successfully&quot;);</b>
+<b class="nc">&nbsp;            case &quot;joinGame&quot; -&gt; updateClientState(ClientState.GAME_SETUP_STATE, &quot;Joined Game Successfully&quot;);</b>
+<b class="nc">&nbsp;            case &quot;cannotCreateGame&quot; -&gt; showError(message.get(&quot;reason&quot;).toString());</b>
+<b class="nc">&nbsp;            case &quot;gameDoesNotExist&quot; -&gt; showError( &quot;The selected game does not exist&quot;);</b>
+<b class="nc">&nbsp;            case &quot;gameIsFull&quot; -&gt; showError( &quot;The selected game is full&quot;);</b>
+<b class="nc">&nbsp;            case &quot;availableGames&quot; -&gt; updateAvailableGames(message);</b>
+&nbsp;            //in-game messages
+<b class="nc">&nbsp;            case &quot;cardsSelection&quot; -&gt; updateSelectableCards(message);</b>
+<b class="nc">&nbsp;            case &quot;startGame&quot; -&gt; updateInitialBoardState(message);</b>
+<b class="nc">&nbsp;            case &quot;updatedDecks&quot; -&gt; updateDecks(message);</b>
+<b class="nc">&nbsp;            case &quot;updatedHand&quot; -&gt; updateHand(message);</b>
+<b class="nc">&nbsp;            case &quot;successfulPlace&quot; -&gt; updateGameField(message);</b>
+<b class="nc">&nbsp;            case &quot;cannotPlace&quot; -&gt; cannotPlaceHandler(message);</b>
+<b class="nc">&nbsp;            case &quot;turnPlayerUpdate&quot; -&gt; updateTurnPlayer(message);</b>
+<b class="nc">&nbsp;            case &quot;updatedScores&quot; -&gt; updateScores(message);</b>
+<b class="nc">&nbsp;            case &quot;closingGame&quot; -&gt; updateClientState(ClientState.KICKED_STATE);</b>
+<b class="nc">&nbsp;            case &quot;lastRound&quot; -&gt; handleLastRound(message);</b>
+<b class="nc">&nbsp;            case &quot;leaderBoard&quot; -&gt; updateLeaderboard(message);</b>
+&nbsp;            default -&gt; { //do nothing
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client player&#39;s username based on the received message.
+&nbsp;     * @param message The message containing the updated username.
+&nbsp;     */
+&nbsp;    private void updateUsername(JSONObject message) {
+<b class="nc">&nbsp;        PlayerModel.getInstance().setUsername(message.get(&quot;username&quot;).toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Displays an error message to the user.
+&nbsp;     * @param errorMessage The message to be displayed as the error.
+&nbsp;     */
+&nbsp;    private void showError(String errorMessage) {
+<b class="nc">&nbsp;        StageManager.getCurrentViewController().showErrorMessage(errorMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client&#39;s state.
+&nbsp;     * @param clientState The new state of the client.
+&nbsp;     */
+&nbsp;    @SuppressWarnings(&quot;SameParameterValue&quot;)
+&nbsp;    private void updateClientState(ClientState clientState) {
+<b class="nc">&nbsp;        ClientStateModel.getInstance().setClientState(clientState);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client&#39;s state and sets a reason for the state change.
+&nbsp;     * @param clientState The new state of the client.
+&nbsp;     * @param reason The reason for the state change.
+&nbsp;     */
+&nbsp;    private void updateClientState(ClientState clientState, String reason) {
+<b class="nc">&nbsp;        ClientStateModel.getInstance().setClientState(clientState, reason);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the list of available games retrieved from the server.
+&nbsp;     * @param message The JSONObject containing the list of games. The message is expected to have a &quot;games&quot; field containing a JSONArray of game names.
+&nbsp;     */
+&nbsp;    private void updateAvailableGames(JSONObject message) {
+<b class="nc">&nbsp;        JSONArray gamesArray = (JSONArray) message.get(&quot;games&quot;);</b>
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; games = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (Object o : gamesArray) {</b>
+<b class="nc">&nbsp;            JSONObject gameObj = (JSONObject) o;</b>
+<b class="nc">&nbsp;            games.add(gameObj.get(&quot;nameAndPlayers&quot;).toString());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        AvailableGamesModel.getInstance().setGames(games);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the information about selectable cards based on the received message.
+&nbsp;     * @param message The JSONObject containing information about selectable cards. The message is expected to have fields for &quot;starterCardID&quot;, &quot;objectiveCardID1&quot;, and &quot;objectiveCardID2&quot;.
+&nbsp;     */
+&nbsp;    private void updateSelectableCards (JSONObject message) {
+<b class="nc">&nbsp;        int starterCardID = Integer.parseInt(message.get(&quot;starterCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int objectiveCardID1 = Integer.parseInt(message.get(&quot;objectiveCardID1&quot;).toString());</b>
+<b class="nc">&nbsp;        int objectiveCardID2 = Integer.parseInt(message.get(&quot;objectiveCardID2&quot;).toString());</b>
+<b class="nc">&nbsp;        SelectableCardsModel.getInstance().setSelectableCardsId(starterCardID,new int[]{objectiveCardID1, objectiveCardID2});</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client&#39;s game state based on the initial game information received from the server.
+&nbsp;     * @param message The JSONObject containing the initial game state information.
+&nbsp;     */
+&nbsp;    private void updateInitialBoardState (JSONObject message) {
+&nbsp;        //parsing the message...
+<b class="nc">&nbsp;        int objectiveCardID1 = Integer.parseInt( message.get(&quot;commonObjective1&quot;).toString());</b>
+<b class="nc">&nbsp;        int objectiveCardID2 = Integer.parseInt( message.get(&quot;commonObjective2&quot;).toString());</b>
+<b class="nc">&nbsp;        int secretObjectiveCardID = Integer.parseInt(message.get(&quot;secretObjectiveID&quot;).toString());</b>
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; initialPlacementHistory = getPlacementHistoryArray((JSONArray) message.get(&quot;placementHistory&quot;));</b>
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; initialHand = getHandArray((JSONArray) message.get(&quot;hand&quot;));</b>
+<b class="nc">&nbsp;        JSONObject decksJSON = (JSONObject) message.get(&quot;decks&quot;);</b>
+<b class="nc">&nbsp;        String firstPlayerUsername = message.get(&quot;firstPlayer&quot;).toString();</b>
+<b class="nc">&nbsp;        JSONObject resourcesJSON = (JSONObject) message.get(&quot;resources&quot;);</b>
+<b class="nc">&nbsp;        Token token = Token.parseToken(message.get(&quot;token&quot;).toString());</b>
+&nbsp;        //updating the model...
+<b class="nc">&nbsp;        PlayerModel.getInstance().setTurnPlayer(firstPlayerUsername);</b>
+<b class="nc">&nbsp;        ObjectivesModel.getInstance().setCommonObjectives(new int[] {objectiveCardID1, objectiveCardID2});</b>
+<b class="nc">&nbsp;        ObjectivesModel.getInstance().setSecretObjectiveId(secretObjectiveCardID);</b>
+<b class="nc">&nbsp;        GameFieldModel.getInstance().updatePlacementHistory(initialPlacementHistory);</b>
+<b class="nc">&nbsp;        HandModel.getInstance().updateCardsInHand(initialHand);</b>
+<b class="nc">&nbsp;        PlayerModel.getInstance().setToken(token);</b>
+<b class="nc">&nbsp;        updateDeckModelFromJSON(decksJSON);</b>
+<b class="nc">&nbsp;        updateResourcesFromJSON(resourcesJSON);</b>
+<b class="nc">&nbsp;        if(PlayerModel.getInstance().getUsername().equals(firstPlayerUsername)) {</b>
+<b class="nc">&nbsp;            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client&#39;s deck information based on the received message.
+&nbsp;     * @param message The JSONObject containing the updated deck information.
+&nbsp;     */
+&nbsp;    private void updateDecks(JSONObject message) {
+&nbsp;        //parsing the message...
+<b class="nc">&nbsp;        JSONObject updatedDecks = (JSONObject) message.get(&quot;updatedDecks&quot;);</b>
+&nbsp;        //updating the model...
+<b class="nc">&nbsp;        updateDeckModelFromJSON(updatedDecks);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the client&#39;s hand with the new cards received from the server.
+&nbsp;     * @param message The JSONObject containing the updated hand information.
+&nbsp;     */
+&nbsp;    private void updateHand(JSONObject message) {
+&nbsp;        //parsing the message...
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; updatedHand = getHandArray((JSONArray) message.get(&quot;updatedHand&quot;));</b>
+&nbsp;        //updating the model...
+<b class="nc">&nbsp;        HandModel.getInstance().updateCardsInHand(updatedHand);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message containing all the information used to update the player&#39;s game-field.
+&nbsp;     * If it&#39;s not the last round it updates the client state to drawing state.
+&nbsp;     * @param message The JSONObject containing all the necessary information.
+&nbsp;     */
+&nbsp;    private void updateGameField(JSONObject message){
+&nbsp;        //parsing the message...
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; placementHistory = getPlacementHistoryArray((JSONArray) message.get(&quot;placementHistory&quot;));</b>
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; updatedHand = getHandArray((JSONArray) message.get(&quot;updatedHand&quot;));</b>
+<b class="nc">&nbsp;        JSONObject updatedResources = (JSONObject) message.get(&quot;updatedResources&quot;);</b>
+&nbsp;        //updating the model...
+<b class="nc">&nbsp;        GameFieldModel.getInstance().updatePlacementHistory(placementHistory);</b>
+<b class="nc">&nbsp;        HandModel.getInstance().updateCardsInHand(updatedHand);</b>
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().setMyScore(Integer.parseInt(message.get(&quot;updatedScore&quot;).toString()));</b>
+<b class="nc">&nbsp;        updateResourcesFromJSON(updatedResources);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!PlayerModel.getInstance().isLastRound()) ClientStateModel.getInstance().setClientState(ClientState.DRAWING_STATE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message informing the player of an incorrect placement.
+&nbsp;     * @param message The JSONObject containing he reason why the placement failed.
+&nbsp;     */
+&nbsp;    private void cannotPlaceHandler(JSONObject message) {
+<b class="nc">&nbsp;        HandModel.getInstance().rollback();</b>
+<b class="nc">&nbsp;        GameFieldModel.getInstance().rollback(); //reloads the last update of the model</b>
+<b class="nc">&nbsp;        showError(message.get(&quot;reason&quot;).toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message containing the information about the updated turn and updates the client state accordingly.
+&nbsp;     * @param message The JSONObject containing the username of the turn player.
+&nbsp;     */
+&nbsp;    private void updateTurnPlayer (JSONObject message){
+<b class="nc">&nbsp;        String currentTurnPlayer = message.get(&quot;player&quot;).toString();</b>
+&nbsp;
+<b class="nc">&nbsp;        PlayerModel.getInstance().setTurnPlayer(currentTurnPlayer);</b>
+<b class="nc">&nbsp;        if(PlayerModel.getInstance().getUsername().equals(currentTurnPlayer)) {</b>
+<b class="nc">&nbsp;            ClientStateModel.getInstance().setClientState(ClientState.PLACING_STATE);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else ClientStateModel.getInstance().setClientState(ClientState.NOT_PLAYING_STATE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message containing players&#39; updated scores.
+&nbsp;     * @param message The JSONObject containing the players&#39; scores.
+&nbsp;     */
+&nbsp;    private void updateScores(JSONObject message) {
+&nbsp;        //parsing the message...
+<b class="nc">&nbsp;        HashMap&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        HashMap&lt;String, Token&gt; tokens = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        JSONArray scoresArray = (JSONArray) message.get(&quot;updatedScores&quot;);</b>
+&nbsp;        //updating the model...
+<b class="nc">&nbsp;        for (Object o : scoresArray) {</b>
+<b class="nc">&nbsp;            JSONObject scoreObj = (JSONObject) o;</b>
+<b class="nc">&nbsp;            tokens.put(scoreObj.get(&quot;username&quot;).toString(), Token.parseToken(scoreObj.get(&quot;token&quot;).toString()));</b>
+<b class="nc">&nbsp;            scores.put(scoreObj.get(&quot;username&quot;).toString(), Integer.parseInt(scoreObj.get(&quot;score&quot;).toString()));</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().setTokens(tokens);</b>
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().setScores(scores);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message containing the last round message.
+&nbsp;     * @param message The JSONObject containing the last round message.
+&nbsp;     */
+&nbsp;    private void handleLastRound(JSONObject message){
+<b class="nc">&nbsp;        updateClientState(ClientState.LAST_ROUND_STATE, message.get(&quot;reason&quot;).toString());</b>
+<b class="nc">&nbsp;        PlayerModel.getInstance().setLastTurn(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Processes the message that updates the leaderboard.
+&nbsp;     * @param message The JSONObject containing the final results.
+&nbsp;     */
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;    private void updateLeaderboard(JSONObject message) {
+<b class="nc">&nbsp;        ArrayList&lt;JSONObject&gt; leaderboard = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        addIfNotNull(leaderboard, message.getOrDefault(&quot;first&quot;,null));</b>
+<b class="nc">&nbsp;        addIfNotNull(leaderboard, message.getOrDefault(&quot;second&quot;,null));</b>
+<b class="nc">&nbsp;        addIfNotNull(leaderboard, message.getOrDefault(&quot;third&quot;,null));</b>
+<b class="nc">&nbsp;        addIfNotNull(leaderboard, message.getOrDefault(&quot;fourth&quot;,null));</b>
+&nbsp;
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().setLeaderboard(leaderboard);</b>
+<b class="nc">&nbsp;        ClientStateModel.getInstance().setClientState(ClientState.END_GAME_STATE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Utility methods
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts the JSONObject containing the hand into an ArrayList.
+&nbsp;     * @param jsonArray The JSONObject contains the cards in a player&#39;s hand.
+&nbsp;     * @return An ArrayList containing the player&#39;s hand.
+&nbsp;     */
+&nbsp;    private static ArrayList&lt;CardRepresentation&gt; getHandArray(JSONArray jsonArray){
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; hand = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Object o : jsonArray) {</b>
+<b class="nc">&nbsp;            CardRepresentation vCard = new CardRepresentation(Integer.parseInt(o.toString()), true);</b>
+<b class="nc">&nbsp;            hand.add(vCard);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts the JSONArray containing the PlacementHistory into an ArrayList.
+&nbsp;     * @param jsonArray The JSONObject contains the information about player&#39;s placement history.
+&nbsp;     * @return An ArrayList containing the placement history.
+&nbsp;     */
+&nbsp;    private static ArrayList&lt;CardRepresentation&gt; getPlacementHistoryArray(JSONArray jsonArray){
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; placementHistory = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Object o : jsonArray) {</b>
+<b class="nc">&nbsp;            JSONObject obj = (JSONObject) o;</b>
+<b class="nc">&nbsp;            int cardId = Integer.parseInt(obj.get(&quot;cardID&quot;).toString());</b>
+<b class="nc">&nbsp;            boolean faceUp = Boolean.parseBoolean(obj.get(&quot;facingUp&quot;).toString());</b>
+<b class="nc">&nbsp;            CardRepresentation vCard = new CardRepresentation(cardId, faceUp);</b>
+<b class="nc">&nbsp;            vCard.setX(Integer.parseInt(obj.get(&quot;x&quot;).toString()));</b>
+<b class="nc">&nbsp;            vCard.setY(Integer.parseInt(obj.get(&quot;y&quot;).toString()));</b>
+<b class="nc">&nbsp;            placementHistory.addLast(vCard);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return placementHistory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the model of the decks from the given JSONObject.
+&nbsp;     * @param decksJSON The JSONObject containing the IDs of the drawable cards.
+&nbsp;     */
+&nbsp;    private static void updateDeckModelFromJSON (JSONObject decksJSON){
+<b class="nc">&nbsp;        int resTop = Integer.parseInt(decksJSON.get(&quot;topDeckResourceCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int goldTop = Integer.parseInt(decksJSON.get(&quot;topDeckGoldCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int resLeft = Integer.parseInt(decksJSON.get(&quot;leftRevealedResourceCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int goldLeft = Integer.parseInt(decksJSON.get(&quot;leftRevealedGoldCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int resRight = Integer.parseInt(decksJSON.get(&quot;rightRevealedResourceCardID&quot;).toString());</b>
+<b class="nc">&nbsp;        int goldRight = Integer.parseInt(decksJSON.get(&quot;rightRevealedGoldCardID&quot;).toString());</b>
+&nbsp;
+<b class="nc">&nbsp;        DeckModel.getInstance().updateDecks(resTop,resLeft,resRight,goldTop,goldLeft,goldRight);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the resources in the playerModel from the given JSONObject.
+&nbsp;     * @param updatedResources The JSONObject containing the information about the updated resources.
+&nbsp;     */
+&nbsp;    private static void updateResourcesFromJSON( JSONObject updatedResources){
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().setResources(</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;animalResources&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;insectResources&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;fungiResources&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;plantResources&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;featherCount&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;scrollCount&quot;).toString()),</b>
+<b class="nc">&nbsp;                Integer.parseInt(updatedResources.get(&quot;inkPotCount&quot;).toString())</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an element to an ArrayList only if it&#39;s not null.
+&nbsp;     * @param list The List to add the object to.
+&nbsp;     * @param obj The object to be added.
+&nbsp;     */
+&nbsp;    private void addIfNotNull(ArrayList&lt;JSONObject&gt; list, Object obj) {
+<b class="nc">&nbsp;        if (obj != null ) {</b>
+<b class="nc">&nbsp;            list.add((JSONObject) obj);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

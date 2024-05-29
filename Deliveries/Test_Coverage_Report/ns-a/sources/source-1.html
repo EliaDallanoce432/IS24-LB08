@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientConnectionManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientConnectionManager (it.polimi.ingsw.network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientConnectionManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.network.ping.Pinger;
+&nbsp;import it.polimi.ingsw.network.input.NetworkInputHandler;
+&nbsp;import it.polimi.ingsw.util.customexceptions.ServerUnreachableException;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.PrintWriter;
+&nbsp;import java.net.Socket;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class offers networks functionalities for the client.
+&nbsp; */
+&nbsp;public class ClientConnectionManager implements NetworkInterface {
+&nbsp;    private final Socket socket;
+&nbsp;    private final PrintWriter out;
+&nbsp;    private final NetworkInputHandler networkInputHandler;
+&nbsp;    private final Thread inputHandlerThread;
+&nbsp;    private final Pinger pinger;
+&nbsp;    private final Thread pingerThread;
+&nbsp;    private final ClientController clientController;
+&nbsp;
+<b class="nc">&nbsp;    public ClientConnectionManager(ClientController clientController, String serverAddress, int port) throws ServerUnreachableException {</b>
+<b class="nc">&nbsp;        this.clientController = clientController;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            socket = new Socket(serverAddress,port);</b>
+<b class="nc">&nbsp;            out = new PrintWriter(socket.getOutputStream(), true);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new ServerUnreachableException();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        networkInputHandler = new NetworkInputHandler(this,socket);</b>
+<b class="nc">&nbsp;        inputHandlerThread = new Thread(networkInputHandler);</b>
+<b class="nc">&nbsp;        inputHandlerThread.start();</b>
+&nbsp;
+<b class="nc">&nbsp;        pinger = new Pinger(this);</b>
+<b class="nc">&nbsp;        pingerThread = new Thread(pinger);</b>
+<b class="nc">&nbsp;        pingerThread.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void send(JSONObject message) {
+<b class="nc">&nbsp;        out.println(message.toJSONString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyIncomingMessageFromSocket(JSONObject message) {
+<b class="nc">&nbsp;        if(!networkMessageHandling(message)) {</b>
+<b class="nc">&nbsp;            clientController.processMessage(message);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles messages that are not meant for the higher level, but they are service messages for the proper network functionality.
+&nbsp;     * @param message The message to handle.
+&nbsp;     * @return true if it was a service message, false if it&#39;s a message for the application.
+&nbsp;     */
+&nbsp;    private boolean networkMessageHandling(JSONObject message) {
+<b class="nc">&nbsp;        if(message.containsKey(&quot;type&quot;)) {</b>
+<b class="nc">&nbsp;            switch (message.get(&quot;type&quot;).toString()) {</b>
+<b class="nc">&nbsp;                case &quot;pong&quot; -&gt; pinger.notifyPong();</b>
+&nbsp;                case &quot;ping&quot; -&gt; {
+<b class="nc">&nbsp;                    Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;                    jsonMap.put(&quot;type&quot;, &quot;pong&quot;);</b>
+<b class="nc">&nbsp;                    JSONObject pongMessage = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;                    out.println(pongMessage);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                default -&gt; {
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void connectionLossNotification() {
+<b class="nc">&nbsp;        clientController.notifyConnectionLoss();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Closes every service that was open and ends the connection.
+&nbsp;     */
+&nbsp;    public void shutdown() {
+<b class="nc">&nbsp;        pinger.shutdown();</b>
+<b class="nc">&nbsp;        out.close();</b>
+<b class="nc">&nbsp;        networkInputHandler.shutdown();</b>
+<b class="nc">&nbsp;        inputHandlerThread.interrupt();</b>
+<b class="nc">&nbsp;        pingerThread.interrupt();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            socket.close();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

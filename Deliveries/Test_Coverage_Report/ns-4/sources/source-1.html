@@ -1,0 +1,298 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StageManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view</a>
+</div>
+
+<h1>Coverage Summary for Class: StageManager (it.polimi.ingsw.client.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StageManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.view.CLI.CLIViewController;
+&nbsp;import javafx.fxml.FXMLLoader;
+&nbsp;import javafx.scene.Parent;
+&nbsp;import javafx.scene.Scene;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.image.ImageView;
+&nbsp;import javafx.scene.layout.StackPane;
+&nbsp;import javafx.stage.Stage;
+&nbsp;import java.io.IOException;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * The StageManager class manages the current stage and view controller of the application.
+&nbsp; * It provides methods to load different scenes with different settings.
+&nbsp; */
+<b class="nc">&nbsp;public class StageManager {</b>
+&nbsp;    private static Stage currentStage;
+&nbsp;    private static ViewController currentViewController;
+&nbsp;
+&nbsp;    public static void setCurrentStage(Stage currentStage) {
+<b class="nc">&nbsp;        StageManager.currentStage = currentStage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static Stage getCurrentStage() {
+<b class="nc">&nbsp;        return currentStage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ViewController getCurrentViewController() {
+<b class="nc">&nbsp;        return currentViewController;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets a new instance of CLIViewController as currentViewController.
+&nbsp;     */
+&nbsp;    public static void enableCLIMode() {
+<b class="nc">&nbsp;        currentViewController = new CLIViewController();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads an ImageView with the specified background image.
+&nbsp;     * @param path The path to the background image.
+&nbsp;     * @return The ImageView containing the background image.
+&nbsp;     */
+&nbsp;    @SuppressWarnings(&quot;all&quot;)
+&nbsp;    private static ImageView loadBackground(String path) {
+<b class="nc">&nbsp;        Image backgroundImage = new Image(StageManager.class.getResourceAsStream(path));</b>
+<b class="nc">&nbsp;        ImageView backgroundImageView = new ImageView(backgroundImage);</b>
+<b class="nc">&nbsp;        backgroundImageView.setPreserveRatio(false);</b>
+<b class="nc">&nbsp;        return backgroundImageView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a StackPane with an optional background image and loads the specified FXML.
+&nbsp;     * @param fxmlPath The path to the FXML file to be loaded.
+&nbsp;     * @param withBackground True if the background has to be loaded, False otherwise.
+&nbsp;     * @return The StackPane containing the background image and loaded FXML content.
+&nbsp;     */
+&nbsp;    private static StackPane createStackPane(String fxmlPath, boolean withBackground) {
+<b class="nc">&nbsp;        FXMLLoader loader = new FXMLLoader(StageManager.class.getResource(fxmlPath));</b>
+&nbsp;        Parent root;
+&nbsp;        try {
+<b class="nc">&nbsp;            root = loader.load();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        currentViewController = loader.getController();</b>
+<b class="nc">&nbsp;        StackPane stackPane = new StackPane();</b>
+<b class="nc">&nbsp;        if (withBackground) {</b>
+<b class="nc">&nbsp;            ImageView backgroundImageView = loadBackground(&quot;/Images/Backgrounds/wood_background.jpg&quot;);</b>
+<b class="nc">&nbsp;            stackPane.getChildren().add(backgroundImageView);</b>
+<b class="nc">&nbsp;            backgroundImageView.fitWidthProperty().bind(stackPane.widthProperty());</b>
+<b class="nc">&nbsp;            backgroundImageView.fitHeightProperty().bind(stackPane.heightProperty());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        stackPane.getChildren().add(root);</b>
+&nbsp;
+<b class="nc">&nbsp;        return stackPane;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the main title scene.
+&nbsp;     */
+&nbsp;    public static void loadTitleScreenScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;TitleScreenView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the scene for connecting to the server.
+&nbsp;     */
+&nbsp;    public static void loadConnectToServerScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;ConnectToServerView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the GameBoard scene.
+&nbsp;     */
+&nbsp;    public static void loadGameBoardScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;GameBoardView.fxml&quot;, true);</b>
+<b class="nc">&nbsp;        stackPane.prefWidthProperty().bind(currentStage.widthProperty());</b>
+<b class="nc">&nbsp;        stackPane.prefHeightProperty().bind(currentStage.heightProperty());</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the Welcome scene.
+&nbsp;     */
+&nbsp;    public static void loadWelcomeScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;WelcomeView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the CreateGame scene.
+&nbsp;     */
+&nbsp;    public static void loadCreateGameScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;CreateGameView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the JoinGame scene.
+&nbsp;     */
+&nbsp;    public static void loadJoinGameScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;JoinGameView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the WaitForPlayers scene.
+&nbsp;     */
+&nbsp;    public static void loadWaitForPlayersScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;WaitForPlayersView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the ChooseCards scene.
+&nbsp;     */
+&nbsp;    public static void loadChooseCardsScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;ChooseCardsView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the LostConnection scene.
+&nbsp;     */
+&nbsp;    public static void loadLostConnectionScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;LostConnectionView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the KickedFromGame scene.
+&nbsp;     */
+&nbsp;    public static void loadKickedFromGameScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;KickedFromGameView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        currentStage.centerOnScreen();</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the Leaderboard scene.
+&nbsp;     */
+&nbsp;    public static void loadLeaderboardScene() {
+<b class="nc">&nbsp;        StackPane stackPane = createStackPane(&quot;LeaderboardView.fxml&quot;, false);</b>
+<b class="nc">&nbsp;        currentStage.setWidth(SCENE_WIDTH);</b>
+<b class="nc">&nbsp;        currentStage.setHeight(SCENE_HEIGHT);</b>
+<b class="nc">&nbsp;        showScene(new Scene(stackPane));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the specified scene on the current stage.
+&nbsp;     * @param scene the scene to be shown
+&nbsp;     */
+&nbsp;    private static void showScene(Scene scene) {
+<b class="nc">&nbsp;        currentStage.setOnCloseRequest(event -&gt; System.exit(0));</b>
+<b class="nc">&nbsp;        currentStage.setScene(scene);</b>
+<b class="nc">&nbsp;        currentStage.sizeToScene();</b>
+<b class="nc">&nbsp;        currentStage.show();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

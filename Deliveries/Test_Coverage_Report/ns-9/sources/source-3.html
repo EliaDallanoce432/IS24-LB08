@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > HandAndBoardRepresentation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.utility</a>
+</div>
+
+<h1>Coverage Summary for Class: HandAndBoardRepresentation (it.polimi.ingsw.client.view.utility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HandAndBoardRepresentation</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.utility;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.client.model.GameFieldModel;
+&nbsp;import it.polimi.ingsw.client.model.HandModel;
+&nbsp;import javafx.geometry.Bounds;
+&nbsp;import javafx.geometry.Point2D;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.Node;
+&nbsp;import javafx.scene.control.ScrollPane;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.layout.*;
+&nbsp;import javafx.scene.shape.Rectangle;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Objects;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class manages the representation of the cards in the hand and on the board, along with all of their proprieties.
+&nbsp; */
+&nbsp;public class HandAndBoardRepresentation {
+&nbsp;    private final Pane handPane;
+&nbsp;    private final Pane boardPane;
+&nbsp;    private final ScrollPane scrollPane;
+&nbsp;
+&nbsp;    private final double centerX;
+&nbsp;    private final double centerY;
+&nbsp;
+&nbsp;    private double mouseX;
+&nbsp;    private double mouseY;
+&nbsp;
+&nbsp;    private double offsetX;
+&nbsp;    private double offsetY;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets up the HandAndBoardRepresentation.
+&nbsp;     * @param handPane Reference to the Pane where the cards in hand are loaded.
+&nbsp;     * @param scrollPane Reference to the ScrollPane where the game board will be loaded.
+&nbsp;     */
+<b class="nc">&nbsp;    public HandAndBoardRepresentation(Pane handPane, ScrollPane scrollPane) {</b>
+<b class="nc">&nbsp;        this.scrollPane = scrollPane;</b>
+<b class="nc">&nbsp;        this.handPane = handPane;</b>
+&nbsp;
+<b class="nc">&nbsp;        centerX = (Math.round((PANE_WIDTH/X_SNAP_INCREMENT)/2) * X_SNAP_INCREMENT);</b>
+<b class="nc">&nbsp;        centerY = (Math.round((PANE_HEIGHT/Y_SNAP_INCREMENT)/2) * Y_SNAP_INCREMENT);</b>
+&nbsp;
+<b class="nc">&nbsp;        Image patternTile = new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/Images/background_tile.png&quot;)));</b>
+&nbsp;
+<b class="nc">&nbsp;        BackgroundImage backgroundImage = new BackgroundImage(</b>
+&nbsp;                patternTile,
+&nbsp;                BackgroundRepeat.REPEAT,   // Repeat horizontally
+&nbsp;                BackgroundRepeat.REPEAT,   // Repeat vertically
+&nbsp;                BackgroundPosition.DEFAULT,
+&nbsp;                BackgroundSize.DEFAULT
+&nbsp;        );
+&nbsp;
+<b class="nc">&nbsp;        boardPane = new Pane();</b>
+<b class="nc">&nbsp;        boardPane.setBackground(new Background(backgroundImage));</b>
+&nbsp;
+<b class="nc">&nbsp;        boardPane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);</b>
+<b class="nc">&nbsp;        scrollPane.setContent(boardPane);</b>
+<b class="nc">&nbsp;        scrollPane.setHvalue(0.5);</b>
+<b class="nc">&nbsp;        scrollPane.setVvalue(0.503);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the card event listeners so that the card is draggable, droppable and sends a &quot;place&quot; message to the server when dropped.
+&nbsp;     * It also makes the card snap to certain coordinates when released, so that it is correctly placed on the corner of the
+&nbsp;     * card on the field.
+&nbsp;     * @param card Card node to be made draggable and droppable.
+&nbsp;     * @param cardRepresentation Reference to the associated CardRepresentation.
+&nbsp;     */
+&nbsp;    private void makeDraggableAndDroppable(Node card, CardRepresentation cardRepresentation) {
+<b class="nc">&nbsp;        card.setOnMouseEntered(mouseEvent -&gt; card.setCursor(Cursor.OPEN_HAND));</b>
+<b class="nc">&nbsp;        card.setOnMouseExited(mouseEvent -&gt; card.setCursor(Cursor.DEFAULT));</b>
+<b class="nc">&nbsp;        card.setOnMousePressed(event -&gt; {</b>
+<b class="nc">&nbsp;            card.toFront();</b>
+&nbsp;
+<b class="nc">&nbsp;            mouseX = event.getSceneX();</b>
+<b class="nc">&nbsp;            mouseY = event.getSceneY();</b>
+&nbsp;
+<b class="nc">&nbsp;            offsetX = card.getLayoutX();</b>
+<b class="nc">&nbsp;            offsetY = card.getLayoutY();</b>
+&nbsp;
+<b class="nc">&nbsp;            card.setCursor(Cursor.CLOSED_HAND);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        card.setOnMouseDragged(event -&gt; {</b>
+&nbsp;
+<b class="nc">&nbsp;            card.setCursor(Cursor.CLOSED_HAND);</b>
+&nbsp;
+<b class="nc">&nbsp;            double deltaX = event.getSceneX() - mouseX;</b>
+<b class="nc">&nbsp;            double deltaY = event.getSceneY() - mouseY;</b>
+&nbsp;
+<b class="nc">&nbsp;            card.setLayoutX(offsetX + deltaX);</b>
+<b class="nc">&nbsp;            card.setLayoutY(offsetY + deltaY);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        card.setOnMouseReleased(event -&gt; {</b>
+<b class="nc">&nbsp;            Bounds cardBounds = card.localToScene(card.getBoundsInLocal());</b>
+<b class="nc">&nbsp;            Bounds scrollPaneBounds = scrollPane.localToScene(scrollPane.getBoundsInLocal());</b>
+&nbsp;
+<b class="nc">&nbsp;            card.setCursor(Cursor.OPEN_HAND);</b>
+&nbsp;
+<b class="nc">&nbsp;            mouseX = event.getSceneX();</b>
+<b class="nc">&nbsp;            mouseY = event.getSceneY();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!scrollPaneBounds.contains(mouseX, mouseY)) {</b>
+<b class="nc">&nbsp;                card.setLayoutX(offsetX);</b>
+<b class="nc">&nbsp;                card.setLayoutY(offsetY);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                Point2D cardPositionInTargetPane = boardPane.sceneToLocal(cardBounds.getMinX(), cardBounds.getMinY());</b>
+&nbsp;
+<b class="nc">&nbsp;                double snapX = roundToNearest(cardPositionInTargetPane.getX(), X_SNAP_INCREMENT);</b>
+<b class="nc">&nbsp;                double snapY = roundToNearest(cardPositionInTargetPane.getY(), Y_SNAP_INCREMENT);</b>
+&nbsp;
+<b class="nc">&nbsp;                card.setLayoutX(snapX);</b>
+<b class="nc">&nbsp;                card.setLayoutY(snapY);</b>
+<b class="nc">&nbsp;                boardPane.getChildren().add(card);</b>
+<b class="nc">&nbsp;                handPane.getChildren().remove(card);</b>
+<b class="nc">&nbsp;                makeNotDraggable(card);</b>
+&nbsp;
+<b class="nc">&nbsp;                int relX = absoluteToRelativeX(snapX);</b>
+<b class="nc">&nbsp;                int relY = absoluteToRelativeY(snapY);</b>
+&nbsp;
+<b class="nc">&nbsp;                ClientController.getInstance().sendPlaceMessage(cardRepresentation.getId(), relX, relY, cardRepresentation.isFacingUp());</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes the card Node not draggable.
+&nbsp;     * @param card Card to be made not draggable.
+&nbsp;     */
+&nbsp;    private void makeNotDraggable(Node card) {
+<b class="nc">&nbsp;        card.setOnMousePressed(null);</b>
+<b class="nc">&nbsp;        card.setOnMouseDragged(null);</b>
+<b class="nc">&nbsp;        card.setOnMouseReleased(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Rounds the given value to the nearest multiple of the increment.
+&nbsp;     * @param value The value to be rounded.
+&nbsp;     * @param increment The given increment.
+&nbsp;     * @return The rounded value.
+&nbsp;     */
+&nbsp;    private double roundToNearest(double value, double increment) {
+<b class="nc">&nbsp;        return Math.round(value / increment) * increment;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes the conversion from the Pane X coordinate to the X coordinate relative to the center of the game board.
+&nbsp;     * @param absX The absolute X coordinate.
+&nbsp;     * @return The relative coordinates.
+&nbsp;     */
+&nbsp;    private int absoluteToRelativeX(double absX) {
+<b class="nc">&nbsp;        return ((int) ((absX - centerX) / X_SNAP_INCREMENT) );</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes the conversion from the Pane Y coordinate to the Y coordinate relative to the center of the game board.
+&nbsp;     * @param absY The absolute Y coordinate.
+&nbsp;     * @return The relative coordinates.
+&nbsp;     */
+&nbsp;    private int absoluteToRelativeY(double absY) {
+<b class="nc">&nbsp;        return -((int) ((absY - centerY) / Y_SNAP_INCREMENT) );</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes the conversion from the X coordinate relative to the center of the game board to the Pane X coordinate
+&nbsp;     * @param relX the relative coordinate
+&nbsp;     * @return the absolute coordinates
+&nbsp;     */
+&nbsp;    private double relativeToAbsoluteX(int relX) {
+<b class="nc">&nbsp;        return (relX * X_SNAP_INCREMENT) + centerX;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes the conversion from the Y coordinate relative to the center of the game board to the Pane Y coordinate.
+&nbsp;     * @param relY The relative coordinate.
+&nbsp;     * @return The absolute coordinates.
+&nbsp;     */
+&nbsp;    private double relativeToAbsoluteY(int relY) {
+<b class="nc">&nbsp;        return ((-relY) * Y_SNAP_INCREMENT) + centerY;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the game board from the placementHistory in the GameFieldModel.
+&nbsp;     */
+&nbsp;    public void loadBoardFromPlacementHistory(){
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; placementHistory = GameFieldModel.getInstance().getPlacementHistory();</b>
+&nbsp;
+<b class="nc">&nbsp;        boardPane.getChildren().clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (CardRepresentation cardRepresentation : placementHistory){</b>
+<b class="nc">&nbsp;            Rectangle cardNode = cardRepresentation.getCard();</b>
+<b class="nc">&nbsp;            int relativeX = cardRepresentation.getX();</b>
+<b class="nc">&nbsp;            int relativeY = cardRepresentation.getY();</b>
+&nbsp;
+<b class="nc">&nbsp;            cardNode.setLayoutX(relativeToAbsoluteX(relativeX));</b>
+<b class="nc">&nbsp;            cardNode.setLayoutY(relativeToAbsoluteY(relativeY));</b>
+&nbsp;
+<b class="nc">&nbsp;            makeNotDraggable(cardNode);</b>
+<b class="nc">&nbsp;            boardPane.getChildren().add(cardNode);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the hand from the HandModel and makes the cards draggable.
+&nbsp;     */
+&nbsp;    public void loadHand() {
+<b class="nc">&nbsp;        handPane.getChildren().clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        double currentX = SPACING;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(CardRepresentation v: HandModel.getInstance().getCardsInHand()){</b>
+<b class="nc">&nbsp;            Rectangle cardNode = v.getCard();</b>
+<b class="nc">&nbsp;            cardNode.setLayoutX(currentX);</b>
+<b class="nc">&nbsp;            cardNode.setLayoutY(0);</b>
+&nbsp;
+<b class="nc">&nbsp;            makeDraggableAndDroppable(cardNode, v);</b>
+&nbsp;
+<b class="nc">&nbsp;            handPane.getChildren().add(cardNode);</b>
+<b class="nc">&nbsp;            currentX += CARD_WIDTH + SPACING;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

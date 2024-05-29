@@ -1,0 +1,83 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > NetworkInputObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.input</a>
+</div>
+
+<h1>Coverage Summary for Class: NetworkInputObserver (it.polimi.ingsw.network.input)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">NetworkInputObserver</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.input;
+&nbsp;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is used by a class that is interested in incoming messages from the network.
+&nbsp; */
+&nbsp;public interface NetworkInputObserver {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies the socket observer of an incoming message and passes the message to it.
+&nbsp;     * @param message The received message.
+&nbsp;     */
+&nbsp;    void notifyIncomingMessageFromSocket(JSONObject message);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveCard (it.polimi.ingsw.server.model.card)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.1%
+  </span>
+  <span class="absValue">
+    (53/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;import it.polimi.ingsw.server.model.card.ObjectiveCardStrategy.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents an Objective card.
+&nbsp; */
+&nbsp;public class ObjectiveCard extends Card {
+&nbsp;    protected int points;
+&nbsp;    protected ObjectiveCardContext context;
+&nbsp;
+<b class="fc">&nbsp;    public ObjectiveCard(int id) {</b>
+<b class="fc">&nbsp;        this.setId(id);</b>
+<b class="fc">&nbsp;        switch (id) {</b>
+&nbsp;            case 87 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDiagonalFungi());</b>
+<b class="fc">&nbsp;            }case 88 -&gt; {</b>
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDiagonalPlants());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 89 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDiagonalAnimal());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 90 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDiagonalInsect());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 91 -&gt; {
+<b class="fc">&nbsp;                points = 3;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardJPatternFFP());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 92 -&gt; {
+<b class="fc">&nbsp;                points = 3;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardJPatternPPI());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 93 -&gt; {
+<b class="fc">&nbsp;                points = 3;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardJPatternAAF());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 94 -&gt; {
+<b class="fc">&nbsp;                points = 3;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardJPatternIIA());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 95 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardThreeFungi());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 96 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardThreePlant());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 97 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardThreeAnimal());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 98 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardThreeInsect());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 99 -&gt; {
+<b class="fc">&nbsp;                points = 3;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardGoldenTriplet());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 100 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDoubleScroll());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 101 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDoubleInkpot());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            case 102 -&gt; {
+<b class="fc">&nbsp;                points = 2;</b>
+<b class="fc">&nbsp;                context = new ObjectiveCardContext(new ObjectiveCardDoubleFeather());</b>
+<b class="fc">&nbsp;            }</b>
+<b class="nc">&nbsp;            default -&gt; throw new IllegalStateException(&quot;Unexpected value: &quot; + id);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public int getPoints() {
+<b class="fc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the points earned with this objective card.
+&nbsp;     * @param gameField Reference to the game field on which the objective has to be checked.
+&nbsp;     * @return Points earned by placing the card.
+&nbsp;     */
+&nbsp;    public int getEarnedPoints(GameField gameField) {
+<b class="fc">&nbsp;        return context.executePointsCalculation(this.getPoints(),gameField);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

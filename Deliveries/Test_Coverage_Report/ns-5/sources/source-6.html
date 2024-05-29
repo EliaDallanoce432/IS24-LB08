@@ -1,0 +1,501 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Printer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.CLI</a>
+</div>
+
+<h1>Coverage Summary for Class: Printer (it.polimi.ingsw.client.view.CLI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Printer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/186)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Printer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/187)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.CLI;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.*;
+&nbsp;import it.polimi.ingsw.client.view.utility.CardRepresentation;
+&nbsp;import it.polimi.ingsw.server.model.card.GoldCard;
+&nbsp;import it.polimi.ingsw.server.model.card.ResourceCard;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ConsoleColor;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.ViewConstants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class provides a variety of methods for printing information to the console.
+&nbsp; */
+<b class="nc">&nbsp;public class Printer {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a message to the console with a border.
+&nbsp;     * @param message The message to print.
+&nbsp;     */
+&nbsp;    public static void printMessage(String message) {
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(message);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a message to the console with a border and a specified text color.
+&nbsp;     * @param message The message to print.
+&nbsp;     * @param textColor The ANSI escape code for the desired text color.
+&nbsp;     */
+&nbsp;    public static void printMessage(String message, String textColor) {
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(textColor + message + ConsoleColor.RESET);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the &quot;Codex&quot; Logo in ASCII art.
+&nbsp;     */
+&nbsp;    public static void printCodexLogo() {
+<b class="nc">&nbsp;        ClassLoader classloader = Thread.currentThread().getContextClassLoader();</b>
+<b class="nc">&nbsp;        InputStream is = classloader.getResourceAsStream(&quot;Codex_logo.txt&quot;);</b>
+<b class="nc">&nbsp;        if (is != null) {</b>
+<b class="nc">&nbsp;            Scanner sc = new Scanner(is);</b>
+<b class="nc">&nbsp;            ClientCLI.clearConsole();</b>
+<b class="nc">&nbsp;            while (sc.hasNextLine()) {</b>
+<b class="nc">&nbsp;                System.out.println(ConsoleColor.GREEN + sc.nextLine() + ConsoleColor.RESET);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the help menu.
+&nbsp;     */
+&nbsp;    public static void printHelp() {
+<b class="nc">&nbsp;        System.out.println(&quot;------------------------------------------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.printf(&quot;%55s&quot;,ConsoleColor.CYAN + &quot;HELP&quot; + ConsoleColor.RESET);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        switch (ClientStateModel.getInstance().getClientState()) {</b>
+&nbsp;            case ClientState.LOBBY_STATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;setusername | su &lt;username&gt;          Set your new username&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;availablegames | ag                  Shows the available games to join&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;join | j &lt;gameName&gt;                  Join a game&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;create | c &lt;gameName&gt; &lt;players(2-4)&gt; Create a game (2 to 4 players)&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case ClientState.GAME_SETUP_STATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;ready | r                            Type this when you are ready to play&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;availablegames | ag                  View all available games&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;startercard | sc &lt;front/back&gt;        Choose the starter card side&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;secretobjective | so &lt;cardId&gt;        Choose your secret objective&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;leave | l                            Leave the game, brings you back to the lobby&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case ClientState.DRAWING_STATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;info | i &lt;cardId&gt;                    View information of a card&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;draw | d &lt;1-6&gt;                       Draw a card using the index&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;objectives | obj                     Shows your current active objectives&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;leave | l                            Leave the game, brings you back to the lobby&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case ClientState.PLACING_STATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;info | i &lt;cardId&gt;                    View information of a card&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;place | p &lt;cardId&gt; &lt;front/back&gt; &lt;targetId&gt; &lt;position&gt; Place a card in a specific position on the game field. The position argument can be &#39;topleft&#39;/&#39;tl&#39; or &#39;topright&#39;/&#39;tr&#39; or &#39;bottomleft&#39;/&#39;bl&#39; or &#39;bottomright&#39;/&#39;br&#39;&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;objectives | obj                     Shows your current active objectives&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;leave | l                            Leave the game, brings you back to the lobby&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case ClientState.NOT_PLAYING_STATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;info | i &lt;cardId&gt;                    View information of a card&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;objectives | obj                     Shows your current active objectives&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;leave | l                            Leave the game, brings you back to the lobby&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case ClientState.END_GAME_STATE -&gt; System.out.println(&quot;leave | l                            Leave the game, brings you back to the lobby&quot;);</b>
+&nbsp;            default -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;setusername | su &lt;username&gt;          Set your new username&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;availablegames | ag                  Shows the available games to join&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;join | j &lt;gameName&gt;                  Join a game&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;create | c &lt;gameName&gt; &lt;players(2-4)&gt; Create a game (2 to 4 players)&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;info | i &lt;cardId&gt;                    View information of a card&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;quit | q                             Exit from Codex&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;------------------------------------------------------------------------------------&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the available games.
+&nbsp;     */
+&nbsp;    public static void printAvailableGames() {
+<b class="nc">&nbsp;        AvailableGamesModel availableGamesModel = AvailableGamesModel.getInstance();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        if (!availableGamesModel.getGames().isEmpty()) {</b>
+<b class="nc">&nbsp;            for (String s :availableGamesModel.getGames()){</b>
+<b class="nc">&nbsp;                System.out.println(s);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;No available games&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;-------------------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Displays the main menu options along with their descriptions.
+&nbsp;     */
+&nbsp;    public static void printMenu() {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; menuOptions = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        menuOptions.put(&quot;setusername | su &lt;username&gt;&quot;, &quot;Set your username&quot;);</b>
+<b class="nc">&nbsp;        menuOptions.put(&quot;join | j &lt;gameName&gt;&quot;, &quot;Join to a game&quot;);</b>
+<b class="nc">&nbsp;        menuOptions.put(&quot;create | c &lt;gameName&gt; &lt;players(2-4)&gt;&quot;, &quot;Create a game for 2 to 4 players&quot;);</b>
+<b class="nc">&nbsp;        menuOptions.put(&quot;availablegames | ag&quot;, &quot;View all available games&quot;);</b>
+<b class="nc">&nbsp;        menuOptions.put(&quot;quit | q&quot;, &quot;Exit from Codex&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(MENU_HEADER);</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, String&gt; entry : menuOptions.entrySet()) {</b>
+<b class="nc">&nbsp;            System.out.printf(&quot;%-50s %-20s&quot;, entry.getKey(), entry.getValue());</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Enter your choice: &quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the card information for a single card, including its ID and facing state.
+&nbsp;     * @param id The ID of the card to print.
+&nbsp;     * @param facingUp True if the card is facing up, false otherwise.
+&nbsp;     */
+&nbsp;    public static void printCardInfo(int id, boolean facingUp) {
+<b class="nc">&nbsp;        CardPrinter cardPrinter = new CardPrinter(CLI_CARD_WIDTH, CLI_CARD_HEIGHT, CLI_CORNER_HEIGHT, CLI_CORNER_WIDTH);</b>
+<b class="nc">&nbsp;        cardPrinter.loadCardRepresentation(id,facingUp);</b>
+<b class="nc">&nbsp;        if (id &lt; 87) {</b>
+<b class="nc">&nbsp;            cardPrinter.printCard();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the top card and the two revealed cards from both the resource deck and the gold deck.
+&nbsp;     */
+&nbsp;    public static void printDeckInfo () {
+<b class="nc">&nbsp;        DeckModel deckModel = DeckModel.getInstance();</b>
+<b class="nc">&nbsp;        int resourceDeckTopCardId = deckModel.getResourceDeckTopCardId();</b>
+<b class="nc">&nbsp;        int resourceDeckLeftCardId = deckModel.getResourceDeckLeftCardId();</b>
+<b class="nc">&nbsp;        int resourceDeckRightCardId= deckModel.getResourceDeckRightCardId();</b>
+<b class="nc">&nbsp;        int goldDeckTopCardId = deckModel.getGoldDeckTopCardId();</b>
+<b class="nc">&nbsp;        int goldDeckLeftCardId = deckModel.getGoldDeckLeftCardId();</b>
+<b class="nc">&nbsp;        int goldDeckRightCardId = deckModel.getGoldDeckRightCardId();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;1) Resource deck top card: #?? (&quot; +  new ResourceCard(resourceDeckTopCardId).getCardKingdom().toSymbol() + &quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;2) Left revealed resource card: #&quot;+ resourceDeckLeftCardId + &quot; (&quot;+ new ResourceCard(resourceDeckLeftCardId).getCardKingdom().toSymbol() +&quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;3) Right revealed resource card: #&quot;+ resourceDeckRightCardId + &quot; (&quot;+ new ResourceCard(resourceDeckRightCardId).getCardKingdom().toSymbol() +&quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;4) Gold deck top card: #?? (&quot; +  new GoldCard(goldDeckTopCardId).getCardKingdom().toSymbol() + &quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;5) Left revealed gold card: #&quot;+ goldDeckLeftCardId + &quot; (&quot;+ new GoldCard(goldDeckLeftCardId).getCardKingdom().toSymbol() +&quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;6) Right revealed gold card: #&quot;+ goldDeckRightCardId + &quot; (&quot;+ new GoldCard(goldDeckRightCardId).getCardKingdom().toSymbol() +&quot;)&quot;);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the IDs of the two common objective cards and the ID of the secret one and their description.
+&nbsp;     */
+&nbsp;    public static void printObjectives() {
+<b class="nc">&nbsp;        ObjectivesModel objectivesModel = ObjectivesModel.getInstance();</b>
+<b class="nc">&nbsp;        int[] commonObj = objectivesModel.getCommonObjectives();</b>
+<b class="nc">&nbsp;        int secretObj = objectivesModel.getSecretObjectiveId();</b>
+&nbsp;
+<b class="nc">&nbsp;        printMessage(&quot;Common objectives&quot; , ConsoleColor.CYAN);</b>
+<b class="nc">&nbsp;        printCardInfo(commonObj[0], true);</b>
+<b class="nc">&nbsp;        printCardInfo(commonObj[1], true);</b>
+<b class="nc">&nbsp;        printMessage(&quot;Your secret objective&quot;, ConsoleColor.CYAN);</b>
+<b class="nc">&nbsp;        printCardInfo(secretObj, true);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the game board.
+&nbsp;     */
+&nbsp;    public static void printGameBoard(){
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; placementHistory = GameFieldModel.getInstance().getPlacementHistory();</b>
+&nbsp;
+<b class="nc">&nbsp;        int negativeXBound = -3;</b>
+<b class="nc">&nbsp;        int positiveXBound = 3;</b>
+<b class="nc">&nbsp;        int negativeYBound = -3;</b>
+<b class="nc">&nbsp;        int positiveYBound = 3;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(CardRepresentation cardRepresentation : placementHistory){</b>
+<b class="nc">&nbsp;            if (cardRepresentation.getX() &gt;= positiveXBound) positiveXBound = cardRepresentation.getX() + 1;</b>
+<b class="nc">&nbsp;            if (cardRepresentation.getX() &lt;= negativeXBound) negativeXBound = cardRepresentation.getX() - 1;</b>
+<b class="nc">&nbsp;            if (cardRepresentation.getY() &gt;= positiveYBound) positiveYBound = cardRepresentation.getY() + 1;</b>
+<b class="nc">&nbsp;            if (cardRepresentation.getY() &lt;= negativeYBound) negativeYBound = cardRepresentation.getY() - 1;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        int width = (positiveXBound - negativeXBound) + 1;</b>
+<b class="nc">&nbsp;        int height = (positiveYBound - negativeYBound) + 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        String[][] gameField = new String[height][width];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; height; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; width; j++) {</b>
+<b class="nc">&nbsp;                gameField[i][j] = ConsoleColor.BLACK + &quot;|________|&quot; + ConsoleColor.RESET;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for(CardRepresentation cardRepresentation : placementHistory){</b>
+<b class="nc">&nbsp;            int xCenter = Math.abs(negativeXBound);</b>
+<b class="nc">&nbsp;            int yCenter = Math.abs(positiveYBound);</b>
+<b class="nc">&nbsp;            int row = yCenter - cardRepresentation.getY();</b>
+<b class="nc">&nbsp;            int column = xCenter + cardRepresentation.getX();</b>
+&nbsp;
+<b class="nc">&nbsp;            int cardId = cardRepresentation.getId();</b>
+<b class="nc">&nbsp;            String cardColor = getColor(cardId);</b>
+&nbsp;
+&nbsp;
+&nbsp;            String faceUpstate;
+<b class="nc">&nbsp;            if(cardRepresentation.isFacingUp()) faceUpstate = &quot;FRNT&quot;;</b>
+<b class="nc">&nbsp;            else faceUpstate = &quot;BACK&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;            gameField[row][column] = cardColor + &quot;|#&quot; + cardId + &quot;(&quot; + faceUpstate  +&quot;)|&quot; + ConsoleColor.RESET ;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        printMatrix(gameField);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the cards in the player&#39;s hand.
+&nbsp;     */
+&nbsp;    public static void printHand(){
+<b class="nc">&nbsp;        ArrayList&lt;CardRepresentation&gt; handArray = HandModel.getInstance().getCardsInHand();</b>
+<b class="nc">&nbsp;        StringBuilder handString  = new StringBuilder(&quot;Your Hand: &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (CardRepresentation c : handArray){</b>
+<b class="nc">&nbsp;            handString.append(&quot;|#&quot;).append(getColor(c.getId())).append(c.getId()).append(ConsoleColor.RESET).append(&quot;| &quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        Printer.printMessage(handString.toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a guide to the resource symbols used in the game.
+&nbsp;     */
+&nbsp;    public static void printGuide() {
+<b class="nc">&nbsp;        System.out.println(</b>
+<b class="nc">&nbsp;                        Resource.fungi.toSymbol() + &quot;: fungi | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.animal.toSymbol() + &quot;: animal | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.insect.toSymbol() + &quot;: insect | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.plant.toSymbol() + &quot;: plant | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.feather.toSymbol() + &quot;: feather | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.inkPot.toSymbol() + &quot;: inkPot | &quot; +</b>
+<b class="nc">&nbsp;                        Resource.scroll.toSymbol() + &quot;: scroll&quot;</b>
+&nbsp;
+&nbsp;        );
+<b class="nc">&nbsp;        System.out.println(&quot;(FRNT): the FRONT of the card is showing on the field.&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;(BACK): the BACK of the card is showing on the field.&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the player&#39;s current resource counts.
+&nbsp;     */
+&nbsp;    public static void printResources(){
+<b class="nc">&nbsp;        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();</b>
+<b class="nc">&nbsp;        Printer.printMessage(&quot;Your resources: &quot; +</b>
+<b class="nc">&nbsp;                Resource.fungi.toSymbol() + &quot;: &quot; + scoreBoardModel.getFungiResourceCount() + &quot; | &quot; +</b>
+<b class="nc">&nbsp;                Resource.animal.toSymbol() + &quot;: &quot; + scoreBoardModel.getAnimalResourceCount() + &quot; | &quot; +</b>
+<b class="nc">&nbsp;                Resource.insect.toSymbol() + &quot;: &quot; + scoreBoardModel.getInsectResourceCount() + &quot; | &quot; +</b>
+<b class="nc">&nbsp;                Resource.plant.toSymbol() + &quot;: &quot; + scoreBoardModel.getPlantResourceCount() + &quot; || &quot; +</b>
+<b class="nc">&nbsp;                Resource.feather.toSymbol() + &quot;: &quot; + scoreBoardModel.getFeatherCount() + &quot; | &quot; +</b>
+<b class="nc">&nbsp;                Resource.inkPot.toSymbol() + &quot;: &quot; + scoreBoardModel.getInkPotCount() + &quot; | &quot; +</b>
+<b class="nc">&nbsp;                Resource.scroll.toSymbol() + &quot;: &quot; + scoreBoardModel.getScrollCount() + &quot; |&quot;</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the leaderboard showing usernames, scores, and solved objectives.
+&nbsp;     * Highlights the player&#39;s position in the leaderboard.
+&nbsp;     */
+&nbsp;    public static void printLeaderboard(){
+<b class="nc">&nbsp;        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();</b>
+<b class="nc">&nbsp;        String[] positions = new String[]{&quot;1st&quot;, &quot;2nd&quot;, &quot;3rd&quot;, &quot;4th&quot;};</b>
+<b class="nc">&nbsp;        String result = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        int pos_index = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(JSONObject obj : scoreBoardModel.getLeaderboard()){</b>
+&nbsp;
+<b class="nc">&nbsp;            System.out.println( positions[pos_index] + &quot; - &quot; + obj.get(&quot;username&quot;).toString() + &quot;: &quot; + obj.get(&quot;score&quot;).toString() + &quot; Points (&quot; + obj.get(&quot;solvedObjectives&quot;).toString() + &quot; solved Objectives)&quot; );</b>
+&nbsp;
+<b class="nc">&nbsp;            if(obj.get(&quot;username&quot;).toString().equals(PlayerModel.getInstance().getUsername())){</b>
+&nbsp;
+<b class="nc">&nbsp;                if(pos_index == 0){</b>
+<b class="nc">&nbsp;                    result = &quot;You Won&quot;;</b>
+&nbsp;                }
+&nbsp;                else {
+<b class="nc">&nbsp;                    result = &quot;You came in &quot; + positions[pos_index] + &quot; place!&quot;;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            pos_index++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        Printer.printMessage(result,ConsoleColor.YELLOW);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the scores of all players.
+&nbsp;     */
+&nbsp;    public static void printScores(){
+<b class="nc">&nbsp;        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();</b>
+<b class="nc">&nbsp;        HashMap&lt;String,Integer&gt; scores = scoreBoardModel.getScore();</b>
+&nbsp;
+<b class="nc">&nbsp;        printMessage(&quot;ScoreBoard&quot;, ConsoleColor.YELLOW);</b>
+<b class="nc">&nbsp;        for(String username : scores.keySet()){</b>
+&nbsp;
+<b class="nc">&nbsp;            if (Objects.equals(PlayerModel.getInstance().getUsername(), username))</b>
+<b class="nc">&nbsp;                System.out.println(&quot;You: &quot; + scores.get(username) + &quot; points&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            else System.out.println(username + &quot;: &quot; + scores.get(username) + &quot; points&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void printMatrix(String[][] matrix) {
+<b class="nc">&nbsp;        for (String[] strings : matrix) {</b>
+<b class="nc">&nbsp;            for (String string : strings) {</b>
+<b class="nc">&nbsp;                if (string != null) {</b>
+<b class="nc">&nbsp;                    System.out.printf(string);</b>
+<b class="nc">&nbsp;                } else System.out.print(&quot;\t&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Gets the ANSI code for the color corresponding to a card&#39;s kingdom based on its ID.
+&nbsp; * @param id The ID of the card.
+&nbsp; * @return The ANSI code for the card&#39;s kingdom color, or white if the ID corresponds to a card with no kingdom.
+&nbsp; */
+&nbsp;    private static String getColor(int id){
+&nbsp;        String cardColor;
+<b class="nc">&nbsp;        if(id &gt; 0 &amp;&amp; id &lt;= 40){</b>
+<b class="nc">&nbsp;            cardColor = new ResourceCard(id).getCardKingdom().toColor();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(id &gt; 40 &amp;&amp; id &lt;= 80){</b>
+<b class="nc">&nbsp;            cardColor = new GoldCard(id).getCardKingdom().toColor();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else cardColor = ConsoleColor.WHITE;</b>
+&nbsp;
+<b class="nc">&nbsp;        return cardColor;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

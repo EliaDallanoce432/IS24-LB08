@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GoldCardCoveredCornerStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card.GoldCardStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoldCardCoveredCornerStrategy (it.polimi.ingsw.server.model.card.GoldCardStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoldCardCoveredCornerStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card.GoldCardStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;import it.polimi.ingsw.server.model.card.GoldCard;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to apply the covered corner strategy on a gold-card.
+&nbsp; */
+<b class="fc">&nbsp;public class GoldCardCoveredCornerStrategy implements ConditionStrategy {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Used to calculate the amount of points given by the gold-card for every corner it covers
+&nbsp;     * when it gets placed.
+&nbsp;     * @param pointsOnTheCard Points given by the gold-card.
+&nbsp;     * @param gamefield Reference to the player&#39;s game-field.
+&nbsp;     * @param goldcard Used for the calculation.
+&nbsp;     * @return The amount of calculated points.
+&nbsp;     */
+&nbsp;    public int calculatePoints(int pointsOnTheCard, GameField gamefield, GoldCard goldcard) {
+<b class="fc">&nbsp;        int coveredCorners = 0;</b>
+&nbsp;        // checks covered corners
+<b class="fc">&nbsp;        if(goldcard.getBottomLeftCorner().isAttached() &amp;&amp; goldcard.getBottomLeftCorner().isVisible()) coveredCorners++;</b>
+<b class="fc">&nbsp;        if(goldcard.getBottomRightCorner().isAttached() &amp;&amp; goldcard.getBottomRightCorner().isVisible()) coveredCorners++;</b>
+<b class="fc">&nbsp;        if(goldcard.getTopLeftCorner().isAttached() &amp;&amp; goldcard.getTopLeftCorner().isVisible()) coveredCorners++;</b>
+<b class="fc">&nbsp;        if(goldcard.getTopRightCorner().isAttached() &amp;&amp; goldcard.getTopRightCorner().isVisible()) coveredCorners++;</b>
+<b class="fc">&nbsp;        return pointsOnTheCard * coveredCorners;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

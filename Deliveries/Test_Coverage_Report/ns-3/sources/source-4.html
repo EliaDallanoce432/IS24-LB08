@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GameFieldModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GameFieldModel (it.polimi.ingsw.client.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameFieldModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.view.utility.CardRepresentation;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents an ObservableModel that keeps track of the game field state, specifically the placement history of the cards.
+&nbsp; */
+&nbsp;public class GameFieldModel extends ObservableModel {
+&nbsp;
+&nbsp;    private static GameFieldModel instance;
+&nbsp;    private ArrayList&lt;CardRepresentation&gt; placementHistory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the singleton instance of GameFieldModel.
+&nbsp;     * @return The singleton instance of GameFieldModel.
+&nbsp;     */
+&nbsp;    public static GameFieldModel getInstance(){
+<b class="nc">&nbsp;        if (instance ==null) instance = new GameFieldModel();</b>
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    private GameFieldModel(){</b>
+<b class="nc">&nbsp;        placementHistory = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;CardRepresentation&gt; getPlacementHistory() {
+<b class="nc">&nbsp;        return placementHistory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the placement history with the provided new list and notifies any registered observers that the data has changed.
+&nbsp;     * @param placementHistory The new list of CardRepresentation objects.
+&nbsp;     */
+&nbsp;    public void updatePlacementHistory(ArrayList&lt;CardRepresentation&gt; placementHistory) {
+<b class="nc">&nbsp;        this.placementHistory = placementHistory;</b>
+<b class="nc">&nbsp;        notifyObservers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Triggers notification to registered observers without modifying the game field state.
+&nbsp;     */
+&nbsp;    public void rollback(){
+<b class="nc">&nbsp;        notifyObservers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resets the placementHistory array.
+&nbsp;     */
+&nbsp;    public void clear(){
+<b class="nc">&nbsp;        if (placementHistory != null) {</b>
+<b class="nc">&nbsp;            placementHistory.clear();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

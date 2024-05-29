@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Pinger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.ping</a>
+</div>
+
+<h1>Coverage Summary for Class: Pinger (it.polimi.ingsw.network.ping)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pinger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.ping;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.NetworkInterface;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.Constants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class has the role to ping the other host to ensure the connection is still alive.
+&nbsp; */
+&nbsp;public class Pinger implements Runnable, PongObserver {
+&nbsp;    private final NetworkInterface networkInterface;
+&nbsp;    private volatile boolean running;
+&nbsp;    private final JSONObject pingMessage;
+&nbsp;
+<b class="nc">&nbsp;    private final int pingTries = PING_TRIES;</b>
+&nbsp;    int remainingPings;
+&nbsp;
+<b class="nc">&nbsp;    public Pinger(NetworkInterface networkInterface) {</b>
+<b class="nc">&nbsp;        this.networkInterface = networkInterface;</b>
+<b class="nc">&nbsp;        Map&lt;String,String&gt; jsonMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonMap.put(&quot;type&quot;, &quot;ping&quot;);</b>
+<b class="nc">&nbsp;        pingMessage = new JSONObject(jsonMap);</b>
+<b class="nc">&nbsp;        running = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @SuppressWarnings(&quot;all&quot;)
+&nbsp;    public void run() {
+<b class="nc">&nbsp;        remainingPings = pingTries;</b>
+<b class="nc">&nbsp;        while (running) {</b>
+<b class="nc">&nbsp;            networkInterface.send(pingMessage);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                Thread.sleep(PING_INTERVAL);</b>
+<b class="nc">&nbsp;            } catch (InterruptedException ignored) {</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            remainingPings -= 1;</b>
+<b class="nc">&nbsp;            if (remainingPings == 0) {</b>
+<b class="nc">&nbsp;                networkInterface.connectionLossNotification();</b>
+<b class="nc">&nbsp;                running = false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public synchronized void notifyPong() {
+<b class="nc">&nbsp;        remainingPings = pingTries;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stops the pinger execution.
+&nbsp;     */
+&nbsp;    public void shutdown() {
+<b class="nc">&nbsp;        running = false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

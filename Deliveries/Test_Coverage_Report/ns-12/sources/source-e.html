@@ -1,0 +1,125 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveCardThreeAnimal</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card.ObjectiveCardStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveCardThreeAnimal (it.polimi.ingsw.server.model.card.ObjectiveCardStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveCardThreeAnimal</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to implement the three animal strategy.
+&nbsp; */
+<b class="fc">&nbsp;public class ObjectiveCardThreeAnimal implements ObjectiveStrategy {</b>
+&nbsp;    /**
+&nbsp;     * Used to calculate the amount of points given for each triplet of Animal found on the game-field.
+&nbsp;     * @param pointsOnTheCard Points given by the objective card.
+&nbsp;     * @param gamefield Reference to the game-field that is being analysed.
+&nbsp;     * @return The amount of calculated points on the specific game-field.
+&nbsp;     */
+&nbsp;    public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
+<b class="fc">&nbsp;        for (int i=0; i &lt; gamefield.getAnimalCount()/3; i++) {</b>
+<b class="fc">&nbsp;            gamefield.getPlayer().increaseNumOfCompletedObjective();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return pointsOnTheCard * (gamefield.getAnimalCount()/3);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

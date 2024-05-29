@@ -1,0 +1,376 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Lobby</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.lobby</a>
+</div>
+
+<h1>Coverage Summary for Class: Lobby (it.polimi.ingsw.server.lobby)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lobby</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/100)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.lobby;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.ClientHandler;
+&nbsp;import it.polimi.ingsw.network.ServerWelcomeSocket;
+&nbsp;import it.polimi.ingsw.network.ServerNetworkObserver;
+&nbsp;import it.polimi.ingsw.server.controller.GameController;
+&nbsp;import it.polimi.ingsw.server.view.ServerView;
+&nbsp;import it.polimi.ingsw.util.customexceptions.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Request;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ExecutorService;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents the lobby where players can create or join a game and set their usernames
+&nbsp; */
+&nbsp;public class Lobby implements ServerNetworkObserver {
+&nbsp;
+&nbsp;    private final List&lt;Request&gt; requests;
+&nbsp;    private final ArrayList&lt;ClientHandler&gt; connectedClients;
+&nbsp;    private final HashMap&lt;String, GameController&gt; games;
+&nbsp;    private final HashMap&lt;String, GameController&gt; availableGames;
+&nbsp;    private final ArrayList&lt;String&gt; takenUsernames;
+<b class="nc">&nbsp;    private ServerWelcomeSocket serverWelcomeSocket = null;</b>
+<b class="nc">&nbsp;    private boolean welcomeSocketIsRunning = false;</b>
+&nbsp;    private int welcomeSocketPort;
+&nbsp;    private final ExecutorService executorService;
+&nbsp;    private final LobbyRequestHandler lobbyRequestHandler;
+&nbsp;    private boolean echo;
+&nbsp;    private volatile boolean running;
+&nbsp;
+<b class="nc">&nbsp;    public Lobby() {</b>
+<b class="nc">&nbsp;        connectedClients = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        games = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        availableGames = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        takenUsernames = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        requests = Collections.synchronizedList(new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;        executorService = Executors.newCachedThreadPool();</b>
+<b class="nc">&nbsp;        lobbyRequestHandler = new LobbyRequestHandler(this);</b>
+<b class="nc">&nbsp;        ServerView.getInstance(this);</b>
+<b class="nc">&nbsp;        echo = false;</b>
+<b class="nc">&nbsp;        running = true;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the welcome socket that is used by the server to listen for new connections.
+&nbsp;     * @param port The port to listen on.
+&nbsp;     * @throws CannotOpenWelcomeSocket Thrown when the welcome socket can&#39;t be opened on the specified port.
+&nbsp;     * @throws WelcomeSocketIsAlreadyOpenException Thrown when the server is already listening on a port.
+&nbsp;     */
+&nbsp;    public void initializeWelcomeSocket(int port) throws CannotOpenWelcomeSocket, WelcomeSocketIsAlreadyOpenException {
+<b class="nc">&nbsp;        if (!welcomeSocketIsRunning) {</b>
+<b class="nc">&nbsp;            serverWelcomeSocket = new ServerWelcomeSocket(this, port);</b>
+<b class="nc">&nbsp;            executorService.submit(serverWelcomeSocket);</b>
+<b class="nc">&nbsp;            welcomeSocketPort = port;</b>
+<b class="nc">&nbsp;            welcomeSocketIsRunning = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else throw new WelcomeSocketIsAlreadyOpenException(String.valueOf(welcomeSocketPort));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public HashMap&lt;String, GameController&gt; getAvailableGames() {
+<b class="nc">&nbsp;        return availableGames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public HashMap&lt;String, GameController&gt; getGames() {
+<b class="nc">&nbsp;        return games;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;ClientHandler&gt; getConnectedClients() {
+<b class="nc">&nbsp;        return connectedClients;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getWelcomeSocketPort() {
+<b class="nc">&nbsp;        return welcomeSocketPort;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Disables the echo function of the server.
+&nbsp;     */
+&nbsp;    public void echoOff() {
+<b class="nc">&nbsp;        echo = false;</b>
+<b class="nc">&nbsp;        for(GameController gameController : games.values()) {</b>
+<b class="nc">&nbsp;            gameController.echoOff();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Enables the echo function of the server.
+&nbsp;     */
+&nbsp;    public void echoOn() {
+<b class="nc">&nbsp;        echo = true;</b>
+<b class="nc">&nbsp;        for(GameController gameController : games.values()) {</b>
+<b class="nc">&nbsp;            gameController.echoOn();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts the lobby execution that continuously processes requests from clients until the server is shut down.
+&nbsp;     */
+&nbsp;    public void startLobby() {
+<b class="nc">&nbsp;        System.out.println(&quot;Lobby started&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Echo: off&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Set a port for the server with &#39;setPort&#39; command.&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Type &#39;help&#39; for more information.&quot;);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        while (running) {</b>
+<b class="nc">&nbsp;            while (!requests.isEmpty()) {</b>
+<b class="nc">&nbsp;                lobbyRequestHandler.execute(requests.getFirst());</b>
+<b class="nc">&nbsp;                requests.removeFirst();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a new client to the lobby.
+&nbsp;     * @param client New client handler.
+&nbsp;     */
+&nbsp;    public void submitNewClient(ClientHandler client) {
+<b class="nc">&nbsp;        executorService.submit(client);</b>
+<b class="nc">&nbsp;        enterLobby(client);</b>
+<b class="nc">&nbsp;        setRandomGuestUsername(client);</b>
+<b class="nc">&nbsp;        client.send(LobbyMessageGenerator.usernameSetMessage(client.getUsername()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets a random username to the client.
+&nbsp;     * @param client The client handler that needs to be assigned with a random username.
+&nbsp;     */
+&nbsp;    private void setRandomGuestUsername(ClientHandler client){
+<b class="nc">&nbsp;        boolean usernameNotSet = true;</b>
+<b class="nc">&nbsp;        while (usernameNotSet) {</b>
+<b class="nc">&nbsp;            String username = &quot;Guest&quot; + (int) (Math.random() * 100000);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                setUsername(username,client);</b>
+<b class="nc">&nbsp;                usernameNotSet = false;</b>
+<b class="nc">&nbsp;            } catch (AlreadyTakenUsernameException ignored) {</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Submits a new request to lobby.
+&nbsp;     * @param request The new request.
+&nbsp;     */
+&nbsp;    public synchronized void submitNewRequest(Request request) {
+<b class="nc">&nbsp;        requests.addLast(request);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the client to the lobby&#39;s arraylist of connected clients.
+&nbsp;     * @param client The client to allow in.
+&nbsp;     */
+&nbsp;    public void enterLobby(ClientHandler client) {
+<b class="nc">&nbsp;        if(!connectedClients.contains(client)) {</b>
+<b class="nc">&nbsp;            connectedClients.add(client);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            String username = &quot;&quot;;</b>
+<b class="nc">&nbsp;            if(client.getUsername() != null){ username = client.getUsername() + &quot; &quot;; }</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Client &#39;&quot;+username+ &quot;&#39; is now in the lobby&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        client.send(LobbyMessageGenerator.joinedLobbyMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes the client from the lobby.
+&nbsp;     * @param client The client to allow in.
+&nbsp;     */
+&nbsp;    public void leaveLobby(ClientHandler client) {
+<b class="nc">&nbsp;        connectedClients.remove(client);</b>
+<b class="nc">&nbsp;        takenUsernames.remove(client.getUsername());</b>
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Client &#39;&quot; + client.getUsername() + &quot;&#39; left the lobby&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        client.shutdown();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows the client to pick a username, the username is added to the taken usernames list to ensure the uniqueness.
+&nbsp;     * @param username The chosen username.
+&nbsp;     * @param client The client that is setting the username.
+&nbsp;     * @throws AlreadyTakenUsernameException Thrown when trying to choose an already taken username.
+&nbsp;     */
+&nbsp;    public void setUsername(String username, ClientHandler client) throws AlreadyTakenUsernameException {
+<b class="nc">&nbsp;        if (client.getUsername() != null) {</b>
+<b class="nc">&nbsp;            takenUsernames.remove(client.getUsername()); //the client had already a registered username, so now it&#39;s going to be changed</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!takenUsernames.contains(username)) {</b>
+<b class="nc">&nbsp;            String oldUsername = client.getUsername();</b>
+<b class="nc">&nbsp;            takenUsernames.add(username);</b>
+<b class="nc">&nbsp;            client.setUsername(username);</b>
+<b class="nc">&nbsp;            if(echo) {</b>
+<b class="nc">&nbsp;                if (oldUsername != null) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Client &#39;&quot; + oldUsername + &quot;&#39; changed their username to &#39;&quot; + username +&quot;&#39;&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            throw new AlreadyTakenUsernameException();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a new game with the requested number of players and assign a name to it.
+&nbsp;     * @param numberOfPlayers The number of players that will join.
+&nbsp;     * @param gameName The name to identify the game.
+&nbsp;     */
+&nbsp;    public void setupNewGame(int numberOfPlayers, String gameName, ClientHandler client) throws CannotCreateGameException {
+<b class="nc">&nbsp;        if(gameName == null) throw new CannotCreateGameException(&quot;Invalid name!&quot;);</b>
+<b class="nc">&nbsp;        if(games.containsKey(gameName)) throw new CannotCreateGameException(&quot;Game name already taken!&quot;);</b>
+<b class="nc">&nbsp;        GameController newGameController = new GameController(this,numberOfPlayers,gameName, echo);</b>
+<b class="nc">&nbsp;        games.put(gameName, newGameController);</b>
+<b class="nc">&nbsp;        availableGames.put(gameName,newGameController);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            joinGame(client, gameName);</b>
+<b class="nc">&nbsp;        } catch (NonExistentGameException | GameIsFullException ignored) {}</b>
+<b class="nc">&nbsp;        Thread thread = new Thread(newGameController);</b>
+<b class="nc">&nbsp;        thread.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes a game from the list of available games.
+&nbsp;     * @param gameName The game name.
+&nbsp;     */
+&nbsp;    public void makeUnavailable(String gameName) {
+<b class="nc">&nbsp;        availableGames.remove(gameName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * CLoses the game from the lobby.
+&nbsp;     * @param gameName The game name.
+&nbsp;     */
+&nbsp;    public void closeGame(String gameName) {
+<b class="nc">&nbsp;        makeUnavailable(gameName);</b>
+<b class="nc">&nbsp;        games.remove(gameName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows a client to join a game that is waiting for players.
+&nbsp;     * @param client The client that wants to join.
+&nbsp;     * @param gameName The name of the game to join.
+&nbsp;     * @throws NonExistentGameException Thrown when the given game name isn&#39;t the name of one of the available games to join.
+&nbsp;     */
+&nbsp;    public void joinGame(ClientHandler client, String gameName) throws NonExistentGameException, GameIsFullException {
+<b class="nc">&nbsp;        if(!availableGames.containsKey(gameName)) { throw new NonExistentGameException(); }</b>
+<b class="nc">&nbsp;        availableGames.get(gameName).enterGame(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyConnectionLoss(ClientHandler clientHandler) {
+<b class="nc">&nbsp;        if (echo) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Client &#39;&quot; + clientHandler.getUsername() + &quot;&#39; lost connection&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        leaveLobby(clientHandler);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stops the lobby execution.
+&nbsp;     */
+&nbsp;    public void shutdown() {
+<b class="nc">&nbsp;        running = false;</b>
+<b class="nc">&nbsp;        if (serverWelcomeSocket != null) {</b>
+<b class="nc">&nbsp;            serverWelcomeSocket.shutdown();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (executorService != null) {</b>
+<b class="nc">&nbsp;            executorService.shutdown();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.exit(0);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

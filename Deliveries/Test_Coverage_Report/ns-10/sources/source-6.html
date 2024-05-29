@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ResourceCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card</a>
+</div>
+
+<h1>Coverage Summary for Class: ResourceCard (it.polimi.ingsw.server.model.card)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResourceCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;import it.polimi.ingsw.server.model.json.JsonCardsReader;
+&nbsp;import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
+&nbsp;import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class represents a Resource card.
+&nbsp; */
+&nbsp;public class ResourceCard extends PlaceableCard {
+&nbsp;
+<b class="fc">&nbsp;    public ResourceCard () {</b>
+&nbsp;        // for testing purpose only
+&nbsp;    }
+<b class="fc">&nbsp;    public ResourceCard(int id) {</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            JsonCardsReader.loadResourceCard(id, this);</b>
+<b class="nc">&nbsp;        } catch (CannotOpenJSONException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (InvalidIdException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            System.err.println(e.getMessage());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the points earned by placing this resource card
+&nbsp;     * @param gameField Reference to the game field the card is placed on.
+&nbsp;     * @return Points earned by placing the card.
+&nbsp;     */
+&nbsp;    public int placementPoints(GameField gameField) {
+<b class="fc">&nbsp;        return this.getPoints();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

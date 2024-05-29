@@ -1,0 +1,575 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientTerminalParser</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.CLI</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientTerminalParser (it.polimi.ingsw.client.view.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientTerminalParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/218)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.CLI;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.controller.ClientController;
+&nbsp;import it.polimi.ingsw.client.model.ClientStateModel;
+&nbsp;import it.polimi.ingsw.client.model.GameFieldModel;
+&nbsp;import it.polimi.ingsw.client.model.HandModel;
+&nbsp;import it.polimi.ingsw.client.model.SelectableCardsModel;
+&nbsp;import it.polimi.ingsw.client.view.utility.CardRepresentation;
+&nbsp;import it.polimi.ingsw.util.cli.CommandParser;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ClientState;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ConsoleColor;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for parsing user commands entered the Codex game client&#39;s CLI.
+&nbsp; */
+<b class="nc">&nbsp;public class ClientTerminalParser implements CommandParser {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a user command entered the CLI.
+&nbsp;     * @param command The user-entered command string.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void parse(String command) {
+<b class="nc">&nbsp;        String[] tokens = command.split(&quot;\\s+&quot;);</b>
+<b class="nc">&nbsp;        tokens[0] = tokens[0].toLowerCase();</b>
+<b class="nc">&nbsp;        switch (tokens[0]) {</b>
+<b class="nc">&nbsp;            case &quot;help&quot;,&quot;h&quot;,&quot;?&quot; -&gt; Printer.printHelp();</b>
+<b class="nc">&nbsp;            case &quot;setusername&quot;,&quot;su&quot; -&gt; updateUsername(tokens);</b>
+<b class="nc">&nbsp;            case &quot;leave&quot;, &quot;l&quot; -&gt; leave();</b>
+<b class="nc">&nbsp;            case &quot;quit&quot;, &quot;q&quot; -&gt; ClientController.getInstance().shutdownForCLI();</b>
+<b class="nc">&nbsp;            case &quot;create&quot;, &quot;c&quot; -&gt; createGame(tokens);</b>
+<b class="nc">&nbsp;            case &quot;availablegames&quot;, &quot;ag&quot; -&gt; getAvailableGames();</b>
+<b class="nc">&nbsp;            case &quot;info&quot; -&gt; getInfo(tokens);</b>
+<b class="nc">&nbsp;            case &quot;join&quot;, &quot;j&quot; -&gt; joinGame(tokens);</b>
+<b class="nc">&nbsp;            case &quot;ready&quot;, &quot;r&quot; -&gt; setReady();</b>
+<b class="nc">&nbsp;            case &quot;startercard&quot;,&quot;sc&quot; -&gt; selectStarterCardOrientation(tokens);</b>
+<b class="nc">&nbsp;            case &quot;secretobjective&quot;, &quot;so&quot; -&gt; selectSecretObjective(tokens);</b>
+<b class="nc">&nbsp;            case &quot;place&quot;, &quot;p&quot; -&gt; place(tokens);</b>
+<b class="nc">&nbsp;            case &quot;draw&quot;, &quot;d&quot; -&gt; draw(tokens);</b>
+<b class="nc">&nbsp;            case &quot;board&quot; -&gt; showBoard();</b>
+<b class="nc">&nbsp;            case &quot;hand&quot; -&gt; showHand();</b>
+<b class="nc">&nbsp;            case &quot;score&quot; -&gt; showScore();</b>
+<b class="nc">&nbsp;            case &quot;objectives&quot;,&quot;obj&quot; -&gt; showObjectives();</b>
+<b class="nc">&nbsp;            case &quot;guide&quot; -&gt; showGuide();</b>
+<b class="nc">&nbsp;            case &quot;decks&quot; -&gt; showDecks();</b>
+&nbsp;            default -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;Unknown command&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Type &#39;help&#39; for more information.&quot;);</b>
+<b class="nc">&nbsp;                System.out.println();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends an error message to the client when the received command is invalid.
+&nbsp;     * @param messageError Message containing the reason of the failure.
+&nbsp;     */
+&nbsp;    private void parseError(String messageError) {
+<b class="nc">&nbsp;        System.out.println(&quot;Unexpected arguments: &quot; + messageError);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends an error message to the client when the received command is invalid.
+&nbsp;     */
+&nbsp;    private void parseError() {
+<b class="nc">&nbsp;        System.out.println(&quot;Unexpected arguments&quot;);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the setUsername command required by the client.
+&nbsp;     * @param tokens array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void updateUsername(String[] tokens) {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {</b>
+<b class="nc">&nbsp;            if(tokens.length == 2) {</b>
+<b class="nc">&nbsp;                String username = tokens[1].trim();</b>
+<b class="nc">&nbsp;                if (username.matches(&quot;^[a-zA-Z0-9_]*$&quot;)) {</b>
+<b class="nc">&nbsp;                    ClientController.getInstance().sendSetUsernameMessage(username);</b>
+<b class="nc">&nbsp;                } else if (username.length() &gt; 15) {</b>
+<b class="nc">&nbsp;                    Printer.printMessage(&quot;The username must be less than 15 characters&quot;, ConsoleColor.RED);</b>
+&nbsp;                } else
+<b class="nc">&nbsp;                    parseError(&quot;invalid username&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                parseError();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in the lobby&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the createGame command required by the client.
+&nbsp;     * @param tokens Array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void createGame(String[] tokens) {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {</b>
+<b class="nc">&nbsp;            if (tokens.length==3) {</b>
+<b class="nc">&nbsp;                String gameName = tokens[1].trim();</b>
+<b class="nc">&nbsp;                int numberOfPlayers = 0;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    numberOfPlayers = Integer.parseInt(tokens[2].trim());</b>
+<b class="nc">&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                    parseError(&quot;invalid number of players&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                if(numberOfPlayers&gt;=2 &amp;&amp; numberOfPlayers&lt;=4) {</b>
+<b class="nc">&nbsp;                    ClientController.getInstance().sendSetUpGameMessage(gameName, numberOfPlayers);</b>
+&nbsp;                }
+&nbsp;                else {
+<b class="nc">&nbsp;                    parseError(&quot;number of players must be between 2 and 4&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                parseError();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in the lobby&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the getAvailableGames required by the client and shows him all the possible games he can join.
+&nbsp;     */
+&nbsp;    private void getAvailableGames () {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE)</b>
+<b class="nc">&nbsp;            ClientController.getInstance().sendGetAvailableGamesMessage();</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in the lobby&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the joinGame command required by the client.
+&nbsp;     * @param tokens Array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void joinGame(String[] tokens) {
+&nbsp;
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.LOBBY_STATE) {</b>
+<b class="nc">&nbsp;            if (tokens.length == 2) {</b>
+<b class="nc">&nbsp;                ClientController.getInstance().sendJoinGameMessage(tokens[1]);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else parseError();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in the lobby&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the setReady command required by the client.
+&nbsp;     */
+&nbsp;    private void setReady() {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {</b>
+<b class="nc">&nbsp;            Printer.printMessage(&quot;You are ready! - waiting for all the players to get ready...&quot;);</b>
+<b class="nc">&nbsp;            ClientController.getInstance().sendReadyMessage();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the selectStarterCardOrientation command required by the client.
+&nbsp;     * @param tokens Array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void selectStarterCardOrientation(String[] tokens) {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {</b>
+<b class="nc">&nbsp;            int starterCardID = SelectableCardsModel.getInstance().getStarterCardId();</b>
+<b class="nc">&nbsp;            if (tokens.length == 2) {</b>
+<b class="nc">&nbsp;                if(Objects.equals(tokens[1], &quot;front&quot;)) {</b>
+<b class="nc">&nbsp;                    ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardID, true);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else if(Objects.equals(tokens[1], &quot;back&quot;)) {</b>
+<b class="nc">&nbsp;                    ClientController.getInstance().sendChosenStarterCardSideMessage(starterCardID, false);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else parseError(&quot;invalid parameters&quot;);</b>
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;                parseError();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;You&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the selectSecreteObjective command required by the client.
+&nbsp;     * @param tokens Array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void selectSecretObjective (String[] tokens) {
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.GAME_SETUP_STATE) {</b>
+<b class="nc">&nbsp;            if (tokens.length == 2) {</b>
+<b class="nc">&nbsp;                SelectableCardsModel selectableCardsModel = SelectableCardsModel.getInstance();</b>
+<b class="nc">&nbsp;                int objectiveId = 0;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    objectiveId = Integer.parseInt(tokens[1]);</b>
+<b class="nc">&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                    parseError(&quot;invalid objective card id&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                if(objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[0] || objectiveId == selectableCardsModel.getSelectableObjectiveCardsId()[1]) {</b>
+<b class="nc">&nbsp;                    ClientController.getInstance().sendChosenSecretObjectiveMessage(objectiveId);</b>
+&nbsp;                }
+&nbsp;                else {
+<b class="nc">&nbsp;                    parseError(&quot;This ID is not valid&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                parseError(&quot;Unexpected arguments&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the &quot;place&quot; command for placing cards in the game.
+&nbsp;     * @param tokens The tokens parsed from the user command.
+&nbsp;     */
+&nbsp;    private void place(String[] tokens) {
+&nbsp;
+<b class="nc">&nbsp;        if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {</b>
+<b class="nc">&nbsp;            if (tokens.length == 5) {</b>
+<b class="nc">&nbsp;                int cardId = 0;</b>
+<b class="nc">&nbsp;                int targetId = 0;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    cardId = Integer.parseInt(tokens[1]);</b>
+<b class="nc">&nbsp;                    targetId = Integer.parseInt(tokens[3]);</b>
+<b class="nc">&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                    parseError();</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    searchCardId(HandModel.getInstance().getCardsInHand(), cardId);</b>
+<b class="nc">&nbsp;                } catch (RuntimeException e) {</b>
+<b class="nc">&nbsp;                    parseError(&quot;You don&#39;t have the #&quot; + cardId + &quot; card in your hand&quot;);</b>
+&nbsp;                    return;
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                boolean facingUp = false;</b>
+<b class="nc">&nbsp;                if(tokens[2].equals(&quot;front&quot;)) facingUp = true;</b>
+<b class="nc">&nbsp;                else if(!tokens[2].equals(&quot;back&quot;)) {</b>
+<b class="nc">&nbsp;                    parseError();</b>
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;                CardRepresentation targetCard;
+&nbsp;                try {
+<b class="nc">&nbsp;                    targetCard = searchCardId(GameFieldModel.getInstance().getPlacementHistory(), targetId);</b>
+<b class="nc">&nbsp;                } catch (RuntimeException e) {</b>
+<b class="nc">&nbsp;                    parseError(&quot;the target card is not on your field&quot;);</b>
+&nbsp;                    return;
+<b class="nc">&nbsp;                }</b>
+&nbsp;                int x;
+&nbsp;                int y;
+<b class="nc">&nbsp;                switch (tokens[4]) {</b>
+&nbsp;                    case &quot;topleft&quot;, &quot;tl&quot; -&gt; {
+<b class="nc">&nbsp;                        x = targetCard.getX() - 1;</b>
+<b class="nc">&nbsp;                        y = targetCard.getY() + 1;</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    case &quot;topright&quot;, &quot;tr&quot; -&gt; {
+<b class="nc">&nbsp;                        x = targetCard.getX() + 1;</b>
+<b class="nc">&nbsp;                        y = targetCard.getY() + 1;</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    case &quot;bottomleft&quot;, &quot;bl&quot; -&gt; {
+<b class="nc">&nbsp;                        x = targetCard.getX() - 1;</b>
+<b class="nc">&nbsp;                        y = targetCard.getY() - 1;</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    case &quot;bottomright&quot;, &quot;br&quot; -&gt; {
+<b class="nc">&nbsp;                        x = targetCard.getX() + 1;</b>
+<b class="nc">&nbsp;                        y = targetCard.getY() -1;</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    default -&gt; {
+<b class="nc">&nbsp;                        parseError(&quot;the position argument is not correct&quot;);</b>
+&nbsp;                        return;
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                ClientController.getInstance().sendPlaceMessage(cardId,x,y,facingUp);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                parseError();</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Not your turn&quot;);</b>
+<b class="nc">&nbsp;            } else if (ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;You have already placed, draw a card&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else System.out.println(&quot;You&#39;re not playing right now&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Searches for a card with a specific ID within a list of card representations.
+&nbsp;     * @param cards The list of card representations to search.
+&nbsp;     * @param searchedId The ID of the card to search for.
+&nbsp;     * @return The `CardRepresentation` object if the card is found, otherwise throws a `RuntimeException`.
+&nbsp;     * @throws RuntimeException If no card with the specified ID is found in the list.
+&nbsp;     */
+&nbsp;    private CardRepresentation searchCardId(ArrayList&lt;CardRepresentation&gt; cards, int searchedId) throws RuntimeException {
+<b class="nc">&nbsp;        for(CardRepresentation card : cards) {</b>
+<b class="nc">&nbsp;            if(card.getId() == searchedId) {</b>
+<b class="nc">&nbsp;                return card;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        throw new RuntimeException();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the draw command received by the client.
+&nbsp;     * @param tokens array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void draw(String[] tokens) {
+&nbsp;
+<b class="nc">&nbsp;        if (tokens.length == 2 &amp;&amp; ClientStateModel.getInstance().getClientState() == ClientState.DRAWING_STATE) {</b>
+<b class="nc">&nbsp;            String selection = tokens[1];</b>
+<b class="nc">&nbsp;            switch (selection) {</b>
+<b class="nc">&nbsp;                case &quot;1&quot; -&gt; ClientController.getInstance().sendDirectDrawResourceCardMessage();</b>
+<b class="nc">&nbsp;                case &quot;2&quot; -&gt; ClientController.getInstance().sendDrawLeftResourceCardMessage();</b>
+<b class="nc">&nbsp;                case &quot;3&quot; -&gt; ClientController.getInstance().sendDrawRightResourceCardMessage();</b>
+<b class="nc">&nbsp;                case &quot;4&quot; -&gt; ClientController.getInstance().sendDirectDrawGoldCardMessage();</b>
+<b class="nc">&nbsp;                case &quot;5&quot; -&gt; ClientController.getInstance().sendDrawLeftGoldCardMessage();</b>
+<b class="nc">&nbsp;                case &quot;6&quot; -&gt; ClientController.getInstance().sendDrawRightGoldCardMessage();</b>
+<b class="nc">&nbsp;                default -&gt; parseError(&quot;the deck selection must be between 1 and 6&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (ClientStateModel.getInstance().getClientState() == ClientState.NOT_PLAYING_STATE) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Not your turn&quot;);</b>
+<b class="nc">&nbsp;            } else if (ClientStateModel.getInstance().getClientState() == ClientState.PLACING_STATE) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;You have to place a card first&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else System.out.println(&quot;You&#39;re not playing right now&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the leave command required by the client.
+&nbsp;     */
+&nbsp;    private void leave() {
+<b class="nc">&nbsp;        ClientController.getInstance().sendLeaveMessage();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the getInfo command required by the client.
+&nbsp;     * @param tokens array of strings containing the parameters needed to execute the command.
+&nbsp;     */
+&nbsp;    private void getInfo (String[] tokens) {
+<b class="nc">&nbsp;        int id = 0;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            id = Integer.parseInt(tokens[1]);</b>
+<b class="nc">&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;            parseError(&quot;invalid id&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if (tokens.length == 2) {</b>
+<b class="nc">&nbsp;            Printer.printCardInfo(id,true);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (tokens.length == 3) {</b>
+<b class="nc">&nbsp;            String side = tokens[2];</b>
+<b class="nc">&nbsp;            if (Objects.equals(side, &quot;front&quot;)){</b>
+<b class="nc">&nbsp;                Printer.printCardInfo(id, true);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if (Objects.equals(side, &quot;back&quot;)){</b>
+<b class="nc">&nbsp;                Printer.printCardInfo(id, false);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else System.out.println(&quot;Error: Invalid number of arguments&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showBoard command required by the client.
+&nbsp;     */
+&nbsp;    private void showBoard() {
+<b class="nc">&nbsp;        if (isNotInGame()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else Printer.printGameBoard();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showHand command required by the client.
+&nbsp;     */
+&nbsp;    private void showHand () {
+<b class="nc">&nbsp;        if (isNotInGame()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else Printer.printHand();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showScore command required by the client.
+&nbsp;     */
+&nbsp;    private void showScore () {
+<b class="nc">&nbsp;        if (isNotInGame()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else Printer.printScores();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showDecks command required by the client.
+&nbsp;     */
+&nbsp;    private void showDecks() {
+<b class="nc">&nbsp;        if (isNotInGame()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else Printer.printDeckInfo();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showObjectives command required by the client.
+&nbsp;     */
+&nbsp;    private void showObjectives() {
+<b class="nc">&nbsp;        if (isNotInGame()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Unexpected command&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;you&#39;re not in a game&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            Printer.printObjectives();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the showGuide command required by the client.
+&nbsp;     */
+&nbsp;    private void showGuide() {
+<b class="nc">&nbsp;        Printer.printGuide();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isNotInGame(){
+<b class="nc">&nbsp;        ClientState clientState = ClientStateModel.getInstance().getClientState();</b>
+<b class="nc">&nbsp;        return (clientState != ClientState.PLACING_STATE &amp;&amp; clientState != ClientState.DRAWING_STATE &amp;&amp; clientState != ClientState.NOT_PLAYING_STATE &amp;&amp; clientState != ClientState.LAST_ROUND_STATE);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

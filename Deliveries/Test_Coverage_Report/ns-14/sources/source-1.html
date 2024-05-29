@@ -1,0 +1,364 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > JsonCardsReader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.json</a>
+</div>
+
+<h1>Coverage Summary for Class: JsonCardsReader (it.polimi.ingsw.server.model.json)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JsonCardsReader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.2%
+  </span>
+  <span class="absValue">
+    (99/111)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">JsonCardsReader$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.3%
+  </span>
+  <span class="absValue">
+    (100/112)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.json;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import it.polimi.ingsw.server.model.card.*;
+&nbsp;import it.polimi.ingsw.server.model.card.GoldCardStrategy.*;
+&nbsp;import it.polimi.ingsw.util.customexceptions.CannotOpenJSONException;
+&nbsp;import it.polimi.ingsw.util.customexceptions.InvalidIdException;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class handles reading card data from JSON files. It provides methods to extract specific information
+&nbsp; * about card properties based on the JSON structure.
+&nbsp; */
+<b class="fc">&nbsp;public class JsonCardsReader {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extracts the resource type from a JSONObject representing a corner of a card in the JSON data.
+&nbsp;     * @param item JSONObject representing the card data.
+&nbsp;     * @param corn String representing the corner.
+&nbsp;     * @return `Resource` enum value extracted from the corner data.
+&nbsp;     */
+&nbsp;    private static Resource getCornerResource(JSONObject item, String corn) {
+<b class="fc">&nbsp;        JSONObject corner = (JSONObject) item.get(corn);</b>
+<b class="fc">&nbsp;        String resource = corner.get(&quot;Resource&quot;).toString();</b>
+<b class="fc">&nbsp;        return Resource.StringToResource(resource);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extracts the attachable flag from a JSONObject representing a corner of a card in the JSON data.
+&nbsp;     * @param item JSONObject representing the card data.
+&nbsp;     * @param corn String representing the corner.
+&nbsp;     * @return True if the &quot;Exist&quot; key in the corner data is true, false otherwise.
+&nbsp;     */
+&nbsp;    private static boolean getCornerAttachable(JSONObject item, String corn) {
+<b class="fc">&nbsp;        JSONObject corner = (JSONObject) item.get(corn);</b>
+<b class="fc">&nbsp;        return (Boolean) corner.get(&quot;Exist&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads resource card from json file.
+&nbsp;     * @param id Unique id that identifies the card.
+&nbsp;     * @param resourceCard  Reference to the card itself.
+&nbsp;     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+&nbsp;     * @throws InvalidIdException If the provided ID is invalid (outside the range of 1-40).
+&nbsp;     */
+&nbsp;    public static void loadResourceCard(int id, ResourceCard resourceCard) throws CannotOpenJSONException, InvalidIdException {
+<b class="fc">&nbsp;        if (id &lt; 1 || id &gt; 40) {</b>
+<b class="fc">&nbsp;            throw new InvalidIdException(&quot;invalid id: &quot;+ id);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ClassLoader classloader = Thread.currentThread().getContextClassLoader();</b>
+<b class="fc">&nbsp;        InputStream is = classloader.getResourceAsStream(&quot;JsonResourceCards.json&quot;);</b>
+<b class="fc">&nbsp;        assert is != null;</b>
+<b class="fc">&nbsp;        InputStreamReader isr = new InputStreamReader(is);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            JSONParser jsonParser = new JSONParser();</b>
+<b class="fc">&nbsp;            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);</b>
+<b class="fc">&nbsp;            JSONArray dataArray = (JSONArray) jsonObject.get(&quot;data&quot;);</b>
+<b class="fc">&nbsp;            for (Object obj : dataArray) {</b>
+<b class="fc">&nbsp;                JSONObject item = (JSONObject) obj;</b>
+<b class="fc">&nbsp;                if (id == ((Long) item.get(&quot;Id&quot;)).intValue()) {</b>
+<b class="fc">&nbsp;                    loadGenericPlaceableCardInformation(resourceCard, item, id);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load JsonResourceCards file&quot;);</b>
+<b class="nc">&nbsp;        } catch (ParseException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load resource card &quot; + id);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads gold card from json file.
+&nbsp;     * @param id Unique id that identifies the card.
+&nbsp;     * @param goldCard  Reference to the card itself.
+&nbsp;     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+&nbsp;     * @throws InvalidIdException If the provided ID is invalid (outside the range of 41-80).
+&nbsp;     */
+&nbsp;    public static void loadGoldCard(int id, GoldCard goldCard) throws CannotOpenJSONException, InvalidIdException {
+<b class="fc">&nbsp;        if (id &lt; 41 || id &gt; 80) {</b>
+<b class="fc">&nbsp;            throw new InvalidIdException(&quot;invalid id: &quot;+ id);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ClassLoader classloader = Thread.currentThread().getContextClassLoader();</b>
+<b class="fc">&nbsp;        InputStream is = classloader.getResourceAsStream(&quot;JsonGoldCards.json&quot;);</b>
+<b class="fc">&nbsp;        assert is != null;</b>
+<b class="fc">&nbsp;        InputStreamReader isr = new InputStreamReader(is);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            JSONParser jsonParser = new JSONParser();</b>
+<b class="fc">&nbsp;            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);</b>
+<b class="fc">&nbsp;            JSONArray dataArray = (JSONArray) jsonObject.get(&quot;data&quot;);</b>
+<b class="fc">&nbsp;            for (Object obj : dataArray) {</b>
+<b class="fc">&nbsp;                JSONObject item = (JSONObject) obj;</b>
+<b class="fc">&nbsp;                JSONArray requirements = (JSONArray) item.get(&quot;Requirements&quot;);</b>
+<b class="fc">&nbsp;                if (id == ((Long) item.get(&quot;Id&quot;)).intValue()) {</b>
+<b class="fc">&nbsp;                    loadGenericPlaceableCardInformation(goldCard, item, id);</b>
+<b class="fc">&nbsp;                    loadGoldCardStrategy(goldCard, item);</b>
+<b class="fc">&nbsp;                    loadGoldCardRequirements(goldCard, requirements);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load JsonGoldCards file&quot;);</b>
+<b class="nc">&nbsp;        } catch (ParseException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load gold card &quot; + id);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads generic placeable card information.
+&nbsp;     * @param placeableCard Placeable card to load.
+&nbsp;     * @param item JSONObject representing the card data.
+&nbsp;     * @param id Unique identifier of the card.
+&nbsp;     */
+&nbsp;    private static void loadGenericPlaceableCardInformation(PlaceableCard placeableCard, JSONObject item, int id) {
+<b class="fc">&nbsp;        placeableCard.setId(id);</b>
+<b class="fc">&nbsp;        placeableCard.setPoints(((Long) item.get(&quot;Points&quot;)).intValue());</b>
+<b class="fc">&nbsp;        placeableCard.setCardKingdom(Resource.StringToResource(item.get(&quot;Kingdom&quot;).toString()));</b>
+<b class="fc">&nbsp;        placeableCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, &quot;TopLeftCorner&quot;), getCornerAttachable(item, &quot;TopLeftCorner&quot;), placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setFrontTopRightCorner(new Corner(getCornerResource(item, &quot;TopRightCorner&quot;), getCornerAttachable(item, &quot;TopRightCorner&quot;), placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, &quot;BottomLeftCorner&quot;), getCornerAttachable(item, &quot;BottomLeftCorner&quot;), placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setFrontBottomRightCorner(new Corner(getCornerResource(item, &quot;BottomRightCorner&quot;), getCornerAttachable(item, &quot;BottomRightCorner&quot;), placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setBackTopLeftCorner(new Corner(Resource.none, true,placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setBackBottomLeftCorner(new Corner(Resource.none, true,placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setBackTopRightCorner(new Corner(Resource.none, true,placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setBackBottomRightCorner(new Corner(Resource.none, true,placeableCard));</b>
+<b class="fc">&nbsp;        placeableCard.setFacingUp(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the strategy information for a gold card from a JSONObject.
+&nbsp;     * @param goldCard Gold card to load.
+&nbsp;     * @param item JSONObject representing the card data.
+&nbsp;     */
+&nbsp;    private static void loadGoldCardStrategy(GoldCard goldCard, JSONObject item)  {
+<b class="fc">&nbsp;        String strategy = item.get(&quot;Strategy&quot;).toString();</b>
+<b class="fc">&nbsp;        switch (strategy) {</b>
+<b class="fc">&nbsp;            case &quot;coveredcorner&quot; -&gt; goldCard.setContext(new GoldCardContext(new GoldCardCoveredCornerStrategy()));</b>
+<b class="fc">&nbsp;            case &quot;noaction&quot; -&gt; goldCard.setContext(new GoldCardContext(new GoldCardNoActionStrategy()));</b>
+<b class="fc">&nbsp;            case &quot;feather&quot; -&gt; goldCard.setContext(new GoldCardContext(new GoldCardFeatherStrategy()));</b>
+<b class="fc">&nbsp;            case &quot;scroll&quot; -&gt; goldCard.setContext(new GoldCardContext(new GoldCardScrollStrategy()));</b>
+<b class="fc">&nbsp;            case &quot;inkpot&quot; -&gt; goldCard.setContext(new GoldCardContext(new GoldCardInkPotStrategy()));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the resource requirements for a gold card from a JSONArray in the JSON data.
+&nbsp;     * @param goldCard Gold card to load.
+&nbsp;     * @param requirements JSONArray containing the resource requirements data.
+&nbsp;     */
+&nbsp;    private static void loadGoldCardRequirements(GoldCard goldCard, JSONArray requirements) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            JSONObject currentRequirement = (JSONObject) requirements.get(i);</b>
+<b class="fc">&nbsp;            String resource = currentRequirement.get(&quot;Resource&quot;).toString();</b>
+<b class="fc">&nbsp;            switch (Resource.StringToResource(resource)) {</b>
+<b class="fc">&nbsp;                case fungi -&gt; goldCard.setRequiredFungiResourceAmount(((Long) currentRequirement.get(&quot;Num&quot;)).intValue());</b>
+<b class="fc">&nbsp;                case animal -&gt; goldCard.setRequiredAnimalResourceAmount(((Long) currentRequirement.get(&quot;Num&quot;)).intValue());</b>
+<b class="fc">&nbsp;                case plant -&gt; goldCard.setRequiredPlantResourceAmount(((Long) currentRequirement.get(&quot;Num&quot;)).intValue());</b>
+<b class="fc">&nbsp;                case insect -&gt; goldCard.setRequiredInsectResourceAmount(((Long) currentRequirement.get(&quot;Num&quot;)).intValue());</b>
+&nbsp;                case none -&gt; {}
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads starter card information from a JSON file based on the provided card ID.
+&nbsp;     * @param id Unique id that identifies the card.
+&nbsp;     * @param starterCard  Reference to the card itself.
+&nbsp;     * @throws CannotOpenJSONException If the JSON file cannot be opened or parsed.
+&nbsp;     * @throws InvalidIdException If the provided ID is invalid (outside the range of 81-86).
+&nbsp;     */
+&nbsp;    public static void loadStarterCard(int id, StarterCard starterCard) throws CannotOpenJSONException, InvalidIdException {
+<b class="fc">&nbsp;        if (id &lt; 81 || id &gt; 86) {</b>
+<b class="fc">&nbsp;            throw new InvalidIdException(&quot;invalid id: &quot;+ id);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ClassLoader classloader = Thread.currentThread().getContextClassLoader();</b>
+<b class="fc">&nbsp;        InputStream is = classloader.getResourceAsStream(&quot;JsonStarterCards.json&quot;);</b>
+<b class="fc">&nbsp;        assert is != null;</b>
+<b class="fc">&nbsp;        InputStreamReader isr = new InputStreamReader(is);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            JSONParser jsonParser = new JSONParser();</b>
+<b class="fc">&nbsp;            JSONObject jsonObject = (JSONObject) jsonParser.parse(isr);</b>
+<b class="fc">&nbsp;            JSONArray dataArray = (JSONArray) jsonObject.get(&quot;data&quot;);</b>
+<b class="fc">&nbsp;            for (Object obj : dataArray) {</b>
+<b class="fc">&nbsp;                JSONObject item = (JSONObject) obj;</b>
+<b class="fc">&nbsp;                if (id == ((Long) item.get(&quot;Id&quot;)).intValue()) {</b>
+<b class="fc">&nbsp;                    loadStarterCardResourcesAndCorners(starterCard, item, id);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load JsonStarterCards file&quot;);</b>
+<b class="nc">&nbsp;        } catch (ParseException e) {</b>
+<b class="nc">&nbsp;            throw new CannotOpenJSONException(&quot;couldn&#39;t load starter card &quot; + id);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads resource and corner information for a starter card from a JSONObject.
+&nbsp;     * @param starterCard Starter card.
+&nbsp;     * @param item JSONObject representing the card data.
+&nbsp;     * @param id Unique identifier of the card.
+&nbsp;     */
+&nbsp;    private static void loadStarterCardResourcesAndCorners(StarterCard starterCard, JSONObject item,int id){
+<b class="fc">&nbsp;        List&lt;Resource&gt; backResources = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        JSONArray resource = (JSONArray) item.get(&quot;ResourceBack&quot;);</b>
+<b class="fc">&nbsp;        for(int i=0; i&lt;3; i++) {</b>
+<b class="fc">&nbsp;            backResources.add(Resource.StringToResource(resource.get(i).toString()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        starterCard.setId(id);</b>
+<b class="fc">&nbsp;        starterCard.setFacingUp(true);</b>
+<b class="fc">&nbsp;        starterCard.setBackCentralResources(new ArrayList&lt;&gt;(backResources));</b>
+<b class="fc">&nbsp;        starterCard.setFrontTopLeftCorner(new Corner(getCornerResource(item, &quot;FrontTopLeftCorner&quot;), getCornerAttachable(item, &quot;FrontTopLeftCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setFrontTopRightCorner(new Corner(getCornerResource(item, &quot;FrontTopRightCorner&quot;), getCornerAttachable(item, &quot;FrontTopRightCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setFrontBottomLeftCorner(new Corner(getCornerResource(item, &quot;FrontBottomLeftCorner&quot;), getCornerAttachable(item, &quot;FrontBottomLeftCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setFrontBottomRightCorner(new Corner(getCornerResource(item, &quot;FrontBottomRightCorner&quot;), getCornerAttachable(item, &quot;FrontBottomRightCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setBackTopLeftCorner(new Corner(getCornerResource(item, &quot;BackTopLeftCorner&quot;), getCornerAttachable(item, &quot;BackTopLeftCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setBackTopRightCorner(new Corner(getCornerResource(item, &quot;BackTopRightCorner&quot;), getCornerAttachable(item, &quot;BackTopRightCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setBackBottomLeftCorner(new Corner(getCornerResource(item, &quot;BackBottomLeftCorner&quot;), getCornerAttachable(item, &quot;BackBottomLeftCorner&quot;), starterCard));</b>
+<b class="fc">&nbsp;        starterCard.setBackBottomRightCorner(new Corner(getCornerResource(item, &quot;BackBottomRightCorner&quot;), getCornerAttachable(item, &quot;BackBottomRightCorner&quot;), starterCard));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ScoreTrackRepresentation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.utility</a>
+</div>
+
+<h1>Coverage Summary for Class: ScoreTrackRepresentation (it.polimi.ingsw.client.view.utility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScoreTrackRepresentation</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.utility;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.ScoreBoardModel;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ScoreTrackCoordinates;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Token;
+&nbsp;import javafx.scene.image.ImageView;
+&nbsp;import javafx.scene.layout.Pane;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import static it.polimi.ingsw.util.supportclasses.ViewConstants.TOKEN_OFFSET;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class manages the visual representation of the tokens on the score track.
+&nbsp; */
+&nbsp;public class ScoreTrackRepresentation {
+&nbsp;    private final Pane scoreTrackPane;
+&nbsp;    private final HashMap&lt;Token,ImageView&gt; tokenMap;
+&nbsp;    private final HashMap&lt;Integer, ArrayList&lt;Token&gt;&gt; placedTokens;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the score track.
+&nbsp;     * @param scoreTrackPane The pane where the score track will be shown.
+&nbsp;     * @param blueToken The image of the blue token.
+&nbsp;     * @param redToken The image of the red token.
+&nbsp;     * @param greenToken The image of the green token.
+&nbsp;     * @param yellowToken The image of the yellow token.
+&nbsp;     */
+<b class="nc">&nbsp;    public ScoreTrackRepresentation(Pane scoreTrackPane, ImageView blueToken, ImageView redToken, ImageView greenToken, ImageView yellowToken){</b>
+<b class="nc">&nbsp;        this.scoreTrackPane = scoreTrackPane;</b>
+<b class="nc">&nbsp;        tokenMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        placedTokens = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        tokenMap.put(Token.blue, blueToken);</b>
+<b class="nc">&nbsp;        tokenMap.put(Token.red, redToken);</b>
+<b class="nc">&nbsp;        tokenMap.put(Token.green, greenToken);</b>
+<b class="nc">&nbsp;        tokenMap.put(Token.yellow, yellowToken);</b>
+<b class="nc">&nbsp;        blueToken.setVisible(false);</b>
+<b class="nc">&nbsp;        redToken.setVisible(false);</b>
+<b class="nc">&nbsp;        greenToken.setVisible(false);</b>
+<b class="nc">&nbsp;        yellowToken.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the position of the tokens on the score track.
+&nbsp;     */
+&nbsp;    public void updateTokenPosition(){
+<b class="nc">&nbsp;        ScoreBoardModel scoreBoardModel = ScoreBoardModel.getInstance();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String username : scoreBoardModel.getScore().keySet()){</b>
+<b class="nc">&nbsp;            Token token = scoreBoardModel.getToken(username);</b>
+<b class="nc">&nbsp;            setTokenPosition(token, scoreBoardModel.getScore().get(username));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        drawTokens();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setTokenPosition(Token token, int score){
+<b class="nc">&nbsp;        for(ArrayList&lt;Token&gt; placedTokens : placedTokens.values()){</b>
+<b class="nc">&nbsp;            placedTokens.removeIf(placedToken -&gt; placedToken.equals(token));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        if(!placedTokens.containsKey(score)){</b>
+<b class="nc">&nbsp;            placedTokens.put(score, new ArrayList&lt;&gt;());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        placedTokens.get(score).addLast(token);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void drawTokens(){
+&nbsp;        double offset;
+&nbsp;        double x;
+&nbsp;        double y;
+&nbsp;
+<b class="nc">&nbsp;        for(int score : placedTokens.keySet()){</b>
+<b class="nc">&nbsp;            ArrayList&lt;Token&gt; tokens = placedTokens.get(score);</b>
+<b class="nc">&nbsp;            offset = 0;</b>
+<b class="nc">&nbsp;            for(Token token : tokens){</b>
+&nbsp;
+<b class="nc">&nbsp;                ImageView tokenView = tokenMap.get(token);</b>
+<b class="nc">&nbsp;                x = ScoreTrackCoordinates.getXCoordinate(score);</b>
+<b class="nc">&nbsp;                y = ScoreTrackCoordinates.getYCoordinate(score);</b>
+&nbsp;
+<b class="nc">&nbsp;                tokenView.setLayoutX((x * scoreTrackPane.getWidth()) - (tokenView.getFitWidth()/2));</b>
+<b class="nc">&nbsp;                tokenView.setLayoutY((y * scoreTrackPane.getHeight()) - (tokenView.getFitHeight()/2) - offset);</b>
+&nbsp;
+<b class="nc">&nbsp;                offset += TOKEN_OFFSET;</b>
+&nbsp;
+<b class="nc">&nbsp;                tokenView.setVisible(true);</b>
+<b class="nc">&nbsp;                tokenView.toFront();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

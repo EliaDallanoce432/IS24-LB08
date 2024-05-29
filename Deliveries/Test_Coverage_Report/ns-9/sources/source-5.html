@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ScoreBoardRepresentation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.utility</a>
+</div>
+
+<h1>Coverage Summary for Class: ScoreBoardRepresentation (it.polimi.ingsw.client.view.utility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScoreBoardRepresentation</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.utility;
+&nbsp;
+&nbsp;import it.polimi.ingsw.client.model.PlayerModel;
+&nbsp;import it.polimi.ingsw.client.model.ScoreBoardModel;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.layout.VBox;
+&nbsp;import javafx.scene.text.Font;
+&nbsp;import javafx.scene.text.FontWeight;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class manages the representation of the Scoreboard.
+&nbsp; */
+&nbsp;public class ScoreBoardRepresentation {
+&nbsp;
+&nbsp;    private final VBox scoreBoardVBox;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets up the ScoreBoardRepresentation.
+&nbsp;     * @param scoreBoardVBox The Pane in which the scoreboard will be shown.
+&nbsp;     */
+<b class="nc">&nbsp;    public ScoreBoardRepresentation(VBox scoreBoardVBox) {</b>
+<b class="nc">&nbsp;        this.scoreBoardVBox = scoreBoardVBox;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the scores from the PlayerModel.
+&nbsp;     */
+&nbsp;    public void updateScores() {
+<b class="nc">&nbsp;        scoreBoardVBox.getChildren().clear();</b>
+<b class="nc">&nbsp;        String clientUsername = PlayerModel.getInstance().getUsername();</b>
+<b class="nc">&nbsp;        int clientScore = ScoreBoardModel.getInstance().getScore().getOrDefault(clientUsername, 0);</b>
+<b class="nc">&nbsp;        Label clientLabel = new Label(&quot;You: &quot; + clientScore + &quot; Points&quot;);</b>
+<b class="nc">&nbsp;        clientLabel.setFont(Font.font(&quot;Baskerville Old Face&quot;, FontWeight.BOLD,17));</b>
+<b class="nc">&nbsp;        clientLabel.setTextFill(PlayerModel.getInstance().getToken().toColor());</b>
+<b class="nc">&nbsp;        scoreBoardVBox.getChildren().add(clientLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        ScoreBoardModel.getInstance().getScore().forEach((username, score) -&gt; {</b>
+<b class="nc">&nbsp;            if (!username.equals(clientUsername)) {</b>
+<b class="nc">&nbsp;                Label label = new Label(username + &quot;: &quot; + score + &quot; Points&quot;);</b>
+<b class="nc">&nbsp;                label.setFont(Font.font(&quot;Baskerville Old Face&quot;,17));</b>
+<b class="nc">&nbsp;                label.setTextFill(ScoreBoardModel.getInstance().getToken(username).toColor());</b>
+<b class="nc">&nbsp;                scoreBoardVBox.getChildren().add(label);</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

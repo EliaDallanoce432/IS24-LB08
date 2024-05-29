@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ModelObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.observers</a>
+</div>
+
+<h1>Coverage Summary for Class: ModelObserver (it.polimi.ingsw.client.view.observers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ModelObserver</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.observers;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface should be implemented by any class that
+&nbsp; * wants to be notified of changes in the model it observes.
+&nbsp; * This interface follows the Observer design pattern, where the observer
+&nbsp; * will be updated when there is a change in the observable model.
+&nbsp; */
+&nbsp;public interface ModelObserver {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called when the observed model is updated.
+&nbsp;     * Implementing classes should define the specific behavior
+&nbsp;     * that should occur when the model changes.
+&nbsp;     */
+&nbsp;    void update();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

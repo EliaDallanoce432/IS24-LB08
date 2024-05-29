@@ -1,0 +1,500 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CardPrinter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.client.view.CLI</a>
+</div>
+
+<h1>Coverage Summary for Class: CardPrinter (it.polimi.ingsw.client.view.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardPrinter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/195)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.client.view.CLI;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.card.*;
+&nbsp;import it.polimi.ingsw.util.supportclasses.ConsoleColor;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is responsible for generating a text-based representation of a Card object for the Codex game client CLI.
+&nbsp; * It creates a two-dimensional character array representing the card&#39;s layout and populates it with symbols and borders based on the card&#39;s type and orientation.
+&nbsp; */
+&nbsp;public class CardPrinter {
+&nbsp;    private final int width;
+&nbsp;    private final int height;
+&nbsp;    private final int cornerHeight;
+&nbsp;    private final int cornerWidth;
+&nbsp;    private final String[][] cardMatrix;
+&nbsp;
+&nbsp;    private String cardColor;
+&nbsp;
+<b class="nc">&nbsp;    public CardPrinter(int width, int height, int cornerHeight, int cornerWidth) {</b>
+<b class="nc">&nbsp;        this.width = width;</b>
+<b class="nc">&nbsp;        this.height = height;</b>
+<b class="nc">&nbsp;        this.cornerHeight = cornerHeight;</b>
+<b class="nc">&nbsp;        this.cornerWidth = cornerWidth;</b>
+<b class="nc">&nbsp;        this.cardMatrix = new String[height][width];</b>
+<b class="nc">&nbsp;        setCardColor(ConsoleColor.WHITE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCardColor() {
+<b class="nc">&nbsp;        return cardColor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[][] getCardMatrix() {
+<b class="nc">&nbsp;        return cardMatrix;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Loads the card representation based on the provided ID and orientation.
+&nbsp;     * @param id The ID of the card to be printed.
+&nbsp;     * @param facingUp True if the card should be printed face-up, False for face-down.
+&nbsp;     */
+&nbsp;    public void loadCardRepresentation(int id, boolean facingUp) {
+<b class="nc">&nbsp;        if (id &lt;= 0 || id &gt; 102) {</b>
+<b class="nc">&nbsp;            Printer.printMessage(&quot;ERROR: invalid card id&quot;, ConsoleColor.RED);</b>
+&nbsp;            return;
+&nbsp;        } 
+<b class="nc">&nbsp;        if (id &lt;= 40) {</b>
+<b class="nc">&nbsp;            loadResourceCard(id, facingUp);</b>
+<b class="nc">&nbsp;        } else if (id &lt;= 80) {</b>
+<b class="nc">&nbsp;            loadGoldCard(id, facingUp);</b>
+<b class="nc">&nbsp;        } else if (id &lt;= 86) {</b>
+<b class="nc">&nbsp;            loadStarterCard(id, facingUp);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            loadObjectiveCard(id);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void loadObjectiveCard(int id) {
+<b class="nc">&nbsp;        System.out.println(&quot;\n//OBJECTIVE CARD #&quot; + id);</b>
+<b class="nc">&nbsp;        String [][] matrix = new String[3][3];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; 3; j++) {</b>
+<b class="nc">&nbsp;                matrix[i][j] = &quot; &quot;;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        switch (id) {</b>
+&nbsp;            case 87 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;2 points for each inverse diagonal of 3 fungi cards&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][2] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][0] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 88 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;2 points for each direct diagonal of 3 plant cards&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][0] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][2] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 89 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;2 points for each inverse diagonal of 3 animal cards&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][2] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][0] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 90 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;2 points for each direct diagonal of 3 insect cards&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][0] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][2] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 91 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;3 points for each L pattern (Fungi, Fungi, Plant) completed&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][1] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][2] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            case 92 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;3 points for each J pattern (Plant, Plant, Insect) completed&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][1] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.plant.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][0] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 93 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;3 points for each reversed L pattern (Fungi, Animal, Animal) completed&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][2] = Resource.fungi.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][1] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case 94 -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;3 points for each reversed J pattern (Animal, Insect, Insect) completed&quot;);</b>
+<b class="nc">&nbsp;                matrix[0][0] = Resource.animal.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[1][1] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                matrix[2][1] = Resource.insect.toSymbol();</b>
+<b class="nc">&nbsp;                printMatrix(matrix);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case 95 -&gt; System.out.println(&quot;2 points for each triplet of fungi visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 96 -&gt; System.out.println(&quot;2 points for each triplet of plants visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 97 -&gt; System.out.println(&quot;2 points for each triplet of animals visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 98 -&gt; System.out.println(&quot;2 points for each triplet of insect visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 99 -&gt; System.out.println(&quot;3 points for each triplet composed of 1 inkPot, 1 scroll, 1 feather visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 100 -&gt; System.out.println(&quot;2 points for each couple of scrolls visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 101 -&gt; System.out.println(&quot;2 points for each couple of inkPots visible on the game-field&quot;);</b>
+<b class="nc">&nbsp;            case 102 -&gt; System.out.println(&quot;2 points for each couple of feathers visible on the game-field&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void loadStarterCard(int id, boolean facingUp) {
+<b class="nc">&nbsp;        System.out.println(&quot;\n//STARTER CARD #&quot; + id);</b>
+&nbsp;
+<b class="nc">&nbsp;        StarterCard starterCard = new StarterCard(id);</b>
+<b class="nc">&nbsp;        starterCard.setFacingUp(facingUp);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(starterCard.getCardKingdom()!=null) {</b>
+<b class="nc">&nbsp;            setCardColor(starterCard.getCardKingdom().toColor());</b>
+<b class="nc">&nbsp;            if (!starterCard.isFacingUp()) setCenterResources(starterCard.getCardKingdom().toSymbol());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        drawCorners(starterCard.getTopLeftCorner(), starterCard.getTopRightCorner(), starterCard.getBottomRightCorner(), starterCard.getBottomLeftCorner());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!facingUp) setCenterResources(starterCard.getBackCentralResources());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void loadGoldCard(int id, boolean facingUp) {
+<b class="nc">&nbsp;        System.out.println(&quot;\n//GOLD CARD #&quot; + id);</b>
+&nbsp;
+<b class="nc">&nbsp;        GoldCard goldCard = new GoldCard(id);</b>
+<b class="nc">&nbsp;        goldCard.setFacingUp(facingUp);</b>
+&nbsp;
+<b class="nc">&nbsp;        setCardColor(goldCard.getCardKingdom().toColor());</b>
+<b class="nc">&nbsp;        if (!goldCard.isFacingUp()) setCenterResources(goldCard.getCardKingdom().toSymbol());</b>
+&nbsp;
+<b class="nc">&nbsp;        drawCorners(goldCard.getTopLeftCorner(), goldCard.getTopRightCorner(), goldCard.getBottomRightCorner(), goldCard.getBottomLeftCorner());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!facingUp) setCenterResources(goldCard.getCardKingdom().toSymbol());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (facingUp) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Resources needed to place this card: \n&quot; +</b>
+<b class="nc">&nbsp;                    Resource.fungi.toSymbol() + &quot; : &quot;+ goldCard.getRequiredFungiResourceAmount() + &quot;  &quot; +</b>
+<b class="nc">&nbsp;                    Resource.plant.toSymbol()+ &quot; : &quot; + goldCard.getRequiredPlantResourceAmount() + &quot;  &quot; +</b>
+<b class="nc">&nbsp;                    Resource.animal.toSymbol()+ &quot; : &quot; + goldCard.getRequiredAnimalResourceAmount() + &quot;  &quot;+</b>
+<b class="nc">&nbsp;                    Resource.insect.toSymbol()+ &quot; : &quot; + goldCard.getRequiredInsectResourceAmount());</b>
+<b class="nc">&nbsp;            printGoldBonus(id);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void loadResourceCard(int id, boolean facingUp) {
+<b class="nc">&nbsp;        System.out.println(&quot;//RESOURCE CARD #&quot; + id);</b>
+&nbsp;
+<b class="nc">&nbsp;        ResourceCard resourceCard = new ResourceCard(id);</b>
+<b class="nc">&nbsp;        resourceCard.setFacingUp(facingUp);</b>
+&nbsp;
+<b class="nc">&nbsp;        setCardColor(resourceCard.getCardKingdom().toColor());</b>
+<b class="nc">&nbsp;        if (!resourceCard.isFacingUp()) setCenterResources(resourceCard.getCardKingdom().toSymbol());</b>
+&nbsp;
+<b class="nc">&nbsp;        drawCorners(resourceCard.getTopLeftCorner(), resourceCard.getTopRightCorner(), resourceCard.getBottomRightCorner(), resourceCard.getBottomLeftCorner());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (resourceCard.getPoints() != 0 &amp;&amp; facingUp)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Bonus placement points: &quot; + resourceCard.getPoints());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a 3x3 matrix.
+&nbsp;     * @param matrix containing the explanation of the objective card.
+&nbsp;     */
+&nbsp;    private void printMatrix(String[][] matrix) {
+<b class="nc">&nbsp;        for (String[] row : matrix) {</b>
+<b class="nc">&nbsp;            for (String element : row) {</b>
+<b class="nc">&nbsp;                System.out.print(element);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the earned points from the gold card.
+&nbsp;     * @param id ID of the gold card.
+&nbsp;     */
+&nbsp;    private void printGoldBonus (int id) {
+<b class="nc">&nbsp;        System.out.println(&quot;Earned placement points: &quot;);</b>
+<b class="nc">&nbsp;        switch (id) {</b>
+<b class="nc">&nbsp;            case 41,51,63,71 -&gt; System.out.println(&quot;1 point for each feather&quot;);</b>
+<b class="nc">&nbsp;            case 42,53,61,73 -&gt; System.out.println(&quot;1 point for each inkPot&quot;);</b>
+<b class="nc">&nbsp;            case 43,52,62,72 -&gt; System.out.println(&quot;1 point for each scroll&quot;);</b>
+<b class="nc">&nbsp;            case 44,45,46,54,55,56,64,65,66,74,75,76 -&gt; System.out.println(&quot;2 points for each covered corner&quot;);</b>
+<b class="nc">&nbsp;            case 47,48,49,57,58,59,67,68,69,77,78,79 -&gt; System.out.println(&quot;3 points&quot;);</b>
+<b class="nc">&nbsp;            case 50,60,70,80 -&gt; System.out.println(&quot;5 points&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the card&#39;s border and background color.
+&nbsp;     * @param cardColor The color string to be used for the card&#39;s borders and background.
+&nbsp;     */
+&nbsp;    private void setCardColor(String cardColor) {
+<b class="nc">&nbsp;        this.cardColor = cardColor;</b>
+&nbsp;
+&nbsp;        //Fill the matrix with spaces
+<b class="nc">&nbsp;        for (int i = 0; i &lt; height; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; width; j++) {</b>
+<b class="nc">&nbsp;                cardMatrix[i][j] = &quot; &quot;;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        //Create the top and bottom border
+<b class="nc">&nbsp;        for (int j = 0; j &lt; width; j++) {</b>
+<b class="nc">&nbsp;            cardMatrix[0][j] = cardColor + &quot;?&quot; + ConsoleColor.RESET;</b>
+<b class="nc">&nbsp;            cardMatrix[height - 1][j] = cardColor + &quot;?&quot; + ConsoleColor.RESET;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //Create the left and right border
+<b class="nc">&nbsp;        for (int i = 0; i &lt; height; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[i][0] =cardColor +  &quot;?&quot; + ConsoleColor.RESET;</b>
+<b class="nc">&nbsp;            cardMatrix[i][width - 1] =cardColor +  &quot;?&quot; + ConsoleColor.RESET;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //Create the corners
+<b class="nc">&nbsp;        cardMatrix[0][0] = cardColor + &quot;?&quot; + ConsoleColor.RESET;</b>
+<b class="nc">&nbsp;        cardMatrix[0][width - 1] = cardColor + &quot;?&quot; + ConsoleColor.RESET;</b>
+<b class="nc">&nbsp;        cardMatrix[height - 1][0] =cardColor +  &quot;?&quot; + ConsoleColor.RESET;</b>
+<b class="nc">&nbsp;        cardMatrix[height - 1][width - 1] =cardColor +  &quot;?&quot; + ConsoleColor.RESET;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the central area of the card to display resources or other content.
+&nbsp;     * @param content The string representing the content to be displayed in the center of the card.
+&nbsp;     */
+&nbsp;    private void setCenterResources(String content) {
+<b class="nc">&nbsp;        int contentStartRow = height / 2;</b>
+<b class="nc">&nbsp;        int contentStartCol = width / 2 ;</b>
+<b class="nc">&nbsp;        cardMatrix[contentStartRow][contentStartCol] = content;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the central area of the card to display multiple resources.
+&nbsp;     * @param content The `ArrayList` of `Resource` objects representing the resources to be displayed in the center of the card.
+&nbsp;     */
+&nbsp;    private void setCenterResources(ArrayList&lt;Resource&gt; content) {
+<b class="nc">&nbsp;        int contentStartRow = height / 2;</b>
+&nbsp;        int contentStartCol;
+<b class="nc">&nbsp;        if (content.size()&gt;1) contentStartCol = (width - content.size()) / 2;</b>
+<b class="nc">&nbsp;        else contentStartCol = width/2;</b>
+<b class="nc">&nbsp;        int i=0;</b>
+<b class="nc">&nbsp;        for(Resource r : content){</b>
+<b class="nc">&nbsp;            cardMatrix[contentStartRow][contentStartCol+i] = r.toSymbol();</b>
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Prints the text-based representation of the card to the console.
+&nbsp;     */
+&nbsp;    public void printCard() {
+<b class="nc">&nbsp;        for (String[] row : cardMatrix) {</b>
+<b class="nc">&nbsp;            for (String element : row) {</b>
+<b class="nc">&nbsp;                System.out.print(element);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws the corners of the card.
+&nbsp;     * @param topLeftCorner The `Corner` object representing the top-left corner of the card.
+&nbsp;     * @param topRightCorner The `Corner` object representing the top-right corner of the card.
+&nbsp;     * @param bottomRightCorner The `Corner` object representing the bottom-right corner of the card.
+&nbsp;     * @param bottomLeftCorner The `Corner` object representing the bottom-left corner of the card.
+&nbsp;     */
+&nbsp;    private void drawCorners(Corner topLeftCorner, Corner topRightCorner, Corner bottomRightCorner, Corner bottomLeftCorner) {
+<b class="nc">&nbsp;        if (topLeftCorner.isAttachable())</b>
+<b class="nc">&nbsp;            drawTopLeftCorner(topLeftCorner.getResource().toSymbol());</b>
+<b class="nc">&nbsp;        if (topRightCorner.isAttachable())</b>
+<b class="nc">&nbsp;            drawTopRightCorner(topRightCorner.getResource().toSymbol());</b>
+<b class="nc">&nbsp;        if (bottomRightCorner.isAttachable())</b>
+<b class="nc">&nbsp;            drawBottomRightCorner(bottomRightCorner.getResource().toSymbol());</b>
+<b class="nc">&nbsp;        if (bottomLeftCorner.isAttachable())</b>
+<b class="nc">&nbsp;            drawBottomLeftCorner(bottomLeftCorner.getResource().toSymbol());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws the top-left corner of the card.
+&nbsp;     * @param content The resource symbol to be displayed in the corner.
+&nbsp;     */
+&nbsp;    private void drawTopLeftCorner(String content) {
+<b class="nc">&nbsp;        cardMatrix[cornerHeight][0] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 1; i &lt; cornerWidth; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[cornerHeight][i] = &quot;?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[cornerHeight][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[0][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 1; i &lt; cornerHeight; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[i][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardMatrix[cornerHeight/2][cornerWidth/2] = content;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws the top-right corner of the card.
+&nbsp;     * @param content The resource symbol to be displayed in the corner.
+&nbsp;     */
+&nbsp;    private void drawTopRightCorner(String content) {
+<b class="nc">&nbsp;        int rightCol = width - cornerWidth - 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[cornerHeight][width - 1] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = width - 2; i &gt; rightCol; i--) {</b>
+<b class="nc">&nbsp;            cardMatrix[cornerHeight][i] = &quot;?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[cornerHeight][rightCol] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[0][rightCol] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 1; i &lt; cornerHeight; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[i][rightCol] = &quot;?&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardMatrix[cornerHeight/2][width -  (cornerWidth/2) - 1] = content;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws the bottom-left corner of the card.
+&nbsp;     * @param content The resource symbol to be displayed in the corner.
+&nbsp;     */
+&nbsp;    private void drawBottomLeftCorner(String content) {
+<b class="nc">&nbsp;        int bottomRow = height - cornerHeight - 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[bottomRow][0] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 1; i &lt; cornerWidth; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[bottomRow][i] = &quot;?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[bottomRow][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[height - 1][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = bottomRow + 1; i &lt; height - 1; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[i][cornerWidth] = &quot;?&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardMatrix[height - (cornerHeight/2) - 1][cornerWidth/2] = content;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Draws the bottom-right corner of the card.
+&nbsp;     * @param content The resource symbol to be displayed in the corner.
+&nbsp;     */
+&nbsp;    private void drawBottomRightCorner(String content) {
+<b class="nc">&nbsp;        int bottomRow = height - cornerHeight - 1;</b>
+<b class="nc">&nbsp;        int rightCol = width - cornerWidth - 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[bottomRow][width - 1] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = width - 2; i &gt; rightCol; i--) {</b>
+<b class="nc">&nbsp;            cardMatrix[bottomRow][i] = &quot;?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[bottomRow][rightCol] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        cardMatrix[height - 1][rightCol] = &quot;?&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = bottomRow + 1; i &lt; height - 1; i++) {</b>
+<b class="nc">&nbsp;            cardMatrix[i][rightCol] = &quot;?&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardMatrix[height - (cornerHeight/2) - 1][width -  (cornerWidth/2) - 1] = content;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>

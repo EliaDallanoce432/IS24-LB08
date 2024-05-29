@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveCardDiagonalPlants</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.model.card.ObjectiveCardStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveCardDiagonalPlants (it.polimi.ingsw.server.model.card.ObjectiveCardStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveCardDiagonalPlants</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (23/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.server.model.card.ObjectiveCardStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.server.model.GameField;
+&nbsp;import it.polimi.ingsw.server.model.card.PlaceableCard;
+&nbsp;import it.polimi.ingsw.util.supportclasses.Resource;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to implement the diagonal plant strategy.
+&nbsp; */
+<b class="fc">&nbsp;public class ObjectiveCardDiagonalPlants implements ObjectiveStrategy {</b>
+&nbsp;    private int diagonalPlantTriplets(GameField gameField, ArrayList&lt;PlaceableCard&gt; plantCards) {
+<b class="fc">&nbsp;        int triplets = 0;</b>
+<b class="fc">&nbsp;        ArrayList&lt;PlaceableCard&gt; visited = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (PlaceableCard card : plantCards) {</b>
+&nbsp;            //if(arrayContainsCard(visited,card)) continue;
+<b class="fc">&nbsp;            if(visited.contains(card)) continue;</b>
+&nbsp;            //moves from the current card to the top of the diagonal
+<b class="fc">&nbsp;            PlaceableCard nextCard = card; //next card in the diagonal pattern going upwards</b>
+<b class="fc">&nbsp;            PlaceableCard currentCard = null;</b>
+<b class="fc">&nbsp;            while(nextCard != null) {</b>
+<b class="fc">&nbsp;                if(nextCard.getCardKingdom() == Resource.plant) {</b>
+<b class="fc">&nbsp;                    currentCard = nextCard;</b>
+<b class="fc">&nbsp;                    nextCard = gameField.lookAtCoordinates(nextCard.getX()-1, nextCard.getY()+1);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else nextCard = null;</b>
+&nbsp;            }
+&nbsp;            //counts the triplets in the diagonal
+<b class="fc">&nbsp;            int counter = 0; //keeps track of consecutive cards in the pattern to detect triplets</b>
+<b class="fc">&nbsp;            while(currentCard != null &amp;&amp; currentCard.getCardKingdom() == Resource.plant) {</b>
+<b class="fc">&nbsp;                if(counter &lt; 2) {</b>
+<b class="fc">&nbsp;                    counter++;</b>
+&nbsp;                }
+&nbsp;                else {
+<b class="fc">&nbsp;                    counter = 0;</b>
+<b class="fc">&nbsp;                    triplets ++;</b>
+<b class="fc">&nbsp;                    gameField.getPlayer().increaseNumOfCompletedObjective();</b>
+&nbsp;                }
+<b class="fc">&nbsp;                visited.add(currentCard);</b>
+<b class="fc">&nbsp;                currentCard = gameField.lookAtCoordinates(currentCard.getX() + 1, currentCard.getY() - 1);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return triplets;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Used to calculate the amount of points given for each diagonalPlantTriplet completed on
+&nbsp;     * the game-field.
+&nbsp;     * @param pointsOnTheCard Points given by the objective card.
+&nbsp;     * @param gamefield Reference to the game-field that is being analysed.
+&nbsp;     * @return The amount of calculated points on the specific game-field.
+&nbsp;     */
+&nbsp;    public int calculatePoints(int pointsOnTheCard, GameField gamefield) {
+<b class="fc">&nbsp;        return pointsOnTheCard* diagonalPlantTriplets(gamefield, gamefield.getPlantCards());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-29 17:12</div>
+</div>
+</body>
+</html>
