@@ -1188,15 +1188,15 @@
         "Resource": "none"
       },
       "TopRightCorner": {
-        "Exist": false,
-        "Resource": "none"
-      },
-      "BottomLeftCorner": {
         "Exist": true,
         "Resource": "none"
       },
-      "BottomRightCorner": {
+      "BottomLeftCorner": {
         "Exist": false,
+        "Resource": "none"
+      },
+      "BottomRightCorner": {
+        "Exist": true,
         "Resource": "none"
       }
     },
