@@ -25,6 +25,7 @@ public class JoinGameViewController extends ViewController {
     @FXML
     public void initialize() {
         availableGamesComboBox.setOnAction(event -> selectedGame = availableGamesComboBox.getSelectionModel().getSelectedItem());
+        alertLabel.setVisible(false);
     }
 
     /**
@@ -76,10 +77,21 @@ public class JoinGameViewController extends ViewController {
     public void updateSceneStatus(){
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
+                case GAME_SETUP_STATE -> StageManager.loadWaitForPlayersScene();
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}
             }
         });
+    }
+
+    /**
+     * Shows an error message in the alertLabel.
+      * @param message The message to be shown.
+     */
+    @Override
+    public void showErrorMessage(String message){
+        Platform.runLater(() -> alertLabel.setText(message));
+        alertLabel.setVisible(true);
     }
 }

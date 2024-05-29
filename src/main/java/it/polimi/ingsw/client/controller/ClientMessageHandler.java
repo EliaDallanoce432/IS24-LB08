@@ -30,8 +30,8 @@ public class ClientMessageHandler {
             case "gameCreated" -> updateClientState(ClientState.GAME_SETUP_STATE, "Game Created Successfully");
             case "joinGame" -> updateClientState(ClientState.GAME_SETUP_STATE, "Joined Game Successfully");
             case "cannotCreateGame" -> showError(message.get("reason").toString());
-            case "gameDoesNotExist" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game does not exist");
-            case "gameIsFull" -> updateClientState(ClientState.ERROR_JOINING_STATE , "Game is full");
+            case "gameDoesNotExist" -> showError( "The selected game does not exist");
+            case "gameIsFull" -> showError( "The selected game is full");
             case "availableGames" -> updateAvailableGames(message);
             //in-game messages
             case "cardsSelection" -> updateSelectableCards(message);

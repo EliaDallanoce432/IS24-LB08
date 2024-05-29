@@ -26,13 +26,13 @@ public class WaitForPlayersViewController extends ViewController {
      */
     @FXML
     public void initialize() {
-        readyButton.setVisible(false);
+
         readyButton.setOnMouseEntered(mouseEvent -> readyButton.setCursor(Cursor.HAND));
         readyButton.setOnMouseExited(mouseEvent -> readyButton.setCursor(Cursor.DEFAULT));
-        backButton.setVisible(false);
         backButton.setOnMouseEntered(mouseEvent -> backButton.setCursor(Cursor.HAND));
         backButton.setOnMouseExited(mouseEvent -> backButton.setCursor(Cursor.DEFAULT));
-        showMessage("Joining Game...");
+
+        showMessage("Waiting for other players to join...");
 
         Platform.runLater(this::updateSceneStatus); //ensures that the updateSceneStatus method is executed after the initialization
     }
@@ -73,8 +73,8 @@ public class WaitForPlayersViewController extends ViewController {
     public void updateSceneStatus(){
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
-                case GAME_SETUP_STATE -> loadGetReadyScene();
-                case ERROR_JOINING_STATE -> loadErrorJoiningScene();
+                //case GAME_SETUP_STATE -> loadGetReadyScene();
+                //case ERROR_JOINING_STATE -> loadErrorJoiningScene();
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {

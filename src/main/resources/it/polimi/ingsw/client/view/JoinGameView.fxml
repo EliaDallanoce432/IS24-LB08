@@ -35,7 +35,10 @@
                         <Font name="Baskerville Old Face" size="23.0" />
                     </font>
                 </Label>
-                    <Label fx:id="alertLabel" layoutX="196.0" layoutY="31.0" prefHeight="54.0" prefWidth="234.0" textFill="#eb0000" />
+                    <Label fx:id="alertLabel" layoutX="126.0" layoutY="92.0" opacity="0.5" prefHeight="25.0" prefWidth="349.0" style="-fx-background-color: red; -fx-background-radius: 10;" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font></Label>
             <ComboBox fx:id="availableGamesComboBox" layoutX="34.0" layoutY="188.0" onMouseClicked="#refresh" prefHeight="25.0" prefWidth="533.0" style="-fx-background-radius: 10; -fx-background-color: dbd3ad;">
                <effect>
                   <InnerShadow />
