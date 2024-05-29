@@ -47,7 +47,6 @@ public class JoinGameViewController extends ViewController {
         else {
             String gameName = selectedGame.substring(0,selectedGame.length()-8);
             ClientController.getInstance().sendJoinGameMessage(gameName);
-            StageManager.loadWaitForPlayersScene();
         }
     }
 
@@ -78,7 +77,6 @@ public class JoinGameViewController extends ViewController {
         Platform.runLater(()->{
             switch (ClientStateModel.getInstance().getClientState()){
                 case GAME_SETUP_STATE -> StageManager.loadWaitForPlayersScene();
-                case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {}
             }

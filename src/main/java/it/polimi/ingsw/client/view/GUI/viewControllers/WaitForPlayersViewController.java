@@ -73,34 +73,11 @@ public class WaitForPlayersViewController extends ViewController {
     public void updateSceneStatus(){
         Platform.runLater(()-> {
             switch (ClientStateModel.getInstance().getClientState()) {
-                //case GAME_SETUP_STATE -> loadGetReadyScene();
-                //case ERROR_JOINING_STATE -> loadErrorJoiningScene();
                 case KICKED_STATE -> StageManager.loadKickedFromGameScene();
                 case LOST_CONNECTION_STATE -> StageManager.loadLostConnectionScene();
                 default -> {
                 }
             }
-        });
-    }
-
-    /**
-     * Loads the "Ready" and "Back" buttons if the player has successfully joined the lobby
-     */
-    private void loadGetReadyScene(){
-        Platform.runLater(()-> {
-            showMessage("Waiting for other players to join...");
-            readyButton.setVisible(true);
-            backButton.setVisible(true);
-        });
-    }
-
-    /**
-     * Loads the "Back" button and shows an error message if something went wrong while trying to join the lobby.
-     */
-    private void loadErrorJoiningScene(){
-        Platform.runLater(()-> {
-            showMessage("Error while joining: " + ClientStateModel.getInstance().getReason());
-            backButton.setVisible(true);
         });
     }
 }
