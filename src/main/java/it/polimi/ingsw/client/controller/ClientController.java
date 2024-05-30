@@ -76,7 +76,6 @@ public class ClientController implements ClientNetworkObserver {
     @Override
     public void notifyConnectionLoss() {
         ClientStateModel.getInstance().setClientState(ClientState.LOST_CONNECTION_STATE);
-        System.out.println("Connection lost");
         clientConnectionManager.shutdown();
     }
 

@@ -125,7 +125,7 @@ public class CLIViewController extends ViewController {
                 Printer.printGuide();
                 Printer.printMessage("Now please draw a card from the decks", ConsoleColor.YELLOW);
                 Printer.printDeckInfo();
-                Printer.printMessage("to draw a card type 'draw [selection]', with selection between 1 and 6\n" +
+                Printer.printMessage("To draw a card type 'draw [selection]', with selection between 1 and 6\n" +
                         "type 'info [cardId]' to see more information about the cards");
             }
             case NOT_PLAYING_STATE -> {
@@ -140,10 +140,14 @@ public class CLIViewController extends ViewController {
                 Printer.printMessage("Type 'leave' to go back to the lobby.");
             }
             case LOST_CONNECTION_STATE -> {
-                Printer.printMessage("ERROR: Lost connection to the server, closing the game.", ConsoleColor.RED);
-                System.exit(0);
+                ClientCLI.clearConsole();
+                Printer.printMessage("ERROR: Lost connection to the server.", ConsoleColor.RED);
+                Printer.printMessage("Type 'quit' or 'q' to close the game.");
             }
-            case KICKED_STATE -> Printer.printMessage("ERROR: one player left the game or has lost connection, closing the game.", ConsoleColor.RED);
+            case KICKED_STATE -> {
+                Printer.printMessage("ERROR: One player left the game or has lost connection, the game is closing.", ConsoleColor.RED);
+                Printer.printMessage("Type 'leave' or 'l' to go back to the lobby.");
+            }
         }
         previousState = clientState;
     }

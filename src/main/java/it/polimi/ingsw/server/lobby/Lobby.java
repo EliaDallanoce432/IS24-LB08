@@ -102,7 +102,7 @@ public class Lobby implements ServerNetworkObserver {
     public void startLobby() {
         System.out.println("Lobby started");
         System.out.println("Echo: off");
-        System.out.println("Set a port for the server with 'setPort' command.");
+        System.out.println("Set a port for the server with 'setport' command.");
         System.out.println("Type 'help' for more information.");
         System.out.println();
         while (running) {
