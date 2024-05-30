@@ -48,7 +48,7 @@ The precompiled jar can be used to run this application.
 
 You can run the **Codex client GUI application** either by double-clicking on the **CodexClientGUI.bat** file found in [Deliveries](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries) or by running the following command: `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies.jar client`.
 
-You can run the **Codex client CLI application** either by double-clicking on the **CodexClientCLI.bat** file found in [Deliveries](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries) or by running the following command: `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies client.jar --cli`.
+You can run the **Codex client CLI application** either by double-clicking on the **CodexClientCLI.bat** file found in [Deliveries](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries) or by running the following command: `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies.jar client --cli`.
 
 To run the **Codex Server application**, double-click the **CodexServer.bat** file or running `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies server`.  
 
