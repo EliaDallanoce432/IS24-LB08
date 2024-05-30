@@ -60,4 +60,12 @@ These files can be found in deliveries.
 - [Javadoc](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Javadoc/LB08/module-summary.html) 
 
 
-### 
+### Valutazione
+
+| Requisiti                  | Voto massimo | Realizzazione |
+|----------------------------|-----| ----------- |
+| Regole semplificate + comunicazione + CLI| 18  | |
+| Regole complete + comunicazione + CLI | 21  | |
+| Regole complete + comunicazione + GUI | 24  | |
+| Regole complete + comunicazione + GUI + 1FA| 27  | |
+| Regole complete + comunicazione + CLI + GUI + 1 FA| 30 / 30L | |
