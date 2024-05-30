@@ -50,7 +50,7 @@ You can run the **Codex client GUI application** either by double-clicking on th
 
 You can run the **Codex client CLI application** either by double-clicking on the **CodexClientCLI.bat** file found in [Deliveries](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries) or by running the following command: `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies.jar client --cli`.
 
-To run the **Codex Server application**, double-click the **CodexServer.bat** file or running `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies server`.  
+To run the **Codex Server application**, double-click the **CodexServer.bat** file or run the command: `java -jar .\LB08-1.0-SNAPSHOT-jar-with-dependencies server`.  
 
 These files can be found in deliveries.
 
@@ -58,6 +58,9 @@ These files can be found in deliveries.
 
 - [UML](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/UML)
 - [Javadoc](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Javadoc/LB08/module-summary.html) 
+- [Test report](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Test_Coverage_Report/index.html)
+- [View documentation](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Documentation/View%20Documentation.pdf)
+- [Network documentation](https://github.com/EliaDallanoce432/IS24-LB08/blob/master/Deliveries/Documentation/Network%20Documentation.pdf)
 
 
 ### Valutazione
